@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отдел Контроля Качества и Мотивации — AI-аудиобейджи для бизнеса</title>
+    <meta name="description"
+        content="Аудиобейджи с ИИ-аналитикой. Транскрибация 100% разговоров сотрудников, анализ конфликтов, скриптов, допродаж. Замените тайных покупателей на технологии.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- ===== HEADER / NAV ===== -->
+    <header class="header" id="header">
+        <div class="container header__inner">
+            <a href="#" class="logo" id="logo">
+                <div class="logo__icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="url(#logoGrad)" />
+                        <path d="M10 16C10 12.686 12.686 10 16 10C19.314 10 22 12.686 22 16" stroke="white"
+                            stroke-width="2" stroke-linecap="round" />
+                        <path d="M8 16C8 11.582 11.582 8 16 8C20.418 8 24 11.582 24 16" stroke="white"
+                            stroke-width="1.5" stroke-linecap="round" opacity="0.5" />
+                        <circle cx="16" cy="16" r="2" fill="white" />
+                        <path d="M16 18V23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                                <stop stop-color="#3B82F6" />
+                                <stop offset="1" stop-color="#06B6D4" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo__text">ОКК<span class="logo__accent">М</span></span>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="#how-it-works" class="nav__link">Как это работает</a>
+                <a href="#metrics" class="nav__link">Метрики</a>
+                <a href="#dashboard" class="nav__link">Платформа</a>
+                <a href="#industries" class="nav__link">Отрасли</a>
+                <a href="#faq" class="nav__link">FAQ</a>
+            </nav>
+            <a href="#cta-final" class="btn btn--primary btn--sm header__cta" id="header-cta">Заявка на демо</a>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-menu__nav">
+            <a href="#how-it-works" class="mobile-menu__link">Как это работает</a>
+            <a href="#metrics" class="mobile-menu__link">Метрики</a>
+            <a href="#dashboard" class="mobile-menu__link">Платформа</a>
+            <a href="#industries" class="mobile-menu__link">Отрасли</a>
+            <a href="#faq" class="mobile-menu__link">FAQ</a>
+            <a href="#cta-final" class="btn btn--primary btn--lg mobile-menu__cta">Заявка на демо</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- ===== HERO ===== -->
+        <section class="hero" id="hero">
+            <div class="hero__bg-grid"></div>
+            <div class="hero__glow hero__glow--1"></div>
+            <div class="hero__glow hero__glow--2"></div>
+            <div class="container hero__inner">
+                <div class="hero__content">
+                    <div class="hero__badge" data-animate="fade-up">
+                        <span class="hero__badge-dot"></span>
+                        AI-Powered Quality Control
+                    </div>
+                    <h1 class="hero__title" data-animate="fade-up" data-delay="100">
+                        Отдел Контроля Качества<br>
+                        <span class="gradient-text">и Мотивации</span> сотрудников
+                    </h1>
+                    <p class="hero__subtitle" data-animate="fade-up" data-delay="200">
+                        Аудиобейджи с&nbsp;искусственным интеллектом анализируют <strong>100% разговоров</strong> ваших
+                        сотрудников.
+                        Конфликты, скрипты, допродажи, тональность&nbsp;— всё в&nbsp;одном дашборде.
+                    </p>
+                    <div class="hero__actions" data-animate="fade-up" data-delay="300">
+                        <a href="#cta-final" class="btn btn--primary btn--lg" id="hero-cta">
+                            Заявка на демо
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                        <a href="#how-it-works" class="btn btn--ghost btn--lg" id="hero-learn">
+                            Узнать больше
+                        </a>
+                    </div>
+                    <div class="hero__stats" data-animate="fade-up" data-delay="400">
+                        <div class="hero__stat">
+                            <span class="hero__stat-value" data-count="100">0</span><span
+                                class="hero__stat-suffix">%</span>
+                            <span class="hero__stat-label">разговоров анализируется</span>
+                        </div>
+                        <div class="hero__stat-divider"></div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-value" data-count="34">0</span><span
+                                class="hero__stat-suffix">%</span>
+                            <span class="hero__stat-label">рост среднего чека</span>
+                        </div>
+                        <div class="hero__stat-divider"></div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-value" data-count="60">0</span><span
+                                class="hero__stat-suffix">%</span>
+                            <span class="hero__stat-label">экономия на контроле</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__visual" data-animate="fade-left" data-delay="200">
+                    <div class="hero__device-wrapper">
+                        <div class="hero__device-glow"></div>
+                        <svg class="hero__device-img" id="hero-badge-img" width="280" height="380" viewBox="0 0 280 380"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Badge body -->
+                            <rect x="30" y="60" width="220" height="300" rx="24" fill="url(#badgeBg)"
+                                stroke="url(#badgeBorder)" stroke-width="2" />
+                            <!-- Screen area -->
+                            <rect x="50" y="110" width="180" height="160" rx="12" fill="#0a1628" opacity="0.8" />
+                            <!-- Waveform lines -->
+                            <path d="M70 170 Q90 140 110 170 Q130 200 150 170 Q170 140 190 170 Q210 200 210 170"
+                                stroke="url(#waveGrad)" stroke-width="3" stroke-linecap="round" fill="none"
+                                opacity="0.8" />
+                            <path
+                                d="M70 200 Q85 180 100 200 Q115 220 130 200 Q145 180 160 200 Q175 220 190 200 Q205 180 210 200"
+                                stroke="#3B82F6" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5" />
+                            <path d="M70 220 Q90 210 110 220 Q130 230 150 220 Q170 210 190 220 Q210 230 210 220"
+                                stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.3" />
+                            <!-- Status indicator -->
+                            <circle cx="140" cy="135" r="6" fill="#22c55e">
+                                <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                            </circle>
+                            <text x="155" y="139" fill="#94a3b8" font-size="11"
+                                font-family="Inter, sans-serif">REC</text>
+                            <!-- Mic icons -->
+                            <circle cx="110" cy="300" r="16" fill="rgba(59,130,246,0.15)" stroke="#3B82F6"
+                                stroke-width="1.5" />
+                            <path d="M106 296V300C106 302.2 107.8 304 110 304C112.2 304 114 302.2 114 300V296"
+                                stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="110" y1="304" x2="110" y2="308" stroke="#3B82F6" stroke-width="1.5"
+                                stroke-linecap="round" />
+                            <circle cx="170" cy="300" r="16" fill="rgba(6,182,212,0.15)" stroke="#06B6D4"
+                                stroke-width="1.5" />
+                            <path d="M166 296V300C166 302.2 167.8 304 170 304C172.2 304 174 302.2 174 300V296"
+                                stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="170" y1="304" x2="170" y2="308" stroke="#06B6D4" stroke-width="1.5"
+                                stroke-linecap="round" />
+                            <!-- Lanyard hole -->
+                            <rect x="120" y="60" width="40" height="12" rx="6" fill="#1e293b" />
+                            <rect x="130" y="40" width="20" height="30" rx="4" fill="url(#badgeBorder)" opacity="0.5" />
+                            <!-- ОККМ label -->
+                            <text x="140" y="95" text-anchor="middle" fill="white" font-size="18" font-weight="700"
+                                font-family="Inter, sans-serif">ОККМ</text>
+                            <!-- Gradients -->
+                            <defs>
+                                <linearGradient id="badgeBg" x1="30" y1="60" x2="250" y2="360">
+                                    <stop stop-color="#141e30" />
+                                    <stop offset="1" stop-color="#0c1524" />
+                                </linearGradient>
+                                <linearGradient id="badgeBorder" x1="30" y1="60" x2="250" y2="360">
+                                    <stop stop-color="#3B82F6" stop-opacity="0.5" />
+                                    <stop offset="1" stop-color="#06B6D4" stop-opacity="0.3" />
+                                </linearGradient>
+                                <linearGradient id="waveGrad" x1="70" y1="170" x2="210" y2="170">
+                                    <stop stop-color="#3B82F6" />
+                                    <stop offset="1" stop-color="#06B6D4" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="hero__floating-card hero__floating-card--1" data-animate="float">
+                        <div class="floating-card__icon floating-card__icon--green">✓</div>
+                        <div class="floating-card__text">
+                            <span class="floating-card__title">Скрипт соблюдён</span>
+                            <span class="floating-card__value">92%</span>
+                        </div>
+                    </div>
+                    <div class="hero__floating-card hero__floating-card--2" data-animate="float">
+                        <div class="floating-card__icon floating-card__icon--blue">📊</div>
+                        <div class="floating-card__text">
+                            <span class="floating-card__title">Допродажа</span>
+                            <span class="floating-card__value">Обнаружена</span>
+                        </div>
+                    </div>
+                    <div class="hero__floating-card hero__floating-card--3" data-animate="float">
+                        <div class="floating-card__icon floating-card__icon--amber">😊</div>
+                        <div class="floating-card__text">
+                            <span class="floating-card__title">Тон диалога</span>
+                            <span class="floating-card__value">Позитивный</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero__scroll-indicator" data-animate="fade-up" data-delay="600">
+                <div class="scroll-indicator__mouse">
+                    <div class="scroll-indicator__wheel"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROBLEM ===== -->
+        <section class="problem" id="problem">
+            <div class="container">
+                <div class="problem__inner" data-animate="fade-up">
+                    <div class="problem__icon">⚠️</div>
+                    <h2 class="problem__title">Вы не&nbsp;слышите <span class="gradient-text">90% разговоров</span>
+                        ваших сотрудников с&nbsp;клиентами</h2>
+                    <div class="problem__grid">
+                        <div class="problem__card" data-animate="fade-up" data-delay="100">
+                            <div class="problem__card-icon">🕵️</div>
+                            <h3 class="problem__card-title">Тайные покупатели</h3>
+                            <p class="problem__card-text">Проверяют менее <strong>1%</strong> диалогов. Субъективны,
+                                дороги и не масштабируются.</p>
+                        </div>
+                        <div class="problem__card" data-animate="fade-up" data-delay="200">
+                            <div class="problem__card-icon">📉</div>
+                            <h3 class="problem__card-title">Потеря выручки</h3>
+                            <p class="problem__card-text">Сотрудники не&nbsp;делают допродажи, игнорируют скрипты,
+                                теряют клиентов из-за конфликтов.</p>
+                        </div>
+                        <div class="problem__card" data-animate="fade-up" data-delay="300">
+                            <div class="problem__card-icon">🤷</div>
+                            <h3 class="problem__card-title">Нет объективных данных</h3>
+                            <p class="problem__card-text">Руководители принимают решения «на глаз», без аналитики по
+                                работе каждого сотрудника.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOW IT WORKS ===== -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Как это работает</span>
+                    <h2 class="section-title">От&nbsp;бейджа до&nbsp;инсайта за&nbsp;<span
+                            class="gradient-text">4&nbsp;шага</span></h2>
+                    <p class="section-subtitle">Внедрение занимает один день. Результаты — с первого дня.</p>
+                </div>
+                <div class="steps">
+                    <div class="steps__line"></div>
+                    <div class="step" data-animate="fade-up" data-delay="100">
+                        <div class="step__number">01</div>
+                        <div class="step__content">
+                            <div class="step__icon-wrap">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <rect x="6" y="4" width="20" height="24" rx="3" stroke="currentColor"
+                                        stroke-width="2" />
+                                    <circle cx="16" cy="14" r="4" stroke="currentColor" stroke-width="2" />
+                                    <path d="M10 24C10 21.5 12.5 20 16 20C19.5 20 22 21.5 22 24" stroke="currentColor"
+                                        stroke-width="2" />
+                                </svg>
+                            </div>
+                            <h3 class="step__title">Надевается бейдж</h3>
+                            <p class="step__text">Сотрудник берёт бейдж с зарядной станции. Запись включается
+                                автоматически. Два микрофона захватывают и сотрудника, и клиента.</p>
+                        </div>
+                    </div>
+                    <div class="step" data-animate="fade-up" data-delay="200">
+                        <div class="step__number">02</div>
+                        <div class="step__content">
+                            <div class="step__icon-wrap">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <path d="M16 6V26M16 6L10 12M16 6L22 12" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M6 26H26" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M4 20L8 16L12 18L16 14L20 17L24 13L28 16" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+                                </svg>
+                            </div>
+                            <h3 class="step__title">Данные передаются</h3>
+                            <p class="step__text">После смены бейдж ставится на зарядку. Все записи автоматически
+                                выгружаются на сервер по Wi-Fi.</p>
+                        </div>
+                    </div>
+                    <div class="step" data-animate="fade-up" data-delay="300">
+                        <div class="step__number">03</div>
+                        <div class="step__content">
+                            <div class="step__icon-wrap">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="2" />
+                                    <path d="M16 10V16L20 20" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M24 8L28 4" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <path d="M8 8L4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="step__title">ИИ анализирует</h3>
+                            <p class="step__text">Нейросеть транскрибирует разговоры, разделяет голоса, оценивает по 12+
+                                метрикам: скрипты, конфликты, тон, допродажи.</p>
+                        </div>
+                    </div>
+                    <div class="step" data-animate="fade-up" data-delay="400">
+                        <div class="step__number">04</div>
+                        <div class="step__content">
+                            <div class="step__icon-wrap">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <rect x="4" y="6" width="24" height="18" rx="3" stroke="currentColor"
+                                        stroke-width="2" />
+                                    <path d="M4 12H28" stroke="currentColor" stroke-width="2" />
+                                    <path d="M10 17H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M10 21H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <circle cx="23" cy="19" r="3" stroke="currentColor" stroke-width="2" />
+                                    <path d="M25 21L27 23" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="step__title">Вы получаете отчёт</h3>
+                            <p class="step__text">Наглядный дашборд с рейтингами, проблемными зонами и конкретными
+                                рекомендациями. Каждый день, без ручной работы.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== METRICS ===== -->
+        <section class="metrics" id="metrics">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">12+ метрик</span>
+                    <h2 class="section-title">ИИ слышит то, что <span class="gradient-text">вы не&nbsp;можете</span>
+                    </h2>
+                    <p class="section-subtitle">Каждый разговор оценивается по десяткам параметров в реальном времени
+                    </p>
+                </div>
+                <div class="metrics__grid">
+                    <div class="metric-card" data-animate="fade-up" data-delay="50">
+                        <div class="metric-card__icon">📋</div>
+                        <h3 class="metric-card__title">Соблюдение скриптов</h3>
+                        <p class="metric-card__text">Проверяем каждый этап скрипта — приветствие, выявление
+                            потребностей, презентация, закрытие</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="100">
+                        <div class="metric-card__icon">⚡</div>
+                        <h3 class="metric-card__title">Конфликтные ситуации</h3>
+                        <p class="metric-card__text">Повышенный тон, агрессия, негавтивные эмоции — система мгновенно
+                            фиксирует и алертит</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="150">
+                        <div class="metric-card__icon">💰</div>
+                        <h3 class="metric-card__title">Допродажи</h3>
+                        <p class="metric-card__text">Предложил ли сотрудник дополнительные товары или услуги? Сколько из
+                            предложений привели к покупке?</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="200">
+                        <div class="metric-card__icon">🎯</div>
+                        <h3 class="metric-card__title">Выявление потребностей</h3>
+                        <p class="metric-card__text">Задаёт ли сотрудник правильные вопросы? Слушает ли клиента или
+                            навязывает?</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="250">
+                        <div class="metric-card__icon">😊</div>
+                        <h3 class="metric-card__title">Эмоциональный тон</h3>
+                        <p class="metric-card__text">Анализ тональности обоих собеседников — позитивный, нейтральный,
+                            негативный</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="300">
+                        <div class="metric-card__icon">🗣️</div>
+                        <h3 class="metric-card__title">Слова-паразиты</h3>
+                        <p class="metric-card__text">«Ну», «типа», «как бы» — фиксируем частоту и помогаем искоренить
+                            непрофессиональную речь</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="350">
+                        <div class="metric-card__icon">⏱️</div>
+                        <h3 class="metric-card__title">Время диалога</h3>
+                        <p class="metric-card__text">Средняя длительность, соотношение «говорит/слушает», молчание и
+                            паузы</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="400">
+                        <div class="metric-card__icon">🔄</div>
+                        <h3 class="metric-card__title">Работа с возражениями</h3>
+                        <p class="metric-card__text">Как сотрудник парирует «дорого», «подумаю», «у конкурентов дешевле»
+                        </p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="450">
+                        <div class="metric-card__icon">👋</div>
+                        <h3 class="metric-card__title">Приветствие и прощание</h3>
+                        <p class="metric-card__text">Корректное начало и завершение контакта — основа первого
+                            впечатления</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="500">
+                        <div class="metric-card__icon">🚫</div>
+                        <h3 class="metric-card__title">Запрещённые фразы</h3>
+                        <p class="metric-card__text">Ненормативная лексика, несогласованные обещания, разглашение
+                            конфиденциальной информации</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="550">
+                        <div class="metric-card__icon">📊</div>
+                        <h3 class="metric-card__title">Рейтинг сотрудника</h3>
+                        <p class="metric-card__text">Сводная оценка по всем метрикам — кого поощрить, кого обучить, кого
+                            взять на контроль</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="600">
+                        <div class="metric-card__icon">💡</div>
+                        <h3 class="metric-card__title">Инсайты клиентов</h3>
+                        <p class="metric-card__text">О чём спрашивают клиенты, что хотят, чем недовольны — данные для
+                            маркетинга и продукта</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DASHBOARD ===== -->
+        <section class="dashboard" id="dashboard">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Платформа</span>
+                    <h2 class="section-title">Всё в&nbsp;одном <span class="gradient-text">дашборде</span></h2>
+                    <p class="section-subtitle">Наглядная аналитика, рейтинги сотрудников, детализация по каждому
+                        разговору</p>
+                </div>
+                <div class="dashboard__showcase" data-animate="fade-up" data-delay="200">
+                    <div class="dashboard__frame">
+                        <div class="dashboard__topbar">
+                            <div class="dashboard__dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="dashboard__url">app.okkm.io/analytics</div>
+                        </div>
+                        <svg class="dashboard__img" id="dashboard-img" width="900" height="500" viewBox="0 0 900 500"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="900" height="500" fill="#0a1628" />
+                            <!-- Sidebar -->
+                            <rect width="200" height="500" fill="#0d1b2a" />
+                            <rect x="20" y="20" width="160" height="36" rx="8" fill="rgba(59,130,246,0.1)" />
+                            <text x="55" y="43" fill="#3B82F6" font-size="14" font-weight="700"
+                                font-family="Inter, sans-serif">📊 Аналитика</text>
+                            <text x="30" y="85" fill="#64748b" font-size="12" font-family="Inter, sans-serif">👥
+                                Сотрудники</text>
+                            <text x="30" y="115" fill="#64748b" font-size="12" font-family="Inter, sans-serif">📋
+                                Скрипты</text>
+                            <text x="30" y="145" fill="#64748b" font-size="12" font-family="Inter, sans-serif">⚡
+                                Конфликты</text>
+                            <text x="30" y="175" fill="#64748b" font-size="12" font-family="Inter, sans-serif">⚙️
+                                Настройки</text>
+                            <!-- Main content area -->
+                            <!-- Stats cards row -->
+                            <rect x="220" y="20" width="155" height="70" rx="10" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="240" y="45" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">Проверено
+                                сегодня</text>
+                            <text x="240" y="72" fill="#22c55e" font-size="22" font-weight="700"
+                                font-family="Inter, sans-serif">247</text>
+                            <rect x="395" y="20" width="155" height="70" rx="10" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="415" y="45" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">Средний
+                                балл</text>
+                            <text x="415" y="72" fill="#3B82F6" font-size="22" font-weight="700"
+                                font-family="Inter, sans-serif">8.4</text>
+                            <rect x="570" y="20" width="155" height="70" rx="10" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="590" y="45" fill="#94a3b8" font-size="11"
+                                font-family="Inter, sans-serif">Допродажи</text>
+                            <text x="590" y="72" fill="#06B6D4" font-size="22" font-weight="700"
+                                font-family="Inter, sans-serif">62%</text>
+                            <rect x="745" y="20" width="135" height="70" rx="10" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="765" y="45" fill="#94a3b8" font-size="11"
+                                font-family="Inter, sans-serif">Конфликты</text>
+                            <text x="765" y="72" fill="#ef4444" font-size="22" font-weight="700"
+                                font-family="Inter, sans-serif">3</text>
+                            <!-- Chart area -->
+                            <rect x="220" y="110" width="440" height="220" rx="12" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="240" y="140" fill="white" font-size="14" font-weight="600"
+                                font-family="Inter, sans-serif">Качество обслуживания за неделю</text>
+                            <!-- Chart bars -->
+                            <rect x="270" y="220" width="35" height="90" rx="4" fill="url(#chartGrad)" opacity="0.7" />
+                            <rect x="325" y="190" width="35" height="120" rx="4" fill="url(#chartGrad)" opacity="0.8" />
+                            <rect x="380" y="200" width="35" height="110" rx="4" fill="url(#chartGrad)"
+                                opacity="0.75" />
+                            <rect x="435" y="170" width="35" height="140" rx="4" fill="url(#chartGrad)" opacity="0.9" />
+                            <rect x="490" y="180" width="35" height="130" rx="4" fill="url(#chartGrad)"
+                                opacity="0.85" />
+                            <rect x="545" y="160" width="35" height="150" rx="4" fill="url(#chartGrad)" />
+                            <rect x="600" y="175" width="35" height="135" rx="4" fill="url(#chartGrad)"
+                                opacity="0.88" />
+                            <text x="278" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Пн</text>
+                            <text x="335" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Вт</text>
+                            <text x="390" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Ср</text>
+                            <text x="445" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Чт</text>
+                            <text x="500" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Пт</text>
+                            <text x="555" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Сб</text>
+                            <text x="610" y="305" fill="#64748b" font-size="10"
+                                font-family="Inter, sans-serif">Вс</text>
+                            <!-- Employee rankings -->
+                            <rect x="680" y="110" width="200" height="220" rx="12" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="700" y="140" fill="white" font-size="14" font-weight="600"
+                                font-family="Inter, sans-serif">Рейтинг</text>
+                            <!-- Employee 1 -->
+                            <circle cx="710" cy="172" r="14" fill="#1e3a5f" />
+                            <text x="708" y="177" fill="#3B82F6" font-size="10" font-weight="600"
+                                font-family="Inter, sans-serif">АИ</text>
+                            <text x="732" y="170" fill="white" font-size="11" font-family="Inter, sans-serif">Анна
+                                И.</text>
+                            <text x="732" y="184" fill="#22c55e" font-size="11" font-weight="600"
+                                font-family="Inter, sans-serif">9.4 ★</text>
+                            <!-- Employee 2 -->
+                            <circle cx="710" cy="215" r="14" fill="#1e3a5f" />
+                            <text x="706" y="220" fill="#06B6D4" font-size="10" font-weight="600"
+                                font-family="Inter, sans-serif">ДМ</text>
+                            <text x="732" y="213" fill="white" font-size="11" font-family="Inter, sans-serif">Дмитрий
+                                М.</text>
+                            <text x="732" y="227" fill="#22c55e" font-size="11" font-weight="600"
+                                font-family="Inter, sans-serif">8.7 ★</text>
+                            <!-- Employee 3 -->
+                            <circle cx="710" cy="258" r="14" fill="#1e3a5f" />
+                            <text x="706" y="263" fill="#f59e0b" font-size="10" font-weight="600"
+                                font-family="Inter, sans-serif">ОС</text>
+                            <text x="732" y="256" fill="white" font-size="11" font-family="Inter, sans-serif">Ольга
+                                С.</text>
+                            <text x="732" y="270" fill="#f59e0b" font-size="11" font-weight="600"
+                                font-family="Inter, sans-serif">7.2 ★</text>
+                            <!-- Employee 4 -->
+                            <circle cx="710" cy="301" r="14" fill="#1e3a5f" />
+                            <text x="706" y="306" fill="#ef4444" font-size="10" font-weight="600"
+                                font-family="Inter, sans-serif">ПК</text>
+                            <text x="732" y="299" fill="white" font-size="11" font-family="Inter, sans-serif">Павел
+                                К.</text>
+                            <text x="732" y="313" fill="#ef4444" font-size="11" font-weight="600"
+                                font-family="Inter, sans-serif">5.8 ★</text>
+                            <!-- Recent conversations -->
+                            <rect x="220" y="350" width="660" height="130" rx="12" fill="#141e30" stroke="#1e3a5f"
+                                stroke-width="1" />
+                            <text x="240" y="380" fill="white" font-size="14" font-weight="600"
+                                font-family="Inter, sans-serif">Последние диалоги</text>
+                            <rect x="240" y="395" width="620" height="30" rx="6" fill="#0d1b2a" />
+                            <text x="255" y="415" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">14:32 •
+                                Анна И. • Скрипт ✅ • Допродажа ✅ • Тон: позитивный</text>
+                            <circle cx="840" cy="410" r="8" fill="#22c55e" opacity="0.3" />
+                            <circle cx="840" cy="410" r="4" fill="#22c55e" />
+                            <rect x="240" y="433" width="620" height="30" rx="6" fill="#0d1b2a" />
+                            <text x="255" y="453" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">14:18 •
+                                Павел К. • Скрипт ❌ • Допродажа ❌ • Тон: нейтральный</text>
+                            <circle cx="840" cy="448" r="8" fill="#ef4444" opacity="0.3" />
+                            <circle cx="840" cy="448" r="4" fill="#ef4444" />
+                            <defs>
+                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop stop-color="#3B82F6" />
+                                    <stop offset="1" stop-color="#06B6D4" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="dashboard__glow"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== COMPARISON ===== -->
+        <section class="comparison" id="comparison">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Сравнение</span>
+                    <h2 class="section-title">Почему <span class="gradient-text">ОККМ</span>, а&nbsp;не тайные
+                        покупатели?</h2>
+                </div>
+                <div class="comparison__table" data-animate="fade-up" data-delay="200">
+                    <div class="comparison__row comparison__row--header">
+                        <div class="comparison__cell comparison__cell--feature">Параметр</div>
+                        <div class="comparison__cell comparison__cell--old">Тайные покупатели</div>
+                        <div class="comparison__cell comparison__cell--new">ОККМ</div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Охват разговоров</div>
+                        <div class="comparison__cell comparison__cell--old"><span class="comparison__bad">менее
+                                1%</span></div>
+                        <div class="comparison__cell comparison__cell--new"><span class="comparison__good">100%</span>
+                        </div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Объективность</div>
+                        <div class="comparison__cell comparison__cell--old"><span class="comparison__bad">Субъективная
+                                оценка</span></div>
+                        <div class="comparison__cell comparison__cell--new"><span class="comparison__good">ИИ-аналитика
+                                по метрикам</span></div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Скорость</div>
+                        <div class="comparison__cell comparison__cell--old"><span
+                                class="comparison__bad">Дни/недели</span></div>
+                        <div class="comparison__cell comparison__cell--new"><span class="comparison__good">На следующий
+                                день</span></div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Стоимость при масштабе</div>
+                        <div class="comparison__cell comparison__cell--old"><span class="comparison__bad">Растёт
+                                линейно</span></div>
+                        <div class="comparison__cell comparison__cell--new"><span
+                                class="comparison__good">Фиксированная</span></div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Постоянный мониторинг</div>
+                        <div class="comparison__cell comparison__cell--old"><span class="comparison__bad">Нет</span>
+                        </div>
+                        <div class="comparison__cell comparison__cell--new"><span class="comparison__good">24/7</span>
+                        </div>
+                    </div>
+                    <div class="comparison__row">
+                        <div class="comparison__cell comparison__cell--feature">Мотивация сотрудников</div>
+                        <div class="comparison__cell comparison__cell--old"><span class="comparison__bad">Не
+                                влияет</span></div>
+                        <div class="comparison__cell comparison__cell--new"><span class="comparison__good">Рейтинги и
+                                геймификация</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== INDUSTRIES ===== -->
+        <section class="industries" id="industries">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Отрасли</span>
+                    <h2 class="section-title">Решение для любого <span class="gradient-text">B2B-бизнеса</span></h2>
+                    <p class="section-subtitle">Везде, где есть живое общение сотрудников с клиентами</p>
+                </div>
+                <div class="industries__grid">
+                    <div class="industry-card" data-animate="fade-up" data-delay="50">
+                        <div class="industry-card__icon">🏪</div>
+                        <h3 class="industry-card__title">Ритейл</h3>
+                        <p class="industry-card__text">Контроль консультантов в торговых залах. Допродажи, стандарты
+                            обслуживания, работа с возражениями.</p>
+                        <span class="industry-card__example">Магазины электроники, одежды, косметики</span>
+                    </div>
+                    <div class="industry-card" data-animate="fade-up" data-delay="100">
+                        <div class="industry-card__icon">🍽️</div>
+                        <h3 class="industry-card__title">HoReCa</h3>
+                        <p class="industry-card__text">Качество обслуживания официантов и хостес. Предложение десертов,
+                            напитков, спецпредложений.</p>
+                        <span class="industry-card__example">Рестораны, кафе, отели, бары</span>
+                    </div>
+                    <div class="industry-card" data-animate="fade-up" data-delay="150">
+                        <div class="industry-card__icon">🏦</div>
+                        <h3 class="industry-card__title">Банки и финансы</h3>
+                        <p class="industry-card__text">Соблюдение скриптов при продаже банковских продуктов,
+                            кросс-продажи, комплаенс.</p>
+                        <span class="industry-card__example">Банки, МФО, страховые компании</span>
+                    </div>
+                    <div class="industry-card" data-animate="fade-up" data-delay="200">
+                        <div class="industry-card__icon">🚗</div>
+                        <h3 class="industry-card__title">Автодилеры</h3>
+                        <p class="industry-card__text">Контроль менеджеров по продажам. Тест-драйвы, финансовые
+                            предложения, trade-in.</p>
+                        <span class="industry-card__example">Автосалоны, автосервисы</span>
+                    </div>
+                    <div class="industry-card" data-animate="fade-up" data-delay="250">
+                        <div class="industry-card__icon">🏥</div>
+                        <h3 class="industry-card__title">Медицина</h3>
+                        <p class="industry-card__text">Качество приёма пациентов, запись на повторные визиты, продажа
+                            дополнительных услуг.</p>
+                        <span class="industry-card__example">Клиники, стоматологии, лаборатории</span>
+                    </div>
+                    <div class="industry-card" data-animate="fade-up" data-delay="300">
+                        <div class="industry-card__icon">💪</div>
+                        <h3 class="industry-card__title">Фитнес и красота</h3>
+                        <p class="industry-card__text">Продление абонементов, продажа персональных тренировок, допуслуг.
+                        </p>
+                        <span class="industry-card__example">Фитнес-клубы, салоны красоты, SPA</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SOCIAL PROOF ===== -->
+        <section class="social-proof" id="social-proof">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Результаты</span>
+                    <h2 class="section-title">Цифры, которые <span class="gradient-text">говорят сами</span></h2>
+                </div>
+                <div class="results__grid" data-animate="fade-up" data-delay="200">
+                    <div class="result-card">
+                        <div class="result-card__value"><span data-count="100">0</span>%</div>
+                        <div class="result-card__label">диалогов анализируется ежедневно</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__value">до <span data-count="34">0</span>%</div>
+                        <div class="result-card__label">рост среднего чека</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__value">−<span data-count="60">0</span>%</div>
+                        <div class="result-card__label">затрат на контроль качества</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card__value">до <span data-count="24">0</span> ч</div>
+                        <div class="result-card__label">автономной работы одного бейджа</div>
+                    </div>
+                </div>
+                <div class="testimonials" data-animate="fade-up" data-delay="300">
+                    <div class="testimonial">
+                        <div class="testimonial__stars">★★★★★</div>
+                        <p class="testimonial__text">«Раньше тратили 200 000₽ в месяц на тайных покупателей и получали 5
+                            отчётов. Теперь ОККМ анализирует каждый разговор каждого продавца каждый день. Средний чек
+                            вырос на 28% за первый квартал.»</p>
+                        <div class="testimonial__author">
+                            <div class="testimonial__avatar">АК</div>
+                            <div class="testimonial__info">
+                                <span class="testimonial__name">Алексей К.</span>
+                                <span class="testimonial__role">Директор по продажам, сеть электроники</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial__stars">★★★★★</div>
+                        <p class="testimonial__text">«Мы выявили, что 3 из 12 официантов систематически не предлагают
+                            десерты и напитки. После корректировки — выручка ресторана выросла на 15%. Окупилось за
+                            первый месяц.»</p>
+                        <div class="testimonial__author">
+                            <div class="testimonial__avatar">МС</div>
+                            <div class="testimonial__info">
+                                <span class="testimonial__name">Мария С.</span>
+                                <span class="testimonial__role">Управляющая, ресторанная сеть</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FAQ ===== -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Вопросы</span>
+                    <h2 class="section-title">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
+                </div>
+                <div class="faq__list" data-animate="fade-up" data-delay="200">
+                    <div class="faq__item" id="faq-1">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Законно ли записывать разговоры сотрудников?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Да. По трудовому законодательству работодатель вправе контролировать исполнение трудовых
+                                обязанностей. Бейдж имеет световой индикатор, уведомляющий о записи. Сотрудник
+                                подписывает согласие при трудоустройстве или дополнительное соглашение. Мы предоставляем
+                                шаблоны всех необходимых документов.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-2">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Сколько времени занимает внедрение?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Базовое внедрение — 1 рабочий день. Мы привозим бейджи, устанавливаем зарядные станции,
+                                настраиваем Wi-Fi-подключение и метрики анализа под ваш бизнес. Первые отчёты — на
+                                следующий день.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-3">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Где хранятся записи, насколько это безопасно?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Записи хранятся на защищённых серверах с шифрованием AES-256. Данные передаются по
+                                защищённому каналу. Возможно размещение на вашем сервере (on-premise). Мы соответствуем
+                                требованиям 152-ФЗ о персональных данных.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-4">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Можно ли настроить метрики под наш бизнес?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Да, все метрики полностью кастомизируемые. Мы загружаем ваши скрипты, настраиваем
+                                чек-листы, добавляем специфичные для вашей отрасли параметры оценки. Вы сами
+                                определяете, что считается «успешным» диалогом.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-5">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Сколько стоит решение?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Стоимость рассчитывается индивидуально и зависит от количества локаций, сотрудников и
+                                объёма метрик. Оставьте заявку на демо — мы подготовим персональный расчёт и покажем
+                                систему на примере вашего бизнеса.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-6">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Какой срок автономной работы бейджа?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>До 24 часов непрерывной записи на одном заряде. Этого достаточно для любой рабочей смены.
+                                Зарядка через док-станцию занимает 2-3 часа, во время зарядки данные автоматически
+                                выгружаются.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CTA FINAL ===== -->
+        <section class="cta-final" id="cta-final">
+            <div class="cta-final__glow cta-final__glow--1"></div>
+            <div class="cta-final__glow cta-final__glow--2"></div>
+            <div class="container">
+                <div class="cta-final__inner" data-animate="fade-up">
+                    <h2 class="cta-final__title">Готовы услышать, что <span class="gradient-text">на самом деле</span>
+                        говорят ваши сотрудники?</h2>
+                    <p class="cta-final__subtitle">Оставьте заявку — мы проведём бесплатную демонстрацию системы на
+                        примере вашего бизнеса и подготовим индивидуальный расчёт.</p>
+                    <form class="cta-form" id="cta-form">
+                        <div class="cta-form__row">
+                            <div class="cta-form__field">
+                                <input type="text" id="form-name" placeholder="Ваше имя" required
+                                    class="cta-form__input">
+                            </div>
+                            <div class="cta-form__field">
+                                <input type="tel" id="form-phone" placeholder="+7 (___) ___-__-__" required
+                                    class="cta-form__input">
+                            </div>
+                            <div class="cta-form__field">
+                                <input type="text" id="form-company" placeholder="Компания" class="cta-form__input">
+                            </div>
+                        </div>
+                        <div class="cta-form__row cta-form__row--center">
+                            <select id="form-industry" class="cta-form__select">
+                                <option value="" disabled selected>Выберите отрасль</option>
+                                <option value="retail">Ритейл</option>
+                                <option value="horeca">HoReCa</option>
+                                <option value="bank">Банки и финансы</option>
+                                <option value="auto">Автодилеры</option>
+                                <option value="medical">Медицина</option>
+                                <option value="fitness">Фитнес и красота</option>
+                                <option value="other">Другое</option>
+                            </select>
+                            <button type="submit" class="btn btn--primary btn--lg cta-form__submit" id="form-submit">
+                                Заявка на демо
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="cta-form__disclaimer">Нажимая кнопку, вы соглашаетесь с политикой обработки
+                            персональных данных</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="footer">
+        <div class="container footer__inner">
+            <div class="footer__brand">
+                <a href="#" class="logo">
+                    <div class="logo__icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="url(#logoGrad2)" />
+                            <path d="M10 16C10 12.686 12.686 10 16 10C19.314 10 22 12.686 22 16" stroke="white"
+                                stroke-width="2" stroke-linecap="round" />
+                            <path d="M8 16C8 11.582 11.582 8 16 8C20.418 8 24 11.582 24 16" stroke="white"
+                                stroke-width="1.5" stroke-linecap="round" opacity="0.5" />
+                            <circle cx="16" cy="16" r="2" fill="white" />
+                            <path d="M16 18V23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="logoGrad2" x1="0" y1="0" x2="32" y2="32">
+                                    <stop stop-color="#3B82F6" />
+                                    <stop offset="1" stop-color="#06B6D4" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="logo__text">ОКК<span class="logo__accent">М</span></span>
+                </a>
+                <p class="footer__desc">Отдел Контроля Качества и Мотивации сотрудников. AI-аудиобейджи для вашего
+                    бизнеса.</p>
+            </div>
+            <div class="footer__links">
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Продукт</h4>
+                    <a href="#how-it-works" class="footer__link">Как это работает</a>
+                    <a href="#metrics" class="footer__link">Метрики</a>
+                    <a href="#dashboard" class="footer__link">Платформа</a>
+                    <a href="#industries" class="footer__link">Отрасли</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Компания</h4>
+                    <a href="#faq" class="footer__link">FAQ</a>
+                    <a href="#" class="footer__link">О нас</a>
+                    <a href="#" class="footer__link">Контакты</a>
+                    <a href="#" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copy">© 2026 ОККМ. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
