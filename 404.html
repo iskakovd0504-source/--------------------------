@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена — AiProtocol</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: var(--space-4);
+        }
+
+        .error-title {
+            font-size: var(--f-size-2xl);
+            margin-bottom: var(--space-4);
+            font-weight: 700;
+        }
+
+        .error-text {
+            color: var(--c-text-secondary);
+            max-width: 400px;
+            margin: 0 auto var(--space-8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-code">404</div>
+    <h1 class="error-title">Страница не найдена</h1>
+    <p class="error-text">Кажется, вы пытаетесь найти скрипт продаж там, где его нет. Вернитесь на главную, чтобы
+        настроить контроль качества.</p>
+    <a href="index.html" class="btn btn--primary btn--lg">Вернуться на главную</a>
+</body>
+
+</html>
