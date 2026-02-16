@@ -155,16 +155,33 @@
         });
     });
 
-    /* ===== FORM HANDLING ===== */
+    /* ===== FORM HANDLING (EmailJS) ===== */
+    const EMAILJS_PUBLIC_KEY = 'adWej6hLDfdf6li8s';
+    const EMAILJS_SERVICE_ID = 'service_wbkc2co';
+    const EMAILJS_TEMPLATE_ID = 'template_99jgenj';
+
+    // Initialize EmailJS
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
     const form = document.getElementById('cta-form');
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const submitBtn = document.getElementById('form-submit');
             const originalHTML = submitBtn.innerHTML;
-            
-            // Visual feedback
+
+            // Collect form data
+            const templateParams = {
+                from_name: document.getElementById('form-name').value,
+                phone: document.getElementById('form-phone').value,
+                company: document.getElementById('form-company').value,
+                industry: document.getElementById('form-industry').value,
+            };
+
+            // Visual feedback — loading
             submitBtn.innerHTML = `
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="spin">
                     <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="40" stroke-dashoffset="10" stroke-linecap="round"/>
@@ -173,23 +190,55 @@
             `;
             submitBtn.disabled = true;
 
-            setTimeout(() => {
-                submitBtn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4 10L8 14L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Заявка отправлена!
-                `;
-                submitBtn.style.background = 'linear-gradient(135deg, #10B981, #06B6D4)';
-                
+            // Check if EmailJS is configured
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                // Demo mode — simulate sending
+                console.warn('EmailJS не настроен. Работает в демо-режиме. Данные формы:', templateParams);
                 setTimeout(() => {
-                    submitBtn.innerHTML = originalHTML;
-                    submitBtn.disabled = false;
-                    submitBtn.style.background = '';
-                    form.reset();
-                }, 3000);
-            }, 1500);
+                    showSuccess(submitBtn, originalHTML);
+                }, 1500);
+                return;
+            }
+
+            // Real EmailJS send
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(() => {
+                    showSuccess(submitBtn, originalHTML);
+                })
+                .catch((error) => {
+                    console.error('EmailJS error:', error);
+                    submitBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M6 6L14 14M14 6L6 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Ошибка отправки
+                    `;
+                    submitBtn.style.background = 'linear-gradient(135deg, #EF4444, #DC2626)';
+
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalHTML;
+                        submitBtn.disabled = false;
+                        submitBtn.style.background = '';
+                    }, 3000);
+                });
         });
+    }
+
+    function showSuccess(submitBtn, originalHTML) {
+        submitBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10L8 14L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Заявка отправлена!
+        `;
+        submitBtn.style.background = 'linear-gradient(135deg, #10B981, #06B6D4)';
+
+        setTimeout(() => {
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+            submitBtn.style.background = '';
+            form.reset();
+        }, 3000);
     }
 
     /* ===== PHONE INPUT MASK ===== */
