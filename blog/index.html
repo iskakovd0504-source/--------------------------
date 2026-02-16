@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог AiProtocol — Статьи о контроле качества и продажах</title>
+    <meta name="description"
+        content="Полезные статьи о том, как увеличить выручку, контролировать отдел продаж и внедрять речевую аналитику в Казахстане.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .blog-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.15), transparent 70%);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding-bottom: 80px;
+        }
+
+        .article-card {
+            background: var(--c-bg-card);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--c-accent-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .article-card__img-wrap {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .article-card__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-card__img {
+            transform: scale(1.05);
+        }
+
+        .article-card__content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .article-card__tag {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--c-accent-cyan);
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .article-card__title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--c-text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .article-card__desc {
+            font-size: 14px;
+            color: var(--c-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-card__meta {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--c-text-muted);
+            padding-top: 16px;
+            border-top: 1px solid var(--c-border);
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    <span class="logo__separator">|</span>
+                    <div class="logo__sub">ОККМ</div>
+                </a>
+
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="#" class="nav__link active">Блог</a>
+                    <a href="../index.html#pricing" class="nav__link">Тарифы</a>
+                </nav>
+
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+
+                <!-- Burger (Mobile) -->
+                <div class="burger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu__nav">
+            <a href="../index.html" class="mobile-menu__link" onclick="toggleMenu()">Главная</a>
+            <a href="#" class="mobile-menu__link" onclick="toggleMenu()">Блог</a>
+            <a href="../index.html#pricing" class="mobile-menu__link" onclick="toggleMenu()">Тарифы</a>
+            <a href="tel:+77771234567" class="mobile-menu__phone">
+                +7 (777) 123-45-67
+            </a>
+        </nav>
+    </div>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <h1 class="section-title">Блог AiProtocol</h1>
+            <p class="section-subtitle">Исследования, кейсы и советы по управлению продажами</p>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="blog-list">
+        <div class="container">
+            <div class="blog-grid">
+
+                <!-- Article 1 -->
+                <a href="missed-calls-revenue-loss.html" class="article-card">
+                    <div class="article-card__img-wrap">
+                        <img src="images/missed-calls-hero.png" alt="Пропущенные звонки" class="article-card__img">
+                    </div>
+                    <div class="article-card__content">
+                        <span class="article-card__tag">Исследование</span>
+                        <h2 class="article-card__title">Почему вы теряете до 27% выручки на звонках: статистика
+                            2024-2025</h2>
+                        <p class="article-card__desc">
+                            85% клиентов не перезванивают, если трубку не взяли сразу. Узнайте, сколько стоит один
+                            пропущенный звонок и как перестать сливать рекламный бюджет.
+                        </p>
+                        <div class="article-card__meta">
+                            <span>15 Фев 2026</span>
+                            <span>5 мин чтения</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Placeholder for more -->
+                <!-- Можно скопировать карточку для демонстрации сетки, если нужно -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <a href="../index.html" class="logo">
+                        <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    </a>
+                    <p class="footer__desc">
+                        Система тотального контроля качества телефонных продаж для бизнеса в Казахстане.
+                    </p>
+                </div>
+
+                <div class="footer__links">
+                    <div class="footer__col">
+                        <div class="footer__col-title">Компания</div>
+                        <a href="../index.html" class="footer__link">Главная</a>
+                        <a href="#" class="footer__link">Блог</a>
+                        <a href="../privacy-policy.html" class="footer__link">Политика</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <div class="footer__copy">
+                    &copy; 2026 AiProtocol. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+    </script>
+</body>
+
+</html>
