@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>«Вам пирожок?» или как простые фразы поднимают выручку на 30% — Блог AiProtocol</title>
+    <meta name="description"
+        content="Как внедрить допродажи без сопротивления сотрудников. Кейс: рост среднего чека на 30% с помощью AI-аудиобейджей AiProtocol.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="«Вам пирожок?» — как одна фраза увеличивает выручку на 30%">
+    <meta property="og:description"
+        content="Почему сотрудники молчат, а вы теряете миллионы. Технология контроля допродаж в ритейле и HoReCa.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/upsell-hero.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .article-page {
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .article-hero {
+            position: relative;
+            height: 400px;
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .article-hero__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .article-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%);
+        }
+
+        .article-header {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .article-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .article-content {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--c-text-secondary);
+        }
+
+        .article-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--c-text-primary);
+            margin: 40px 0 20px;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+        }
+
+        .article-content ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .article-content li {
+            margin-bottom: 12px;
+        }
+
+        /* Highlight Box inside article */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--c-text-muted);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin: 32px 0;
+            font-style: italic;
+        }
+
+        .stat-box {
+            background: rgba(34, 197, 94, 0.05);
+            border-left: 4px solid #22c55e;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 var(--r-lg) var(--r-lg) 0;
+        }
+
+        .stat-box__num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-xl);
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 28px;
+            }
+
+            .article-hero {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <article class="article-page">
+        <div class="container">
+
+            <div class="article-header">
+                <span class="article-tag">Рост продаж</span>
+                <h1 class="article-title">«Вам пирожок?» или как одна фраза может поднять выручку на 30%</h1>
+                <div class="article-meta">
+                    <span style="color: var(--c-text-muted);">20 Февраля 2026 • 6 мин чтения</span>
+                </div>
+            </div>
+
+            <div class="article-hero">
+                <div class="article-hero__overlay"></div>
+                <img src="images/upsell-hero.png" alt="Бариста с аудиобейджем" class="article-hero__img">
+            </div>
+
+            <div class="article-content">
+                <p>
+                    В мире ритейла и общепита существует парадокс. Владельцы бизнеса тратят миллионы на рекламу, чтобы привести клиента в магазин. Дизайнеры создают красивые интерьеры. Маркетологи разрабатывают акции.
+                </p>
+                <p>
+                    Но в решающий момент, когда клиент уже стоит у кассы с деньгами в руках, происходит... тишина.
+                </p>
+                <p>
+                    Сотрудник молча пробивает товар, бурчит «спасибо» и переходит к следующему. В этот момент ваш бизнес только что потерял от 15% до 30% **чистой прибыли**.
+                </p>
+
+                <h2>Магия допродаж (Cross-sell и Up-sell)</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+30%</span>
+                    к среднему чеку добавляет **каждое** успешное предложение (сироп к кофе, чехол к телефону, десерт к чаю).
+                </div>
+                <p>
+                    Представьте сеть кофеен. Кофе стоит 1200 тенге. Сироп — 300 тенге. Себестоимость сиропа копеечная, а маржа — огромная. Если каждый третий гость согласится на сироп, выручка точки вырастет значительно, а **прибыль может удвоиться**.
+                </p>
+                <p>
+                    Но почему сотрудники не предлагают?
+                </p>
+                <ul>
+                    <li><strong>«Я забыл»</strong> — самая частая отговорка.</li>
+                    <li><strong>«Я не хотел навязываться»</strong> — страх отказа.</li>
+                    <li><strong>«И так много людей»</strong> — лень и отсутствие мотивации.</li>
+                </ul>
+
+                <h2>Почему штрафы не работают?</h2>
+                <p>
+                    Обычно руководство пытается решить проблему «кнутом»: тайный покупатель раз в месяц, штрафы за несоблюдение чек-листа. 
+                </p>
+                <p>
+                    Это не работает. Сотрудники быстро вычисляют тайных покупателей, а штрафы лишь демотивируют. Вы не можете поставить контролера за спиной каждого кассира... Или можете?
+                </p>
+
+                <h2>AiProtocol: Цифровой контролер в каждом бейдже</h2>
+                <p>
+                    Технология AI-аудиобейджей меняет правила игры. Бейдж слушает **каждый** диалог сотрудника в течение всей смены. Он не устает, не отвлекается и ему все равно, кто перед ним — обычный клиент или тайный покупатель.
+                </p>
+                
+                <div class="highlight-box">
+                    <strong>Как это работает:</strong><br>
+                    Вы загружаете в систему обязательные фразы для допродажи: «Попробуйте наш новый десерт», «Вам нужен пакет?», «Добавить сироп?».
+                    ИИ в реальном времени проверяет, произнес ли сотрудник эти слова.
+                </div>
+
+                <h2>Кейс: Сеть пекарен в Алматы</h2>
+                <p>
+                    После внедрения системы AiProtocol в сети из 5 пекарен мы увидели следующую картину:
+                </p>
+                <ul>
+                    <li><strong>До внедрения:</strong> Предлагали выпечку к кофе только в 12% случаев.</li>
+                    <li><strong>Через неделю:</strong> Показатель предложений вырос до 78%.</li>
+                    <li><strong>Результат:</strong> Средний чек увеличился на <strong>22%</strong> без изменения цен и ассортимента.</li>
+                </ul>
+                <p>
+                    Сотрудники знали, что их рейтинг зависит от соблюдения скрипта. Лучшие получали бонусы, худшие — отправлялись на переобучение. Простая психология: то, что измеряется — то выполняется.
+                </p>
+
+                <div class="cta-box">
+                    <h3>Хотите увеличить выручку уже завтра?</h3>
+                    <p style="color: #94a3b8; margin-bottom: 24px;">
+                        Внедрите контроль допродаж с AiProtocol. Окупаемость — в первый же месяц.
+                    </p>
+                    <a href="../index.html#cta-final" class="btn btn--primary btn--lg">Заказать расчет</a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <div class="footer__copy text-center">
+                    &copy; 2026 AiProtocol.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
