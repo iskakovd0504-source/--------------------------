@@ -2119,3 +2119,9 @@ select {
     justify-content: center;
     display: inline-flex;
 }
+/* Language Switcher */
+.lang-switcher { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; margin-right: 15px; }
+.lang-link { color: var(--c-text-muted); text-decoration: none; transition: color 0.3s; }
+.lang-link:hover { color: white; }
+.lang-link.active { color: var(--c-accent-1); }
+.lang-separator { color: #334155; }
