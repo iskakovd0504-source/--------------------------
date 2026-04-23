@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ОККМ | Панель Управления АЗС</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --header-height: 80px;
+            --c-dash-bg: #060912;
+            --c-card-bg: rgba(17, 24, 39, 0.7);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--c-dash-bg);
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--c-text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.3); }
+
+        /* Sidebar & Layout */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(13, 18, 30, 0.95);
+            backdrop-filter: blur(40px);
+            border-right: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: var(--space-10) 0;
+            z-index: 100;
+        }
+
+        .view-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: 
+                radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.1), transparent 40%),
+                radial-gradient(circle at 0% 100%, rgba(6, 182, 212, 0.08), transparent 40%);
+            position: relative;
+        }
+
+        .dashboard-header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: var(--glass-border);
+            background: rgba(6, 9, 15, 0.3);
+        }
+
+        .view-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 40px;
+            display: none;
+        }
+
+        .view-content.active { display: block; animation: tabFade 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        @keyframes tabFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Sidebar Links Premium */
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 4px 20px;
+            padding: 14px 20px;
+            color: var(--c-text-secondary);
+            border-radius: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .sidebar__link:hover { color: white; background: rgba(255, 255, 255, 0.05); }
+        .sidebar__link.active {
+            color: white;
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Stat Cards Glow */
+        .stat-card-v3 {
+            background: var(--c-card-bg);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .stat-card-v3:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.4); }
+        .stat-card-v3::after {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 120px; height: 120px;
+            background: var(--glow, #3B82F6); filter: blur(60px); opacity: 0.15;
+        }
+
+        /* Premium Table */
+        .table-wrap { background: var(--c-card-bg); border-radius: 24px; border: var(--glass-border); overflow: hidden; }
+        .p-table { width: 100%; border-collapse: collapse; }
+        .p-table th { text-align: left; padding: 20px; font-size: 11px; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: var(--glass-border); }
+        .p-table td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
+        .p-table tr:last-child td { border-bottom: none; }
+        .p-table tr:hover { background: rgba(255, 255, 255, 0.02); cursor: pointer; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal {
+            background: #0D121F; border: var(--glass-border); border-radius: 32px;
+            width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 40px;
+            position: relative; animation: modalIn 0.4s var(--ease);
+        }
+        @keyframes modalIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
+
+        /* Chart Styling */
+        .chart-bar-v3 {
+            flex: 1; height: 100%; background: linear-gradient(180deg, #3B82F6, #06B6D4);
+            border-radius: 8px 8px 0 0; transition: 0.5s; position: relative;
+        }
+        .chart-bar-v3:hover { filter: brightness(1.2); transform: scaleX(1.1); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+
+        /* Mini Icons */
+        .u-chip { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .u-chip--green { background: rgba(16,185,129,0.15); color: #10B981; }
+        .u-chip--amber { background: rgba(245,158,11,0.15); color: #F59E0B; }
+        .u-chip--red { background: rgba(239,68,68,0.15); color: #EF4444; }
+
+        .btn-view { background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; transition:0.3s; font-size:12px; cursor:pointer; }
+        .btn-view:hover { background:var(--gradient-primary); color:white; }
+
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div style="padding: 0 40px 40px;">
+            <a href="index.html" class="logo" style="text-decoration:none;">
+                <div class="logo__icon" style="width: 32px; height: 32px;"><svg viewbox="0 0 32 32"><rect fill="url(#lg)" r="8" width="32" height="32" /><circle cx="16" cy="16" r="2" fill="white" /><path d="M16 18v5" stroke="white" stroke-width="2" /><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#3B82F6" /><stop offset="1" stop-color="#06B6D4" /></linearGradient></defs></svg></div>
+                <span class="logo__text" style="font-size: 20px;">ОКК<span class="logo__accent">М</span></span>
+            </a>
+        </div>
+        <nav>
+            <div onclick="switchTab('analytics')" id="nav-analytics" class="sidebar__link active">📊 Аналитика АЗС</div>
+            <div onclick="switchTab('dialogs')" id="nav-dialogs" class="sidebar__link">💬 Диалоги на кассе</div>
+            <div onclick="switchTab('employees')" id="nav-employees" class="sidebar__link">👥 Операторы-кассиры</div>
+            <div onclick="switchTab('settings')" id="nav-settings" class="sidebar__link">⚙️ Настройки ИИ</div>
+        </nav>
+        <div style="margin-top:auto; padding: 20px 40px;">
+            <div style="font-size: 11px; color: var(--c-text-muted);">Интерфейс: СЕТЬ АЗС</div>
+        </div>
+    </aside>
+
+    <div class="view-container">
+        <header class="dashboard-header">
+            <div id="page-title" style="font-size: 22px; font-weight: 800;">Обзор показателей сети</div>
+            <div style="display:flex; align-items:center; gap:20px;">
+                <div style="font-size: 11px; color: var(--c-accent-green);">● Active Session: Station #104</div>
+                <div style="width:40px; height:40px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-weight:800;">A</div>
+            </div>
+        </header>
+
+        <!-- Analytics TAB -->
+        <div id="view-analytics" class="view-content active">
+            <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 40px;">
+                <div class="stat-card-v3" style="--glow: #10B981;">
+                    <div style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Транзакций за смену</div>
+                    <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">1,248</div>
+                    <div style="font-size: 12px; color: #10B981; margin-top: 10px;">↑ 8% к среднему</div>
+                </div>
+                <div class="stat-card-v3" style="--glow: #3B82F6;">
+                    <div style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Скрипт Cafe/Shop</div>
+                    <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">92%</div>
+                    <div style="font-size: 12px; color: #3B82F6; margin-top: 10px;">Предложение доп. товаров</div>
+                </div>
+                <div class="stat-card-v3" style="--glow: #06B6D4;">
+                    <div style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Конверсия в Кофе</div>
+                    <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">44%</div>
+                    <div style="font-size: 12px; color: #06B6D4; margin-top: 10px;">Цель: 50%</div>
+                </div>
+                <div class="stat-card-v3" style="--glow: #EF4444;">
+                    <div style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Претензии по баллам</div>
+                    <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">1</div>
+                    <div style="font-size: 12px; color: #EF4444; margin-top: 10px;">Требует разбора</div>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 40px;">
+                <div class="stat-card-v3" style="height: 400px; display:flex; flex-direction:column;">
+                    <div style="font-weight:800; font-size:18px; margin-bottom:40px;">Продажи сопутствующих товаров (7 дней)</div>
+                    <div style="flex-grow:1; display:flex; align-items:flex-end; gap:20px; padding:0 10px;">
+                        <div class="chart-bar-v3" style="height: 60%;"></div>
+                        <div class="chart-bar-v3" style="height: 75%;"></div>
+                        <div class="chart-bar-v3" style="height: 55%;"></div>
+                        <div class="chart-bar-v3" style="height: 90%;"></div>
+                        <div class="chart-bar-v3" style="height: 85%;"></div>
+                        <div class="chart-bar-v3" style="height: 100%;"></div>
+                        <div class="chart-bar-v3" style="height: 95%;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:20px; font-size:11px; color:var(--c-text-muted);">
+                        <span style="flex:1; text-align:center;">Пн</span><span style="flex:1; text-align:center;">Вт</span><span style="flex:1; text-align:center;">Ср</span><span style="flex:1; text-align:center;">Чт</span><span style="flex:1; text-align:center;">Пт</span><span style="flex:1; text-align:center;">Сб</span><span style="flex:1; text-align:center;">Вс</span>
+                    </div>
+                </div>
+                <div class="stat-card-v3">
+                    <div style="font-weight:800; font-size:18px; margin-bottom:30px;">Лучшие кассиры дня</div>
+                    <div id="top-list" style="display:flex; flex-direction:column; gap:20px;"></div>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <div style="padding: 24px 30px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:800;">Последние транзакции с аудио-анализом</div>
+                    <button class="btn btn--ghost btn--sm" onclick="switchTab('dialogs')">Весь журнал →</button>
+                </div>
+                <table class="p-table">
+                    <thead><tr><th>Оператор</th><th>Время</th><th>Скрипт</th><th>Тон</th><th>Статус</th></tr></thead>
+                    <tbody id="brief-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Dialogs TAB -->
+        <div id="view-dialogs" class="view-content">
+            <div style="display:flex; gap:15px; margin-bottom:30px;">
+                <div class="filter-btn active" style="background:var(--gradient-primary); border:none; padding:10px 20px; border-radius:12px; cursor:pointer;">Все сессии</div>
+                <div class="filter-btn" style="background:var(--c-card-bg); border:var(--glass-border); padding:10px 20px; border-radius:12px; cursor:pointer;">Проблемы с лояльностью</div>
+                <div class="filter-btn" style="background:var(--c-card-bg); border:var(--glass-border); padding:10px 20px; border-radius:12px; cursor:pointer;">Идеальная допродажа</div>
+            </div>
+            <div class="table-wrap">
+                <table class="p-table">
+                    <thead>
+                        <tr><th>ID</th><th>Оператор</th><th>Время</th><th>Тип операции</th><th>Кафе Скрипт</th><th>Тон</th><th></th></tr>
+                    </thead>
+                    <tbody id="full-dialogs-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Employees TAB -->
+        <div id="view-employees" class="view-content">
+            <div id="employees-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:30px;"></div>
+        </div>
+
+        <!-- Settings TAB -->
+        <div id="view-settings" class="view-content">
+            <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:40px;">
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:30px;">Параметры распознавания на АЗС</h3>
+                    <div style="display:flex; flex-direction:column; gap:24px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div><div style="font-weight:700;">Фильтрация шума колонок</div><div style="font-size:12px; color:var(--c-text-muted);">Игнорировать звуки двигателей и насосов</div></div>
+                            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div><div style="font-weight:700;">Анализ апселла (Up-sell)</div><div style="font-size:12px; color:var(--c-text-muted);">Проверка предложения кофе/бургеров по акции</div></div>
+                            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div><div style="font-weight:700;">Детектор длинных очередей</div><div style="font-size:12px; color:var(--c-text-muted);">Алерт при росте раздражения в очереди</div></div>
+                            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:20px;">Контур безопасности</h3>
+                    <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:20px; margin-bottom:20px;">
+                        <div style="font-weight:700; margin-bottom:5px;">Облако: OKKM Security</div>
+                        <div style="font-size:11px; color:#10B981;">Шифрование: AES-256</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                <h2 id="modal-title" style="font-weight:900;">Анализ сессии</h2>
+                <div onclick="closeModal()" style="cursor:pointer; opacity:0.5; font-size:24px;">×</div>
+            </div>
+            <div id="modal-body" style="line-height:1.7;"></div>
+        </div>
+    </div>
+
+    <script>
+        const employees = [
+            { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", trend: [9,10,10,9,10,10,10] },
+            { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", trend: [8,9,9,8,9,9,9] },
+            { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", trend: [8,8,8,9,8,8,8] },
+            { id: 4, name: "Кирилл", score: 8.4, calls: 110, status: "green", trend: [7,8,8,7,8,8,8] },
+            { id: 5, name: "Мария", score: 7.2, calls: 98, status: "yellow", trend: [6,7,7,7,7,8,7] },
+            { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", trend: [4,5,6,5,6,6,5] }
+        ];
+
+        const dialogs = [
+            { id: 1045, emp: "Анна", time: "16:42", topic: "Заправка + Комбо-обед", script: "100%", tone: "Позитивный", review: "Оператор предложил хот-дог по акции. Клиент согласился. Средний чек увеличен на 35%." },
+            { id: 1044, emp: "Павел", time: "16:30", topic: "Сбой карты лояльности", script: "40%", tone: "Напряженный", review: "Оператор не смог объяснить причину сбоя, конфликт из-за неначисленных баллов." },
+            { id: 1043, emp: "Дмитрий", time: "16:15", topic: "Оплата Apple Pay / QR", script: "95%", tone: "Позитивный", review: "Быстрая помощь с оплатой через приложение. Клиент остался доволен скоростью обслуживания." },
+            { id: 1042, emp: "Ольга", time: "15:55", topic: "Заправка до полного", script: "100%", tone: "Нейтральный", review: "Стандартная процедура. Предложение омывателя было озвучено, но клиент отказался." }
+        ];
+        for(let i=0; i<6; i++) { dialogs.push(...dialogs.slice(0,4).map(d => ({...d, id: d.id - (i+1)*12}))); }
+
+        function switchTab(id) {
+            document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
+            document.getElementById('view-' + id).classList.add('active');
+            document.getElementById('nav-' + id).classList.add('active');
+            
+            const titles = { 'analytics': 'Показатели сети АЗС', 'dialogs': 'События на кассе', 'employees': 'Персонал станций', 'settings': 'Конфигурация АЗС' };
+            document.getElementById('page-title').innerText = titles[id];
+            
+            if(id === 'analytics') renderAnalytics();
+            if(id === 'dialogs') renderDialogs();
+            if(id === 'employees') renderEmployees();
+        }
+
+        function renderAnalytics() {
+            const briefTable = document.getElementById('brief-table');
+            briefTable.innerHTML = dialogs.slice(0, 6).map(d => `
+                <tr onclick="openDialog(${d.id})">
+                    <td>${d.emp}</td>
+                    <td>${d.time}</td>
+                    <td><span class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</span></td>
+                    <td style="color:${d.tone === 'Напряженный' ? '#EF4444' : '#10B981'}">${d.tone}</td>
+                    <td style="text-align:right;"><span style="color:#10B981">●</span> Анализ завершен</td>
+                </tr>
+            `).join('');
+
+            const topList = document.getElementById('top-list');
+            topList.innerHTML = employees.slice(0, 4).map(e => `
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="width:36px; height:36px; border-radius:10px; background:rgba(59,130,246,0.1); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; color:#3B82F6;">${e.name[0]}</div>
+                    <div style="flex:1;"><div style="font-weight:600; font-size:14px;">${e.name}</div><div style="font-size:10px; color:var(--c-text-muted);">${e.calls} заправок за смену</div></div>
+                    <div style="font-weight:800; color:#10B981;">${e.score}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderDialogs() {
+            const tbody = document.getElementById('full-dialogs-tbody');
+            tbody.innerHTML = dialogs.map(d => `
+                <tr onclick="openDialog(${d.id})">
+                    <td style="opacity:0.4">#${d.id}</td>
+                    <td style="font-weight:700;">${d.emp}</td>
+                    <td style="color:var(--c-text-muted);">${d.time}</td>
+                    <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.topic}</td>
+                    <td><span class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</span></td>
+                    <td style="color:${d.tone === 'Напряженный' ? '#EF4444' : '#10B981'}">${d.tone}</td>
+                    <td style="text-align:right;"><button class="btn-view">Слушать</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderEmployees() {
+            const grid = document.getElementById('employees-grid');
+            grid.innerHTML = employees.map(e => `
+                <div class="stat-card-v3" style="padding:24px;">
+                    <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                        <div style="width:50px; height:50px; border-radius:14px; background:linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2)); display:flex; align-items:center; justify-content:center; color:#3B82F6; font-weight:900; font-size:18px;">${e.name[0]}</div>
+                        <div>
+                            <div style="font-weight:800; font-size:16px;">${e.name}</div>
+                            <div style="font-size:11px; opacity:0.6;">Статус: Оператор-кассир (АЗС #104)</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                        <div style="text-align:center;">
+                            <div style="font-size:10px; opacity:0.5; text-transform:uppercase;">KPI</div>
+                            <div style="font-weight:900; font-size:18px; color:${e.score > 8 ? '#10B981' : (e.score > 7 ? '#F59E0B' : '#EF4444')}">${e.score}</div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:10px; opacity:0.5; text-transform:uppercase;">Смена</div>
+                            <div style="font-weight:900; font-size:18px;">${e.calls}</div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:10px; opacity:0.5; text-transform:uppercase;">Ошибки</div>
+                            <div style="font-weight:900; font-size:18px; color:${e.score < 7 ? '#EF4444' : '#10B981'}">${e.score < 7 ? '4' : '0'}</div>
+                        </div>
+                    </div>
+                    <div style="height:30px; margin-bottom:20px;">
+                        <svg width="100%" height="100%" viewBox="0 0 100 30" preserveAspectRatio="none">
+                            <path d="M0,${30-e.trend[0]*2.5} L15,${30-e.trend[1]*2.5} L30,${30-e.trend[2]*2.5} L50,${30-e.trend[3]*2.5} L70,${30-e.trend[4]*2.5} L85,${30-e.trend[5]*2.5} L100,${30-e.trend[6]*2.5}" fill="none" stroke="${e.score > 8 ? '#10B981' : '#F59E0B'}" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" style="width:100%; justify-content:center; border-radius:12px;" onclick="openEmployee('${e.name}')">Статистика продаж</button>
+                </div>
+            `).join('');
+        }
+
+        function openDialog(id) {
+            const d = dialogs.find(x => x.id === id);
+            document.getElementById('modal-title').innerText = "Диалог #" + id;
+            document.getElementById('modal-body').innerHTML = `
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:30px;">
+                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:16px;">
+                        <div style="font-size:12px; opacity:0.5; margin-bottom:5px;">ОПЕРАТОР</div>
+                        <div style="font-weight:700;">${d.emp}</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:16px;">
+                        <div style="font-size:12px; opacity:0.5; margin-bottom:5px;">ОПЕРАЦИЯ</div>
+                        <div style="font-weight:700;">${d.topic}</div>
+                    </div>
+                </div>
+                <div style="background:rgba(59,130,246,0.05); border-left:4px solid #3B82F6; padding:24px; border-radius:8px; margin-bottom:30px;">
+                    <div style="font-weight:800; margin-bottom:10px;">ИИ-оценка сервиса</div>
+                    <p style="font-size:15px; color:#A0AEC0;">${d.review}</p>
+                </div>
+                <div style="font-weight:700; margin-bottom:15px;">Аудио-расшифровка</div>
+                <div style="font-size:13px; color:#64748b; background:rgba(0,0,0,0.2); padding:20px; border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">
+                    <p><b>Кассир:</b> Здравствуйте! Вам 95-й до полного? У нас сегодня акция на хот-доги, при покупке кофе — скидка 50%.</p>
+                    <p><b>Клиент:</b> Да, давайте и капучино тогда.</p>
+                </div>
+            `;
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function openEmployee(name) {
+            document.getElementById('modal-title').innerText = "Профиль оператора: " + name;
+            document.getElementById('modal-body').innerHTML = `
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                    <div>
+                        <h3>Конверсия в Cafe</h3>
+                        <div style="height:150px; background:rgba(255,255,255,0.02); margin-top:20px; border-radius:12px; display:flex; align-items:flex-end; gap:5px; padding:10px;">
+                            <div style="flex:1; background:#06B6D4; height:60%; border-radius:4px;"></div>
+                            <div style="flex:1; background:#06B6D4; height:75%; border-radius:4px;"></div>
+                            <div style="flex:1; background:#06B6D4; height:90%; border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Рекомендации ИИ</h3>
+                        <ul style="margin-top:20px; color:#A0AEC0; font-size:14px;">
+                            <li>Увеличить скорость предложения сопутствующих товаров.</li>
+                            <li>Более четко проговаривать условия акции по бонусам.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+        window.addEventListener('DOMContentLoaded', () => { renderAnalytics(); });
+    </script>
+</body>
+
+</html>
