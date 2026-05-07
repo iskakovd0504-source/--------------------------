@@ -73,7 +73,7 @@
             overflow-y: auto;
             padding: 40px;
             display: none;
-            padding-bottom: 300px !important; /* Гарантированный отступ снизу */
+            padding-bottom: 100px; 
         }
 
         .view-content.active { 
@@ -85,6 +85,73 @@
         .status-glow-green { box-shadow: 0 0 20px rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2) !important; }
         .status-glow-amber { box-shadow: 0 0 20px rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2) !important; }
         .status-glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2) !important; }
+
+        .badge-alert-pill { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 4px 8px; border-radius: 8px; color: #EF4444; font-size: 9px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        .badge-online-pill { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4px 8px; border-radius: 8px; color: #10B981; font-size: 9px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        
+        .pulse-red { width: 6px; height: 6px; background: #EF4444; border-radius: 50%; box-shadow: 0 0 0 rgba(239, 68, 68, 0.4); animation: pulseRed 2s infinite; }
+        .pulse-green { width: 6px; height: 6px; background: #10B981; border-radius: 50%; opacity: 0.8; }
+        @keyframes pulseRed { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+        .alert-pill-top {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #EF4444;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pulse-red-border { animation: pulseRedBorder 2s infinite; }
+        @keyframes pulseRedBorder {
+            0% { border-color: rgba(239, 68, 68, 0.3); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+            50% { border-color: rgba(239, 68, 68, 1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+            100% { border-color: rgba(239, 68, 68, 0.3); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+        }
+
+        /* Oktava AB-400 Statuses */
+        .status-badge-orange { background: rgba(245, 158, 11, 0.1); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); animation: pulseOrangeBtn 2s infinite; }
+        .status-badge-white { background: rgba(255, 255, 255, 0.05); color: #FFF; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .status-badge-green { background: rgba(16, 185, 129, 0.1); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        
+        @keyframes pulseOrangeBtn {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .base-station-widget {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .e-ink-preview {
+            background: #f0f0f0;
+            color: #111;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #ccc;
+            width: 200px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
 
         .view-container {
             transition: opacity 0.3s ease;
@@ -330,9 +397,10 @@
             </a>
         </div>
         <nav>
-            <div onclick="switchTab('analytics')" id="nav-analytics" class="sidebar__link active">📊 Аналитика АЗС</div>
-            <div onclick="switchTab('dialogs', 'all')" id="nav-dialogs" class="sidebar__link">💬 Диалоги на кассе</div>
-            <div onclick="switchTab('employees')" id="nav-employees" class="sidebar__link">👥 Операторы-кассиры</div>
+            <div onclick="switchTab('analytics')" id="nav-analytics" class="sidebar__link active">📊 Аналитика</div>
+            <div onclick="switchTab('dialogs', 'all')" id="nav-dialogs" class="sidebar__link">💬 Диалоги</div>
+            <div onclick="switchTab('employees')" id="nav-employees" class="sidebar__link">👥 Сотрудники</div>
+            <div onclick="switchTab('hardware')" id="nav-hardware" class="sidebar__link">📦 Оборудование</div>
             <div onclick="switchTab('settings')" id="nav-settings" class="sidebar__link">⚙️ Настройки ИИ</div>
         </nav>
         <div style="margin-top:auto; padding: 20px 40px;">
@@ -351,15 +419,88 @@
                     <option value="045">АЗС №045 (Шымкент)</option>
                 </select>
             </div>
-            <div style="display:flex; align-items:center; gap:24px;">
-                <button id="sync-trigger" class="sync-btn" onclick="startGlobalSync()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
-                    Синхронизировать данные за вчера
+            <div style="display:flex; align-items:center; gap:20px; flex:1; justify-content:flex-end;">
+                <div class="base-station-widget" style="padding: 8px 12px; height: 42px;">
+                    <div style="display:flex; flex-direction:column; justify-content:center;">
+                        <div style="opacity:0.5; font-size:8px; line-height:1; margin-bottom:4px;">БС-4 STORAGE (128GB)</div>
+                        <div style="width:80px; height:4px; background:rgba(255,255,255,0.1); border-radius:2px;">
+                            <div style="width:34%; height:100%; background:#3B82F6; border-radius:2px;"></div>
+                        </div>
+                    </div>
+                    <div style="height:20px; width:1px; background:rgba(255,255,255,0.1); margin: 0 5px;"></div>
+                    <div style="display:flex; flex-direction:column; justify-content:center;">
+                        <div style="opacity:0.5; font-size:8px; line-height:1; margin-bottom:2px;">S3 CLOUD STATUS</div>
+                        <div id="session-status" style="color:#10B981; font-weight:800; font-size:10px; line-height:1;">CONNECTED</div>
+                    </div>
+                </div>
+                <button class="alert-pill-top pulse-red-border" onclick="showBadgeViolations()" title="Сотрудники вне зоны док-станции или отключили питание бейджа" style="cursor:pointer; border:none; outline:none; height: 42px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    НАРУШЕНИЙ БЕЙДЖА: 4
                 </button>
-                <div id="session-status" style="font-size: 11px; color: var(--c-accent-green); white-space: nowrap;">● Active Session: Station #104</div>
-                <div style="width:40px; height:40px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-weight:800;">A</div>
+                <button id="sync-trigger" class="sync-btn" onclick="startGlobalSync()" style="white-space:nowrap; height: 42px; padding: 0 15px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                    Считать данные
+                </button>
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0;">A</div>
             </div>
         </header>
+
+        <!-- NEW: Hardware View -->
+        <div id="view-hardware" class="view-content">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-bottom: 40px;">
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:20px;">Базовая станция БС-4 #884</h3>
+                    <div style="position:relative; background:rgba(0,0,0,0.5); border-radius:24px; padding:20px; text-align:center;">
+                        <div style="font-size:12px; opacity:0.5; margin-bottom:20px;">Фронтальный вид и статус слотов</div>
+                        <div style="width:100%; height:250px; background: url('assets/bs4-station.png') center/contain no-repeat, rgba(255,255,255,0.02); border-radius:12px; display:flex; align-items:center; justify-content:center; border: 1px dashed rgba(255,255,255,0.1);">
+                            <span style="opacity:0.3; font-size:11px;">[ Изображение станции БС-4 ]</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:20px;">
+                            <div style="padding:10px; background:rgba(16,185,129,0.1); border-radius:8px; border:1px solid #10B981;">
+                                <div style="font-size:10px; opacity:0.6;">СЛОТ 1</div>
+                                <div style="font-size:11px; font-weight:700; color:#10B981;">ЗАРЯЖЕН</div>
+                            </div>
+                            <div style="padding:10px; background:rgba(245,158,11,0.1); border-radius:8px; border:1px solid #F59E0B;">
+                                <div style="font-size:10px; opacity:0.6;">СЛОТ 2</div>
+                                <div style="font-size:11px; font-weight:700; color:#F59E0B;">SYNC...</div>
+                            </div>
+                            <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
+                                <div style="font-size:10px; opacity:0.6;">СЛОТ 3</div>
+                                <div style="font-size:11px; font-weight:700;">ПУСТО</div>
+                            </div>
+                            <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
+                                <div style="font-size:10px; opacity:0.6;">СЛОТ 4</div>
+                                <div style="font-size:11px; font-weight:700;">ПУСТО</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:20px;">Технические характеристики</h3>
+                    <div style="display:flex; flex-direction:column; gap:15px;">
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Версия ПО станции</span>
+                            <span style="font-weight:700;">v0.0.1.3</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Интерфейс связи</span>
+                            <span style="font-weight:700; color:#3B82F6;">Ethernet / S3</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Температура БС</span>
+                            <span style="font-weight:700; color:#10B981;">34°C (Норма)</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Загрузка канала</span>
+                            <span style="font-weight:700;">12.5 Mbps</span>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <button class="btn btn--primary" style="width:100%;">Обновить прошивку</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Analytics TAB -->
         <div id="view-analytics" class="view-content active">
@@ -443,7 +584,7 @@
             
             <div class="dash-footer">
                 <div>© 2026 AiProtocol | Система ОККМ</div>
-                <div style="display:flex; align-items:center; gap:10px;">
+                <div style="display:flex; align-items:center; gap:20px;">
                     <span style="color:#10B981">● System Status: Online</span>
                     <span style="opacity:0.5">|</span>
                     <span>Last data sync: 10 min ago</span>
@@ -566,12 +707,12 @@
                 </div>
             </div>
 
+
             <div class="dash-footer">
                 <div>Версия ИИ: v4.2.0-stable</div>
                 <div>ID системы: 8842-OKKM</div>
             </div>
         </div>
-    </div>
 
     <!-- Modal Overlay -->
     <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
@@ -607,10 +748,10 @@
                 chartTitle: "Выручка по сопутствующим товарам (7 дней)",
                 prompt: "Ты — профессиональный аудитор качества АЗС. \nТвоя задача: анализировать диалоги кассиров с клиентами.\nКритерии оценки:\n1. Приветствие по стандарту \"Добро пожаловать на АЗС!\"\n2. Предложение доп. товаров (кофе, хот-дог, омыватель).\n3. Проверка наличия карты лояльности.\n4. Отсутствие конфликтных интонаций.",
                 employees: [
-                    { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98] },
-                    { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85] },
-                    { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", upsell: [60, 75, 55, 70] },
-                    { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", upsell: [20, 35, 10, 40] }
+                    { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', badgeHistory: [] },
+                    { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85], badgeStatus: 'in-use', rfid: '9C-E1-44-02', badgeHistory: [] },
+                    { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", upsell: [60, 75, 55, 70], badgeStatus: 'syncing', rfid: '3B-D5-66-03', badgeHistory: [{t: "10:15", d: "15 мин"}, {t: "14:40", d: "База"}] },
+                    { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", upsell: [20, 35, 10, 40], badgeStatus: 'full', rfid: '7F-A9-12-04', badgeHistory: [{t: "09:00", d: "45 мин"}, {t: "12:30", d: "База"}] }
                 ],
                 dialogs: [
                     { id: 1045, emp: "Анна", time: "16:42", topic: "Заправка + Комбо-обед", script: "100%", tone: "Позитивный", review: "Оператор идеально отработал скрипт, предложил доп. товары. Клиент лоялен." },
@@ -637,9 +778,9 @@
                 chartTitle: "Продажи БАД и Витаминов (7 дней)",
                 prompt: "Ты — эксперт по контролю качества в аптечной сети. \nТвоя задача: проверять фармацевтическую опеку.\nКритерии:\n1. Предложение пробиотиков к антибиотикам.\n2. Уточнение дозировки и формы выпуска.\n3. Предложение витаминов/БАД в кросс-продажах.\n4. Соблюдение вежливости и этики.",
                 employees: [
-                    { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100] },
-                    { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80] },
-                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45] }
+                    { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', badgeHistory: [] },
+                    { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80], badgeStatus: 'ready', rfid: '2E-B9-33-11', badgeHistory: [] },
+                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45], badgeStatus: 'syncing', rfid: '6F-A2-88-12', badgeHistory: [{t: "11:20", d: "12 мин"}, {t: "15:10", d: "База"}] }
                 ],
                 dialogs: [
                     { id: 2045, emp: "Виктория", time: "11:15", topic: "Антибиотик + Пробиотик", script: "100%", tone: "Позитивный", review: "Фармацевт грамотно обосновал необходимость защиты микрофлоры." },
@@ -681,6 +822,7 @@
             if (pass === '1234') {
                 const overlay = document.getElementById('login-overlay');
                 overlay.style.opacity = '0';
+                overlay.style.pointerEvents = 'none';
                 overlay.style.transform = 'scale(1.1)';
                 applyConfig();
                 switchTab('analytics');
@@ -698,6 +840,7 @@
             
             document.getElementById('nav-analytics').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> Аналитика ${c.stationLabel}`;
             document.getElementById('nav-employees').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${c.empLabel}`;
+            document.getElementById('nav-hardware').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Оборудование`;
             
             document.getElementById('insight-title').innerText = c.insightTitle;
             document.getElementById('insight-lost').innerHTML = `Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">${c.insightLost}</span> при соблюдении скрипта.`;
@@ -719,11 +862,23 @@
         }
 
         function switchTab(id, forcedFilter) {
-            document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
+            console.log('Switching to tab:', id);
+            const views = document.querySelectorAll('.view-content');
+            const links = document.querySelectorAll('.sidebar__link');
+            
+            views.forEach(v => v.classList.remove('active'));
+            links.forEach(l => l.classList.remove('active'));
+            
             const targetView = document.getElementById('view-' + id);
             const targetNav = document.getElementById('nav-' + id);
-            if (targetView) targetView.classList.add('active');
+            
+            if (targetView) {
+                targetView.classList.add('active');
+                console.log('Target view activated:', 'view-' + id);
+            } else {
+                console.error('Target view NOT FOUND:', 'view-' + id);
+            }
+            
             if (targetNav) targetNav.classList.add('active');
             
             if(id === 'analytics') renderAnalytics();
@@ -735,6 +890,9 @@
                 renderDialogs(filterToUse);
             }
             if(id === 'employees') renderEmployees();
+            if(id === 'hardware') {
+                console.log('Hardware dashboard initialized');
+            }
             if(id === 'settings') renderSettings();
         }
 
@@ -787,9 +945,20 @@
             `).join('');
         }
 
-        function renderEmployees() {
+        function showBadgeViolations() {
+            switchTab('employees');
+            const violators = employees.filter(e => e.badgeStatus === 'full' || e.badgeHistory.length > 0);
             const grid = document.getElementById('employees-grid');
-            grid.innerHTML = employees.map(e => {
+            renderEmployees(violators);
+            const btn = document.createElement('div');
+            btn.innerHTML = `<button class="btn btn--primary" style="margin-bottom:20px;" onclick="renderEmployees()">Показать всех сотрудников</button>`;
+            grid.prepend(btn);
+        }
+
+        function renderEmployees(dataToRender) {
+            const list = dataToRender || employees;
+            const grid = document.getElementById('employees-grid');
+            grid.innerHTML = list.map(e => {
                 const statusColor = e.score > 9 ? '#10B981' : (e.score > 7 ? '#F59E0B' : '#EF4444');
                 const textClass = e.score > 9 ? 'status-text-green' : (e.score > 7 ? 'status-text-amber' : 'status-text-red');
                 const glowClass = e.score > 9 ? 'status-glow-green' : (e.score > 7 ? 'status-glow-amber' : 'status-glow-red');
@@ -801,10 +970,26 @@
                     </div>
                     <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
                         <div style="width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg, ${statusColor}33, ${statusColor}11); border:1px solid ${statusColor}44; display:flex; align-items:center; justify-content:center; color:${statusColor}; font-weight:900; font-size:20px;">${e.name[0]}</div>
-                        <div>
+                        <div style="flex:1;">
                             <div style="font-weight:800; font-size:17px; color:white;">${e.name}</div>
                             <div style="font-size:11px; opacity:0.6;">${currentMode === 'azs' ? 'Оператор-кассир' : 'Фармацевт'}</div>
                         </div>
+                        ${e.badgeStatus === 'syncing' ? `
+                            <div class="badge-alert-pill status-badge-orange">
+                                <div class="pulse-red" style="background:#F59E0B; box-shadow:0 0 5px #F59E0B;"></div>
+                                ВЫГРУЗКА
+                            </div>
+                        ` : e.badgeStatus === 'in-use' ? `
+                            <div class="badge-online-pill status-badge-green">
+                                <div class="pulse-green"></div>
+                                В РАБОТЕ
+                            </div>
+                        ` : `
+                            <div class="badge-online-pill status-badge-white">
+                                <div style="width:6px; height:6px; background:#FFF; border-radius:50%; opacity:0.5;"></div>
+                                ГОТОВ
+                            </div>
+                        `}
                     </div>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:25px;">
                         <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; text-align:center;">
@@ -859,6 +1044,24 @@
             document.getElementById('modal-body').innerHTML = `
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-bottom:40px;">
                     <div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+                            <div style="font-weight:800;">Экран бейджа (E-ink)</div>
+                            <div style="font-size:10px; opacity:0.5;">RFID: ${e.rfid}</div>
+                        </div>
+                        <!-- Digital E-ink Screen Preview (No Hardware Image) -->
+                        <div style="position:relative; width:100%; height:180px; background:rgba(0,0,0,0.2); border-radius:24px; border:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center;">
+                            <div style="width:200px; height:100px; background:#f0f0f0; border-radius:4px; padding:15px; display:flex; flex-direction:column; justify-content:space-between; align-items:center; color:#111; font-family: 'Courier New', monospace; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.1);">
+                                <div style="text-align:center;">
+                                    <div style="font-size:14px; font-weight:800; line-height:1; letter-spacing:-0.5px; border-bottom:1.5px solid #111; padding-bottom:5px; margin-bottom:5px;">${e.name.toUpperCase()}</div>
+                                    <div style="font-size:9px; opacity:0.6;">AiProtocol / Октава</div>
+                                </div>
+                                <div style="font-size:10px; font-weight:700; letter-spacing:1px; width:100%; text-align:center; padding-top:10px; border-top:1px dashed rgba(0,0,0,0.2);">
+                                    ${e.badgeStatus === 'in-use' ? '● ИДЕТ ЗАПИСЬ' : 'В БАЗЕ'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
                         <div style="font-weight:800; margin-bottom:20px;">Эффективность допродаж</div>
                         <div style="height:150px; background:rgba(255,255,255,0.02); border-radius:12px; display:flex; align-items:flex-end; gap:8px; padding:15px; border: 1px solid rgba(255,255,255,0.05);">
                             ${e.upsell.map((val, i) => `<div style="flex:1; background:var(--gradient-primary); height:${val}%; border-radius:4px;" title="${labels[i]}"></div>`).join('')}
@@ -879,15 +1082,28 @@
                         </div>
                     </div>
                 </div>
-                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:30px;">
-                    <div style="font-weight:800; margin-bottom:15px;">Последние диалоги</div>
-                    <div style="display:flex; flex-direction:column; gap:10px;">
-                        ${dialogs.filter(d => d.emp === e.name).slice(0, 3).map(d => `
-                            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
-                                <div style="font-size:13px;">${d.topic} (${d.time})</div>
-                                <div class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</div>
-                            </div>
-                        `).join('')}
+                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:30px; display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                    <div>
+                        <div style="font-weight:800; margin-bottom:15px;">Последние диалоги</div>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            ${dialogs.filter(d => d.emp === e.name).slice(0, 3).map(d => `
+                                <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+                                    <div style="font-size:12px;">${d.topic}</div>
+                                    <div class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight:800; margin-bottom:15px; color:#EF4444;">Дисциплина (Бейдж)</div>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            ${e.badgeHistory.length > 0 ? e.badgeHistory.map(h => `
+                                <div style="background:rgba(239,68,68,0.05); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(239,68,68,0.1);">
+                                    <div style="font-size:12px; font-weight:600;">Отключение в ${h.t}</div>
+                                    <div style="font-size:11px; opacity:0.7;">Длительность: ${h.d}</div>
+                                </div>
+                            `).join('') : '<div style="opacity:0.4; font-size:12px; padding:12px;">Нарушений не зафиксировано</div>'}
+                        </div>
                     </div>
                 </div>
             `;
@@ -904,10 +1120,14 @@
         function startGlobalSync() {
             const btn = document.getElementById('sync-trigger');
             btn.classList.add('syncing');
+            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg> Считывание...`;
+            
             setTimeout(() => {
                 btn.classList.remove('syncing');
-                btn.innerHTML = `✅ Синхронизировано`;
-            }, 2000);
+                btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg> Считать данные с док-станций`;
+                alert("Данные с 42 бейджей успешно выгружены из док-станций и проанализированы ИИ.");
+                renderAnalytics();
+            }, 3000);
         }
 
         function simulateProcessing(id) {
@@ -919,11 +1139,12 @@
             log.innerHTML = '';
             
             const logs = [
-                "> Загрузка аудио-файла сессии #"+id,
-                "> Определение дикторов (Whisper V3)...",
-                "> Анализ соблюдения скрипта...",
-                "> Детекция эмоций: Позитив (0.92)",
-                "> Данные успешно интегрированы."
+                "Подключение к док-станции (Dock: 884)...",
+                "Выгрузка аудиоархива сессии #"+id+"...",
+                "Декодирование зашифрованного потока...",
+                "Отправка чанков на Whisper V3...",
+                "Анализ скрипта (GPT-4o API)...",
+                "Синхронизация результатов..."
             ];
 
             let i = 0;
