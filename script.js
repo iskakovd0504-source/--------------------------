@@ -308,4 +308,13 @@
     `;
     document.head.appendChild(styleSheet);
 
+    /* ===== SECRET SHORTCUT FOR DEMO ===== */
+    window.addEventListener('keydown', (e) => {
+        const isD = e.key.toLowerCase() === 'd';
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && isD) {
+            e.preventDefault();
+            window.location.href = 'demo.html';
+        }
+    });
+
 })();
