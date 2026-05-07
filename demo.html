@@ -404,6 +404,8 @@
             .p-table {
                 min-width: 600px;
             }
+            .horizontal-scroll-container::-webkit-scrollbar { display: none; }
+            .horizontal-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
         }
         .choice-card.active svg { opacity: 1; color: #3B82F6; }
 
@@ -526,23 +528,19 @@
                     <option value="045">АЗС №045 (Шымкент)</option>
                 </select>
             </div>
-            <div style="display:flex; align-items:center; gap:20px; flex:1; justify-content:flex-end;">
-                <div class="base-station-widget" style="padding: 8px 12px; height: 42px;">
+            <div style="display:flex; align-items:center; gap:15px; flex:1; justify-content:flex-end;">
+                <div class="base-station-widget" style="padding: 6px 15px; height: 42px; background: rgba(255,255,255,0.03); border-radius: 12px; display: flex; align-items: center; gap: 15px;">
                     <div style="display:flex; flex-direction:column; justify-content:center;">
-                        <div style="opacity:0.5; font-size:8px; line-height:1; margin-bottom:4px;">БС-4 STORAGE (128GB)</div>
-                        <div style="width:80px; height:4px; background:rgba(255,255,255,0.1); border-radius:2px;">
+                        <div style="opacity:0.4; font-size:7px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">Storage (128GB)</div>
+                        <div style="width:60px; height:3px; background:rgba(255,255,255,0.1); border-radius:2px;">
                             <div style="width:34%; height:100%; background:#3B82F6; border-radius:2px;"></div>
                         </div>
                     </div>
-                    <div style="height:20px; width:1px; background:rgba(255,255,255,0.1); margin: 0 5px;"></div>
-                    <div style="display:flex; flex-direction:column; justify-content:center;">
-                        <div style="opacity:0.5; font-size:8px; line-height:1; margin-bottom:2px;">S3 CLOUD STATUS</div>
-                        <div id="session-status" style="color:#10B981; font-weight:800; font-size:10px; line-height:1;">CONNECTED</div>
-                    </div>
                 </div>
-                <button class="alert-pill-top pulse-red-border" onclick="showBadgeViolations()" title="Сотрудники вне зоны док-станции или отключили питание бейджа" style="cursor:pointer; border:none; outline:none; height: 42px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    НАРУШЕНИЙ БЕЙДЖА: 4
+
+                <button class="alert-pill-top" onclick="showBadgeViolations()" title="Предиктивный анализ разряда" style="cursor:pointer; border:1px solid rgba(239,68,68,0.3); outline:none; height: 42px; background: rgba(239,68,68,0.1); color: #EF4444; border-radius: 12px; padding: 0 15px; display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 11px; transition: 0.3s;">
+                    <div class="pulse-red" style="width:8px; height:8px; background:#EF4444; box-shadow: 0 0 10px #EF4444;"></div>
+                    ПРОГНОЗ ЗАМЕНЫ: 2
                 </button>
                 <button id="sync-trigger" class="sync-btn" onclick="startGlobalSync()" style="white-space:nowrap; height: 42px; padding: 0 15px;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
@@ -554,58 +552,14 @@
 
         <!-- NEW: Hardware View -->
         <div id="view-hardware" class="view-content">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-bottom: 40px;">
-                <div class="stat-card-v3">
-                    <h3 style="margin-bottom:20px;">Базовая станция БС-4 #884</h3>
-                    <div style="position:relative; background:rgba(0,0,0,0.5); border-radius:24px; padding:20px; text-align:center;">
-                        <div style="font-size:12px; opacity:0.5; margin-bottom:20px;">Фронтальный вид и статус слотов</div>
-                        <div style="width:100%; height:250px; background: url('assets/bs4-station.png') center/contain no-repeat, rgba(255,255,255,0.02); border-radius:12px; display:flex; align-items:center; justify-content:center; border: 1px dashed rgba(255,255,255,0.1);">
-                            <span style="opacity:0.3; font-size:11px;">[ Изображение станции БС-4 ]</span>
-                        </div>
-                        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:20px;">
-                            <div style="padding:10px; background:rgba(16,185,129,0.1); border-radius:8px; border:1px solid #10B981;">
-                                <div style="font-size:10px; opacity:0.6;">СЛОТ 1</div>
-                                <div style="font-size:11px; font-weight:700; color:#10B981;">ЗАРЯЖЕН</div>
-                            </div>
-                            <div style="padding:10px; background:rgba(245,158,11,0.1); border-radius:8px; border:1px solid #F59E0B;">
-                                <div style="font-size:10px; opacity:0.6;">СЛОТ 2</div>
-                                <div style="font-size:11px; font-weight:700; color:#F59E0B;">SYNC...</div>
-                            </div>
-                            <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
-                                <div style="font-size:10px; opacity:0.6;">СЛОТ 3</div>
-                                <div style="font-size:11px; font-weight:700;">ПУСТО</div>
-                            </div>
-                            <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.2);">
-                                <div style="font-size:10px; opacity:0.6;">СЛОТ 4</div>
-                                <div style="font-size:11px; font-weight:700;">ПУСТО</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="stat-card-v3">
-                    <h3 style="margin-bottom:20px;">Технические характеристики</h3>
-                    <div style="display:flex; flex-direction:column; gap:15px;">
-                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
-                            <span style="opacity:0.6;">Версия ПО станции</span>
-                            <span style="font-weight:700;">v0.0.1.3</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
-                            <span style="opacity:0.6;">Интерфейс связи</span>
-                            <span style="font-weight:700; color:#3B82F6;">Ethernet / S3</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
-                            <span style="opacity:0.6;">Температура БС</span>
-                            <span style="font-weight:700; color:#10B981;">34°C (Норма)</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
-                            <span style="opacity:0.6;">Загрузка канала</span>
-                            <span style="font-weight:700;">12.5 Mbps</span>
-                        </div>
-                        <div style="margin-top:20px;">
-                            <button class="btn btn--primary" style="width:100%;">Обновить прошивку</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="horizontal-scroll-container" style="display:flex; gap:15px; margin-bottom:30px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch;">
+                <div class="filter-btn active" onclick="renderStation(104, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #104 (Алматы)</div>
+                <div class="filter-btn" onclick="renderStation(105, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #105 (Астана)</div>
+                <div class="filter-btn" onclick="renderStation(106, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #106 (Шымкент)</div>
+            </div>
+
+            <div id="hardware-container" style="display:grid; grid-template-columns: 1.2fr 1fr; gap:40px; margin-bottom: 40px;">
+                <!-- Content generated by renderStation() -->
             </div>
         </div>
 
@@ -782,35 +736,17 @@
                 </div>
             </div>
 
-            <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:40px; margin-bottom:40px;">
-                <div class="stat-card-v3">
-                    <h3 style="margin-bottom:20px;">Контур безопасности</h3>
-                    <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:20px; margin-bottom:15px;">
-                        <div style="font-weight:700; margin-bottom:5px;">Облако: OKKM Security</div>
-                        <div style="font-size:11px; color:#10B981;">Шифрование: AES-256</div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:20px;">
-                        <div style="font-weight:700; margin-bottom:5px;">Хранение данных</div>
-                        <div style="font-size:11px; opacity:0.6;">Локальный сервер (On-premise)</div>
+            <div class="stat-card-v3">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                    <h3 style="margin:0;">База знаний: Эталонные скрипты (AI Training)</h3>
+                    <div style="font-size:11px; color:#10B981; display:flex; align-items:center; gap:5px;">
+                        <div style="width:6px; height:6px; background:#10B981; border-radius:50%;"></div>
+                        ИИ ОБУЧЕН ПО 10 СЦЕНАРИЯМ
                     </div>
                 </div>
-
-                <div class="stat-card-v3">
-                    <h3 style="margin-bottom:30px;">Интеграции с кассовым ПО</h3>
-                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
-                        <div style="border: 1px solid rgba(255,255,255,0.1); padding:20px; border-radius:16px; text-align:center;">
-                            <div style="font-weight:800; color:#3B82F6;">1С: Предприятие</div>
-                            <div style="font-size:10px; margin-top:5px; color:#10B981;">Активно</div>
-                        </div>
-                        <div style="border: 1px solid rgba(255,255,255,0.1); padding:20px; border-radius:16px; text-align:center;">
-                            <div style="font-weight:800; color:#3B82F6;">r_keeper</div>
-                            <div style="font-size:10px; margin-top:5px; color:#10B981;">Активно</div>
-                        </div>
-                        <div style="border: 1px solid rgba(255,255,255,0.1); padding:20px; border-radius:16px; text-align:center;">
-                            <div style="font-weight:800; color:#3B82F6;">Poster POS</div>
-                            <div style="font-size:10px; margin-top:5px; opacity:0.5;">Отключено</div>
-                        </div>
-                    </div>
+                
+                <div id="scripts-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+                    <!-- Динамически заполняется через JS -->
                 </div>
             </div>
 
@@ -879,10 +815,10 @@
                 chartTitle: "Выручка по сопутствующим товарам (7 дней)",
                 prompt: "Ты — профессиональный аудитор качества АЗС. \nТвоя задача: анализировать диалоги кассиров с клиентами.\nКритерии оценки:\n1. Приветствие по стандарту \"Добро пожаловать на АЗС!\"\n2. Предложение доп. товаров (кофе, хот-дог, омыватель).\n3. Проверка наличия карты лояльности.\n4. Отсутствие конфликтных интонаций.",
                 employees: [
-                    { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', badgeHistory: [] },
-                    { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85], badgeStatus: 'in-use', rfid: '9C-E1-44-02', badgeHistory: [] },
-                    { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", upsell: [60, 75, 55, 70], badgeStatus: 'syncing', rfid: '3B-D5-66-03', badgeHistory: [{t: "10:15", d: "15 мин"}, {t: "14:40", d: "База"}] },
-                    { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", upsell: [20, 35, 10, 40], badgeStatus: 'full', rfid: '7F-A9-12-04', badgeHistory: [{t: "09:00", d: "45 мин"}, {t: "12:30", d: "База"}] }
+                    { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', batteryLeft: 14, badgeHistory: [], location: "АЗС №104" },
+                    { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85], badgeStatus: 'in-use', rfid: '9C-E1-44-02', batteryLeft: 12, badgeHistory: [], location: "АЗС №208" },
+                    { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", upsell: [60, 75, 55, 70], badgeStatus: 'syncing', rfid: '3B-D5-66-03', batteryLeft: 2, badgeHistory: [{t: "10:15", d: "15 мин"}], location: "АЗС №104" },
+                    { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", upsell: [20, 35, 10, 40], badgeStatus: 'full', rfid: '7F-A9-12-04', batteryLeft: 1, badgeHistory: [{t: "09:00", d: "45 мин"}], location: "АЗС №045" }
                 ],
                 dialogs: [
                     { id: 1045, emp: "Анна", time: "16:42", topic: "Заправка + Комбо-обед", script: "100%", tone: "Позитивный", review: "Оператор идеально отработал скрипт, предложил доп. товары. Клиент лоялен." },
@@ -895,7 +831,19 @@
                     { name: "АЗС №208 (Астана)", info: "Все показатели в норме", color: "#10B981" },
                     { name: "АЗС №045 (Шымкент)", info: "Высокая конверсия", color: "#3B82F6" }
                 ],
-                checklist: ["Приветствие", "Кофе/Напитки", "Хот-доги", "Карта лояльности", "Тональность", "Прощание", "Чистота кассы", "Скорость", "Товары дня", "Омыватель"]
+                checklist: ["Приветствие", "Кофе/Напитки", "Хот-доги", "Карта лояльности", "Тональность", "Прощание", "Чистота кассы", "Скорость", "Товары дня", "Омыватель"],
+                scripts: [
+                    { t: "Приветствие", s: '"Здравствуйте! Добро пожаловать на АЗС [Бренд]. Вам 95-й до полного? Желаете кофе или свежую выпечку?"' },
+                    { t: "Кросс-продажа (Комбо)", s: '"К вашему кофе сегодня идет акция на хот-дог — скидка 30% при покупке комбо. Оформим?"' },
+                    { t: "Лояльность", s: '"У вас есть наша бонусная карта? Можем списать баллы в счет оплаты или начислить новые."' },
+                    { t: "Товар дня", s: '"Рекомендую наш омыватель -25°C, сегодня по спеццене. Залить вам в бачок или возьмете с собой?"' },
+                    { t: "Прощание", s: '"Спасибо, что выбрали нас! Счастливого пути и хорошего дня. Ждем вас снова!"' },
+                    { t: "Регистрация в лояльности", s: '"У вас еще нет нашей карты? Давайте оформим прямо сейчас, это займет 1 минуту и вы сразу получите бонусы за эту заправку."' },
+                    { t: "Премиальное топливо", s: '"Рекомендую наше топливо [Название] с очищающими присадками. Оно продлевает жизнь двигателя и улучшает динамику. Попробуем?"' },
+                    { t: "Акция 2+1", s: '"У нас сейчас акция: при покупке двух энергетиков — третий в подарок. Очень выгодно для долгой дороги. Возьмете?"' },
+                    { t: "Обратная связь", s: '"Всё ли вам понравилось сегодня? Если есть пожелания по чистоте или сервису — буду рад услышать."' },
+                    { t: "Безопасность", s: '"Напоминаю, что на территории АЗС запрещено курение, и, пожалуйста, заглушите двигатель на время заправки. Спасибо за понимание."' }
+                ]
             },
             pharmacy: {
                 title: "Показатели аптечной сети",
@@ -909,9 +857,9 @@
                 chartTitle: "Продажи БАД и Витаминов (7 дней)",
                 prompt: "Ты — эксперт по контролю качества в аптечной сети. \nТвоя задача: проверять фармацевтическую опеку.\nКритерии:\n1. Предложение пробиотиков к антибиотикам.\n2. Уточнение дозировки и формы выпуска.\n3. Предложение витаминов/БАД в кросс-продажах.\n4. Соблюдение вежливости и этики.",
                 employees: [
-                    { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', badgeHistory: [] },
-                    { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80], badgeStatus: 'ready', rfid: '2E-B9-33-11', badgeHistory: [] },
-                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45], badgeStatus: 'syncing', rfid: '6F-A2-88-12', badgeHistory: [{t: "11:20", d: "12 мин"}, {t: "15:10", d: "База"}] }
+                    { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', batteryLeft: 16, badgeHistory: [], location: "Аптека №12" },
+                    { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80], badgeStatus: 'ready', rfid: '2E-B9-33-11', batteryLeft: 8, badgeHistory: [], location: "Аптека №45" },
+                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45], badgeStatus: 'syncing', rfid: '6F-A2-88-12', batteryLeft: 2, badgeHistory: [{t: "11:20", d: "12 мин"}], location: "Аптека №12" }
                 ],
                 dialogs: [
                     { id: 2045, emp: "Виктория", time: "11:15", topic: "Антибиотик + Пробиотик", script: "100%", tone: "Позитивный", review: "Фармацевт грамотно обосновал необходимость защиты микрофлоры." },
@@ -924,7 +872,19 @@
                     { name: "Аптека №45 (Самал)", info: "Частые жалобы на очереди", color: "#F59E0B" },
                     { name: "Аптека №08 (ЖД Вокзал)", info: "Низкий % предложения пробиотиков", color: "#EF4444" }
                 ],
-                checklist: ["Приветствие", "Пробиотики", "Витамины/БАД", "Дозировка", "Форма выпуска", "Вежливость", "Аналоги", "Срок годности", "Карта аптеки", "Этика"]
+                checklist: ["Приветствие", "Пробиотики", "Витамины/БАД", "Дозировка", "Форма выпуска", "Вежливость", "Аналоги", "Срок годности", "Карта аптеки", "Этика"],
+                scripts: [
+                    { t: "Фарм-опека: Приветствие", s: '"Здравствуйте! Чем могу вам помочь? Подсказать по дозировке или подобрать аналог?"' },
+                    { t: "Доп-продажа (Пробиотик)", s: '"Вы берете антибиотик, к нему обязательно нужен пробиотик для защиты кишечника. Рекомендую [Название]. Оформим?"' },
+                    { t: "Кросс-продажа (Витамины)", s: '"Сейчас сезон простуд, рекомендую взять курс витамина C или комплекс для иммунитета. Есть по акции, желаете?"' },
+                    { t: "Карта лояльности", s: '"У вас есть наша накопительная карта? Можем списать баллы в счет покупки или оформить новую."' },
+                    { t: "Завершение диалога", s: '"Пожалуйста, вот ваш заказ. Будьте здоровы, не болейте! Ждем вас снова."' },
+                    { t: "Дозировка и курс", s: '"Вам врач назначил по 1 таблетке 2 раза в день? Важно принимать строго после еды и не прерывать курс. Запишем вам памятку?"' },
+                    { t: "Предложение аналога", s: '"Этого препарата сейчас нет в наличии, но есть полный аналог с тем же действующим веществом, он даже чуть дешевле. Желаете?"' },
+                    { t: "Сопутствующие товары", s: '"Для проведения инъекций вам также понадобятся стерильные салфетки и шприцы. Посмотрите, у нас есть наборы, положить вам?"' },
+                    { t: "Рецептурный отпуск", s: '"Этот препарат отпускается строго по рецепту врача. Пожалуйста, покажите ваш рецепт для корректного оформления покупки."' },
+                    { t: "Условия хранения", s: '"Обратите внимание: этот препарат нужно хранить строго в холодильнике при температуре от +2 до +8 градусов. До дома донесете?"' }
+                ]
             }
         };
 
@@ -957,30 +917,113 @@
                 overlay.style.transform = 'scale(1.1)';
                 applyConfig();
                 switchTab('analytics');
+                renderAnalytics(); // Force render analytics immediately
+                renderEmployees(); // Force render employees immediately
+                renderStation(104); // Render first hardware station
                 setTimeout(() => overlay.remove(), 800);
             } else {
                 alert('Неверный пароль доступа');
             }
         }
 
+        function renderAnalytics() {
+            const c = config[currentMode];
+            
+            // Stats
+            c.statsLabels.forEach((label, i) => {
+                const labelEl = document.getElementById(`stat-label-${i+1}`);
+                const valEl = document.getElementById(`stat-val-${i+1}`);
+                if (labelEl) labelEl.innerText = label;
+                if (valEl) valEl.innerText = c.statsValues[i];
+            });
+
+            // Insight Card
+            document.getElementById('insight-title').innerText = c.insightTitle;
+            document.getElementById('insight-lost').innerHTML = `Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">${c.insightLost}</span> при соблюдении скрипта.`;
+            document.querySelector('.insight-card button').innerText = c.drillBtn;
+
+            // Top Employees List
+            const topList = document.getElementById('top-list');
+            if (topList) {
+                topList.innerHTML = c.employees.slice(0, 3).map(e => `
+                    <div style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.02); padding:10px; border-radius:12px;">
+                        <div style="width:32px; height:32px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;">${e.name[0]}</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:700; font-size:13px;">${e.name}</div>
+                            <div style="font-size:10px; opacity:0.5;">${e.calls} транзакций</div>
+                        </div>
+                        <div style="color:#10B981; font-weight:800;">${e.score}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Geo List
+            const geoList = document.getElementById('geo-list');
+            if (geoList) {
+                geoList.innerHTML = c.geo.map(g => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:${g.color};"></div>
+                            <span>${g.name}</span>
+                        </div>
+                        <span style="opacity:0.5; font-size:11px;">${g.info}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Brief Table
+            const briefTable = document.getElementById('brief-table');
+            if (briefTable) {
+                briefTable.innerHTML = c.dialogs.map(d => `
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:10px;">${d.emp[0]}</div>
+                                ${d.emp}
+                            </div>
+                        </td>
+                        <td style="opacity:0.6;">${d.time}</td>
+                        <td><span class="u-chip" style="background:rgba(16,185,129,0.1); color:#10B981;">${d.script}</span></td>
+                        <td style="font-style:italic; opacity:0.8;">${d.tone}</td>
+                        <td><button class="btn btn--ghost btn--sm" onclick="openDialog(${d.id})">Анализ</button></td>
+                    </tr>
+                `).join('');
+            }
+            
+            // Labels update
+            document.getElementById('chart-label').innerText = c.chartTitle;
+            document.getElementById('geo-label').innerText = "География инцидентов (" + c.stationLabel + ")";
+        }
+
         function applyConfig() {
             const c = config[currentMode];
-            document.getElementById('page-title').innerText = c.title;
-            document.getElementById('sidebar-context').innerText = `Интерфейс: ${c.stationLabel.toUpperCase()}`;
-            document.getElementById('session-status').innerText = `● Active Session: ${c.stationLabel} #104`;
+            const pageTitle = document.getElementById('page-title');
+            if (pageTitle) pageTitle.innerText = c.title;
+            
+            const sidebarContext = document.getElementById('sidebar-context');
+            if (sidebarContext) sidebarContext.innerText = `Интерфейс: ${c.stationLabel.toUpperCase()}`;
             
             document.getElementById('nav-analytics').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> Аналитика ${c.stationLabel}`;
             document.getElementById('nav-employees').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${c.empLabel}`;
             document.getElementById('nav-hardware').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Оборудование`;
             
-            document.getElementById('insight-title').innerText = c.insightTitle;
-            document.getElementById('insight-lost').innerHTML = `Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">${c.insightLost}</span> при соблюдении скрипта.`;
-            document.querySelector('.insight-card button').setAttribute('onclick', "drillDown()");
-            document.querySelector('.insight-card button').innerText = c.drillBtn;
+            const insightTitle = document.getElementById('insight-title');
+            if (insightTitle) insightTitle.innerText = c.insightTitle;
+
+            const insightLost = document.getElementById('insight-lost');
+            if (insightLost) insightLost.innerHTML = `Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">${c.insightLost}</span> при соблюдении скрипта.`;
+
+            const insightBtn = document.querySelector('.insight-card button');
+            if (insightBtn) {
+                insightBtn.setAttribute('onclick', "drillDown()");
+                insightBtn.innerText = c.drillBtn;
+            }
 
             c.statsLabels.forEach((label, i) => {
-                document.getElementById(`stat-label-${i+1}`).innerText = label;
-                document.getElementById(`stat-val-${i+1}`).innerText = c.statsValues[i];
+                const sLabel = document.getElementById(`stat-label-${i+1}`);
+                const sVal = document.getElementById(`stat-val-${i+1}`);
+                if (sLabel) sLabel.innerText = label;
+                if (sVal) sVal.innerText = c.statsValues[i];
             });
 
             document.getElementById('chart-label').innerText = c.chartTitle;
@@ -1025,40 +1068,10 @@
             }
             if(id === 'employees') renderEmployees();
             if(id === 'hardware') {
+                renderStation(104);
                 console.log('Hardware dashboard initialized');
             }
             if(id === 'settings') renderSettings();
-        }
-
-        function renderAnalytics() {
-            const c = config[currentMode];
-            const briefTable = document.getElementById('brief-table');
-            briefTable.innerHTML = dialogs.slice(0, 6).map(d => `
-                <tr onclick="openDialog(${d.id})">
-                    <td style="font-weight:700;">${d.emp}</td>
-                    <td style="color:var(--c-text-muted);">${d.time}</td>
-                    <td><span class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</span></td>
-                    <td style="color:${d.tone === 'Напряженный' ? '#EF4444' : '#10B981'}">${d.tone}</td>
-                    <td style="text-align:right;"><button class="btn-view" onclick="event.stopPropagation(); openDialog(${d.id})">Слушать</button></td>
-                </tr>
-            `).join('');
-
-            const topList = document.getElementById('top-list');
-            topList.innerHTML = employees.slice(0, 4).map(e => `
-                <div style="display:flex; align-items:center; gap:15px; cursor:pointer;" onclick="openEmployee('${e.name}')">
-                    <div style="width:36px; height:36px; border-radius:10px; background:rgba(59,130,246,0.1); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; color:#3B82F6;">${e.name[0]}</div>
-                    <div style="flex:1;"><div style="font-weight:600; font-size:14px;">${e.name}</div><div style="font-size:10px; color:var(--c-text-muted);">${e.calls} за смену</div></div>
-                    <div style="font-weight:800; color:#10B981;">${e.score}</div>
-                </div>
-            `).join('');
-
-            const geoList = document.getElementById('geo-list');
-            geoList.innerHTML = c.geo.map(g => `
-                <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:12px; border-left:3px solid ${g.color};">
-                    <div style="font-size:12px; font-weight:700;">${g.name}</div>
-                    <div style="font-size:11px; opacity:0.6;">${g.info}</div>
-                </div>
-            `).join('');
         }
 
         function renderDialogs(filter = 'all') {
@@ -1106,7 +1119,11 @@
                         <div style="width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg, ${statusColor}33, ${statusColor}11); border:1px solid ${statusColor}44; display:flex; align-items:center; justify-content:center; color:${statusColor}; font-weight:900; font-size:20px;">${e.name[0]}</div>
                         <div style="flex:1;">
                             <div style="font-weight:800; font-size:17px; color:white;">${e.name}</div>
-                            <div style="font-size:11px; opacity:0.6;">${currentMode === 'azs' ? 'Оператор-кассир' : 'Фармацевт'}</div>
+                            <div style="font-size:11px; opacity:0.6; display:flex; align-items:center; gap:5px;">
+                                <span>${currentMode === 'azs' ? 'Оператор-кассир' : 'Фармацевт'}</span>
+                                <span style="opacity:0.3;">|</span>
+                                <span style="color:var(--c-accent-blue); font-weight:700;">${e.location}</span>
+                            </div>
                         </div>
                         ${e.badgeStatus === 'syncing' ? `
                             <div class="badge-alert-pill status-badge-orange">
@@ -1125,6 +1142,17 @@
                             </div>
                         `}
                     </div>
+
+                    <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:15px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.03);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:10px; opacity:0.5; text-transform:uppercase; letter-spacing:0.5px;">Прогноз заряда</span>
+                            <span style="font-size:11px; font-weight:700; color:${statusColor};">${e.batteryLeft} ч.</span>
+                        </div>
+                        <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
+                            <div style="width:${(e.batteryLeft/18)*100}%; height:100%; background:${statusColor}; box-shadow: 0 0 10px ${statusColor}66;"></div>
+                        </div>
+                    </div>
+
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:25px;">
                         <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; text-align:center;">
                             <div style="font-size:10px; opacity:0.5; text-transform:uppercase; margin-bottom:5px;">KPI Score</div>
@@ -1149,6 +1177,20 @@
                     <div class="toggle active" onclick="this.classList.toggle('active')"></div>
                 </div>
             `).join('');
+
+            const scriptContainer = document.getElementById('scripts-grid');
+            if (scriptContainer) {
+                scriptContainer.innerHTML = c.scripts.map((s, i) => `
+                    <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:20px; border:1px solid rgba(255,255,255,0.05); position:relative;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                            <span style="font-size:10px; font-weight:800; color:#3B82F6; text-transform:uppercase;">Сценарий #${i+1}: ${s.t}</span>
+                            <span style="font-size:10px; color:#10B981; font-weight:700;">AI ACTIVE</span>
+                        </div>
+                        <p style="font-size:13px; font-style:italic; line-height:1.5; color:#A0AEC0; margin-bottom:15px;">${s.s}</p>
+                        <button class="btn btn--sm" style="width:100%; padding:5px; font-size:10px; opacity:0.5; border-color:rgba(255,255,255,0.1);">Изменить стандарт</button>
+                    </div>
+                `).join('');
+            }
         }
 
         function openDialog(id) {
@@ -1168,6 +1210,100 @@
             `;
             document.getElementById('modal-overlay').style.display = 'flex';
             simulateProcessing(id);
+        }
+
+        const hardwareData = {
+            104: {
+                id: "104", city: "АЛМАТЫ", temp: "34°C", load: "12.5 Mbps", active: 4,
+                slots: [
+                    { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
+                    { id: 2, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 3, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" },
+                    { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
+                ]
+            },
+            105: {
+                id: "105", city: "АСТАНА", temp: "31°C", load: "8.2 Mbps", active: 4,
+                slots: [
+                    { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
+                    { id: 2, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
+                    { id: 3, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
+                ]
+            },
+            106: {
+                id: "106", city: "ШЫМКЕНТ", temp: "42°C", load: "25.1 Mbps", active: 4,
+                slots: [
+                    { id: 1, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 2, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 3, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 4, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" }
+                ]
+            }
+        };
+
+        function renderStation(id, btn) {
+            let targetBtn = btn;
+            if (!targetBtn) {
+                // Find button by text if not provided (for default selection)
+                const buttons = document.querySelectorAll('#view-hardware .filter-btn');
+                buttons.forEach(b => {
+                    if (b.innerText.includes(id)) targetBtn = b;
+                });
+            }
+
+            if (targetBtn) {
+                targetBtn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                targetBtn.classList.add('active');
+            }
+            const data = hardwareData[id];
+            const container = document.getElementById('hardware-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:20px;">Базовая станция БС-4 #${data.id}</h3>
+                    <div style="position:relative; background:rgba(0,0,0,0.5); border-radius:24px; padding:20px; text-align:center;">
+                        <div style="font-size:12px; opacity:0.5; margin-bottom:20px;">Фронтальный вид и статус слотов (${data.city})</div>
+                        <div style="width:100%; height:250px; background: url('assets/bs4-station.png') center/contain no-repeat, rgba(255,255,255,0.02); border-radius:12px; display:flex; align-items:center; justify-content:center; border: 1px dashed rgba(255,255,255,0.1);">
+                            <span style="opacity:0.3; font-size:11px;">[ Изображение станции БС-4 ]</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-top:20px;">
+                            ${data.slots.map(s => `
+                                <div style="padding:10px; background:${s.bg}; border-radius:8px; border:1px solid ${s.color === 'white' ? 'rgba(255,255,255,0.2)' : s.color};">
+                                    <div style="font-size:10px; opacity:0.6;">СЛОТ ${s.id}</div>
+                                    <div style="font-size:11px; font-weight:700; color:${s.color};">${s.status}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card-v3">
+                    <h3 style="margin-bottom:20px;">Технические характеристики</h3>
+                    <div style="display:flex; flex-direction:column; gap:15px;">
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Версия ПО станции</span>
+                            <span style="font-weight:700;">v0.0.1.3</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Интерфейс связи</span>
+                            <span style="font-weight:700; color:#3B82F6;">Ethernet / S3 Cloud</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Температура БС</span>
+                            <span style="font-weight:700; color:${parseInt(data.temp) > 40 ? '#EF4444' : '#10B981'};">${data.temp}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Загрузка канала</span>
+                            <span style="font-weight:700;">${data.load}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                            <span style="opacity:0.6;">Всего бейджей на БС</span>
+                            <span style="font-weight:700;">${data.active} шт.</span>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function openEmployee(name) {
