@@ -298,6 +298,82 @@
         .choice-card:hover { background: rgba(59, 130, 246, 0.1); border-color: #3B82F6; }
         .choice-card.active { background: rgba(59, 130, 246, 0.2); border-color: #3B82F6; box-shadow: 0 0 20px rgba(59,130,246,0.3); }
         .choice-card svg { margin-bottom: 10px; opacity: 0.6; display: block; margin-left: auto; margin-right: auto; }
+
+        /* --- MOBILE ADAPTATION --- */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(13, 18, 30, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: var(--glass-border);
+            z-index: 1000;
+            padding: 10px 15px 25px;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-nav__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--c-text-secondary);
+            font-size: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+            opacity: 0.6;
+        }
+
+        .mobile-nav__item.active {
+            color: #3B82F6;
+            opacity: 1;
+        }
+
+        .mobile-nav__item svg { width: 20px; height: 20px; }
+
+        @media (max-width: 992px) {
+            body { flex-direction: column; overflow-y: auto; height: auto; }
+            .sidebar { display: none; }
+            .mobile-nav { display: flex; }
+            .view-container { height: auto; min-height: 100vh; }
+            .dashboard-header { 
+                padding: 15px 20px; 
+                flex-direction: column; 
+                height: auto; 
+                gap: 15px; 
+                align-items: flex-start;
+            }
+            .dashboard-header > div:last-child {
+                width: 100%;
+                justify-content: flex-start !important;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                gap: 10px;
+            }
+            .view-content { padding: 20px; padding-bottom: 100px; }
+            
+            /* Global Grid Resets */
+            div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            .stat-card-v3 { padding: 20px; }
+            #employees-grid { grid-template-columns: 1fr !important; }
+            .modal { width: 95%; padding: 20px; margin: 20px 0; }
+            .modal > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+            
+            .login-box { width: 90%; padding: 30px; }
+            .demo-choice { grid-template-columns: 1fr !important; }
+            
+            #page-title { font-size: 18px !important; }
+            .alert-pill-top { font-size: 11px; padding: 6px 12px; }
+            .sync-btn { font-size: 12px; padding: 0 10px; }
+            .base-station-widget { gap: 10px; padding: 5px 10px; }
+        }
         .choice-card.active svg { opacity: 1; color: #3B82F6; }
 
         /* Processing Animation Styles */
@@ -733,6 +809,30 @@
         </div>
     </div>
 
+    <!-- Mobile Navigation Bar -->
+    <div class="mobile-nav">
+        <div onclick="switchTab('analytics')" id="m-nav-analytics" class="mobile-nav__item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            <span>Обзор</span>
+        </div>
+        <div onclick="switchTab('dialogs')" id="m-nav-dialogs" class="mobile-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Чат</span>
+        </div>
+        <div onclick="switchTab('employees')" id="m-nav-employees" class="mobile-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Команда</span>
+        </div>
+        <div onclick="switchTab('hardware')" id="m-nav-hardware" class="mobile-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>Железо</span>
+        </div>
+        <div onclick="switchTab('settings')" id="m-nav-settings" class="mobile-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>ИИ</span>
+        </div>
+    </div>
+
     <script>
         let currentMode = 'azs';
         const config = {
@@ -868,9 +968,11 @@
             
             views.forEach(v => v.classList.remove('active'));
             links.forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.mobile-nav__item').forEach(i => i.classList.remove('active'));
             
             const targetView = document.getElementById('view-' + id);
             const targetNav = document.getElementById('nav-' + id);
+            const targetMobileNav = document.getElementById('m-nav-' + id);
             
             if (targetView) {
                 targetView.classList.add('active');
@@ -880,6 +982,7 @@
             }
             
             if (targetNav) targetNav.classList.add('active');
+            if (targetMobileNav) targetMobileNav.classList.add('active');
             
             if(id === 'analytics') renderAnalytics();
             if(id === 'dialogs') {
