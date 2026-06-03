@@ -313,7 +313,8 @@
         const isD = e.key.toLowerCase() === 'd';
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && isD) {
             e.preventDefault();
-            window.location.href = 'demo.html';
+            const prefix = window.location.pathname.includes('/en/') ? '../' : '';
+            window.location.href = prefix + 'demo.html';
         }
     });
 

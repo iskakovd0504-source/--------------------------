@@ -544,7 +544,7 @@
 
                 <button class="alert-pill-top" onclick="showBadgeViolations()" title="Предиктивный анализ разряда" style="cursor:pointer; border:1px solid rgba(239,68,68,0.3); outline:none; height: 42px; background: rgba(239,68,68,0.1); color: #EF4444; border-radius: 12px; padding: 0 15px; display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 11px; transition: 0.3s;">
                     <div class="pulse-red" style="width:8px; height:8px; background:#EF4444; box-shadow: 0 0 10px #EF4444;"></div>
-                    ПРОГНОЗ ЗАМЕНЫ: 2
+                    <span id="replacement-count-text">ПРОГНОЗ ЗАМЕНЫ: 2</span>
                 </button>
                 <button id="sync-trigger" class="sync-btn" onclick="startGlobalSync()" style="white-space:nowrap; height: 42px; padding: 0 15px;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
@@ -556,7 +556,7 @@
 
         <!-- NEW: Hardware View -->
         <div id="view-hardware" class="view-content">
-            <div class="horizontal-scroll-container" style="display:flex; gap:15px; margin-bottom:30px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch;">
+            <div id="hardware-tabs" class="horizontal-scroll-container" style="display:flex; gap:15px; margin-bottom:30px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch;">
                 <div class="filter-btn active" onclick="renderStation(104, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #104 (Алматы)</div>
                 <div class="filter-btn" onclick="renderStation(105, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #105 (Астана)</div>
                 <div class="filter-btn" onclick="renderStation(106, this)" style="white-space: nowrap; flex-shrink: 0;">БС-4 #106 (Шымкент)</div>
@@ -818,6 +818,11 @@
                 statsValues: ["1,248", "92%", "44%", "1"],
                 chartTitle: "Выручка по сопутствующим товарам (7 дней)",
                 prompt: "Ты — профессиональный аудитор качества АЗС. \nТвоя задача: анализировать диалоги кассиров с клиентами.\nКритерии оценки:\n1. Приветствие по стандарту \"Добро пожаловать на АЗС!\"\n2. Предложение доп. товаров (кофе, хот-дог, омыватель).\n3. Проверка наличия карты лояльности.\n4. Отсутствие конфликтных интонаций.",
+                hardwareStations: [
+                    { id: 104, label: "БС-4 #104 (Алматы)", city: "АЛМАТЫ" },
+                    { id: 105, label: "БС-4 #105 (Астана)", city: "АСТАНА" },
+                    { id: 106, label: "БС-4 #106 (Шымкент)", city: "ШЫМКЕНТ" }
+                ],
                 employees: [
                     { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', batteryLeft: 14, badgeHistory: [], location: "АЗС №104" },
                     { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85], badgeStatus: 'in-use', rfid: '9C-E1-44-02', batteryLeft: 12, badgeHistory: [], location: "АЗС №208" },
@@ -860,6 +865,11 @@
                 statsValues: ["842", "76%", "31%", "4"],
                 chartTitle: "Продажи БАД и Витаминов (7 дней)",
                 prompt: "Ты — эксперт по контролю качества в аптечной сети. \nТвоя задача: проверять фармацевтическую опеку.\nКритерии:\n1. Предложение пробиотиков к антибиотикам.\n2. Уточнение дозировки и формы выпуска.\n3. Предложение витаминов/БАД в кросс-продажах.\n4. Соблюдение вежливости и этики.",
+                hardwareStations: [
+                    { id: 104, label: "БС-4 #104 (Центральная)", city: "ЦЕНТРАЛЬНАЯ" },
+                    { id: 105, label: "БС-4 #105 (Самал)", city: "САМАЛ" },
+                    { id: 106, label: "БС-4 #106 (ЖД Вокзал)", city: "ЖД ВОКЗАЛ" }
+                ],
                 employees: [
                     { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', batteryLeft: 16, badgeHistory: [], location: "Аптека №12" },
                     { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80], badgeStatus: 'ready', rfid: '2E-B9-33-11', batteryLeft: 8, badgeHistory: [], location: "Аптека №45" },
@@ -894,6 +904,7 @@
 
         const employees = [];
         const dialogs = [];
+        let processingInterval = null;
 
         function drillDown(stationId) {
             switchTab('dialogs', 'problem');
@@ -1033,6 +1044,28 @@
             document.getElementById('chart-label').innerText = c.chartTitle;
             document.getElementById('station-filter').innerHTML = c.stations.map(s => `<option>${s}</option>`).join('');
             document.getElementById('ai-prompt').value = c.prompt;
+
+            // Dynamically update hardwareData cities based on mode
+            c.hardwareStations.forEach(hs => {
+                if (hardwareData[hs.id]) {
+                    hardwareData[hs.id].city = hs.city;
+                }
+            });
+
+            // Dynamically render hardware tabs
+            const hwTabs = document.getElementById('hardware-tabs');
+            if (hwTabs) {
+                hwTabs.innerHTML = c.hardwareStations.map((hs, i) => `
+                    <div class="filter-btn ${i === 0 ? 'active' : ''}" onclick="renderStation(${hs.id}, this)" style="white-space: nowrap; flex-shrink: 0;">${hs.label}</div>
+                `).join('');
+            }
+
+            // Dynamically update replacement count in header
+            const violatorsCount = c.employees.filter(e => e.badgeStatus === 'full' || e.badgeHistory.length > 0).length;
+            const countEl = document.getElementById('replacement-count-text');
+            if (countEl) {
+                countEl.innerText = `ПРОГНОЗ ЗАМЕНЫ: ${violatorsCount}`;
+            }
 
             employees.length = 0; employees.push(...c.employees);
             dialogs.length = 0; dialogs.push(...c.dialogs);
@@ -1384,7 +1417,13 @@
             document.getElementById('modal-overlay').style.display = 'flex';
         }
 
-        function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+        function closeModal() { 
+            document.getElementById('modal-overlay').style.display = 'none'; 
+            if (processingInterval) {
+                clearInterval(processingInterval);
+                processingInterval = null;
+            }
+        }
         function showModelUpdate() {
             const status = document.getElementById('model-status');
             status.style.opacity = '1';
@@ -1421,8 +1460,12 @@
                 "Синхронизация результатов..."
             ];
 
+            if (processingInterval) {
+                clearInterval(processingInterval);
+            }
+
             let i = 0;
-            const interval = setInterval(() => {
+            processingInterval = setInterval(() => {
                 if(i < logs.length) {
                     const line = document.createElement('div');
                     line.innerText = logs[i];
@@ -1430,7 +1473,8 @@
                     progress.style.width = ((i+1) / logs.length * 100) + '%';
                     i++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(processingInterval);
+                    processingInterval = null;
                 }
             }, 400);
         }
