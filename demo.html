@@ -517,7 +517,7 @@
                         <circle cx="33" cy="18" r="1.5" fill="#06B6D4" />
                     </svg>
                 </div>
-                <span class="logo__text" style="font-size: 28px;">KST TRADE</span>
+                <span id="login-logo-text" class="logo__text" style="font-size: 28px;">KST TRADE</span>
             </div>
             <h2 style="margin-bottom: 5px; font-size: 20px;">Demo Access</h2>
             <p style="font-size: 13px; opacity: 0.6; margin-bottom: 25px;">Выберите отраслевое решение</p>
@@ -1085,6 +1085,9 @@
             currentMode = mode;
             document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('active'));
             document.getElementById('mode-' + mode).classList.add('active');
+            // Обновляем название на экране входа
+            const loginLogo = document.getElementById('login-logo-text');
+            if (loginLogo) loginLogo.innerText = config[mode].clientName;
         }
 
         function checkLogin() {
