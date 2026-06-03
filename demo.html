@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ОККМ | Панель Управления АЗС</title>
+    <title>ОККМ | KST TRADE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -224,6 +224,26 @@
             border-radius: 8px 8px 0 0; transition: 0.5s; position: relative;
         }
         .chart-bar-v3:hover { filter: brightness(1.2); transform: scaleX(1.1); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed; top: 30px; right: 30px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 12px; pointer-events: none;
+        }
+        .toast-v3 {
+            background: rgba(13, 18, 31, 0.85); backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px;
+            padding: 16px 24px; color: white; font-size: 13px; font-weight: 500;
+            display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+            transform: translateY(-20px); opacity: 0; animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            pointer-events: auto; max-width: 380px; line-height: 1.4;
+        }
+        @keyframes toastIn { to { transform: translateY(0); opacity: 1; } }
+        .toast-v3.fade-out { animation: toastOut 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes toastOut { to { transform: translateY(-15px); opacity: 0; } }
+
+        .checklist-item-hover:hover .item-actions { opacity: 1 !important; }
 
         /* Mini Icons */
         .u-chip { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
@@ -496,7 +516,7 @@
                         <circle cx="33" cy="18" r="1.5" fill="#06B6D4" />
                     </svg>
                 </div>
-                <span class="logo__text" style="font-size: 28px;">AiProtocol</span>
+                <span class="logo__text" style="font-size: 28px;">KST TRADE</span>
             </div>
             <h2 style="margin-bottom: 5px; font-size: 20px;">Demo Access</h2>
             <p style="font-size: 13px; opacity: 0.6; margin-bottom: 25px;">Выберите отраслевое решение</p>
@@ -537,7 +557,7 @@
                         <circle cx="33" cy="18" r="1.5" fill="#06B6D4" />
                     </svg>
                 </div>
-                <span class="logo__text" style="font-size: 20px;">AiProtocol</span>
+                <span class="logo__text" style="font-size: 20px;">KST TRADE</span>
             </a>
         </div>
         <nav>
@@ -548,7 +568,7 @@
             <div onclick="switchTab('settings')" id="nav-settings" class="sidebar__link">⚙️ Настройки ИИ</div>
         </nav>
         <div style="margin-top:auto; padding: 20px 40px;">
-            <div id="sidebar-context" style="font-size: 11px; color: var(--c-text-muted);">Интерфейс: СЕТЬ АЗС</div>
+            <div id="sidebar-context" style="font-size: 11px; color: var(--c-text-muted);">Интерфейс: СЕТЬ АЗС KST TRADE</div>
         </div>
     </aside>
 
@@ -556,11 +576,12 @@
         <header class="dashboard-header">
             <div style="display:flex; align-items:center; gap:20px;">
                 <div id="page-title" style="font-size: 22px; font-weight: 800;">Обзор показателей сети</div>
-                <select id="station-filter" style="background: rgba(255,255,255,0.05); border: var(--glass-border); color: white; padding: 8px 15px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer;">
-                    <option value="all">Все АЗС (Сеть)</option>
-                    <option value="104">АЗС №104 (Алматы)</option>
-                    <option value="208">АЗС №208 (Астана)</option>
-                    <option value="045">АЗС №045 (Шымкент)</option>
+                <select id="station-filter" onchange="onStationFilterChange(this.value)" style="background: rgba(255,255,255,0.05); border: var(--glass-border); color: white; padding: 8px 15px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer;">
+                    <option value="all">Все АЗС (Сеть KST TRADE)</option>
+                    <option value="1">АЗС №1 (Костанай, проспект Абая, 1Т)</option>
+                    <option value="7">АЗС №7 (Костанай, улица Карбышева, 71А)</option>
+                    <option value="tobyl">АЗС Тобыл (г. Тобыл, проспект Тауелсиздик, 74А)</option>
+                    <option value="fedorovka">АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)</option>
                 </select>
             </div>
             <div style="display:flex; align-items:center; gap:15px; flex:1; justify-content:flex-end;">
@@ -605,49 +626,49 @@
                 <div class="insight-icon">💰</div>
                 <div style="flex:1;">
                     <div style="font-size: 12px; color: #EF4444; font-weight: 700; text-transform: uppercase; margin-bottom: 5px;">ИИ-анализ упущенной выгоды</div>
-                    <div id="insight-title" style="font-size: 18px; font-weight: 800;">На АЗС №104 вчера в 42% случаев не предложено комбо-обед</div>
+                    <div id="insight-title" style="font-size: 18px; font-weight: 800;">На АЗС №1 вчера кассир Асель Н. нарушила промо-акцию</div>
                     <div id="insight-lost" style="font-size: 14px; opacity: 0.7; margin-top: 5px;">Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">+145 000 ₸ / день</span> при соблюдении скрипта.</div>
                 </div>
-                <button class="btn btn--primary" onclick="drillDown('104')">Разобрать диалоги №104</button>
+                <button class="btn btn--primary" onclick="drillDown('1')">Разобрать диалоги №1</button>
             </div>
 
             <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 40px;">
                 <div class="stat-card-v3" style="--glow: #10B981;">
                     <div id="stat-label-1" style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Транзакций за смену</div>
                     <div id="stat-val-1" style="font-size: 40px; font-weight: 900; margin-top: 5px;">1,248</div>
-                    <div style="font-size: 12px; color: #10B981; margin-top: 10px;">↑ 8% к среднему</div>
+                    <div id="stat-sub-1" style="font-size: 12px; color: #10B981; margin-top: 10px;">↑ 8% к среднему</div>
                 </div>
                 <div class="stat-card-v3" style="--glow: #3B82F6;">
                     <div id="stat-label-2" style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Скрипт Cafe/Shop</div>
                     <div id="stat-val-2" style="font-size: 40px; font-weight: 900; margin-top: 5px;">92%</div>
-                    <div style="font-size: 12px; color: #3B82F6; margin-top: 10px;">Предложение доп. товаров</div>
+                    <div id="stat-sub-2" style="font-size: 12px; color: #3B82F6; margin-top: 10px;">Предложение доп. товаров</div>
                 </div>
                 <div class="stat-card-v3" style="--glow: #06B6D4;">
                     <div id="stat-label-3" style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Конверсия в Кофе</div>
                     <div id="stat-val-3" style="font-size: 40px; font-weight: 900; margin-top: 5px;">44%</div>
-                    <div style="font-size: 12px; color: #06B6D4; margin-top: 10px;">Цель: 50%</div>
+                    <div id="stat-sub-3" style="font-size: 12px; color: #06B6D4; margin-top: 10px;">Цель: 50%</div>
                 </div>
                 <div class="stat-card-v3" style="--glow: #EF4444;">
                     <div id="stat-label-4" style="font-size: 11px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase;">Претензии по баллам</div>
                     <div id="stat-val-4" style="font-size: 40px; font-weight: 900; margin-top: 5px;">1</div>
-                    <div style="font-size: 12px; color: #EF4444; margin-top: 10px;">Требует разбора</div>
+                    <div id="stat-sub-4" style="font-size: 12px; color: #EF4444; margin-top: 10px;">Требует разбора</div>
                 </div>
             </div>
 
             <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 40px;">
                 <div class="stat-card-v3" style="height: 400px; display:flex; flex-direction:column;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
-                        <div id="chart-label" style="font-weight:800; font-size:18px;">Выручка по сопутствующим товарам (7 дней)</div>
-                        <div style="font-size:12px; color:var(--c-accent-green);">Общий итог: +2.4M ₸</div>
+                        <div id="chart-label" style="font-weight:800; font-size:18px;">Динамика соблюдения стандартов (7 дней)</div>
+                        <div id="chart-total" style="font-size:12px; color:var(--c-accent-green);">Средний показатель: 78%</div>
                     </div>
-                    <div style="flex-grow:1; display:flex; align-items:flex-end; gap:20px; padding:0 10px;">
-                        <div class="chart-bar-v3" style="height: 60%;" title="Пн: 240k"></div>
-                        <div class="chart-bar-v3" style="height: 75%;" title="Вт: 310k"></div>
-                        <div class="chart-bar-v3" style="height: 55%;" title="Ср: 210k"></div>
-                        <div class="chart-bar-v3" style="height: 90%;" title="Чт: 380k"></div>
-                        <div class="chart-bar-v3" style="height: 85%;" title="Пт: 350k"></div>
-                        <div class="chart-bar-v3" style="height: 100%;" title="Сб: 420k"></div>
-                        <div class="chart-bar-v3" style="height: 95%;" title="Вс: 400k"></div>
+                    <div id="chart-bars" style="flex-grow:1; display:flex; align-items:flex-end; gap:20px; padding:0 10px;">
+                        <div class="chart-bar-v3" style="height: 75%;" title="Пн: 75%"></div>
+                        <div class="chart-bar-v3" style="height: 78%;" title="Вт: 78%"></div>
+                        <div class="chart-bar-v3" style="height: 72%;" title="Ср: 72%"></div>
+                        <div class="chart-bar-v3" style="height: 80%;" title="Чт: 80%"></div>
+                        <div class="chart-bar-v3" style="height: 77%;" title="Пт: 77%"></div>
+                        <div class="chart-bar-v3" style="height: 85%;" title="Сб: 85%"></div>
+                        <div class="chart-bar-v3" style="height: 81%;" title="Вс: 81%"></div>
                     </div>
                     <div style="display:flex; justify-content:space-between; margin-top:20px; font-size:11px; color:var(--c-text-muted);">
                         <span style="flex:1; text-align:center;">Пн</span><span style="flex:1; text-align:center;">Вт</span><span style="flex:1; text-align:center;">Ср</span><span style="flex:1; text-align:center;">Чт</span><span style="flex:1; text-align:center;">Пт</span><span style="flex:1; text-align:center;">Сб</span><span style="flex:1; text-align:center;">Вс</span>
@@ -679,7 +700,7 @@
             </div>
             
             <div class="dash-footer">
-                <div>© 2026 ТОО Aiprotocol.kz | Система AiProtocol</div>
+                <div>© 2026 ТОО Aiprotocol.kz | Система KST TRADE ОККМ</div>
                 <div style="display:flex; align-items:center; gap:20px;">
                     <span style="color:#10B981">● System Status: Online</span>
                     <span style="opacity:0.5">|</span>
@@ -745,13 +766,14 @@
             <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:40px; margin-bottom:40px;">
                 
                 <!-- AI Agent Prompt Section -->
-                <div class="stat-card-v3">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                        <h3 style="margin:0;">Инструкция ИИ-агента (Prompt)</h3>
-                        <span class="u-chip u-chip--amber">GPT-4o Engine</span>
-                    </div>
-                    <p style="font-size:12px; color:var(--c-text-muted); margin-bottom:20px;">Здесь вы определяете «личность» и правила анализа для вашего виртуального аудитора.</p>
-                    <textarea id="ai-prompt" style="width:100%; height:280px; background:rgba(0,0,0,0.3); border:var(--glass-border); border-radius:16px; padding:20px; color:#10B981; font-family:'Courier New', monospace; font-size:13px; line-height:1.6; resize:none; outline:none; transition:0.3s;" oninput="showModelUpdate()">Ты — профессиональный аудитор качества АЗС. 
+                <div class="stat-card-v3" style="display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h3 style="margin:0;">Инструкция ИИ-агента (Prompt)</h3>
+                            <span class="u-chip u-chip--amber">GPT-4o Engine</span>
+                        </div>
+                        <p style="font-size:12px; color:var(--c-text-muted); margin-bottom:20px;">Здесь вы определяете «личность» и правила анализа для вашего виртуального аудитора.</p>
+                        <textarea id="ai-prompt" style="width:100%; height:220px; background:rgba(0,0,0,0.3); border:var(--glass-border); border-radius:16px; padding:20px; color:#10B981; font-family:'Courier New', monospace; font-size:13px; line-height:1.6; resize:none; outline:none; transition:0.3s; margin-bottom:15px;" oninput="showModelUpdate()">Ты — профессиональный аудитор качества АЗС. 
 Твоя задача: анализировать диалоги кассиров с клиентами.
 Критерии оценки:
 1. Приветствие по стандарту "Добро пожаловать на АЗС!"
@@ -759,24 +781,34 @@
 3. Проверка наличия карты лояльности.
 4. Отсутствие конфликтных интонаций.
 При обнаружении агрессии — немедленно ставь флаг "Critical".</textarea>
-                    <div id="model-status" style="margin-top:15px; font-size:11px; color:#10B981; opacity:0; transition:0.5s;">● Модель обновлена и готова к работе</div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
+                        <button class="btn btn--primary" style="padding: 10px 20px; font-size: 12px; border-radius: 10px;" onclick="showToast('Системный промпт ИИ успешно обновлен и применен к новым сессиям диалогов (демо-сессия).')">Сохранить и применить</button>
+                        <div id="model-status" style="font-size:11px; color:#10B981; opacity:0; transition:0.5s;">● Изменения сохранены</div>
+                    </div>
                 </div>
 
                 <!-- Checklist Section -->
-                <div class="stat-card-v3">
-                    <h3 style="margin-bottom:20px;">Чек-лист контроля (10 пунктов)</h3>
-                    <div id="checklist-container" style="display:flex; flex-direction:column; gap:12px;">
-                        <!-- Generated by JS -->
+                <div class="stat-card-v3" style="display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                        <h3 id="checklist-title" style="margin-bottom:20px;">Чек-лист контроля (7 пунктов)</h3>
+                        <div id="checklist-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom: 20px;">
+                            <!-- Generated by JS -->
+                        </div>
                     </div>
+                    <button class="btn btn--outline" style="width:100%; border-radius:12px; border-style:dashed; border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.02); color:#3B82F6; padding: 10px;" onclick="showToast('В коммерческой версии KST TRADE доступно гибкое управление чек-листами (добавление, удаление, изменение весов триггеров).')">+ Добавить стандарт контроля</button>
                 </div>
             </div>
 
             <div class="stat-card-v3">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; flex-wrap:wrap; gap:15px;">
                     <h3 style="margin:0;">База знаний: Эталонные скрипты (AI Training)</h3>
-                    <div style="font-size:11px; color:#10B981; display:flex; align-items:center; gap:5px;">
-                        <div style="width:6px; height:6px; background:#10B981; border-radius:50%;"></div>
-                        ИИ ОБУЧЕН ПО 10 СЦЕНАРИЯМ
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <button class="btn btn--ghost btn--sm" style="padding: 6px 12px; font-size: 11px; border-radius: 8px; border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.05); color: #3B82F6;" onclick="showToast('В полной версии системы вы можете обучать ИИ-агента под новые регламенты продаж, загружая новые скрипты в базу знаний в 1 клик.')">+ Добавить сценарий обучения</button>
+                        <div style="font-size:11px; color:#10B981; display:flex; align-items:center; gap:5px;">
+                            <div style="width:6px; height:6px; background:#10B981; border-radius:50%;"></div>
+                            <span id="ai-training-status">ИИ ОБУЧЕН ПО 9 СЦЕНАРИЯМ</span>
+                        </div>
                     </div>
                 </div>
                 
@@ -840,50 +872,143 @@
         let currentMode = 'azs';
         const config = {
             azs: {
-                title: "Обзор показателей сети АЗС",
+                title: "Контроль стандартов АЗС KST TRADE",
                 empLabel: "Операторы-кассиры",
                 stationLabel: "АЗС",
-                insightTitle: "На АЗС №104 вчера в 42% случаев не предложено комбо-обед",
-                insightLost: "+145 000 ₸ / день",
-                drillBtn: "Разобрать диалоги №104",
-                statsLabels: ["ТРАНЗАКЦИЙ ЗА СМЕНУ", "СКРИПТ CAFE/SHOP", "КОНВЕРСИЯ В КОФЕ", "ПРЕТЕНЗИИ ПО БАЛЛАМ"],
-                statsValues: ["1,248", "92%", "44%", "1"],
-                chartTitle: "Выручка по сопутствующим товарам (7 дней)",
-                prompt: "Ты — профессиональный аудитор качества АЗС. \nТвоя задача: анализировать диалоги кассиров с клиентами.\nКритерии оценки:\n1. Приветствие по стандарту \"Добро пожаловать на АЗС!\"\n2. Предложение доп. товаров (кофе, хот-дог, омыватель).\n3. Проверка наличия карты лояльности.\n4. Отсутствие конфликтных интонаций.",
+                insightTitle: "На АЗС №1 (Костанай, Абая) кассир Асель Н. нарушила стандарт промо-акции в чеке №4829",
+                insightLost: "3 000 ₸",
+                drillBtn: "Анализ сессии №4829",
+                statsLabels: ["ПРОВЕРЕНО ЧЕКОВ", "СОБЛЮДЕНИЕ СКРИПТОВ", "КОНВЕРСИЯ В КОФЕ", "УПУЩЕННАЯ ВЫГОДА"],
+                statsValues: ["142", "78%", "44%", "145 000 ₸"],
+                statsSubs: ["За последние 24 часа", "За последние 24 часа", "За последние 24 часа", "За последние 24 часа"],
+                chartTitle: "Динамика соблюдения стандартов (7 дней)",
+                prompt: "Ты — профессиональный аудитор качества сети АЗС KST TRADE.\nТвоя задача: анализировать диалоги кассиров с клиентами.\nКритерии оценки диалогов (7 ключевых триггеров):\n1. Приветствие и идентификация: Использовать вежливое приветствие («Добрый день/утро/вечер!», «Добро пожаловать!»). Обязательно назвать свое имя («Меня зовут [Имя]»). Запрещено использовать сухое слово «Здравствуйте».\n2. Продажа кофе (Короткая продажа): Обязательно предложить кофе в утвердительной форме без предоставления выбора объема («Попробуйте наш свежемолотый/фирменный кофе в дорогу! Вам большой стакан — это выгодно/удобно держать!»). Строжайшее табу на отрицательную частицу «НЕ» («Кофе брать не будете?» — грубое нарушение!).\n3. Продажи выпечки и кросс-сейл: Предлагать конкретную еду или акционный товар («Попробуйте нашу вкусную самсу / хот-дог», «Кстати, у нас сейчас акция на воду/омыватель»). Механика апсейла («Вам одну или парочку?»). Категорически запрещена ленивая фраза «Что-нибудь еще?».\n4. Повторение (верификация) заказа перед оплатой: Вслух проговорить весь заказ перед расчетом по шаблону: «[Номер колонки] колонка, [Марка топлива], [Объем в литрах или сумма], [Доп. товар], оплата [картой/наличными]».\n5. Выдача чека по умолчанию: Выдать фискальный чек в руки молча. Полный запрет на вопросы: «Вам чек нужен?», «Чек давать?».\n6. Стандарт прощания: Завершить диалог вежливо («Хорошего Вам дня!», «Счастливого пути!», «Будем рады видеть Вас снова!»). Запрещено сухое «До свидания» или молчание.\n7. Контроль промо-акции «Бензин в подарок»: При покупке товаров в магазине от 4000 тг дарим 2л АИ-92, от 8000 тг — 4л. Использовать скрипт информирования. Если чек близок к 4000 тг, предложить добрать товар («У вас покупка на 2200 тг — докупите на 1800 тг и получите бензин в подарок!»). Сигареты в акции не участвуют. Предложение подарка только за сигареты — фрод.",
                 hardwareStations: [
-                    { id: 104, label: "БС-4 #104 (Алматы)", city: "АЛМАТЫ" },
-                    { id: 105, label: "БС-4 #105 (Астана)", city: "АСТАНА" },
-                    { id: 106, label: "БС-4 #106 (Шымкент)", city: "ШЫМКЕНТ" }
+                    { id: "1", label: "БС-4 #1 (АЗС №1, Костанай)", city: "КОСТАНАЙ" },
+                    { id: "7", label: "БС-4 #7 (АЗС №7, Костанай)", city: "КОСТАНАЙ" },
+                    { id: "tobyl", label: "БС-4 #Тобыл (АЗС Тобыл)", city: "ТОБЫЛ" },
+                    { id: "fedorovka", label: "БС-4 #Федоровка (АЗС Федоровка)", city: "ФЕДОРОВКА" }
                 ],
                 employees: [
-                    { id: 1, name: "Анна", score: 9.8, calls: 142, status: "green", upsell: [85, 92, 45, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', batteryLeft: 14, badgeHistory: [], location: "АЗС №104" },
-                    { id: 2, name: "Дмитрий", score: 9.1, calls: 135, status: "green", upsell: [70, 80, 30, 85], badgeStatus: 'in-use', rfid: '9C-E1-44-02', batteryLeft: 12, badgeHistory: [], location: "АЗС №208" },
-                    { id: 3, name: "Ольга", score: 8.6, calls: 128, status: "green", upsell: [60, 75, 55, 70], badgeStatus: 'syncing', rfid: '3B-D5-66-03', batteryLeft: 2, badgeHistory: [{t: "10:15", d: "15 мин"}], location: "АЗС №104" },
-                    { id: 6, name: "Павел", score: 5.4, calls: 82, status: "red", upsell: [20, 35, 10, 40], badgeStatus: 'full', rfid: '7F-A9-12-04', batteryLeft: 1, badgeHistory: [{t: "09:00", d: "45 мин"}], location: "АЗС №045" }
+                    { id: 1, name: "Анна К.", score: 9.8, calls: 142, status: "green", upsell: [95, 92, 90, 98], badgeStatus: 'in-use', rfid: '8A-F2-31-01', batteryLeft: 14, badgeHistory: [], stationId: "7", location: "АЗС №7 (ул. Карбышева, 71А)" },
+                    { id: 2, name: "Дмитрий С.", score: 9.1, calls: 135, status: "green", upsell: [90, 85, 80, 88], badgeStatus: 'in-use', rfid: '9C-E1-44-02', batteryLeft: 12, badgeHistory: [], stationId: "tobyl", location: "АЗС Тобыл (пр. Тауелсиздик, 74А)" },
+                    { id: 3, name: "Асель Н.", score: 6.8, calls: 115, status: "amber", upsell: [80, 20, 10, 90], badgeStatus: 'syncing', rfid: '3B-D5-66-03', batteryLeft: 4, badgeHistory: [], stationId: "1", location: "АЗС №1 (пр. Абая, 1Т)" },
+                    { id: 6, name: "Павел Б.", score: 5.4, calls: 82, status: "red", upsell: [40, 30, 20, 35], badgeStatus: 'full', rfid: '7F-A9-12-04', batteryLeft: 1, badgeHistory: [{t: "09:00", d: "45 мин"}], stationId: "fedorovka", location: "АЗС Федоровка (ул. Мухтара Ауэзова, 26)" }
                 ],
                 dialogs: [
-                    { id: 1045, emp: "Анна", time: "16:42", topic: "Заправка + Комбо-обед", script: "100%", tone: "Позитивный", review: "Оператор идеально отработал скрипт, предложил доп. товары. Клиент лоялен." },
-                    { id: 1044, emp: "Павел", time: "16:30", topic: "Сбой карты лояльности", script: "40%", tone: "Напряженный", review: "Грубое общение при техническом сбое. Рекомендуется депремирование." },
-                    { id: 1043, emp: "Дмитрий", time: "16:15", topic: "Оплата QR", script: "95%", tone: "Нейтральный", review: "Стандартная процедура, предложение кофе озвучено." }
+                    { 
+                        id: 4829, 
+                        emp: "Асель Н.", 
+                        time: "14:20", 
+                        topic: "Заправка АИ-95 + Попытка допродажи", 
+                        script: "57%", 
+                        tone: "Нейтральный", 
+                        review: "Нарушен стандарт продаж (использована запрещенная частица НЕ при продаже кофе) и условия промо-акции (не предложено дотягивание чека сопутствующих товаров до 4000 тг при сумме покупок 2200 тг). Упущенная выгода чека составила ~3000 тг.",
+                        transcript: "<p><b>Кассир:</b> Добрый день, добро пожаловать!</p><p><b>Клиент:</b> Здравствуйте. Мне АИ-95 на 5000 тенге.</p><p><b>Кассир:</b> Хорошо. Кофе брать не будете?</p><p><b>Клиент:</b> Нет, спасибо.</p><p><b>Кассир:</b> Что-нибудь еще?</p><p><b>Клиент:</b> Возьму вот эту воду и печенье. (Сумма товаров в магазине: 2200 тг)</p><p><b>Кассир:</b> Хорошо. 3 колонка, АИ-95 на 5000 тенге плюс сопутствующие товары. Оплата картой?</p><p><b>Клиент:</b> Да, картой.</p><p><i>(Кассир проводит оплату, выдает чек в руки молча)</i></p><p><b>Кассир:</b> Счастливого пути!</p><p><b>Клиент:</b> До свидания.</p>",
+                        audit: [
+                            { name: "Приветствие и имя", status: "amber", text: "«Добрый день, добро пожаловать!»", comment: "Приветствие выполнено, но кассир не назвала свое имя («Меня зовут Асель»)." },
+                            { name: "Продажа кофе (Короткая продажа)", status: "red", text: "«Кофе брать не будете?»", comment: "Использована запрещенная отрицательная частица НЕ. Скрипт утверждения нарушен." },
+                            { name: "Выпечка и кросс-сейл", status: "red", text: "«Что-нибудь еще?»", comment: "Зафиксирована строжайше запрещенная ленивая фраза. Конкретный товар не предложен." },
+                            { name: "Повтор заказа перед оплатой", status: "green", text: "«3 колонка, АИ-95 на 5000 тенге плюс сопутствующие...»", comment: "Заказ верифицирован перед транзакцией." },
+                            { name: "Выдача чека по умолчанию", status: "green", text: "Выдан молча", comment: "Стандарт соблюден, лишних вопросов о необходимости чека не задавалось." },
+                            { name: "Стандарт прощания", status: "green", text: "«Счастливого пути!»", comment: "Прощание соответствует стандарту лояльности." },
+                            { name: "Промо «Бензин в подарок»", status: "red", text: "Молчание", comment: "Сумма покупок составила 2200 тг. Кассир промолчала и не предложила добрать товар до 4000 тг, чтобы подарить 2л бензина." }
+                        ],
+                        lostProfit: 3000
+                    },
+                    { 
+                        id: 4830, 
+                        emp: "Анна К.", 
+                        time: "14:45", 
+                        topic: "Идеальный чек: Топливо + Кофе + Выпечка + Промо", 
+                        script: "100%", 
+                        tone: "Позитивный", 
+                        review: "Идеальная сессия. Все 7 триггеров выполнены на 100%. Кассир представилась, предложила большой кофе в утвердительной форме, применила кросс-сейл выпечки и успешно дотянула чек по акции «Бензин в подарок» до 4100 тг.",
+                        transcript: "<p><b>Кассир:</b> Добрый день, добро пожаловать на KST TRADE! Меня зовут Анна. Какое топливо заправляем?</p><p><b>Клиент:</b> Здравствуйте, АИ-92 на 4000 тенге.</p><p><b>Кассир:</b> Отлично. Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно держать.</p><p><b>Клиент:</b> Давайте капучино.</p><p><b>Кассир:</b> К кофе рекомендую нашу свежую выпечку — возьмите вкусный хот-дог или самсу. Вам один или парочку?</p><p><b>Клиент:</b> Давайте один хот-дог.</p><p><b>Кассир:</b> Супер! У вас уже покупка на 3200 тенге в магазине. Возьмите еще бутылку воды или стеклоомыватель, сумма превысит 4000 тенге, и мы подарим вам талон на 2 литра АИ-92!</p><p><b>Клиент:</b> О, давайте воду тогда.</p><p><b>Кассир:</b> Отлично. Повторим заказ: 2 колонка, АИ-92 на 4000 тенге, плюс большой капучино, хот-дог и вода. Общая сумма магазина 4100 тенге. Оплата картой?</p><p><b>Клиент:</b> Да.</p><p><i>(Кассир проводит оплату, выдает чек и талон на бензин молча)</i></p><p><b>Кассир:</b> Пожалуйста, ваш чек и талон на 2 литра бензина. Счастливого пути и хорошего дня! Ждем вас снова!</p><p><b>Клиент:</b> Спасибо большое, взаимно!</p>",
+                        audit: [
+                            { name: "Приветствие и имя", status: "green", text: "«Добрый день... Меня зовут Анна.»", comment: "Приветствие и идентификация выполнены идеально." },
+                            { name: "Продажа кофе (Короткая продажа)", status: "green", text: "«Попробуйте наш фирменный... Вам большой стакан...»", comment: "Утвердительная форма предложения кофе с указанием объема по умолчанию." },
+                            { name: "Выпечка и кросс-сейл", status: "green", text: "«К кофе рекомендую... хот-дог или самсу. Вам одну или...»", comment: "Предложен конкретный товар и использована механика апсейла." },
+                            { name: "Повтор заказа перед оплатой", status: "green", text: "«Повторим заказ: 2 колонка, АИ-92 на 4000 тенге, плюс...»", comment: "Полное и четкое проговаривание заказа." },
+                            { name: "Выдача чека по умолчанию", status: "green", text: "Выдан молча с талоном", comment: "Чек и талон выданы по умолчанию без вопросов." },
+                            { name: "Стандарт прощания", status: "green", text: "«Счастливого пути и хорошего дня! Ждем вас снова!»", comment: "Отличное завершение контакта." },
+                            { name: "Промо «Бензин в подарок»", status: "green", text: "«У вас уже покупка на 3200... Возьмите... и мы подарим 2л»", comment: "Кассир успешно применила механику дотягивания чека до лимита акции." }
+                        ],
+                        lostProfit: 0
+                    },
+                    { 
+                        id: 4831, 
+                        emp: "Дмитрий С.", 
+                        time: "15:10", 
+                        topic: "Заправка АИ-92 + Вопрос про чек", 
+                        script: "71%", 
+                        tone: "Нейтральный", 
+                        review: "Кассир не представился по имени при приветствии. Кофе и кросс-сейл предложены успешно, но нарушен стандарт выдачи чека — задан прямой вопрос покупателю: «Чек нужен?».",
+                        transcript: "<p><b>Кассир:</b> Добрый день! Добро пожаловать!</p><p><b>Клиент:</b> Здравствуйте. 5 колонка, АИ-92 на 3000 тенге.</p><p><b>Кассир:</b> Возьмите наш фирменный кофе в дорогу! Вам большой стакан?</p><p><b>Клиент:</b> Да, давайте большой капучино.</p><p><b>Кассир:</b> Перекусите у нас, рекомендую свежие пирожки или самсу.</p><p><b>Клиент:</b> Нет, спасибо, только кофе.</p><p><b>Кассир:</b> Хорошо. 5 колонка, АИ-92 на 3000 тенге и большой капучино. Оплата наличными?</p><p><b>Клиент:</b> Да, наличными.</p><p><b>Кассир:</b> Вам чек нужен?</p><p><b>Клиент:</b> Да, давайте.</p><p><i>(Кассир выдает сдачу и чек)</i></p><p><b>Кассир:</b> Всего хорошего! Счастливого пути!</p><p><b>Клиент:</b> До свидания.</p>",
+                        audit: [
+                            { name: "Приветствие и имя", status: "amber", text: "«Добрый день! Добро пожаловать!»", comment: "Приветствие озвучено, но имя не названо." },
+                            { name: "Продажа кофе (Короткая продажа)", status: "green", text: "«Возьмите наш фирменный кофе... Вам большой стакан?»", comment: "Кофе предложен правильно, предложен большой объем." },
+                            { name: "Выпечка и кросс-сейл", status: "green", text: "«Перекусите у нас, рекомендую свежие пирожки...»", comment: "Предложен конкретный перекус." },
+                            { name: "Повтор заказа перед оплатой", status: "green", text: "«5 колонка, АИ-92 на 3000 тенге и большой капучино...»", comment: "Верификация выполнена успешно." },
+                            { name: "Выдача чека по умолчанию", status: "red", text: "«Вам чек нужен?»", comment: "Задан запрещенный вопрос про чек. Нарушение стандарта." },
+                            { name: "Стандарт прощания", status: "green", text: "«Всего хорошего! Счастливого пути!»", comment: "Прощание выполнено по регламенту." },
+                            { name: "Промо «Бензин в подарок»", status: "green", text: "Не применимо", comment: "Сумма покупки сопутствующих товаров составила 950 тг (кофе), чек далеко от лимита 4000 тг." }
+                        ],
+                        lostProfit: 0
+                    },
+                    { 
+                        id: 4828, 
+                        emp: "Павел Б.", 
+                        time: "13:50", 
+                        topic: "Быстрая оплата топлива без допродаж", 
+                        script: "29%", 
+                        tone: "Нейтральный", 
+                        review: "Критическое несоблюдение стандартов обслуживания. Кассир проигнорировал предложение кофе и выпечки, не озвучил условия промо-акции, повтор заказа не произведен. Задан запрещенный вопрос про чек.",
+                        transcript: "<p><b>Кассир:</b> Здрасьте.</p><p><b>Клиент:</b> Добрый день. Мне 20 литров АИ-92 на 4 колонку.</p><p><b>Кассир:</b> 4600 тенге к оплате.</p><p><b>Клиент:</b> Держите карту.</p><p><b>Кассир:</b> Что-нибудь еще?</p><p><b>Клиент:</b> Нет.</p><p><b>Кассир:</b> Чек нужен?</p><p><b>Клиент:</b> Да.</p><p><i>(Кассир выдает чек молча)</i></p><p><b>Кассир:</b> До свидания.</p>",
+                        audit: [
+                            { name: "Приветствие и имя", status: "red", text: "«Здрасьте»", comment: "Сухое приветствие, имя кассира не названо. Нарушение стандарта." },
+                            { name: "Продажа кофе (Короткая продажа)", status: "red", text: "Молчание", comment: "Кофе не предложен вообще." },
+                            { name: "Выпечка и кросс-сейл", status: "red", text: "«Что-нибудь еще?»", comment: "Задана запрещенная ленивая фраза. Конкретный кросс-сейл отсутствует." },
+                            { name: "Повтор заказа перед оплатой", status: "red", text: "«4600 тенге к оплате»", comment: "Заказ не верифицирован, колонка и марка топлива не проговорены." },
+                            { name: "Выдача чека по умолчанию", status: "red", text: "«Чек нужен?»", comment: "Задан запрещенный регламентом вопрос о необходимости чека." },
+                            { name: "Стандарт прощания", status: "red", text: "«До свидания»", comment: "Сухое регламентное прощание вместо пожелания счастливого пути." },
+                            { name: "Промо «Бензин в подарок»", status: "red", text: "Молчание", comment: "Кассир промолчал об акции «Бензин в подарок»." }
+                        ],
+                        lostProfit: 3000
+                    }
                 ],
-                stations: ["Все АЗС (Сеть)", "АЗС №104 (Алматы)", "АЗС №208 (Астана)", "АЗС №045 (Шымкент)"],
+                stations: [
+                    "Все АЗС (Сеть KST TRADE)", 
+                    "АЗС №1 (Костанай, проспект Абая, 1Т)", 
+                    "АЗС №7 (Костанай, улица Карбышева, 71А)", 
+                    "АЗС Тобыл (г. Тобыл, проспект Тауелсиздик, 74А)", 
+                    "АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)"
+                ],
                 geo: [
-                    { name: "АЗС №104 (Алматы)", info: "3 нарушения скрипта за час", color: "#EF4444" },
-                    { name: "АЗС №208 (Астана)", info: "Все показатели в норме", color: "#10B981" },
-                    { name: "АЗС №045 (Шымкент)", info: "Высокая конверсия", color: "#3B82F6" }
+                    { name: "АЗС №1 (Костанай, проспект Абая, 1Т)", info: "Частые нарушения в акциях", color: "#EF4444" },
+                    { name: "АЗС №7 (Костанай, улица Карбышева, 71А)", info: "Высокое качество сервиса", color: "#10B981" },
+                    { name: "АЗС Тобыл (г. Тобыл, проспект Тауелсиздик, 74А)", info: "Все показатели в норме", color: "#10B981" },
+                    { name: "АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)", info: "Низкая конверсия в кофе", color: "#F59E0B" }
                 ],
-                checklist: ["Приветствие", "Кофе/Напитки", "Хот-доги", "Карта лояльности", "Тональность", "Прощание", "Чистота кассы", "Скорость", "Товары дня", "Омыватель"],
+                checklist: [
+                    "Приветствие и имя кассира", 
+                    "Продажа кофе (без частицы «НЕ»)", 
+                    "Выпечка и товары магазина (кросс-сейл)", 
+                    "Повторение (верификация) заказа", 
+                    "Выдача чека по умолчанию (без вопросов)", 
+                    "Стандарт прощания", 
+                    "Промо-акция «Бензин в подарок»"
+                ],
                 scripts: [
-                    { t: "Приветствие", s: '"Здравствуйте! Добро пожаловать на АЗС [Бренд]. Вам 95-й до полного? Желаете кофе или свежую выпечку?"' },
-                    { t: "Кросс-продажа (Комбо)", s: '"К вашему кофе сегодня идет акция на хот-дог — скидка 30% при покупке комбо. Оформим?"' },
-                    { t: "Лояльность", s: '"У вас есть наша бонусная карта? Можем списать баллы в счет оплаты или начислить новые."' },
-                    { t: "Товар дня", s: '"Рекомендую наш омыватель -25°C, сегодня по спеццене. Залить вам в бачок или возьмете с собой?"' },
-                    { t: "Прощание", s: '"Спасибо, что выбрали нас! Счастливого пути и хорошего дня. Ждем вас снова!"' },
-                    { t: "Регистрация в лояльности", s: '"У вас еще нет нашей карты? Давайте оформим прямо сейчас, это займет 1 минуту и вы сразу получите бонусы за эту заправку."' },
-                    { t: "Премиальное топливо", s: '"Рекомендую наше топливо [Название] с очищающими присадками. Оно продлевает жизнь двигателя и улучшает динамику. Попробуем?"' },
-                    { t: "Акция 2+1", s: '"У нас сейчас акция: при покупке двух энергетиков — третий в подарок. Очень выгодно для долгой дороги. Возьмете?"' },
-                    { t: "Обратная связь", s: '"Всё ли вам понравилось сегодня? Если есть пожелания по чистоте или сервису — буду рад услышать."' },
-                    { t: "Безопасность", s: '"Напоминаю, что на территории АЗС запрещено курение, и, пожалуйста, заглушите двигатель на время заправки. Спасибо за понимание."' }
+                    { t: "1. Приветствие и имя", s: '"Добрый день! Добро пожаловать на KST TRADE! Меня зовут [Имя]. Какое топливо заправляем?" (Без сухого "Здравствуйте")' },
+                    { t: "2. Продажа кофе (Короткая продажа)", s: '"Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно держать!" (Строго без частицы "НЕ")' },
+                    { t: "3. Выпечка и кросс-сейл", s: '"Перекусите у нас! Рекомендую попробовать нашу свежую самсу или горячий хот-дог. Вам один или парочку?" (Табу на "Что-нибудь еще?")' },
+                    { t: "4. Повторение заказа перед оплатой", s: '"[Номер колонки] колонка, [Марка топлива], [Объем в литрах или сумма], [Дополнительный товар], оплата [картой / наличными]"' },
+                    { t: "5. Выдача чека по умолчанию", s: '(Кассир выдает фискальный чек в руки молча. Полный запрет на вопрос: "Вам чек нужен?")' },
+                    { t: "6. Стандарт прощания", s: '"Счастливого пути! Будем рады видеть Вас снова!" (Или: "Хорошего Вам дня! Ждем Вас еще!")' },
+                    { t: "7. Промо: Бензин в подарок (основной)", s: '"Мы дарим бензин за покупки в нашем магазине! Купите товары на сумму от 4000 тенге — и я подарю вам 2 литра АИ-92!"' },
+                    { t: "8. Промо: Дотягивание чека", s: '"У вас уже покупка на [Сумма] тенге. Докупите товаров всего на [Остаток] (кроме сигарет), и мы подарим вам бензин в подарок!"' },
+                    { t: "9. Доп. скрипты для роста чека", s: '"Заезжайте к нам вечером по пути домой — сделайте покупки и получите бензин в подарок!" (Или: "Посмотрите нашу группу Fresh — отличные цены, всё свежее!")' }
                 ]
             },
             pharmacy: {
@@ -893,14 +1018,15 @@
                 insightTitle: "В Аптеке №12 вчера в 65% случаев не предложены пробиотики",
                 insightLost: "+85 000 ₸ / день",
                 drillBtn: "Разобрать диалоги №12",
-                statsLabels: ["ЧЕКОВ ЗА СМЕНУ", "АПСЕЛЛ (СМЕЖНЫЕ)", "КОНВЕРСИЯ В ВИТАМИНЫ", "ЖАЛОБЫ НА ЦЕНЫ"],
-                statsValues: ["842", "76%", "31%", "4"],
-                chartTitle: "Продажи БАД и Витаминов (7 дней)",
+                statsLabels: ["ПРОВЕРЕНО ЧЕКОВ", "АПСЕЛЛ (СМЕЖНЫЕ)", "КОНВЕРСИЯ В ВИТАМИНЫ", "ЖАЛОБЫ НА ЦЕНЫ"],
+                statsValues: ["84", "76%", "31%", "4"],
+                statsSubs: ["За последние 24 часа", "За последние 24 часа", "За последние 24 часа", "За последние 24 часа"],
+                chartTitle: "Динамика соблюдения стандартов (7 дней)",
                 prompt: "Ты — эксперт по контролю качества в аптечной сети. \nТвоя задача: проверять фармацевтическую опеку.\nКритерии:\n1. Предложение пробиотиков к антибиотикам.\n2. Уточнение дозировки и формы выпуска.\n3. Предложение витаминов/БАД в кросс-продажах.\n4. Соблюдение вежливости и этики.",
                 hardwareStations: [
-                    { id: 104, label: "БС-4 #104 (Центральная)", city: "ЦЕНТРАЛЬНАЯ" },
-                    { id: 105, label: "БС-4 #105 (Самал)", city: "САМАЛ" },
-                    { id: 106, label: "БС-4 #106 (ЖД Вокзал)", city: "ЖД ВОКЗАЛ" }
+                    { id: "1", label: "БС-4 #104 (Центральная)", city: "ЦЕНТРАЛЬНАЯ" },
+                    { id: "7", label: "БС-4 #105 (Самал)", city: "САМАЛ" },
+                    { id: "tobyl", label: "БС-4 #106 (ЖД Вокзал)", city: "ЖД ВОКЗАЛ" }
                 ],
                 employees: [
                     { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', batteryLeft: 16, badgeHistory: [], location: "Аптека №12" },
@@ -943,7 +1069,7 @@
         }
 
         function filterDialogs(type) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#view-dialogs .filter-btn').forEach(b => b.classList.remove('active'));
             const btn = document.getElementById('filter-' + type);
             if (btn) btn.classList.add('active');
             renderDialogs(type);
@@ -966,34 +1092,304 @@
                 switchTab('analytics');
                 renderAnalytics(); // Force render analytics immediately
                 renderEmployees(); // Force render employees immediately
-                renderStation(104); // Render first hardware station
+                renderStation("1"); // Render first hardware station
                 setTimeout(() => overlay.remove(), 800);
             } else {
                 alert('Неверный пароль доступа');
             }
         }
 
+        function getEmployeeStationId(empName) {
+            const emp = employees.find(e => e.name === empName);
+            return emp ? emp.stationId : 'all';
+        }
+
+        function getEmployeeLocation(empName) {
+            const emp = employees.find(e => e.name === empName);
+            if (!emp) return '';
+            return emp.location.split(' (')[0];
+        }
+
+        function onStationFilterChange(stationId) {
+            console.log('Station filter changed:', stationId);
+            
+            // 1. Фильтруем сотрудников по stationId
+            let filteredEmployees = employees;
+            if (stationId !== 'all') {
+                filteredEmployees = employees.filter(e => e.stationId === stationId);
+            }
+            renderEmployees(filteredEmployees);
+            
+            // 2. Фильтруем диалоги в таблице
+            const activeFilterBtn = document.querySelector('#view-dialogs .filter-btn.active');
+            const activeFilter = activeFilterBtn ? activeFilterBtn.id.replace('filter-', '') : 'all';
+            renderDialogs(activeFilter);
+            
+            // 3. Обновляем аналитику (KPI-карточки и мини-таблицу)
+            renderAnalytics();
+            
+            // 4. Если мы в режиме "Оборудование", обновим отображение станций
+            if (stationId !== 'all') {
+                renderStation(stationId);
+            }
+        }
+
         function renderAnalytics() {
             const c = config[currentMode];
+            const filterEl = document.getElementById('station-filter');
+            const selectedStationId = filterEl ? filterEl.value : 'all';
+            
+            // Расчет динамических метрик на основе выбранной АЗС
+            let totalChecked = c.statsValues[0];
+            let compliance = c.statsValues[1];
+            let coffeeConv = c.statsValues[2];
+            let lostProfitText = c.statsValues[3];
+            
+            if (currentMode === 'azs') {
+                let stationDialogs = dialogs;
+                if (selectedStationId && selectedStationId !== 'all') {
+                    stationDialogs = dialogs.filter(d => getEmployeeStationId(d.emp) === selectedStationId);
+                    
+                    if (stationDialogs.length > 0) {
+                        const avgScore = Math.round(stationDialogs.reduce((acc, d) => acc + parseInt(d.script), 0) / stationDialogs.length);
+                        compliance = avgScore + "%";
+                    } else {
+                        compliance = "100%";
+                    }
+                    
+                    const counts = { '1': 35, '7': 41, 'tobyl': 37, 'fedorovka': 29 };
+                    totalChecked = (counts[selectedStationId] || 30).toLocaleString('ru-RU');
+                    
+                    const coffee = { '1': 38, '7': 52, 'tobyl': 45, 'fedorovka': 31 };
+                    coffeeConv = (coffee[selectedStationId] || 40) + "%";
+                    
+                    const lost = { '1': 85000, '7': 12000, 'tobyl': 18000, 'fedorovka': 30000 };
+                    lostProfitText = (lost[selectedStationId] || 20000).toLocaleString('ru-RU') + " ₸";
+                }
+            } else if (currentMode === 'pharmacy') {
+                if (selectedStationId && selectedStationId !== 'all') {
+                    const counts = { '1': 24, '7': 31, 'tobyl': 29 };
+                    totalChecked = (counts[selectedStationId] || 20).toLocaleString('ru-RU');
+                    
+                    const upsell = { '1': 82, '7': 71, 'tobyl': 75 };
+                    compliance = (upsell[selectedStationId] || 75) + "%";
+                    
+                    const vitamins = { '1': 35, '7': 28, 'tobyl': 30 };
+                    coffeeConv = (vitamins[selectedStationId] || 30) + "%";
+                    
+                    const lost = { '1': 45000, '7': 25000, 'tobyl': 15000 };
+                    lostProfitText = (lost[selectedStationId] || 20000).toLocaleString('ru-RU') + " ₸";
+                }
+            }
             
             // Stats
+            const vals = [totalChecked, compliance, coffeeConv, lostProfitText];
             c.statsLabels.forEach((label, i) => {
                 const labelEl = document.getElementById(`stat-label-${i+1}`);
                 const valEl = document.getElementById(`stat-val-${i+1}`);
+                const subEl = document.getElementById(`stat-sub-${i+1}`);
                 if (labelEl) labelEl.innerText = label;
-                if (valEl) valEl.innerText = c.statsValues[i];
+                if (valEl) valEl.innerText = vals[i];
+                if (subEl && c.statsSubs) subEl.innerText = c.statsSubs[i];
             });
-
+ 
             // Insight Card
-            document.getElementById('insight-title').innerText = c.insightTitle;
-            document.getElementById('insight-lost').innerHTML = `Потенциальная прибыль: <span style="color: #EF4444; font-weight: 700;">${c.insightLost}</span> при соблюдении скрипта.`;
-            document.querySelector('.insight-card button').innerText = c.drillBtn;
+            let insightTitle = c.insightTitle;
+            let insightLost = c.insightLost;
+            let drillBtn = c.drillBtn;
+            let drillAction = "openDialog(4829)";
+            
+            if (currentMode === 'azs') {
+                if (selectedStationId === 'all' || selectedStationId === '1') {
+                    insightTitle = "На АЗС №1 (Костанай, Абая) кассир Асель Н. нарушила стандарт промо-акции в чеке №4829";
+                    insightLost = "Упущенная выгода: 3 000 ₸ (1 200 ₸ кофе + 1 800 ₸ акционные товары по промо)";
+                    drillBtn = "Анализ сессии №4829";
+                    drillAction = "openDialog(4829)";
+                } else if (selectedStationId === '7') {
+                    insightTitle = "На АЗС №7 (Костанай, Карбышева) оператор Анна К. показала 100% соблюдение стандартов в чеке №4830";
+                    insightLost = "Упущенная выгода: 0 ₸ (Доп. продажи выполнены на +2 100 ₸)";
+                    drillBtn = "Анализ сессии №4830";
+                    drillAction = "openDialog(4830)";
+                } else if (selectedStationId === 'tobyl') {
+                    insightTitle = "На АЗС Тобыл кассир Дмитрий С. нарушил стандарт выдачи чека в сессии №4831";
+                    insightLost = "Упущенная выгода: 0 ₸ (Кофе продан, но нарушен регламент чека)";
+                    drillBtn = "Анализ сессии №4831";
+                    drillAction = "openDialog(4831)";
+                } else if (selectedStationId === 'fedorovka') {
+                    insightTitle = "На АЗС Федоровка у Павла Б. критически низкие показатели эффективности допродаж (KPI 5.4)";
+                    insightLost = "Упущенная выгода: ~15 000 ₸ / смена (Из-за низкой конверсии в кофе: 31% вместо 50%)";
+                    drillBtn = "Профиль сотрудника";
+                    drillAction = "openEmployee('Павел Б.')";
+                }
+            } else if (currentMode === 'pharmacy') {
+                if (selectedStationId === '1') {
+                    insightTitle = "В Аптеке №12 (Центральная) у Алины критически низкий KPI (4.8)";
+                    insightLost = "+45 000 ₸ / день";
+                    drillBtn = "Профиль Алины";
+                    drillAction = "openEmployee('Алина')";
+                } else if (selectedStationId === '7') {
+                    insightTitle = "В Аптеке №45 (Самал) у Евгения хороший апселл смежных препаратов (75%)";
+                    insightLost = "+25 000 ₸ / день";
+                    drillBtn = "Профиль Евгения";
+                    drillAction = "openEmployee('Евгений')";
+                } else if (selectedStationId === 'tobyl') {
+                    insightTitle = "В Аптеке №08 вчера зафиксировано 4 случая жалоб на очереди в пиковые часы";
+                    insightLost = "Потеря лояльности";
+                    drillBtn = "Анализ диалогов";
+                    drillAction = "switchTab('dialogs')";
+                }
+            }
 
+            document.getElementById('insight-title').innerText = insightTitle;
+            if (insightLost.includes("0 ₸") || insightLost.includes("Доп. продажи") || insightLost.includes("принесли") || insightLost.includes("Инцидент лояльности")) {
+                document.getElementById('insight-lost').innerHTML = `Анализ ИИ: <span style="color: #10B981; font-weight: 700;">${insightLost}</span>`;
+            } else {
+                document.getElementById('insight-lost').innerHTML = `Анализ ИИ: <span style="color: #EF4444; font-weight: 700;">${insightLost}</span>`;
+            }
+            
+            const insBtn = document.querySelector('.insight-card button');
+            if (insBtn) {
+                insBtn.innerText = drillBtn;
+                insBtn.setAttribute('onclick', drillAction);
+            }
+
+            // Update Quality Chart dynamically based on mode and station filter
+            let chartTotal = "78%";
+            let chartBarsData = [
+                { d: "Пн", v: 75 },
+                { d: "Вт", v: 78 },
+                { d: "Ср", v: 72 },
+                { d: "Чт", v: 80 },
+                { d: "Пт", v: 77 },
+                { d: "Сб", v: 85 },
+                { d: "Вс", v: 81 }
+            ];
+
+            if (currentMode === 'azs') {
+                if (selectedStationId === 'all') {
+                    chartTotal = "78%";
+                    chartBarsData = [
+                        { d: "Пн", v: 75 },
+                        { d: "Вт", v: 78 },
+                        { d: "Ср", v: 72 },
+                        { d: "Чт", v: 80 },
+                        { d: "Пт", v: 77 },
+                        { d: "Сб", v: 85 },
+                        { d: "Вс", v: 81 }
+                    ];
+                } else if (selectedStationId === '1') {
+                    chartTotal = "57%";
+                    chartBarsData = [
+                        { d: "Пн", v: 55 },
+                        { d: "Вт", v: 60 },
+                        { d: "Ср", v: 50 },
+                        { d: "Чт", v: 58 },
+                        { d: "Пт", v: 55 },
+                        { d: "Сб", v: 62 },
+                        { d: "Вс", v: 59 }
+                    ];
+                } else if (selectedStationId === '7') {
+                    chartTotal = "98%";
+                    chartBarsData = [
+                        { d: "Пн", v: 96 },
+                        { d: "Вт", v: 98 },
+                        { d: "Ср", v: 95 },
+                        { d: "Чт", v: 99 },
+                        { d: "Пт", v: 98 },
+                        { d: "Сб", v: 100 },
+                        { d: "Вс", v: 100 }
+                    ];
+                } else if (selectedStationId === 'tobyl') {
+                    chartTotal = "81%";
+                    chartBarsData = [
+                        { d: "Пн", v: 80 },
+                        { d: "Вт", v: 82 },
+                        { d: "Ср", v: 78 },
+                        { d: "Чт", v: 83 },
+                        { d: "Пт", v: 80 },
+                        { d: "Сб", v: 85 },
+                        { d: "Вс", v: 81 }
+                    ];
+                } else if (selectedStationId === 'fedorovka') {
+                    chartTotal = "47%";
+                    chartBarsData = [
+                        { d: "Пн", v: 45 },
+                        { d: "Вт", v: 48 },
+                        { d: "Ср", v: 40 },
+                        { d: "Чт", v: 50 },
+                        { d: "Пт", v: 45 },
+                        { d: "Сб", v: 52 },
+                        { d: "Вс", v: 49 }
+                    ];
+                }
+            } else if (currentMode === 'pharmacy') {
+                chartTotal = "76%";
+                chartBarsData = [
+                    { d: "Пн", v: 72 },
+                    { d: "Вт", v: 76 },
+                    { d: "Ср", v: 74 },
+                    { d: "Чт", v: 78 },
+                    { d: "Пт", v: 75 },
+                    { d: "Сб", v: 80 },
+                    { d: "Вс", v: 78 }
+                ];
+                
+                if (selectedStationId === '1') {
+                    chartTotal = "82%";
+                    chartBarsData = [
+                        { d: "Пн", v: 80 },
+                        { d: "Вт", v: 84 },
+                        { d: "Ср", v: 81 },
+                        { d: "Чт", v: 85 },
+                        { d: "Пт", v: 82 },
+                        { d: "Сб", v: 86 },
+                        { d: "Вс", v: 84 }
+                    ];
+                } else if (selectedStationId === '7') {
+                    chartTotal = "71%";
+                    chartBarsData = [
+                        { d: "Пн", v: 68 },
+                        { d: "Вт", v: 72 },
+                        { d: "Ср", v: 70 },
+                        { d: "Чт", v: 74 },
+                        { d: "Пт", v: 71 },
+                        { d: "Сб", v: 75 },
+                        { d: "Вс", v: 72 }
+                    ];
+                } else if (selectedStationId === 'tobyl') {
+                    chartTotal = "75%";
+                    chartBarsData = [
+                        { d: "Пн", v: 70 },
+                        { d: "Вт", v: 75 },
+                        { d: "Ср", v: 73 },
+                        { d: "Чт", v: 78 },
+                        { d: "Пт", v: 75 },
+                        { d: "Сб", v: 80 },
+                        { d: "Вс", v: 75 }
+                    ];
+                }
+            }
+
+            const chartTotalEl = document.getElementById('chart-total');
+            if (chartTotalEl) chartTotalEl.innerText = "Средний показатель: " + chartTotal;
+
+            const chartBarsEl = document.getElementById('chart-bars');
+            if (chartBarsEl) {
+                chartBarsEl.innerHTML = chartBarsData.map(b => `
+                    <div class="chart-bar-v3" style="height: ${b.v}%;" title="${b.d}: ${b.v}%"></div>
+                `).join('');
+            }
+ 
             // Top Employees List
             const topList = document.getElementById('top-list');
             if (topList) {
-                topList.innerHTML = c.employees.slice(0, 3).map(e => `
-                    <div style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.02); padding:10px; border-radius:12px;">
+                let stationEmployees = employees;
+                if (selectedStationId && selectedStationId !== 'all') {
+                    stationEmployees = employees.filter(e => e.stationId === selectedStationId);
+                }
+                const sortedEmps = [...stationEmployees].sort((a, b) => b.score - a.score);
+                topList.innerHTML = sortedEmps.slice(0, 3).map(e => `
+                    <div onclick="openEmployee('${e.name}')" style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.02); padding:10px; border-radius:12px; cursor:pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
                         <div style="width:32px; height:32px; border-radius:50%; background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;">${e.name[0]}</div>
                         <div style="flex:1;">
                             <div style="font-weight:700; font-size:13px;">${e.name}</div>
@@ -1003,7 +1399,7 @@
                     </div>
                 `).join('');
             }
-
+ 
             // Geo List
             const geoList = document.getElementById('geo-list');
             if (geoList) {
@@ -1017,11 +1413,15 @@
                     </div>
                 `).join('');
             }
-
+ 
             // Brief Table
             const briefTable = document.getElementById('brief-table');
             if (briefTable) {
-                briefTable.innerHTML = c.dialogs.map(d => `
+                let filteredBrief = dialogs;
+                if (selectedStationId && selectedStationId !== 'all') {
+                    filteredBrief = dialogs.filter(d => getEmployeeStationId(d.emp) === selectedStationId);
+                }
+                briefTable.innerHTML = filteredBrief.slice(0, 5).map(d => `
                     <tr>
                         <td>
                             <div style="display:flex; align-items:center; gap:10px;">
@@ -1030,7 +1430,7 @@
                             </div>
                         </td>
                         <td style="opacity:0.6;">${d.time}</td>
-                        <td><span class="u-chip" style="background:rgba(16,185,129,0.1); color:#10B981;">${d.script}</span></td>
+                        <td><span class="u-chip" style="background:${parseInt(d.script) > 80 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; color:${parseInt(d.script) > 80 ? '#10B981' : '#EF4444'};">${d.script}</span></td>
                         <td style="font-style:italic; opacity:0.8;">${d.tone}</td>
                         <td><button class="btn btn--ghost btn--sm" onclick="openDialog(${d.id})">Анализ</button></td>
                     </tr>
@@ -1069,12 +1469,20 @@
             c.statsLabels.forEach((label, i) => {
                 const sLabel = document.getElementById(`stat-label-${i+1}`);
                 const sVal = document.getElementById(`stat-val-${i+1}`);
+                const sSub = document.getElementById(`stat-sub-${i+1}`);
                 if (sLabel) sLabel.innerText = label;
                 if (sVal) sVal.innerText = c.statsValues[i];
+                if (sSub && c.statsSubs) sSub.innerText = c.statsSubs[i];
             });
 
             document.getElementById('chart-label').innerText = c.chartTitle;
-            document.getElementById('station-filter').innerHTML = c.stations.map(s => `<option>${s}</option>`).join('');
+            document.getElementById('station-filter').innerHTML = c.stations.map((s, idx) => {
+                let val = 'all';
+                if (idx > 0 && c.hardwareStations[idx - 1]) {
+                    val = c.hardwareStations[idx - 1].id;
+                }
+                return `<option value="${val}">${s}</option>`;
+            }).join('');
             document.getElementById('ai-prompt').value = c.prompt;
 
             // Dynamically update hardwareData cities based on mode
@@ -1088,7 +1496,7 @@
             const hwTabs = document.getElementById('hardware-tabs');
             if (hwTabs) {
                 hwTabs.innerHTML = c.hardwareStations.map((hs, i) => `
-                    <div class="filter-btn ${i === 0 ? 'active' : ''}" onclick="renderStation(${hs.id}, this)" style="white-space: nowrap; flex-shrink: 0;">${hs.label}</div>
+                    <div class="filter-btn ${i === 0 ? 'active' : ''}" data-station-id="${hs.id}" onclick="renderStation('${hs.id}', this)" style="white-space: nowrap; flex-shrink: 0;">${hs.label}</div>
                 `).join('');
             }
 
@@ -1100,8 +1508,35 @@
             }
 
             employees.length = 0; employees.push(...c.employees);
-            dialogs.length = 0; dialogs.push(...c.dialogs);
-            for(let i=0; i<8; i++) { dialogs.push(...dialogs.slice(0,3).map(d => ({...d, id: d.id - (i+1)*12}))); }
+            dialogs.length = 0; 
+            
+            // Сортируем исходные диалоги по убыванию ID, чтобы самые свежие были сверху
+            const baseDialogs = [...c.dialogs].sort((a, b) => b.id - a.id);
+            dialogs.push(...baseDialogs);
+            
+            // Генерируем архивные записи с последовательно убывающими ID и временем
+            let lastId = baseDialogs[baseDialogs.length - 1].id;
+            let lastTimeStr = baseDialogs[baseDialogs.length - 1].time;
+            let [hours, minutes] = lastTimeStr.split(':').map(Number);
+            
+            for (let i = 0; i < 24; i++) {
+                const base = baseDialogs[i % baseDialogs.length];
+                lastId--;
+                
+                minutes -= 15;
+                if (minutes < 0) {
+                    minutes += 60;
+                    hours--;
+                    if (hours < 0) hours += 24;
+                }
+                const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                
+                dialogs.push({
+                    ...base,
+                    id: lastId,
+                    time: timeStr
+                });
+            }
         }
 
         function switchTab(id, forcedFilter) {
@@ -1130,14 +1565,17 @@
             if(id === 'analytics') renderAnalytics();
             if(id === 'dialogs') {
                 const filterToUse = forcedFilter || 'all';
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#view-dialogs .filter-btn').forEach(b => b.classList.remove('active'));
                 const targetBtn = document.getElementById('filter-' + filterToUse);
                 if (targetBtn) targetBtn.classList.add('active');
                 renderDialogs(filterToUse);
             }
             if(id === 'employees') renderEmployees();
             if(id === 'hardware') {
-                renderStation(104);
+                const filterEl = document.getElementById('station-filter');
+                const selectedStationId = filterEl ? filterEl.value : 'all';
+                const stationIdToRender = (selectedStationId && selectedStationId !== 'all') ? selectedStationId : "1";
+                renderStation(stationIdToRender);
                 console.log('Hardware dashboard initialized');
             }
             if(id === 'settings') renderSettings();
@@ -1145,15 +1583,26 @@
 
         function renderDialogs(filter = 'all') {
             const tbody = document.getElementById('full-dialogs-tbody');
+            const filterEl = document.getElementById('station-filter');
+            const selectedStationId = filterEl ? filterEl.value : 'all';
+
             let filtered = dialogs;
-            if(filter === 'problem') filtered = dialogs.filter(d => d.tone === 'Напряженный' || parseInt(d.script) < 50);
+            if(filter === 'problem') filtered = dialogs.filter(d => d.tone === 'Напряженный' || parseInt(d.script) < 80);
             if(filter === 'upsell') filtered = dialogs.filter(d => d.script === '100%');
+
+            if (selectedStationId && selectedStationId !== 'all') {
+                filtered = filtered.filter(d => getEmployeeStationId(d.emp) === selectedStationId);
+            }
+
             tbody.innerHTML = filtered.map(d => `
                 <tr onclick="openDialog(${d.id})">
                     <td style="opacity:0.4">#${d.id}</td>
-                    <td style="font-weight:700;">${d.emp}</td>
+                    <td>
+                        <div style="font-weight:700; color:white;">${d.emp}</div>
+                        <div style="font-size:10px; color:var(--c-text-muted); margin-top:2px;">${getEmployeeLocation(d.emp)}</div>
+                    </td>
                     <td style="color:var(--c-text-muted);">${d.time}</td>
-                    <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.topic}</td>
+                    <td style="max-width:320px; color:#A0AEC0; font-size:13px; line-height:1.4;">${d.topic}</td>
                     <td><span class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</span></td>
                     <td style="color:${d.tone === 'Напряженный' ? '#EF4444' : '#10B981'}">${d.tone}</td>
                     <td style="text-align:right;"><button class="btn-view" onclick="event.stopPropagation(); openDialog(${d.id})">Слушать</button></td>
@@ -1167,12 +1616,20 @@
             const grid = document.getElementById('employees-grid');
             renderEmployees(violators);
             const btn = document.createElement('div');
-            btn.innerHTML = `<button class="btn btn--primary" style="margin-bottom:20px;" onclick="renderEmployees()">Показать всех сотрудников</button>`;
+            btn.innerHTML = `<button class="btn btn--primary" style="margin-bottom:20px;" onclick="document.getElementById('station-filter').value = 'all'; renderEmployees()">Показать всех сотрудников</button>`;
             grid.prepend(btn);
         }
 
         function renderEmployees(dataToRender) {
-            const list = dataToRender || employees;
+            const filterEl = document.getElementById('station-filter');
+            const selectedStationId = filterEl ? filterEl.value : 'all';
+            
+            let list = dataToRender;
+            if (!list) {
+                list = (selectedStationId && selectedStationId !== 'all')
+                    ? employees.filter(e => e.stationId === selectedStationId)
+                    : employees;
+            }
             const grid = document.getElementById('employees-grid');
             grid.innerHTML = list.map(e => {
                 const statusColor = e.score > 9 ? '#10B981' : (e.score > 7 ? '#F59E0B' : '#EF4444');
@@ -1184,34 +1641,31 @@
                     <div style="position:absolute; top:0; right:0; padding:8px 15px; background:${statusColor}; color:white; font-size:9px; font-weight:900; border-bottom-left-radius:12px; text-transform:uppercase;">
                         ${e.score > 9 ? 'Excellent' : (e.score > 7 ? 'Average' : 'Critical')}
                     </div>
-                    <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
-                        <div style="width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg, ${statusColor}33, ${statusColor}11); border:1px solid ${statusColor}44; display:flex; align-items:center; justify-content:center; color:${statusColor}; font-weight:900; font-size:20px;">${e.name[0]}</div>
+                    <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px;">
+                        <div style="width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg, ${statusColor}33, ${statusColor}11); border:1px solid ${statusColor}44; display:flex; align-items:center; justify-content:center; color:${statusColor}; font-weight:900; font-size:20px; flex-shrink:0;">${e.name[0]}</div>
                         <div style="flex:1;">
-                            <div style="font-weight:800; font-size:17px; color:white;">${e.name}</div>
-                            <div style="font-size:11px; opacity:0.6; display:flex; align-items:center; gap:5px;">
-                                <span>${currentMode === 'azs' ? 'Оператор-кассир' : 'Фармацевт'}</span>
-                                <span style="opacity:0.3;">|</span>
-                                <span style="color:var(--c-accent-blue); font-weight:700;">${e.location}</span>
-                            </div>
+                            <div style="font-weight:800; font-size:17px; color:white; line-height:1.2; margin-bottom:4px;">${e.name}</div>
+                            <div style="font-size:11px; opacity:0.6; margin-bottom:3px;">${currentMode === 'azs' ? 'Оператор-кассир' : 'Фармацевт'}</div>
+                            <div style="font-size:11px; color:var(--c-accent-blue); font-weight:700; line-height:1.3;">${e.location}</div>
                         </div>
                         ${e.badgeStatus === 'syncing' ? `
-                            <div class="badge-alert-pill status-badge-orange">
+                            <div class="badge-alert-pill status-badge-orange" style="margin-top: 3px; flex-shrink: 0;">
                                 <div class="pulse-red" style="background:#F59E0B; box-shadow:0 0 5px #F59E0B;"></div>
                                 ВЫГРУЗКА
                             </div>
                         ` : e.badgeStatus === 'in-use' ? `
-                            <div class="badge-online-pill status-badge-green">
+                            <div class="badge-online-pill status-badge-green" style="margin-top: 3px; flex-shrink: 0;">
                                 <div class="pulse-green"></div>
                                 В РАБОТЕ
                             </div>
                         ` : `
-                            <div class="badge-online-pill status-badge-white">
+                            <div class="badge-online-pill status-badge-white" style="margin-top: 3px; flex-shrink: 0;">
                                 <div style="width:6px; height:6px; background:#FFF; border-radius:50%; opacity:0.5;"></div>
                                 ГОТОВ
                             </div>
                         `}
                     </div>
-
+ 
                     <div style="background:rgba(0,0,0,0.2); border-radius:16px; padding:15px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.03);">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                             <span style="font-size:10px; opacity:0.5; text-transform:uppercase; letter-spacing:0.5px;">Прогноз заряда</span>
@@ -1221,7 +1675,7 @@
                             <div style="width:${(e.batteryLeft/18)*100}%; height:100%; background:${statusColor}; box-shadow: 0 0 10px ${statusColor}66;"></div>
                         </div>
                     </div>
-
+ 
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:25px;">
                         <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; text-align:center;">
                             <div style="font-size:10px; opacity:0.5; text-transform:uppercase; margin-bottom:5px;">KPI Score</div>
@@ -1239,11 +1693,33 @@
 
         function renderSettings() {
             const c = config[currentMode];
+            
+            // Динамический заголовок чек-листа
+            const checklistTitle = document.getElementById('checklist-title');
+            if (checklistTitle) {
+                checklistTitle.innerText = `Чек-лист контроля (${c.checklist.length} пунктов)`;
+            }
+
+            // Динамический статус обучения ИИ
+            const trainingStatus = document.getElementById('ai-training-status');
+            if (trainingStatus) {
+                trainingStatus.innerText = `ИИ ОБУЧЕН ПО ${c.scripts.length} СЦЕНАРИЯМ`;
+            }
+
             const container = document.getElementById('checklist-container');
             container.innerHTML = c.checklist.map((item, i) => `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:12px 15px; border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="font-size:13px;">${i+1}. ${item}</div>
-                    <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:12px 15px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); position:relative;" class="checklist-item-hover">
+                    <div style="font-size:13px; flex-grow:1; display:flex; align-items:center; gap:8px;">
+                        <span style="opacity:0.4;">${i+1}.</span>
+                        <span>${item}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="display:flex; gap:8px; opacity:0; transition:0.2s;" class="item-actions">
+                            <span title="Редактировать пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="showToast('В коммерческой версии KST TRADE доступно гибкое управление чек-листами (добавление, удаление, изменение весов триггеров).')" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">✏️</span>
+                            <span title="Удалить пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="showToast('В коммерческой версии KST TRADE доступно гибкое управление чек-листами (добавление, удаление, изменение весов триггеров).')" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">🗑️</span>
+                        </div>
+                        <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                    </div>
                 </div>
             `).join('');
 
@@ -1256,7 +1732,7 @@
                             <span style="font-size:10px; color:#10B981; font-weight:700;">AI ACTIVE</span>
                         </div>
                         <p style="font-size:13px; font-style:italic; line-height:1.5; color:#A0AEC0; margin-bottom:15px;">${s.s}</p>
-                        <button class="btn btn--sm" style="width:100%; padding:5px; font-size:10px; opacity:0.5; border-color:rgba(255,255,255,0.1);">Изменить стандарт</button>
+                        <button class="btn btn--sm" style="width:100%; padding:5px; font-size:10px; opacity:0.5; border-color:rgba(255,255,255,0.1);" onclick="showToast('В коммерческой версии KST TRADE доступно гибкое управление базой знаний (добавление, удаление, обучение сценариям).')">Изменить стандарт</button>
                     </div>
                 `).join('');
             }
@@ -1264,17 +1740,78 @@
 
         function openDialog(id) {
             const d = dialogs.find(x => x.id === id);
-            document.getElementById('modal-title').innerText = "Диалог #" + id;
+            document.getElementById('modal-title').innerText = "Анализ аудио чека #" + id;
+            
+            let auditHtml = '';
+            if (d.audit) {
+                auditHtml = `
+                    <div style="font-weight:700; margin-bottom:15px; font-size: 14px;">Результаты проверки (ИИ-триггеры)</div>
+                    <div class="table-wrap" style="margin-bottom: 25px; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.2);">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02);">
+                                    <th style="padding: 12px 15px; color: var(--c-text-muted); font-size: 10px; font-weight: 700; text-transform: uppercase;">Триггер</th>
+                                    <th style="padding: 12px 15px; width: 120px; color: var(--c-text-muted); font-size: 10px; font-weight: 700; text-transform: uppercase;">Статус</th>
+                                    <th style="padding: 12px 15px; color: var(--c-text-muted); font-size: 10px; font-weight: 700; text-transform: uppercase;">Маркер / Комментарий ИИ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${d.audit.map(item => {
+                                    let statusBadge = '';
+                                    if (item.status === 'green') {
+                                        statusBadge = '<span class="u-chip u-chip--green">✅ Выполнен</span>';
+                                    } else if (item.status === 'amber') {
+                                        statusBadge = '<span class="u-chip u-chip--amber">⚠️ Внимание</span>';
+                                    } else {
+                                        statusBadge = '<span class="u-chip u-chip--red">❌ Нарушен</span>';
+                                    }
+                                    return `
+                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                            <td style="padding: 12px 15px; font-weight: 600; color: white;">${item.name}</td>
+                                            <td style="padding: 12px 15px;">${statusBadge}</td>
+                                            <td style="padding: 12px 15px; color: #A0AEC0; line-height: 1.4;">
+                                                <div style="font-style: italic; color: #fff; margin-bottom: 4px; font-size: 13px;">${item.text}</div>
+                                                <div style="font-size: 11px; opacity: 0.8;">${item.comment}</div>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            let lostProfitHtml = '';
+            if (d.lostProfit && d.lostProfit > 0) {
+                lostProfitHtml = `
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 20px;">⚠️</span>
+                            <div>
+                                <div style="font-weight: 700; color: #EF4444; font-size: 13px;">Упущенная выгода чека</div>
+                                <div style="font-size: 11px; opacity: 0.6; color: #A0AEC0;">Потенциал роста чека при соблюдении скрипта</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 18px; font-weight: 900; color: #EF4444;">~${d.lostProfit} ₸</div>
+                    </div>
+                `;
+            }
+
             document.getElementById('modal-body').innerHTML = `
                 <div style="background:rgba(59,130,246,0.05); border-left:4px solid #3B82F6; padding:24px; border-radius:8px; margin-bottom:20px;">
-                    <div style="font-weight:800; margin-bottom:10px;">ИИ-анализ сервиса</div>
-                    <p style="font-size:15px; color:#A0AEC0; line-height:1.6;">${d.review}</p>
+                    <div style="font-weight:800; margin-bottom:10px; font-size: 14px;">ИИ-анализ сервиса</div>
+                    <p style="font-size:14px; color:#A0AEC0; line-height:1.6; margin: 0;">${d.review}</p>
                 </div>
-                <div style="font-weight:700; margin-bottom:15px;">Аудио-расшифровка</div>
-                <div style="font-size:13px; color:#64748b; background:rgba(0,0,0,0.2); padding:20px; border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">
-                    ${currentMode === 'azs' ? 
-                        '<p><b>Кассир:</b> Добро пожаловать! Вам 95-й до полного? У нас сегодня акция на хот-доги, при покупке кофе — скидка 50%.</p><p><b>Клиент:</b> Да, давайте и капучино тогда.</p>' : 
-                        '<p><b>Фармацевт:</b> Здравствуйте! К этому антибиотику обязательно рекомендую пробиотик для защиты микрофлоры.</p><p><b>Клиент:</b> Хорошо, давайте самый лучший.</p>'}
+                ${lostProfitHtml}
+                ${auditHtml}
+                <div style="font-weight:700; margin-bottom:15px; font-size: 14px;">Аудио-расшифровка диалога</div>
+                <div style="font-size:13px; color:#A0AEC0; background:rgba(0,0,0,0.2); padding:20px; border-radius:12px; border:1px dashed rgba(255,255,255,0.1); max-height: 250px; overflow-y: auto;">
+                    ${d.transcript || `
+                        ${currentMode === 'azs' ? 
+                            '<p><b>Кассир:</b> Добро пожаловать! Вам 95-й до полного? У нас сегодня акция на хот-доги, при покупке кофе — скидка 50%.</p><p><b>Клиент:</b> Да, давайте и капучино тогда.</p>' : 
+                            '<p><b>Фармацевт:</b> Здравствуйте! К этому антибиотику обязательно рекомендую пробиотик для защиты микрофлоры.</p><p><b>Клиент:</b> Хорошо, давайте самый лучший.</p>'}
+                    `}
                 </div>
             `;
             document.getElementById('modal-overlay').style.display = 'flex';
@@ -1282,8 +1819,8 @@
         }
 
         const hardwareData = {
-            104: {
-                id: "104", city: "АЛМАТЫ", temp: "34°C", load: "12.5 Mbps", active: 4,
+            "1": {
+                id: "1", city: "КОСТАНАЙ", temp: "34°C", load: "12.5 Mbps", active: 4,
                 slots: [
                     { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
                     { id: 2, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
@@ -1291,8 +1828,8 @@
                     { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
                 ]
             },
-            105: {
-                id: "105", city: "АСТАНА", temp: "31°C", load: "8.2 Mbps", active: 4,
+            "7": {
+                id: "7", city: "КОСТАНАЙ", temp: "31°C", load: "8.2 Mbps", active: 4,
                 slots: [
                     { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
                     { id: 2, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
@@ -1300,13 +1837,22 @@
                     { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
                 ]
             },
-            106: {
-                id: "106", city: "ШЫМКЕНТ", temp: "42°C", load: "25.1 Mbps", active: 4,
+            "tobyl": {
+                id: "Тобыл", city: "г. ТОБЫЛ", temp: "35°C", load: "14.2 Mbps", active: 3,
                 slots: [
-                    { id: 1, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
                     { id: 2, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
-                    { id: 3, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
-                    { id: 4, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" }
+                    { id: 3, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" },
+                    { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
+                ]
+            },
+            "fedorovka": {
+                id: "Федоровка", city: "п. ФЕДОРОВКА", temp: "28°C", load: "6.8 Mbps", active: 2,
+                slots: [
+                    { id: 1, status: "ЗАРЯЖЕН", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
+                    { id: 2, status: "SYNC...", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+                    { id: 3, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" },
+                    { id: 4, status: "ПУСТО", color: "white", bg: "rgba(255,255,255,0.05)" }
                 ]
             }
         };
@@ -1314,11 +1860,7 @@
         function renderStation(id, btn) {
             let targetBtn = btn;
             if (!targetBtn) {
-                // Find button by text if not provided (for default selection)
-                const buttons = document.querySelectorAll('#view-hardware .filter-btn');
-                buttons.forEach(b => {
-                    if (b.innerText.includes(id)) targetBtn = b;
-                });
+                targetBtn = document.querySelector(`#view-hardware .filter-btn[data-station-id="${id}"]`);
             }
 
             if (targetBtn) {
@@ -1380,6 +1922,36 @@
             document.getElementById('modal-title').innerText = "Профиль: " + e.name;
             const labels = currentMode === 'azs' ? ['Кофе', 'Еда', 'Shop', 'Loyalty'] : ['Пробиотики', 'Витамины', 'Аналоги', 'Loyalty'];
             
+            let aiStrength = "Соблюдение вежливого тона и базовых регламентов обслуживания клиентов.";
+            let aiGrowth = "Рекомендуется более активно предлагать сопутствующие товары и контролировать выдачу чеков.";
+            
+            if (currentMode === 'azs') {
+                if (e.name === 'Анна К.') {
+                    aiStrength = "Выдающийся уровень соблюдения всех 7 триггеров регламента. Идеальная утвердительная форма предложения кофе и кросс-сейл выпечки. Отличная работа по промо-акции «Бензин в подарок» с механикой дотягивания чека.";
+                    aiGrowth = "Соблюдение стандартов близко к 100%. Рекомендуется привлечь к обучению стажеров в качестве наставника и тиражировать её скрипт на всю сеть.";
+                } else if (e.name === 'Дмитрий С.') {
+                    aiStrength = "Стабильное соблюдение регламентов продаж, отличные показатели предложения кофе и кросс-сейла выпечки. Клиенты тепло реагируют на инициативу.";
+                    aiGrowth = "Зафиксирован критический вопрос про чек «Вам чек нужен?» в сессии №4831. Необходимо строго соблювать стандарт автоматической выдачи чека без вопросов покупателю.";
+                } else if (e.name === 'Асель Н.') {
+                    aiStrength = "Приветливый тон, вежливый формат взаимодействия и быстрое обслуживание клиентов на АЗС №1.";
+                    aiGrowth = "Низкие показатели предложения кофе (использует запрещенную частицу НЕ, например «Кофе брать не будете?») и систематический пропуск предложения промо-акции. Проработать скрипты апсейла.";
+                } else if (e.name === 'Павел Б.') {
+                    aiStrength = "Высокая скорость обработки транзакций и корректное техническое проведение платежей по картам.";
+                    aiGrowth = "Критически низкий уровень соблюдения сервисных стандартов (оценка 29% в сессии №4828). Игнорирует предложение кофе, выпечки и промо-акций. Говорит сухое «Здрасьте» и задает вопрос «Чек нужен?». Требуется повторный тренинг.";
+                }
+            } else if (currentMode === 'pharmacy') {
+                if (e.name === 'Виктория') {
+                    aiStrength = "Идеальная фармацевтическая опека. В 100% случаев аргументирует необходимость предложения пробиотиков при продаже антибиотиков (сессия №2045).";
+                    aiGrowth = "Фармацевт работает на пределе эффективности. Рекомендуется премирование по итогам месяца и привлечение к разработке внутренних стандартов.";
+                } else if (e.name === 'Евгений') {
+                    aiStrength = "Хорошо отработан навык предложения витаминов и БАД к покупке. Высокая устойчивость при работе с возражениями по цене.";
+                    aiGrowth = "Необходимо повысить конверсию предложения аналогов при отсутствии оригинального препарата. Обратить внимание на допродажи сопутствующих товаров (шприцы, спиртовые салфетки).";
+                } else if (e.name === 'Алина') {
+                    aiStrength = "Вежливое приветствие и совместное соблюдение кассовой дисциплины, бесконфликтное обслуживание.";
+                    aiGrowth = "Систематическое непредложение сопутствующих препаратов (пробиотики к антибиотикам) и витаминов. Слабое знание аналогов лекарств. Необходима отправка на курсы повышения квалификации.";
+                }
+            }
+
             document.getElementById('modal-body').innerHTML = `
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-bottom:40px;">
                     <div>
@@ -1401,7 +1973,10 @@
                         </div>
                     </div>
                     <div>
-                        <div style="font-weight:800; margin-bottom:20px;">Эффективность допродаж</div>
+                        <div style="font-weight:800; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                            <span>Эффективность допродаж</span>
+                            <span style="font-size:11px; font-weight:normal; opacity:0.5; text-transform:none;">(за 30 дней)</span>
+                        </div>
                         <div style="height:150px; background:rgba(255,255,255,0.02); border-radius:12px; display:flex; align-items:flex-end; gap:8px; padding:15px; border: 1px solid rgba(255,255,255,0.05);">
                             ${e.upsell.map((val, i) => `<div style="flex:1; background:var(--gradient-primary); height:${val}%; border-radius:4px;" title="${labels[i]}"></div>`).join('')}
                         </div>
@@ -1413,10 +1988,10 @@
                         <div style="font-weight:800; margin-bottom:20px;">Рекомендации ИИ</div>
                         <div style="display:flex; flex-direction:column; gap:12px;">
                             <div style="background:rgba(16,185,129,0.1); border-radius:12px; padding:15px; font-size:13px;">
-                                ✅ <b style="color:#10B981">Сила:</b> Идеальное соблюдение вежливости и стандартов приветствия.
+                                ✅ <b style="color:#10B981">Сила:</b> ${aiStrength}
                             </div>
                             <div style="background:rgba(245,158,11,0.1); border-radius:12px; padding:15px; font-size:13px;">
-                                ⚠️ <b style="color:#F59E0B">Точка роста:</b> Рекомендуется более активно предлагать сопутствующие товары.
+                                ⚠️ <b style="color:#F59E0B">Точка роста:</b> ${aiGrowth}
                             </div>
                         </div>
                     </div>
@@ -1426,8 +2001,11 @@
                         <div style="font-weight:800; margin-bottom:15px;">Последние диалоги</div>
                         <div style="display:flex; flex-direction:column; gap:10px;">
                             ${dialogs.filter(d => d.emp === e.name).slice(0, 3).map(d => `
-                                <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
-                                    <div style="font-size:12px;">${d.topic}</div>
+                                <div onclick="openDialog(${d.id})" class="dialog-item-interactive" style="background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+                                    <div style="font-size:12px; display:flex; flex-direction:column; gap:2px;">
+                                        <span style="font-weight:600;">Чек #${d.id}</span>
+                                        <span style="opacity:0.7;">${d.topic}</span>
+                                    </div>
                                     <div class="u-chip ${parseInt(d.script) > 80 ? 'u-chip--green' : 'u-chip--red'}">${d.script}</div>
                                 </div>
                             `).join('')}
@@ -1456,10 +2034,36 @@
                 processingInterval = null;
             }
         }
+        function showToast(message) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'toast-v3';
+            toast.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
         function showModelUpdate() {
             const status = document.getElementById('model-status');
-            status.style.opacity = '1';
-            setTimeout(() => { status.style.opacity = '0'; }, 2000);
+            if (status) {
+                status.style.opacity = '1';
+                setTimeout(() => { status.style.opacity = '0'; }, 2000);
+            }
         }
 
         function startGlobalSync() {
