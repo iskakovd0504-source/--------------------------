@@ -558,7 +558,7 @@
                         <circle cx="33" cy="18" r="1.5" fill="#06B6D4" />
                     </svg>
                 </div>
-                <span class="logo__text" style="font-size: 20px;">KST TRADE</span>
+                <span id="sidebar-logo-text" class="logo__text" style="font-size: 20px;">KST TRADE</span>
             </a>
         </div>
         <nav>
@@ -876,6 +876,7 @@
         let currentMode = 'azs';
         const config = {
             azs: {
+                clientName: "KST TRADE",
                 title: "Контроль стандартов АЗС KST TRADE",
                 empLabel: "Операторы-кассиры",
                 stationLabel: "АЗС",
@@ -1016,6 +1017,7 @@
                 ]
             },
             pharmacy: {
+                clientName: "PHARMA DEMO",
                 title: "Показатели аптечной сети",
                 empLabel: "Фармацевты",
                 stationLabel: "Аптеки",
@@ -1494,6 +1496,9 @@
             const pageTitle = document.getElementById('page-title');
             if (pageTitle) pageTitle.innerText = c.title;
             
+            const sidebarLogoText = document.getElementById('sidebar-logo-text');
+            if (sidebarLogoText) sidebarLogoText.innerText = c.clientName;
+
             const sidebarContext = document.getElementById('sidebar-context');
             if (sidebarContext) sidebarContext.innerText = `Интерфейс: ${c.stationLabel.toUpperCase()}`;
             
