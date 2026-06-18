@@ -103,6 +103,7 @@
                     const target = parseInt(el.dataset.count);
                     const duration = 2000;
                     const start = performance.now();
+                    el.textContent = '0';
 
                     function updateCount(now) {
                         const elapsed = now - start;
@@ -317,5 +318,153 @@
             window.location.href = prefix + 'demo.html';
         }
     });
+
+
+    /* ===== VIDEO MODAL & AI SIMULATION ===== */
+    const openVideoBtn = document.getElementById('open-video-btn');
+    const closeVideoBtn = document.getElementById('close-video-btn');
+    const videoModalOverlay = document.getElementById('video-modal-overlay');
+    const videoModal = document.getElementById('video-modal');
+    const startSimulationBtn = document.getElementById('start-simulation-btn');
+    const videoPlaceholderContent = document.getElementById('video-placeholder-content');
+    const videoSimulation = document.getElementById('video-simulation');
+    const simTerminalText = document.getElementById('sim-terminal-text');
+
+    function openModal() {
+        if (videoModal) videoModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        if (videoModal) videoModal.classList.remove('active');
+        document.body.style.overflow = '';
+        if (videoSimulation) videoSimulation.style.display = 'none';
+        if (videoPlaceholderContent) videoPlaceholderContent.style.display = 'block';
+        if (simTerminalText) simTerminalText.innerHTML = '';
+    }
+
+        if (openVideoBtn) openVideoBtn.addEventListener('click', openModal);
+    if (closeVideoBtn) closeVideoBtn.addEventListener('click', closeModal);
+    if (videoModalOverlay) videoModalOverlay.addEventListener('click', closeModal);
+
+    // Предотвращаем закрытие модалки при клике на ее контент (остановка всплытия)
+    const modalContent = document.querySelector('.modal__content');
+    if (modalContent) {
+        modalContent.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && videoModal && videoModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    const simLines = [
+        { text: "> Initializing AiProtocol Audio Processor...", delay: 500, color: "#06B6D4" },
+        { text: "> Loading acoustic models (RU-KZ)... Done.", delay: 800, color: "#22c55e" },
+        { text: "> Connection status: Audioshield Active.", delay: 600, color: "#22c55e" },
+        { text: "> Stream started. Analyzing room noise: 42dB (Excellent).", delay: 1000, color: "#e2e8f0" },
+        { text: "\n[00:02] Employee: Здравствуйте! Заправляем полный бак?", delay: 1500, color: "#3B82F6" },
+        { text: "[00:05] Customer: Да, 95-й, пожалуйста.", delay: 1200, color: "#f8fafc" },
+        { text: "[00:08] Employee: Отлично. У нас сегодня акция: при заправке от 30 литров — наш фирменный кофе со скидкой 50%. Желаете попробовать?", delay: 2000, color: "#3B82F6" },
+        { text: "[00:14] Customer: Хм, ну давайте капучино с собой.", delay: 1500, color: "#f8fafc" },
+        { text: "[00:17] Employee: Заказ принят. Оплата картой?", delay: 1000, color: "#3B82F6" },
+        { text: "[00:20] Customer: Да, бесконтактно.", delay: 800, color: "#f8fafc" },
+        { text: "\n> Analyzing conversation metrics...", delay: 1200, color: "#eab308" },
+        { text: "  - Приветствие: Использовано [ВЕРНО]", delay: 600, color: "#22c55e" },
+        { text: "  - Выявление потребности: Пройдено [ВЕРНО]", delay: 500, color: "#22c55e" },
+        { text: "  - Предложение акции/допродажа: Да (Кофе) [ВЕРНО]", delay: 500, color: "#22c55e" },
+        { text: "  - Тон сотрудника: Вежливый, вовлеченный [9.2/10]", delay: 700, color: "#06B6D4" },
+        { text: "  - Конфликтность: 0% [БЕЗОПАСНО]", delay: 400, color: "#22c55e" },
+        { text: "\n> ИИ-ВЕРДИКТ: Диалог успешный. Средний чек увеличен на 1200 ₸. Данные отправлены в дашборд.", delay: 1500, color: "#22c55e" },
+        { text: "\n[СИМУЛЯЦИЯ ЗАВЕРШЕНА. Спасибо за просмотр!]", delay: 1000, color: "#06B6D4" }
+    ];
+
+    if (startSimulationBtn) {
+        startSimulationBtn.addEventListener('click', () => {
+            if (videoPlaceholderContent) videoPlaceholderContent.style.display = 'none';
+            if (videoSimulation) videoSimulation.style.display = 'block';
+            
+            let currentLine = 0;
+            if (simTerminalText) simTerminalText.innerHTML = "";
+
+            function typeNextLine() {
+                if (currentLine < simLines.length) {
+                    const line = simLines[currentLine];
+                    const p = document.createElement('p');
+                    p.style.color = line.color;
+                    p.style.margin = "4px 0";
+                    p.style.fontSize = "13px";
+                    p.style.fontFamily = "monospace";
+                    
+                    if (line.text.startsWith("\n")) {
+                        p.innerHTML = "<br>" + line.text.substring(2);
+                    } else {
+                        p.textContent = line.text;
+                    }
+                    
+                    if (simTerminalText) {
+                        simTerminalText.appendChild(p);
+                        videoSimulation.scrollTop = videoSimulation.scrollHeight;
+                        
+                        // Посимвольный вывод текста
+                        const textToType = line.text.startsWith("\\n") ? line.text.substring(2) : line.text;
+                        p.textContent = line.text.startsWith("\\n") ? "\n" : "";
+                        
+                        let charIdx = 0;
+                        function typeChar() {
+                            if (charIdx < textToType.length) {
+                                p.textContent += textToType[charIdx];
+                                charIdx++;
+                                videoSimulation.scrollTop = videoSimulation.scrollHeight;
+                                setTimeout(typeChar, 15 + Math.random() * 15); // Случайная задержка для естественности
+                            } else {
+                                currentLine++;
+                                setTimeout(typeNextLine, line.delay);
+                            }
+                        }
+                        typeChar();
+                    } else {
+                        currentLine++;
+                        setTimeout(typeNextLine, line.delay);
+                    }
+                }
+            }
+            
+            typeNextLine();
+        });
+    }
+
+    // Обработка отправки формы тест-драйва
+    const tdForm = document.getElementById('test-drive-form');
+    if (tdForm) {
+        tdForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('td-submit');
+            const originalHTML = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = `
+                Отправка...
+            `;
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                submitBtn.innerHTML = "Заявка успешно отправлена! ✓";
+                submitBtn.style.background = "#22c55e";
+                submitBtn.style.borderColor = "#22c55e";
+                
+                tdForm.reset();
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.style.background = "";
+                    submitBtn.style.borderColor = "";
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, 1500);
+        });
+    }
 
 })();
