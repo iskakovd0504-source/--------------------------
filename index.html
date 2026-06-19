@@ -328,82 +328,107 @@
             <div class="container">
                 <div class="section-header" data-animate="fade-up">
                     <span class="section-tag">Как это работает</span>
-                    <h2 class="section-title">От&nbsp;бейджа до&nbsp;инсайта за&nbsp;<span
-                            class="gradient-text">4&nbsp;шага</span></h2>
+                    <h2 class="section-title">От&nbsp;бейджа до&nbsp;инсайта за&nbsp;<span class="gradient-text">4&nbsp;шага</span></h2>
                     <p class="section-subtitle">Внедрение занимает один день. Результаты — с первого дня.</p>
                 </div>
-                <div class="steps">
-                    <div class="steps__line"></div>
-                    <div class="step" data-animate="fade-up" data-delay="100">
-                        <div class="step__number">01</div>
-                        <div class="step__content">
-                            <div class="step__icon-wrap">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <rect x="6" y="4" width="20" height="24" rx="3" stroke="currentColor"
-                                        stroke-width="2" />
-                                    <circle cx="16" cy="14" r="4" stroke="currentColor" stroke-width="2" />
-                                    <path d="M10 24C10 21.5 12.5 20 16 20C19.5 20 22 21.5 22 24" stroke="currentColor"
-                                        stroke-width="2" />
-                                </svg>
+                <div class="steps__container">
+                    <div class="steps__list">
+                        <div class="step active" data-step="1" data-animate="fade-right" data-delay="50">
+                            <div class="step__number">01</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Надевается бейдж</h3>
+                                <p class="step__text">Сотрудник берёт бейдж с зарядной станции. Запись включается автоматически. Два микрофона чисто захватывают и сотрудника, и клиента.</p>
                             </div>
-                            <h3 class="step__title">Надевается бейдж</h3>
-                            <p class="step__text">Сотрудник берёт бейдж с зарядной станции. Запись включается
-                                автоматически. Два микрофона захватывают и сотрудника, и клиента.</p>
+                        </div>
+                        <div class="step" data-step="2" data-animate="fade-right" data-delay="100">
+                            <div class="step__number">02</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Данные передаются</h3>
+                                <p class="step__text">После смены бейдж ставится на зарядку. Все записи автоматически выгружаются на зашифрованный сервер по Wi-Fi.</p>
+                            </div>
+                        </div>
+                        <div class="step" data-step="3" data-animate="fade-right" data-delay="150">
+                            <div class="step__number">03</div>
+                            <div class="step__content">
+                                <h3 class="step__title">ИИ анализирует</h3>
+                                <p class="step__text">Нейросеть транскрибирует разговоры, разделяет голоса, оценивает по 12+ метрикам: скрипты, конфликты, тон, допродажи.</p>
+                            </div>
+                        </div>
+                        <div class="step" data-step="4" data-animate="fade-right" data-delay="200">
+                            <div class="step__number">04</div>
+                            <div class="step__content">
+                                <h3 class="step__title">Вы получаете отчёт</h3>
+                                <p class="step__text">Наглядный дашборд с рейтингами, проблемными зонами и конкретными рекомендациями для мотивации каждого сотрудника.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="step" data-animate="fade-up" data-delay="200">
-                        <div class="step__number">02</div>
-                        <div class="step__content">
-                            <div class="step__icon-wrap">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <path d="M16 6V26M16 6L10 12M16 6L22 12" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M6 26H26" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                    <path d="M4 20L8 16L12 18L16 14L20 17L24 13L28 16" stroke="currentColor"
-                                        stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
-                                </svg>
+                    <div class="steps__preview-wrap" data-animate="fade-left" data-delay="100">
+                        <div class="steps__preview">
+                            <div class="preview__glow"></div>
+                            
+                            <!-- Slide 1: Badge Recording -->
+                            <div class="preview-slide active" id="slide-1">
+                                <div class="badge-rec-sim">
+                                    <div class="badge-body-mini">
+                                        <span class="rec-dot-pulse"></span>
+                                        <div class="wave-group">
+                                            <div class="wave-bar"></div>
+                                            <div class="wave-bar"></div>
+                                            <div class="wave-bar"></div>
+                                            <div class="wave-bar"></div>
+                                            <div class="wave-bar"></div>
+                                        </div>
+                                    </div>
+                                    <p class="preview-caption">Идет аудиозапись смены. Микрофоны глушат фоновый шум.</p>
+                                </div>
                             </div>
-                            <h3 class="step__title">Данные передаются</h3>
-                            <p class="step__text">После смены бейдж ставится на зарядку. Все записи автоматически
-                                выгружаются на сервер по Wi-Fi.</p>
-                        </div>
-                    </div>
-                    <div class="step" data-animate="fade-up" data-delay="300">
-                        <div class="step__number">03</div>
-                        <div class="step__content">
-                            <div class="step__icon-wrap">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="2" />
-                                    <path d="M16 10V16L20 20" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M24 8L28 4" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                    <path d="M8 8L4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                </svg>
+
+                            <!-- Slide 2: Data transfer -->
+                            <div class="preview-slide" id="slide-2">
+                                <div class="wifi-transfer-sim">
+                                    <div class="wifi-station">
+                                        <i class="ph-bold ph-wifi-high" style="font-size: 48px; color: var(--c-accent-cyan);"></i>
+                                    </div>
+                                    <div class="transfer-progress-bar">
+                                        <div class="transfer-progress-fill"></div>
+                                    </div>
+                                    <p class="preview-caption">Передача аудиозаписей в облачное S3 хранилище по Wi-Fi.</p>
+                                </div>
                             </div>
-                            <h3 class="step__title">ИИ анализирует</h3>
-                            <p class="step__text">Нейросеть транскрибирует разговоры, разделяет голоса, оценивает по 12+
-                                метрикам: скрипты, конфликты, тон, допродажи.</p>
-                        </div>
-                    </div>
-                    <div class="step" data-animate="fade-up" data-delay="400">
-                        <div class="step__number">04</div>
-                        <div class="step__content">
-                            <div class="step__icon-wrap">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                    <rect x="4" y="6" width="24" height="18" rx="3" stroke="currentColor"
-                                        stroke-width="2" />
-                                    <path d="M4 12H28" stroke="currentColor" stroke-width="2" />
-                                    <path d="M10 17H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                    <path d="M10 21H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                    <circle cx="23" cy="19" r="3" stroke="currentColor" stroke-width="2" />
-                                    <path d="M25 21L27 23" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
+
+                            <!-- Slide 3: AI Speech-to-Text -->
+                            <div class="preview-slide" id="slide-3">
+                                <div class="ai-analysis-sim">
+                                    <div class="analysis-term">
+                                        <p class="term-line"><span style="color: var(--c-accent-cyan);">[ИИ транскрибация]:</span> Здравствуйте! Чем могу помочь?</p>
+                                        <p class="term-line"><span style="color: var(--c-accent-cyan);">[ИИ анализ]:</span> <span class="tag-ai green">Приветствие ✓</span></p>
+                                        <p class="term-line"><span style="color: var(--c-accent-cyan);">[ИИ транскрибация]:</span> Предлагаю вам фирменный кофе по акции.</p>
+                                        <p class="term-line"><span style="color: var(--c-accent-cyan);">[ИИ анализ]:</span> <span class="tag-ai cyan">Акция (допродажа) ✓</span></p>
+                                    </div>
+                                    <p class="preview-caption">Оценка диалога по чек-листам и извлечение ключевых метрик.</p>
+                                </div>
                             </div>
-                            <h3 class="step__title">Вы получаете отчёт</h3>
-                            <p class="step__text">Наглядный дашборд с рейтингами, проблемными зонами и конкретными
-                                рекомендациями. Каждый день, без ручной работы.</p>
+
+                            <!-- Slide 4: Interactive Dashboard -->
+                            <div class="preview-slide" id="slide-4">
+                                <div class="dashboard-preview-sim">
+                                    <div class="mini-db-header">
+                                        <span>Сотрудник: Анна К.</span>
+                                        <span style="color: var(--c-accent-green); font-weight: 700;">94%</span>
+                                    </div>
+                                    <div class="mini-db-metric-row">
+                                        <div class="mini-db-metric">
+                                            <span class="db-label">Скрипты</span>
+                                            <span class="db-val">96%</span>
+                                        </div>
+                                        <div class="mini-db-metric">
+                                            <span class="db-label">Вежливость</span>
+                                            <span class="db-val">100%</span>
+                                        </div>
+                                    </div>
+                                    <p class="preview-caption">Формирование авто-отчетов и персональных рекомендаций.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

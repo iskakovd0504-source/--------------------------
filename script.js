@@ -467,4 +467,27 @@
         });
     }
 
+    // Интерактивное переключение шагов в блоке "Как это работает"
+    const steps = document.querySelectorAll('.step');
+    const slides = document.querySelectorAll('.preview-slide');
+
+    if (steps.length > 0 && slides.length > 0) {
+        steps.forEach(step => {
+            step.addEventListener('click', () => {
+                const targetStep = step.getAttribute('data-step');
+                
+                // Деактивируем все шаги и слайды
+                steps.forEach(s => s.classList.remove('active'));
+                slides.forEach(sl => sl.classList.remove('active'));
+                
+                // Активируем нужный шаг и слайд
+                step.classList.add('active');
+                const targetSlide = document.getElementById(`slide-${targetStep}`);
+                if (targetSlide) {
+                    targetSlide.classList.add('active');
+                }
+            });
+        });
+    }
+
 })();
