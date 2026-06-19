@@ -309,12 +309,17 @@
             const submitBtn = document.getElementById('form-submit');
             const originalHTML = submitBtn.innerHTML;
 
+            const name = document.getElementById('form-name').value;
+            const phone = document.getElementById('form-phone').value;
+            const company = document.getElementById('form-company').value;
+            const industry = document.getElementById('form-industry').value;
+
             // Collect form data
             const templateParams = {
-                from_name: document.getElementById('form-name').value,
-                phone: document.getElementById('form-phone').value,
-                company: document.getElementById('form-company').value,
-                industry: document.getElementById('form-industry').value,
+                from_name: name,
+                phone: phone,
+                company: company,
+                industry: industry,
             };
 
             // Visual feedback — loading
@@ -326,13 +331,24 @@
             `;
             submitBtn.disabled = true;
 
+            // Функция перехода на WhatsApp при успешной отправке
+            const sendToWhatsApp = () => {
+                const isEn = window.location.pathname.includes('/en/');
+                const text = isEn 
+                    ? `Hello! Demo Request from OKKM website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
+                    : `Здравствуйте! Заявка на демо с сайта OKKM:\n\nИмя: ${name}\nТелефон: ${phone}\nCompany: ${company}\nОтрасль: ${industry}`;
+                const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
+                window.open(waUrl, '_blank');
+            };
+
             // Check if EmailJS is configured
             if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
                 // Demo mode — simulate sending
                 console.warn('EmailJS не настроен. Работает в демо-режиме. Данные формы:', templateParams);
                 setTimeout(() => {
                     showSuccess(submitBtn, originalHTML);
-                }, 1500);
+                    sendToWhatsApp();
+                }, 1000);
                 return;
             }
 
@@ -340,6 +356,7 @@
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                 .then(() => {
                     showSuccess(submitBtn, originalHTML);
+                    sendToWhatsApp();
                 })
                 .catch((error) => {
                     console.error('EmailJS error:', error);
@@ -580,6 +597,10 @@
             const submitBtn = document.getElementById('td-submit');
             const originalHTML = submitBtn.innerHTML;
             
+            const name = document.getElementById('td-name').value;
+            const phone = document.getElementById('td-phone').value;
+            const company = document.getElementById('td-company').value;
+
             submitBtn.innerHTML = `
                 Отправка...
             `;
@@ -590,6 +611,14 @@
                 submitBtn.style.background = "#22c55e";
                 submitBtn.style.borderColor = "#22c55e";
                 
+                // Перенаправление на WhatsApp с параметрами тест-драйва
+                const isEn = window.location.pathname.includes('/en/');
+                const text = isEn 
+                    ? `Hello! Request for 2 free badges (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
+                    : `Здравствуйте! Запрос 2-х бейджей (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
+                const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
+                window.open(waUrl, '_blank');
+
                 tdForm.reset();
                 
                 setTimeout(() => {
@@ -598,7 +627,7 @@
                     submitBtn.style.borderColor = "";
                     submitBtn.disabled = false;
                 }, 3000);
-            }, 1500);
+            }, 1000);
         });
     }
 
