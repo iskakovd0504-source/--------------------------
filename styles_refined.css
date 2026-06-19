@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* 1. ГЛОБАЛЬНЫЕ ЦВЕТА И ШРИФТЫ */
+:root {
+    --c-bg: #050B14;
+    --c-bg-elevated: #080E1A;
+    --c-bg-card: rgba(8, 14, 26, 0.4);
+    --c-bg-card-hover: rgba(12, 22, 40, 0.6);
+    --c-surface: rgba(255, 255, 255, 0.02);
+    --c-border: rgba(6, 182, 212, 0.1);
+    --c-border-hover: rgba(6, 182, 212, 0.25);
+    
+    --c-text-primary: #F8FAFC;
+    --c-text-secondary: #CBD5E1;
+    --c-text-muted: #64748B;
+
+    --f-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+}
+
+/* Применяем глобальный градиентный фон холста */
+body {
+    background: linear-gradient(to bottom, #050B14 0%, #03070E 40%, #000000 100%) !important;
+    font-family: var(--f-family) !important;
+    letter-spacing: 0.01em;
+}
+
+.hero__content, .hero__visual {
+    position: relative;
+    z-index: 5 !important; /* Делаем контент выше волны, чтобы кнопки нажимались */
+}
+
+/* 2. ТИПОГРАФИКА */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400 !important; /* Ультра-минималистичный Light/Regular стиль */
+    letter-spacing: -0.01em !important;
+}
+
+.hero__title {
+    font-weight: 300 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.15 !important;
+}
+
+.hero__subtitle {
+    font-weight: 300 !important;
+    color: var(--c-text-secondary) !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.7 !important;
+}
+
+/* Выравнивание по левому краю для разделов на десктопе */
+@media (min-width: 992px) {
+    .section-header {
+        text-align: left !important;
+        max-width: 800px !important;
+        margin: 0 0 var(--space-12) 0 !important;
+    }
+}
+
+/* 3. THREE.JS 3D GLASS WAVE */
+.hero__wave-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 700px;
+    z-index: 1; /* Позади контента */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#kinetic-wave-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.kinetic-wave {
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 50% 40%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+    filter: blur(80px);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    animation: waveLiquid 25s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+
+@keyframes waveLiquid {
+    0% {
+        transform: scale(0.95) rotate(0deg) translate(0px, 0px);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+    50% {
+        transform: scale(1.1) rotate(9deg) translate(20px, -40px);
+        border-radius: 50% 50% 50% 50% / 40% 60% 40% 60%;
+    }
+    100% {
+        transform: scale(1.0) rotate(-5deg) translate(-25px, 20px);
+        border-radius: 60% 40% 60% 40% / 50% 50% 50% 50%;
+    }
+}
+
+/* 4. КНОПКИ В СТИЛЕ GLASSMORPHISM */
+.btn {
+    border-radius: 40px !important; /* Более обтекаемые премиальные формы */
+}
+
+.btn--primary {
+    background: rgba(6, 182, 212, 0.06) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(6, 182, 212, 0.3) !important;
+    color: var(--c-accent-cyan) !important;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.05) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn--primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn--primary:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(6, 182, 212, 0.6) !important;
+    box-shadow: 0 8px 30px rgba(6, 182, 212, 0.25) !important;
+    color: white !important;
+}
+
+.btn--primary:hover::before {
+    opacity: 1;
+}
+
+.btn--ghost {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.btn--ghost:hover {
+    border-color: var(--c-border-hover) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ===== HERO ===== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: var(--space-32) 0 var(--space-16);
+    overflow: hidden;
+}
+
+.hero__inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    position: relative;
+    z-index: 5;
+}
+
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.hero__badge {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero__stats {
+    justify-content: center !important;
+    width: 100%;
+}
+
+.problem__card:hover, .metric-card:hover, .industry-card:hover {
+    border-color: rgba(6, 182, 212, 0.2) !important;
+    transform: translateY(-4px) !important;
+    background: rgba(8, 14, 26, 0.35) !important;
+}
+
+/* Тонкие разделители вместо толстых плашек */
+hr, .hero__stat-divider {
+    background: rgba(6, 182, 212, 0.1) !important;
+}
+
+/* Минималистичные поля ввода */
+.cta-form__input, .cta-form__select {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(6, 182, 212, 0.2) !important;
+    border-radius: 0 !important;
+    padding: var(--space-3) 0 !important;
+    color: white !important;
+    transition: border-color 0.3s, box-shadow 0.3s !important;
+}
+
+.cta-form__input:focus, .cta-form__select:focus {
+    outline: none !important;
+    border-bottom-color: var(--c-accent-cyan) !important;
+    box-shadow: 0 1px 0 var(--c-accent-cyan) !important;
+}
+
+/* Иконки и маркеры */
+.checklist-icon--success, .message-badge--success {
+    color: var(--c-accent-cyan) !important;
+    background: rgba(6, 182, 212, 0.1) !important;
+}
+
+/* 5. КАРТОЧКИ (GLASSMORPHIC DARK) */
+.problem__card, .metric-card, .industry-card, .pricing__card, .faq__item, .ai-demo__player-box, .ai-demo__analysis, .roi-calc__controls, .roi-calc__results {
+    background: rgba(8, 14, 26, 0.25) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(6, 182, 212, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    transition: border-color 0.3s, transform 0.3s !important;
+}

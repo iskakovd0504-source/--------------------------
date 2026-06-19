@@ -9,9 +9,10 @@
         content="AI-аудиобейджи для офлайн-точек: ритейл, АЗС, аптеки. Транскрибация 100% разговоров сотрудников, анализ конфликтов и скриптов от ТОО Aiprotocol.kz.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_refined.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- SEO & Open Graph -->
@@ -32,6 +33,7 @@
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 
@@ -118,6 +120,9 @@
             <div class="hero__bg-grid"></div>
             <div class="hero__glow hero__glow--1"></div>
             <div class="hero__glow hero__glow--2"></div>
+            <div class="hero__wave-container">
+                <canvas id="3d-glass-wave" style="display: block; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: screen;"></canvas>
+            </div>
             <div class="container hero__inner">
                 <div class="hero__content">
                     <div class="hero__badge" data-animate="fade-up">
@@ -168,89 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero__visual" data-animate="fade-left" data-delay="200">
-                    <div class="hero__device-wrapper">
-                        <div class="hero__device-glow"></div>
-                        <svg class="hero__device-img" id="hero-badge-img" width="280" height="380" viewBox="0 0 280 380"
-                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Badge body -->
-                            <rect x="30" y="60" width="220" height="300" rx="24" fill="url(#badgeBg)"
-                                stroke="url(#badgeBorder)" stroke-width="2" />
-                            <!-- Screen area -->
-                            <rect x="50" y="110" width="180" height="160" rx="12" fill="#0a1628" opacity="0.8" />
-                            <!-- Waveform lines -->
-                            <path d="M70 170 Q90 140 110 170 Q130 200 150 170 Q170 140 190 170 Q210 200 210 170"
-                                stroke="url(#waveGrad)" stroke-width="3" stroke-linecap="round" fill="none"
-                                opacity="0.8" />
-                            <path
-                                d="M70 200 Q85 180 100 200 Q115 220 130 200 Q145 180 160 200 Q175 220 190 200 Q205 180 210 200"
-                                stroke="#3B82F6" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5" />
-                            <path d="M70 220 Q90 210 110 220 Q130 230 150 220 Q170 210 190 220 Q210 230 210 220"
-                                stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.3" />
-                            <!-- Status indicator -->
-                            <circle cx="140" cy="135" r="6" fill="#22c55e">
-                                <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
-                            </circle>
-                            <text x="155" y="139" fill="#94a3b8" font-size="11"
-                                font-family="Inter, sans-serif">REC</text>
-                            <!-- Mic icons -->
-                            <circle cx="110" cy="300" r="16" fill="rgba(59,130,246,0.15)" stroke="#3B82F6"
-                                stroke-width="1.5" />
-                            <path d="M106 296V300C106 302.2 107.8 304 110 304C112.2 304 114 302.2 114 300V296"
-                                stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" />
-                            <line x1="110" y1="304" x2="110" y2="308" stroke="#3B82F6" stroke-width="1.5"
-                                stroke-linecap="round" />
-                            <circle cx="170" cy="300" r="16" fill="rgba(6,182,212,0.15)" stroke="#06B6D4"
-                                stroke-width="1.5" />
-                            <path d="M166 296V300C166 302.2 167.8 304 170 304C172.2 304 174 302.2 174 300V296"
-                                stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" />
-                            <line x1="170" y1="304" x2="170" y2="308" stroke="#06B6D4" stroke-width="1.5"
-                                stroke-linecap="round" />
-                            <!-- Lanyard hole -->
-                            <rect x="120" y="60" width="40" height="12" rx="6" fill="#1e293b" />
-                            <rect x="130" y="40" width="20" height="30" rx="4" fill="url(#badgeBorder)" opacity="0.5" />
-                            <!-- ОККМ label -->
-                            <text x="140" y="95" text-anchor="middle" fill="white" font-size="18" font-weight="700"
-                                font-family="Inter, sans-serif">ОККМ</text>
-                            <!-- Gradients -->
-                            <defs>
-                                <linearGradient id="badgeBg" x1="30" y1="60" x2="250" y2="360">
-                                    <stop stop-color="#141e30" />
-                                    <stop offset="1" stop-color="#0c1524" />
-                                </linearGradient>
-                                <linearGradient id="badgeBorder" x1="30" y1="60" x2="250" y2="360">
-                                    <stop stop-color="#3B82F6" stop-opacity="0.5" />
-                                    <stop offset="1" stop-color="#06B6D4" stop-opacity="0.3" />
-                                </linearGradient>
-                                <linearGradient id="waveGrad" x1="70" y1="170" x2="210" y2="170">
-                                    <stop stop-color="#3B82F6" />
-                                    <stop offset="1" stop-color="#06B6D4" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="hero__floating-card hero__floating-card--1" data-animate="float">
-                        <div class="floating-card__icon floating-card__icon--green">✓</div>
-                        <div class="floating-card__text">
-                            <span class="floating-card__title">Скрипт соблюдён</span>
-                            <span class="floating-card__value">92%</span>
-                        </div>
-                    </div>
-                    <div class="hero__floating-card hero__floating-card--2" data-animate="float">
-                        <div class="floating-card__icon floating-card__icon--blue">📊</div>
-                        <div class="floating-card__text">
-                            <span class="floating-card__title">Допродажа</span>
-                            <span class="floating-card__value">Обнаружена</span>
-                        </div>
-                    </div>
-                    <div class="hero__floating-card hero__floating-card--3" data-animate="float">
-                        <div class="floating-card__icon floating-card__icon--amber">😊</div>
-                        <div class="floating-card__text">
-                            <span class="floating-card__title">Тон диалога</span>
-                            <span class="floating-card__value">Позитивный</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </section>
 
@@ -295,13 +218,13 @@
                         </div>
 
                         <div class="demo-transcript" id="demo-transcript">
-                            <div class="transcript-message highlight-green" data-time="1" data-scroll-to="0">
+                            <div class="transcript-message highlight-red" data-time="1" data-scroll-to="0">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
                                     <span class="message-timestamp">00:01</span>
                                 </div>
-                                <div class="message-text">Здравствуйте! Добро пожаловать. Подскажите, вы выбрали что-нибудь?</div>
-                                <span class="message-badge message-badge--success">Приветствие выполнено</span>
+                                <div class="message-text">Здрасьте.</div>
+                                <span class="message-badge message-badge--danger">Нарушение приветствия</span>
                             </div>
 
                             <div class="transcript-message" data-time="4">
@@ -309,33 +232,33 @@
                                     <span class="message-speaker">Клиент</span>
                                     <span class="message-timestamp">00:04</span>
                                 </div>
-                                <div class="message-text">Да, мне, пожалуйста, капучино средний и вот этот круассан с миндалем.</div>
+                                <div class="message-text">Добрый день. Мне 20 литров АИ-92 на 4 колонку.</div>
                             </div>
 
-                            <div class="transcript-message highlight-green" data-time="8">
+                            <div class="transcript-message highlight-red" data-time="8">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
                                     <span class="message-timestamp">00:08</span>
                                 </div>
-                                <div class="message-text">Отличный выбор. Карта лояльности нашей сети у вас есть?</div>
-                                <span class="message-badge message-badge--success">Карта спрошена</span>
+                                <div class="message-text">4600 тенге к оплате.</div>
+                                <span class="message-badge message-badge--danger">Пропущен повтор заказа</span>
                             </div>
 
-                            <div class="transcript-message" data-time="11">
+                            <div class="transcript-message" data-time="12">
                                 <div class="message-meta">
                                     <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:11</span>
+                                    <span class="message-timestamp">00:12</span>
                                 </div>
-                                <div class="message-text">Ой, нет, пластиковой нет с собой.</div>
+                                <div class="message-text">Держите карту.</div>
                             </div>
 
-                            <div class="transcript-message highlight-green" data-time="14">
+                            <div class="transcript-message highlight-red" data-time="15">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Продавец</span>
-                                    <span class="message-timestamp">00:14</span>
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:15</span>
                                 </div>
-                                <div class="message-text">Ничего страшного, можем провести по номеру телефона, чтобы начислить бонусы. Назовете?</div>
-                                <span class="message-badge message-badge--success">Помощь с программой лояльности</span>
+                                <div class="message-text">Что-нибудь еще?</div>
+                                <span class="message-badge message-badge--danger">Запрещенный кросс-сейл</span>
                             </div>
 
                             <div class="transcript-message" data-time="18">
@@ -343,33 +266,33 @@
                                     <span class="message-speaker">Клиент</span>
                                     <span class="message-timestamp">00:18</span>
                                 </div>
-                                <div class="message-text">Да, записывайте: +7 777 123 45 67.</div>
+                                <div class="message-text">Нет.</div>
                             </div>
 
-                            <div class="transcript-message highlight-yellow" data-time="22">
+                            <div class="transcript-message highlight-red" data-time="21">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Продавец</span>
-                                    <span class="message-timestamp">00:22</span>
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:21</span>
                                 </div>
-                                <div class="message-text">Готово. С вас 2 200 тенге. Оплата картой или наличными?</div>
-                                <span class="message-badge message-badge--warning">Упущена допродажа (акция кофе+десерт)</span>
+                                <div class="message-text">Чек нужен?</div>
+                                <span class="message-badge message-badge--danger">Запрещенный вопрос про чек</span>
                             </div>
 
-                            <div class="transcript-message" data-time="26">
+                            <div class="transcript-message" data-time="24">
                                 <div class="message-meta">
                                     <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:26</span>
+                                    <span class="message-timestamp">00:24</span>
                                 </div>
-                                <div class="message-text">Картой приложу. Спасибо.</div>
+                                <div class="message-text">Да.</div>
                             </div>
                             
-                            <div class="transcript-message highlight-green" data-time="29">
+                            <div class="transcript-message highlight-red" data-time="27">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Продавец</span>
-                                    <span class="message-timestamp">00:29</span>
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:27</span>
                                 </div>
-                                <div class="message-text">Принято. Возьмите ваш чек. Хорошего дня, ждем вас снова!</div>
-                                <span class="message-badge message-badge--success">Прощание выполнено</span>
+                                <div class="message-text">До свидания.</div>
+                                <span class="message-badge message-badge--danger">Нарушение стандарта прощания</span>
                             </div>
                         </div>
                     </div>
@@ -379,7 +302,7 @@
                         <div class="analysis-header">
                             <div>
                                 <h3 style="margin: 0 0 4px 0; font-size: 20px;">Анализ диалога ИИ</h3>
-                                <span style="font-size: 13px; color: var(--c-text-muted);">ID транзакции: #2847-QC</span>
+                                <span style="font-size: 13px; color: var(--c-text-muted);">ID транзакции: #4828-QC</span>
                             </div>
                             <div class="score-circle" id="demo-score">0%</div>
                         </div>
@@ -387,19 +310,23 @@
                         <ul class="analysis-checklist">
                             <li class="checklist-item" id="chk-greeting">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Приветствие по стандарту</span>
+                                <span>Приветствие и имя</span>
                             </li>
-                            <li class="checklist-item" id="chk-loyalty">
+                            <li class="checklist-item" id="chk-coffee">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Запрос карты лояльности</span>
+                                <span>Продажа кофе / выпечки</span>
                             </li>
-                            <li class="checklist-item" id="chk-upsell">
+                            <li class="checklist-item" id="chk-promo">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Предложение акционного комбо</span>
+                                <span>Промо «Бензин в подарок»</span>
+                            </li>
+                            <li class="checklist-item" id="chk-receipt">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Выдача чека по умолчанию</span>
                             </li>
                             <li class="checklist-item" id="chk-farewell">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Вежливое прощание</span>
+                                <span>Стандарт прощания</span>
                             </li>
                         </ul>
 

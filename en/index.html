@@ -121,6 +121,9 @@
             <div class="hero__bg-grid"></div>
             <div class="hero__glow hero__glow--1"></div>
             <div class="hero__glow hero__glow--2"></div>
+            <div class="hero__wave-container">
+                <canvas id="3d-glass-wave" style="display: block; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: screen;"></canvas>
+            </div>
             <div class="container hero__inner">
                 <div class="hero__content">
                     <div class="hero__badge" data-animate="fade-up">
@@ -298,81 +301,81 @@
                         </div>
 
                         <div class="demo-transcript" id="demo-transcript">
-                            <div class="transcript-message highlight-green" data-time="1" data-scroll-to="0">
+                            <div class="transcript-message highlight-red" data-time="1" data-scroll-to="0">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-speaker">Cashier (Paul B.)</span>
                                     <span class="message-timestamp">00:01</span>
                                 </div>
-                                <div class="message-text">Hello! Welcome to our store. How can I help you today?</div>
-                                <span class="message-badge message-badge--success">Greeting completed</span>
+                                <div class="message-text">Hi there.</div>
+                                <span class="message-badge message-badge--danger">Greeting violation</span>
                             </div>
 
                             <div class="transcript-message" data-time="4">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-speaker">Client</span>
                                     <span class="message-timestamp">00:04</span>
                                 </div>
-                                <div class="message-text">Hi, I'd like a medium cappuccino and this almond croissant, please.</div>
+                                <div class="message-text">Good day. 20 liters of Octane-92 for pump 4, please.</div>
                             </div>
 
-                            <div class="transcript-message highlight-green" data-time="8">
+                            <div class="transcript-message highlight-red" data-time="8">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-speaker">Cashier (Paul B.)</span>
                                     <span class="message-timestamp">00:08</span>
                                 </div>
-                                <div class="message-text">Excellent choice. Do you have our loyalty card with you?</div>
-                                <span class="message-badge message-badge--success">Loyalty card requested</span>
+                                <div class="message-text">That's 4,600 KZT ($9.50) to pay.</div>
+                                <span class="message-badge message-badge--danger">Order repeat missed</span>
                             </div>
 
-                            <div class="transcript-message" data-time="11">
+                            <div class="transcript-message" data-time="12">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Customer</span>
-                                    <span class="message-timestamp">00:11</span>
+                                    <span class="message-speaker">Client</span>
+                                    <span class="message-timestamp">00:12</span>
                                 </div>
-                                <div class="message-text">Oh, no, I don't have the plastic card with me today.</div>
+                                <div class="message-text">Here is my card.</div>
                             </div>
 
-                            <div class="transcript-message highlight-green" data-time="14">
+                            <div class="transcript-message highlight-red" data-time="15">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Seller</span>
-                                    <span class="message-timestamp">00:14</span>
+                                    <span class="message-speaker">Cashier (Paul B.)</span>
+                                    <span class="message-timestamp">00:15</span>
                                 </div>
-                                <div class="message-text">No worries, I can look it up by your phone number to apply your bonuses. Would you like to share it?</div>
-                                <span class="message-badge message-badge--success">Assistance with loyalty program</span>
+                                <div class="message-text">Anything else?</div>
+                                <span class="message-badge message-badge--danger">Forbidden cross-sell phrase</span>
                             </div>
 
                             <div class="transcript-message" data-time="18">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-speaker">Client</span>
                                     <span class="message-timestamp">00:18</span>
                                 </div>
-                                <div class="message-text">Sure, it's +1 (555) 123-4567.</div>
+                                <div class="message-text">No.</div>
                             </div>
 
-                            <div class="transcript-message highlight-yellow" data-time="22">
+                            <div class="transcript-message highlight-red" data-time="21">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Seller</span>
-                                    <span class="message-timestamp">00:22</span>
+                                    <span class="message-speaker">Cashier (Paul B.)</span>
+                                    <span class="message-timestamp">00:21</span>
                                 </div>
-                                <div class="message-text">Got it. That will be $6.50. Will you be paying with card or cash?</div>
-                                <span class="message-badge message-badge--warning">Upsell missed (coffee+dessert combo promo)</span>
+                                <div class="message-text">Do you need a receipt?</div>
+                                <span class="message-badge message-badge--danger">Forbidden receipt question</span>
                             </div>
 
-                            <div class="transcript-message" data-time="26">
+                            <div class="transcript-message" data-time="24">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Customer</span>
-                                    <span class="message-timestamp">00:26</span>
+                                    <span class="message-speaker">Client</span>
+                                    <span class="message-timestamp">00:24</span>
                                 </div>
-                                <div class="message-text">Card, please. I'll tap it now.</div>
+                                <div class="message-text">Yes.</div>
                             </div>
                             
-                            <div class="transcript-message highlight-green" data-time="29">
+                            <div class="transcript-message highlight-red" data-time="27">
                                 <div class="message-meta">
-                                    <span class="message-speaker">Seller</span>
-                                    <span class="message-timestamp">00:29</span>
+                                    <span class="message-speaker">Cashier (Paul B.)</span>
+                                    <span class="message-timestamp">00:27</span>
                                 </div>
-                                <div class="message-text">Here is your receipt. Have a great day and see you next time!</div>
-                                <span class="message-badge message-badge--success">Farewell completed</span>
+                                <div class="message-text">Goodbye.</div>
+                                <span class="message-badge message-badge--danger">Farewell standard violation</span>
                             </div>
                         </div>
                     </div>
@@ -382,7 +385,7 @@
                         <div class="analysis-header">
                             <div>
                                 <h3 style="margin: 0 0 4px 0; font-size: 20px;">AI Conversation Analysis</h3>
-                                <span style="font-size: 13px; color: var(--c-text-muted);">Transaction ID: #2847-QC</span>
+                                <span style="font-size: 13px; color: var(--c-text-muted);">Transaction ID: #4828-QC</span>
                             </div>
                             <div class="score-circle" id="demo-score">0%</div>
                         </div>
@@ -392,17 +395,21 @@
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
                                 <span>Standard greeting</span>
                             </li>
-                            <li class="checklist-item" id="chk-loyalty">
+                            <li class="checklist-item" id="chk-coffee">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Loyalty card inquiry</span>
+                                <span>Active coffee offer</span>
                             </li>
-                            <li class="checklist-item" id="chk-upsell">
+                            <li class="checklist-item" id="chk-promo">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Promo combo offer</span>
+                                <span>Promo campaign mention</span>
+                            </li>
+                            <li class="checklist-item" id="chk-receipt">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Automatic receipt issuance</span>
                             </li>
                             <li class="checklist-item" id="chk-farewell">
                                 <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Polite farewell</span>
+                                <span>Standard farewell</span>
                             </li>
                         </ul>
 

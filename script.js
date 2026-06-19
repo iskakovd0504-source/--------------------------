@@ -2,7 +2,142 @@
  * ОККМ Landing Page — Interactive Script
  */
 (function () {
-    'use strict';
+    /* ===== THREE.JS 3D GLASS WINE/WAVE SHADER ===== */
+    const glassWaveCanvas = document.getElementById('3d-glass-wave');
+    if (glassWaveCanvas && typeof THREE !== 'undefined') {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, glassWaveCanvas.offsetWidth / glassWaveCanvas.offsetHeight, 0.1, 100);
+        camera.position.z = 6;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: glassWaveCanvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(glassWaveCanvas.offsetWidth, glassWaveCanvas.offsetHeight);
+
+        // Геометрия сетки точек для звуковой волны
+        const geometry = new THREE.PlaneGeometry(16, 2.5, 120, 20);
+
+        // Мышь для интерактивного параллакса и волнений
+        const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+        window.addEventListener('mousemove', (e) => {
+            // Нормализованные координаты мыши (-1 to 1)
+            mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Шейдер для создания светящихся частиц абстрактной звуковой волны
+        const material = new THREE.ShaderMaterial({
+            vertexShader: `
+                uniform float uTime;
+                uniform vec2 uMouse;
+                varying vec2 vUv;
+                varying float vDistToMouse;
+
+                void main() {
+                    vUv = uv;
+                    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                    
+                    // Основная звуковая волна (суперпозиция синусоид)
+                    float wave = sin(modelPosition.x * 0.8 - uTime * 2.5) * 0.35;
+                    wave += cos(modelPosition.x * 1.5 + uTime * 1.8) * 0.18;
+                    wave += sin(modelPosition.x * 2.5 - uTime * 3.0) * 0.08;
+                    
+                    // Поперечная волна по оси Y
+                    float waveY = sin(modelPosition.y * 1.5 + uTime * 1.2) * 0.15;
+                    wave += waveY;
+                    
+                    // Мягкое затухание волны к левому и правому краям (чтобы она не обрезалась резко)
+                    float edgeDecay = smoothstep(0.0, 0.25, uv.x) * smoothstep(1.0, 0.75, uv.x);
+                    wave *= edgeDecay;
+
+                    // Интерактивное воздействие мыши
+                    // Масштабируем мышь в 3D координаты плоскости
+                    vec2 mouseProj = uMouse * vec2(8.0, 1.5);
+                    float dist = distance(modelPosition.xy, mouseProj);
+                    vDistToMouse = dist;
+                    
+                    if (dist < 3.0) {
+                        float force = (3.0 - dist) / 3.0;
+                        // Высокочастотные волнения при приближении курсора
+                        wave += sin(modelPosition.x * 12.0 + uTime * 15.0) * 0.15 * force * edgeDecay;
+                    }
+                    
+                    modelPosition.y += wave;
+
+                    vec4 viewPosition = viewMatrix * modelPosition;
+                    vec4 projectedPosition = projectionMatrix * viewPosition;
+                    gl_Position = projectedPosition;
+                    
+                    // Размер частиц зависит от расстояния до камеры и мыши
+                    float sizeFactor = 1.0 + (3.0 - min(dist, 3.0)) * 0.5;
+                    gl_PointSize = (18.0 * sizeFactor) * (1.0 / -viewPosition.z);
+                }
+            `,
+            fragmentShader: `
+                varying vec2 vUv;
+                varying float vDistToMouse;
+
+                void main() {
+                    // Создаем мягкую круглую частицу
+                    float distToCenter = distance(gl_PointCoord, vec2(0.5));
+                    if (distToCenter > 0.5) discard;
+                    
+                    // Мягкое экспоненциальное затухание свечения точки
+                    float strength = 1.0 - (distToCenter * 2.0);
+                    strength = pow(strength, 2.0);
+
+                    // Luxury Tech Неоновые градиенты (от бирюзового к фиолетовому)
+                    vec3 neonCyan = vec3(0.06, 0.65, 0.95);  // #0EA5E9
+                    vec3 neonPurple = vec3(0.55, 0.36, 0.96); // #8B5CF6
+                    
+                    // Градиент по ширине волны
+                    vec3 finalColor = mix(neonCyan, neonPurple, vUv.x);
+                    
+                    // Дополнительный импульс свечения вблизи курсора
+                    if (vDistToMouse < 3.0) {
+                        float glow = (3.0 - vDistToMouse) / 3.0;
+                        finalColor = mix(finalColor, vec3(1.0, 1.0, 1.0), glow * 0.3);
+                    }
+
+                    gl_FragColor = vec4(finalColor, strength * 0.85);
+                }
+            `,
+            transparent: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending, // Аддитивное смешивание для красивого свечения точек
+            uniforms: {
+                uTime: { value: 0 },
+                uMouse: { value: new THREE.Vector2(0, 0) }
+            }
+        });
+
+        // Создаем систему частиц (Points) вместо цельной плоскости
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        const clock = new THREE.Clock();
+
+        function tick() {
+            const elapsedTime = clock.getElapsedTime();
+            material.uniforms.uTime.value = elapsedTime;
+
+            // Плавное следование координат мыши
+            mouse.x += (mouse.targetX - mouse.x) * 0.08;
+            mouse.y += (mouse.targetY - mouse.y) * 0.08;
+            material.uniforms.uMouse.value.set(mouse.x, mouse.y);
+
+            renderer.render(scene, camera);
+            animationFrameId = requestAnimationFrame(tick);
+        }
+
+        tick();
+
+        // Адаптивность при ресайзе
+        window.addEventListener('resize', () => {
+            camera.aspect = glassWaveCanvas.offsetWidth / glassWaveCanvas.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(glassWaveCanvas.offsetWidth, glassWaveCanvas.offsetHeight);
+        });
+    }
 
     /* ===== HEADER SCROLL ===== */
     const header = document.getElementById('header');
@@ -559,17 +694,22 @@
     
     // Элементы чек-листа
     const chkGreeting = document.getElementById('chk-greeting');
-    const chkLoyalty = document.getElementById('chk-loyalty');
-    const chkUpsell = document.getElementById('chk-upsell');
+    const chkCoffee = document.getElementById('chk-coffee');
+    const chkPromo = document.getElementById('chk-promo');
+    const chkReceipt = document.getElementById('chk-receipt');
     const chkFarewell = document.getElementById('chk-farewell');
     const aiRecText = document.getElementById('ai-rec-text');
 
     let isPlaying = false;
     let playInterval = null;
     let currentTime = 0;
-    const duration = 30; // 30 секунд виртуального диалога
+    const duration = 28; // Длительность диалога Павла Б.
 
-    const messages = Array.from(document.querySelectorAll('.transcript-message'));
+    let messages = [];
+
+    function updateMessages() {
+        messages = Array.from(document.querySelectorAll('.transcript-message'));
+    }
 
     function resetDemo() {
         clearInterval(playInterval);
@@ -579,6 +719,7 @@
         playIcon.className = 'ph ph-play';
         demoPlayerBox.classList.remove('playing');
         
+        updateMessages();
         messages.forEach(msg => {
             msg.classList.remove('active');
         });
@@ -595,7 +736,7 @@
     }
 
     function resetChecklist() {
-        [chkGreeting, chkLoyalty, chkUpsell, chkFarewell].forEach(item => {
+        [chkGreeting, chkCoffee, chkPromo, chkReceipt, chkFarewell].forEach(item => {
             if (item) {
                 item.querySelector('.checklist-icon').innerHTML = '<i class="ph ph-circle"></i>';
                 item.querySelector('.checklist-icon').className = 'checklist-icon';
@@ -619,6 +760,7 @@
     }
 
     function runDemo() {
+        updateMessages();
         if (isPlaying) {
             // Пауза
             clearInterval(playInterval);
@@ -626,6 +768,11 @@
             playIcon.className = 'ph ph-play';
             demoPlayerBox.classList.remove('playing');
         } else {
+            // Если воспроизведение дошло до конца, сбрасываем перед новым запуском
+            if (currentTime >= duration) {
+                resetDemo();
+            }
+
             // Старт / Продолжение
             isPlaying = true;
             playIcon.className = 'ph ph-pause';
@@ -636,7 +783,11 @@
             playInterval = setInterval(() => {
                 currentTime++;
                 if (currentTime > duration) {
-                    resetDemo();
+                    // Останавливаем воспроизведение на финальном кадре без сброса анализа
+                    clearInterval(playInterval);
+                    isPlaying = false;
+                    playIcon.className = 'ph ph-play';
+                    demoPlayerBox.classList.remove('playing');
                     return;
                 }
 
@@ -659,26 +810,31 @@
                     }
                 });
 
-                // Поэтапно обновляем анализ ИИ
-                if (currentTime >= 2) {
-                    updateChecklistItem(chkGreeting, 'success');
-                    demoScore.textContent = '25%';
+                // Поэтапно обновляем анализ ИИ под чек #4828
+                if (currentTime >= 1) {
+                    updateChecklistItem(chkGreeting, 'failed');
+                    demoScore.textContent = '0%';
                 }
-                if (currentTime >= 9) {
-                    updateChecklistItem(chkLoyalty, 'success');
-                    demoScore.textContent = '50%';
+                if (currentTime >= 8) {
+                    updateChecklistItem(chkCoffee, 'failed');
+                    demoScore.textContent = '10%';
                 }
-                if (currentTime >= 23) {
-                    updateChecklistItem(chkUpsell, 'failed');
-                    // Оценка остается 50%, так как этот пункт завален
+                if (currentTime >= 15) {
+                    updateChecklistItem(chkPromo, 'failed');
+                    demoScore.textContent = '18%';
+                }
+                if (currentTime >= 21) {
+                    updateChecklistItem(chkReceipt, 'failed');
+                    demoScore.textContent = '24%';
+                }
+                if (currentTime >= 27) {
+                    updateChecklistItem(chkFarewell, 'failed');
+                    demoScore.textContent = '29%';
+                    demoScore.className = 'score-circle score-red';
+                    
                     aiRecText.innerHTML = isEn
-                        ? '<strong>Upsell missed:</strong> The cashier did not offer the promotional combo (Coffee + Croissant) for $7.00. This could have increased the transaction value by 30%. <br><em>Recommendation: Conduct staff coaching on active sales.</em>'
-                        : '<strong>Упущен кросс-сейл:</strong> Кассир не предложил акционный набор (Кофе + Круассан) за 2200 ₸. Это могло увеличить сумму чека на 30%. <br><em>Рекомендация: Провести с сотрудником мини-тренинг по активным продажам.</em>';
-                }
-                if (currentTime >= 30) {
-                    updateChecklistItem(chkFarewell, 'success');
-                    demoScore.textContent = '75%';
-                    demoScore.className = 'score-circle score-green';
+                        ? '<strong>Critical standard non-compliance:</strong> The cashier used a dry "Hi there" greeting, did not offer coffee/pastries, missed the promo campaign, and asked a forbidden receipt question. <br><strong>Lost Profit:</strong> $6.50 (3,000 KZT). <br><em>Recommendation: Assign a mini-training on active sales standards.</em>'
+                        : '<strong>Критическое нарушение стандартов:</strong> Кассир использовал сухое приветствие «Здрасьте», проигнорировал предложение кофе/выпечки, не озвучил промо-акцию и задал запрещенный вопрос про чек. <br><strong>Упущенная выгода:</strong> 3 000 ₸. <br><em>Рекомендация: Назначить повторный курс по стандартам обслуживания на АЗС.</em>';
                 }
 
             }, 1000);
