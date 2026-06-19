@@ -509,20 +509,36 @@
         const ticket = parseInt(rangeTicket.value);
         const tx = parseInt(rangeTx.value);
 
+        // Определяем локаль по URL
+        const isEn = window.location.pathname.includes('/en/');
+
         // Обновляем лейблы
-        valBadges.textContent = `${badges} шт`;
-        valTicket.textContent = `${ticket.toLocaleString('ru-RU')} ₸`;
-        valTx.textContent = `${tx} шт`;
+        if (isEn) {
+            valBadges.textContent = `${badges} pcs`;
+            valTicket.textContent = `$${ticket.toLocaleString('en-US')}`;
+            valTx.textContent = `${tx} pcs`;
+        } else {
+            valBadges.textContent = `${badges} шт`;
+            valTicket.textContent = `${ticket.toLocaleString('ru-RU')} ₸`;
+            valTx.textContent = `${tx} шт`;
+        }
 
         // Расчет дополнительной выручки: 
         // Доп. выручка = Кол-во бейджей * Кол-во транзакций в день * Ср. чек * 30 дней * 15% (консервативный прирост за счет допродаж)
         const additionalRevenue = Math.round(badges * tx * ticket * 30 * 0.15);
-        resultRevenue.textContent = `${additionalRevenue.toLocaleString('ru-RU')} ₸`;
 
         // Расчет экономии на ОКК:
-        // Экономия на ручном прослушивании = Примерно 35 000 ₸ в месяц на одного сотрудника при аутсорсе ОКК
-        const savings = badges * 35000;
-        resultSavings.textContent = `до ${savings.toLocaleString('ru-RU')} ₸`;
+        // Экономия на ручном прослушивании = Примерно 35 000 ₸ (или $80 в США/Европе) в месяц на одного сотрудника при аутсорсе ОКК
+        const savingsFactor = isEn ? 80 : 35000;
+        const savings = badges * savingsFactor;
+
+        if (isEn) {
+            resultRevenue.textContent = `$${additionalRevenue.toLocaleString('en-US')}`;
+            resultSavings.textContent = `up to $${savings.toLocaleString('en-US')}`;
+        } else {
+            resultRevenue.textContent = `${additionalRevenue.toLocaleString('ru-RU')} ₸`;
+            resultSavings.textContent = `до ${savings.toLocaleString('ru-RU')} ₸`;
+        }
     }
 
     if (rangeBadges && rangeTicket && rangeTx) {

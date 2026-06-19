@@ -974,6 +974,65 @@
                 </div>
             </div>
         </section>
+
+        <!-- ===== ROI CALCULATOR ===== -->
+        <section class="roi-calc" id="roi-calc" style="padding: var(--space-24) 0; background: var(--c-bg); border-top: 1px solid var(--c-border);">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Calculator</span>
+                    <h2 class="section-title">Calculate ROI of <span class="gradient-text">implementation</span></h2>
+                    <p class="section-subtitle">See how much profit dialog control automation will bring based on real statistics of our cases</p>
+                </div>
+                <div class="roi-calc__grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-12); align-items: start;" data-animate="fade-up" data-delay="100">
+                    <!-- Left: Controls -->
+                    <div class="roi-calc__controls" style="background: var(--c-bg-card); border: 1px solid var(--c-border); padding: var(--space-8); border-radius: var(--r-2xl); display: flex; flex-direction: column; gap: var(--space-6);">
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Number of employees (badges)</label>
+                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">10 pcs</span>
+                            </div>
+                            <input type="range" id="range-badges" min="2" max="100" value="10" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Current average ticket</label>
+                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">$15</span>
+                            </div>
+                            <input type="range" id="range-ticket" min="5" max="150" step="5" value="15" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Transactions per employee per day</label>
+                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">30 pcs</span>
+                            </div>
+                            <input type="range" id="range-tx" min="5" max="150" value="30" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+                    </div>
+
+                    <!-- Right: Results display -->
+                    <div class="roi-calc__results" style="background: var(--gradient-card); border: 2px solid rgba(6, 182, 212, 0.3); padding: var(--space-8); border-radius: var(--r-2xl); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
+                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Expected result (per month)</h4>
+                        
+                        <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Additional revenue (ticket growth by 15%)</span>
+                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$2,025</span>
+                        </div>
+
+                        <div class="roi-result-item" style="text-align: center;">
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Savings on Quality Control Department (QCD)</span>
+                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-green);">up to $800</span>
+                        </div>
+                        
+                        <div style="margin-top: var(--space-6); text-align: center;">
+                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Get detailed calculation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== PRICING ===== -->
         <section class="pricing" id="pricing">
             <div class="container">
