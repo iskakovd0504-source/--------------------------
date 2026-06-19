@@ -1815,6 +1815,9 @@ select {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity var(--duration-slow) var(--ease), transform var(--duration-slow) var(--ease);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 [data-animate="fade-left"] {

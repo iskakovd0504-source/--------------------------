@@ -62,12 +62,14 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     width: 100vw;
     height: 700px;
     z-index: 1; /* Позади контента */
     pointer-events: none;
     overflow: hidden;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 #kinetic-wave-canvas {
