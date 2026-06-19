@@ -549,4 +549,144 @@
         calculateROI();
     }
 
+    // Логика виджета AI Demo
+    const demoPlayBtn = document.getElementById('demo-play-btn');
+    const demoPlayerBox = document.getElementById('demo-player-box');
+    const playIcon = document.getElementById('play-icon');
+    const demoTime = document.getElementById('demo-time');
+    const demoTranscript = document.getElementById('demo-transcript');
+    const demoScore = document.getElementById('demo-score');
+    
+    // Элементы чек-листа
+    const chkGreeting = document.getElementById('chk-greeting');
+    const chkLoyalty = document.getElementById('chk-loyalty');
+    const chkUpsell = document.getElementById('chk-upsell');
+    const chkFarewell = document.getElementById('chk-farewell');
+    const aiRecText = document.getElementById('ai-rec-text');
+
+    let isPlaying = false;
+    let playInterval = null;
+    let currentTime = 0;
+    const duration = 30; // 30 секунд виртуального диалога
+
+    const messages = Array.from(document.querySelectorAll('.transcript-message'));
+
+    function resetDemo() {
+        clearInterval(playInterval);
+        isPlaying = false;
+        currentTime = 0;
+        demoTime.textContent = '00:00';
+        playIcon.className = 'ph ph-play';
+        demoPlayerBox.classList.remove('playing');
+        
+        messages.forEach(msg => {
+            msg.classList.remove('active');
+        });
+        
+        demoScore.textContent = '0%';
+        demoScore.className = 'score-circle';
+        
+        resetChecklist();
+        
+        const isEn = window.location.pathname.includes('/en/');
+        aiRecText.textContent = isEn 
+            ? 'Start the conversation recording to automatically generate recommendations...'
+            : 'Запустите запись разговора для автоматической генерации рекомендаций...';
+    }
+
+    function resetChecklist() {
+        [chkGreeting, chkLoyalty, chkUpsell, chkFarewell].forEach(item => {
+            if (item) {
+                item.querySelector('.checklist-icon').innerHTML = '<i class="ph ph-circle"></i>';
+                item.querySelector('.checklist-icon').className = 'checklist-icon';
+                item.style.color = 'var(--c-text-muted)';
+            }
+        });
+    }
+
+    function updateChecklistItem(item, status) {
+        if (!item) return;
+        const icon = item.querySelector('.checklist-icon');
+        if (status === 'success') {
+            icon.innerHTML = '<i class="ph ph-check-bold"></i>';
+            icon.className = 'checklist-icon checklist-icon--success';
+            item.style.color = 'white';
+        } else if (status === 'failed') {
+            icon.innerHTML = '<i class="ph ph-x-bold"></i>';
+            icon.className = 'checklist-icon checklist-icon--failed';
+            item.style.color = 'white';
+        }
+    }
+
+    function runDemo() {
+        if (isPlaying) {
+            // Пауза
+            clearInterval(playInterval);
+            isPlaying = false;
+            playIcon.className = 'ph ph-play';
+            demoPlayerBox.classList.remove('playing');
+        } else {
+            // Старт / Продолжение
+            isPlaying = true;
+            playIcon.className = 'ph ph-pause';
+            demoPlayerBox.classList.add('playing');
+            
+            const isEn = window.location.pathname.includes('/en/');
+
+            playInterval = setInterval(() => {
+                currentTime++;
+                if (currentTime > duration) {
+                    resetDemo();
+                    return;
+                }
+
+                // Обновляем таймер
+                const formatTime = currentTime < 10 ? `00:0${currentTime}` : `00:${currentTime}`;
+                demoTime.textContent = formatTime;
+
+                // Подсвечиваем сообщения транскрипта
+                messages.forEach(msg => {
+                    const msgTime = parseInt(msg.getAttribute('data-time'));
+                    if (currentTime >= msgTime) {
+                        if (!msg.classList.contains('active')) {
+                            msg.classList.add('active');
+                            // Скроллим транскрипт к активному сообщению
+                            demoTranscript.scrollTo({
+                                top: msg.offsetTop - demoTranscript.offsetTop - 40,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+
+                // Поэтапно обновляем анализ ИИ
+                if (currentTime >= 2) {
+                    updateChecklistItem(chkGreeting, 'success');
+                    demoScore.textContent = '25%';
+                }
+                if (currentTime >= 9) {
+                    updateChecklistItem(chkLoyalty, 'success');
+                    demoScore.textContent = '50%';
+                }
+                if (currentTime >= 23) {
+                    updateChecklistItem(chkUpsell, 'failed');
+                    // Оценка остается 50%, так как этот пункт завален
+                    aiRecText.innerHTML = isEn
+                        ? '<strong>Upsell missed:</strong> The cashier did not offer the promotional combo (Coffee + Croissant) for $7.00. This could have increased the transaction value by 30%. <br><em>Recommendation: Conduct staff coaching on active sales.</em>'
+                        : '<strong>Упущен кросс-сейл:</strong> Кассир не предложил акционный набор (Кофе + Круассан) за 2200 ₸. Это могло увеличить сумму чека на 30%. <br><em>Рекомендация: Провести с сотрудником мини-тренинг по активным продажам.</em>';
+                }
+                if (currentTime >= 30) {
+                    updateChecklistItem(chkFarewell, 'success');
+                    demoScore.textContent = '75%';
+                    demoScore.className = 'score-circle score-green';
+                }
+
+            }, 1000);
+        }
+    }
+
+    if (demoPlayBtn) {
+        demoPlayBtn.addEventListener('click', runDemo);
+    }
+
 })();

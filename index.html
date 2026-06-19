@@ -254,6 +254,164 @@
             </div>
         </section>
 
+        <!-- ===== AI DEMO WIDGET ===== -->
+        <section class="ai-demo" id="ai-demo">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Интерактивный демо-стенд</span>
+                    <h2 class="section-title">Как это работает: <span class="gradient-text">разбор разговора ИИ</span></h2>
+                    <p class="section-subtitle">Запустите плеер, чтобы увидеть, как нейросеть анализирует аудиозапись сотрудника в реальном времени</p>
+                </div>
+
+                <div class="ai-demo__grid" data-animate="fade-up" data-delay="100">
+                    <!-- Left: Player and Transcript -->
+                    <div class="ai-demo__player-box" id="demo-player-box">
+                        <div class="demo-player__controls">
+                            <button class="demo-player__play-btn" id="demo-play-btn">
+                                <i class="ph ph-play" id="play-icon"></i>
+                            </button>
+                            <div class="demo-player__wave" id="demo-wave">
+                                <!-- Wave bars generated dynamically or static for styling -->
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 25%"></div>
+                                <div class="wave-bar" style="height: 75%"></div>
+                                <div class="wave-bar" style="height: 90%"></div>
+                                <div class="wave-bar" style="height: 40%"></div>
+                                <div class="wave-bar" style="height: 65%"></div>
+                                <div class="wave-bar" style="height: 80%"></div>
+                                <div class="wave-bar" style="height: 35%"></div>
+                                <div class="wave-bar" style="height: 50%"></div>
+                                <div class="wave-bar" style="height: 70%"></div>
+                                <div class="wave-bar" style="height: 85%"></div>
+                                <div class="wave-bar" style="height: 55%"></div>
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 20%"></div>
+                            </div>
+                            <div class="demo-player__time" id="demo-time">00:00</div>
+                        </div>
+
+                        <div class="demo-transcript" id="demo-transcript">
+                            <div class="transcript-message highlight-green" data-time="1" data-scroll-to="0">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-timestamp">00:01</span>
+                                </div>
+                                <div class="message-text">Здравствуйте! Добро пожаловать. Подскажите, вы выбрали что-нибудь?</div>
+                                <span class="message-badge message-badge--success">Приветствие выполнено</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="4">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:04</span>
+                                </div>
+                                <div class="message-text">Да, мне, пожалуйста, капучино средний и вот этот круассан с миндалем.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-green" data-time="8">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-timestamp">00:08</span>
+                                </div>
+                                <div class="message-text">Отличный выбор. Карта лояльности нашей сети у вас есть?</div>
+                                <span class="message-badge message-badge--success">Карта спрошена</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="11">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:11</span>
+                                </div>
+                                <div class="message-text">Ой, нет, пластиковой нет с собой.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-green" data-time="14">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-timestamp">00:14</span>
+                                </div>
+                                <div class="message-text">Ничего страшного, можем провести по номеру телефона, чтобы начислить бонусы. Назовете?</div>
+                                <span class="message-badge message-badge--success">Помощь с программой лояльности</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="18">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:18</span>
+                                </div>
+                                <div class="message-text">Да, записывайте: +7 777 123 45 67.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-yellow" data-time="22">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-timestamp">00:22</span>
+                                </div>
+                                <div class="message-text">Готово. С вас 2 200 тенге. Оплата картой или наличными?</div>
+                                <span class="message-badge message-badge--warning">Упущена допродажа (акция кофе+десерт)</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="26">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:26</span>
+                                </div>
+                                <div class="message-text">Картой приложу. Спасибо.</div>
+                            </div>
+                            
+                            <div class="transcript-message highlight-green" data-time="29">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Продавец</span>
+                                    <span class="message-timestamp">00:29</span>
+                                </div>
+                                <div class="message-text">Принято. Возьмите ваш чек. Хорошего дня, ждем вас снова!</div>
+                                <span class="message-badge message-badge--success">Прощание выполнено</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Insights -->
+                    <div class="ai-demo__analysis">
+                        <div class="analysis-header">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0; font-size: 20px;">Анализ диалога ИИ</h3>
+                                <span style="font-size: 13px; color: var(--c-text-muted);">ID транзакции: #2847-QC</span>
+                            </div>
+                            <div class="score-circle" id="demo-score">0%</div>
+                        </div>
+
+                        <ul class="analysis-checklist">
+                            <li class="checklist-item" id="chk-greeting">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Приветствие по стандарту</span>
+                            </li>
+                            <li class="checklist-item" id="chk-loyalty">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Запрос карты лояльности</span>
+                            </li>
+                            <li class="checklist-item" id="chk-upsell">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Предложение акционного комбо</span>
+                            </li>
+                            <li class="checklist-item" id="chk-farewell">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Вежливое прощание</span>
+                            </li>
+                        </ul>
+
+                        <div class="ai-recommendation">
+                            <h5><i class="ph ph-sparkle"></i> Аналитическое заключение</h5>
+                            <p id="ai-rec-text">Запустите запись разговора для автоматической генерации рекомендаций...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== PROBLEM ===== -->
         <section class="problem" id="problem">
             <div class="container">

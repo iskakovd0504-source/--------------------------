@@ -257,6 +257,164 @@
             </div>
 
         </section>
+
+        <!-- ===== AI DEMO WIDGET ===== -->
+        <section class="ai-demo" id="ai-demo">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Interactive Demo Stand</span>
+                    <h2 class="section-title">How it works: <span class="gradient-text">AI conversation analysis</span></h2>
+                    <p class="section-subtitle">Run the player to see how the neural network analyzes the employee's audio recording in real time</p>
+                </div>
+
+                <div class="ai-demo__grid" data-animate="fade-up" data-delay="100">
+                    <!-- Left: Player and Transcript -->
+                    <div class="ai-demo__player-box" id="demo-player-box">
+                        <div class="demo-player__controls">
+                            <button class="demo-player__play-btn" id="demo-play-btn">
+                                <i class="ph ph-play" id="play-icon"></i>
+                            </button>
+                            <div class="demo-player__wave" id="demo-wave">
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 25%"></div>
+                                <div class="wave-bar" style="height: 75%"></div>
+                                <div class="wave-bar" style="height: 90%"></div>
+                                <div class="wave-bar" style="height: 40%"></div>
+                                <div class="wave-bar" style="height: 65%"></div>
+                                <div class="wave-bar" style="height: 80%"></div>
+                                <div class="wave-bar" style="height: 35%"></div>
+                                <div class="wave-bar" style="height: 50%"></div>
+                                <div class="wave-bar" style="height: 70%"></div>
+                                <div class="wave-bar" style="height: 85%"></div>
+                                <div class="wave-bar" style="height: 55%"></div>
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 20%"></div>
+                            </div>
+                            <div class="demo-player__time" id="demo-time">00:00</div>
+                        </div>
+
+                        <div class="demo-transcript" id="demo-transcript">
+                            <div class="transcript-message highlight-green" data-time="1" data-scroll-to="0">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-timestamp">00:01</span>
+                                </div>
+                                <div class="message-text">Hello! Welcome to our store. How can I help you today?</div>
+                                <span class="message-badge message-badge--success">Greeting completed</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="4">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-timestamp">00:04</span>
+                                </div>
+                                <div class="message-text">Hi, I'd like a medium cappuccino and this almond croissant, please.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-green" data-time="8">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-timestamp">00:08</span>
+                                </div>
+                                <div class="message-text">Excellent choice. Do you have our loyalty card with you?</div>
+                                <span class="message-badge message-badge--success">Loyalty card requested</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="11">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-timestamp">00:11</span>
+                                </div>
+                                <div class="message-text">Oh, no, I don't have the plastic card with me today.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-green" data-time="14">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-timestamp">00:14</span>
+                                </div>
+                                <div class="message-text">No worries, I can look it up by your phone number to apply your bonuses. Would you like to share it?</div>
+                                <span class="message-badge message-badge--success">Assistance with loyalty program</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="18">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-timestamp">00:18</span>
+                                </div>
+                                <div class="message-text">Sure, it's +1 (555) 123-4567.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-yellow" data-time="22">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-timestamp">00:22</span>
+                                </div>
+                                <div class="message-text">Got it. That will be $6.50. Will you be paying with card or cash?</div>
+                                <span class="message-badge message-badge--warning">Upsell missed (coffee+dessert combo promo)</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="26">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Customer</span>
+                                    <span class="message-timestamp">00:26</span>
+                                </div>
+                                <div class="message-text">Card, please. I'll tap it now.</div>
+                            </div>
+                            
+                            <div class="transcript-message highlight-green" data-time="29">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Seller</span>
+                                    <span class="message-timestamp">00:29</span>
+                                </div>
+                                <div class="message-text">Here is your receipt. Have a great day and see you next time!</div>
+                                <span class="message-badge message-badge--success">Farewell completed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Insights -->
+                    <div class="ai-demo__analysis">
+                        <div class="analysis-header">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0; font-size: 20px;">AI Conversation Analysis</h3>
+                                <span style="font-size: 13px; color: var(--c-text-muted);">Transaction ID: #2847-QC</span>
+                            </div>
+                            <div class="score-circle" id="demo-score">0%</div>
+                        </div>
+
+                        <ul class="analysis-checklist">
+                            <li class="checklist-item" id="chk-greeting">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Standard greeting</span>
+                            </li>
+                            <li class="checklist-item" id="chk-loyalty">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Loyalty card inquiry</span>
+                            </li>
+                            <li class="checklist-item" id="chk-upsell">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Promo combo offer</span>
+                            </li>
+                            <li class="checklist-item" id="chk-farewell">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Polite farewell</span>
+                            </li>
+                        </ul>
+
+                        <div class="ai-recommendation">
+                            <h5><i class="ph ph-sparkle"></i> AI Recommendations</h5>
+                            <p id="ai-rec-text">Start the conversation recording to automatically generate recommendations...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== PROBLEM ===== -->
         <section class="problem" id="problem">
             <div class="container">
