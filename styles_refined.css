@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
     transform: translate3d(-50%, -50%, 0);
     width: 100vw;
     height: 700px;
-    z-index: 1; /* Позади контента */
+    z-index: -1; /* На самом заднем плане, под текстом */
     pointer-events: none;
     overflow: hidden;
     will-change: transform;
@@ -241,6 +241,7 @@ hr, .hero__stat-divider {
 /* Скрытие 3D-волны на мобильных для оптимизации и читаемости */
 @media (max-width: 768px) {
     .hero__wave-container {
-        display: none !important;
+        height: 350px !important;
+        top: 45% !important;
     }
 }
