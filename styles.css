@@ -2838,3 +2838,11 @@ select {
 .problem__card:hover .problem__card-icon i {
     transform: scale(1.1) rotate(-3deg);
 }
+
+/* ===== ROI CALCULATOR RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .roi-calc__grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-6) !important;
+    }
+}

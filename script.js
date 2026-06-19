@@ -490,4 +490,47 @@
         });
     }
 
+    // Логика калькулятора ROI
+    const rangeBadges = document.getElementById('range-badges');
+    const rangeTicket = document.getElementById('range-ticket');
+    const rangeTx = document.getElementById('range-tx');
+
+    const valBadges = document.getElementById('val-badges');
+    const valTicket = document.getElementById('val-ticket');
+    const valTx = document.getElementById('val-tx');
+
+    const resultRevenue = document.getElementById('roi-additional-revenue');
+    const resultSavings = document.getElementById('roi-savings');
+
+    function calculateROI() {
+        if (!rangeBadges || !rangeTicket || !rangeTx) return;
+
+        const badges = parseInt(rangeBadges.value);
+        const ticket = parseInt(rangeTicket.value);
+        const tx = parseInt(rangeTx.value);
+
+        // Обновляем лейблы
+        valBadges.textContent = `${badges} шт`;
+        valTicket.textContent = `${ticket.toLocaleString('ru-RU')} ₸`;
+        valTx.textContent = `${tx} шт`;
+
+        // Расчет дополнительной выручки: 
+        // Доп. выручка = Кол-во бейджей * Кол-во транзакций в день * Ср. чек * 30 дней * 15% (консервативный прирост за счет допродаж)
+        const additionalRevenue = Math.round(badges * tx * ticket * 30 * 0.15);
+        resultRevenue.textContent = `${additionalRevenue.toLocaleString('ru-RU')} ₸`;
+
+        // Расчет экономии на ОКК:
+        // Экономия на ручном прослушивании = Примерно 35 000 ₸ в месяц на одного сотрудника при аутсорсе ОКК
+        const savings = badges * 35000;
+        resultSavings.textContent = `до ${savings.toLocaleString('ru-RU')} ₸`;
+    }
+
+    if (rangeBadges && rangeTicket && rangeTx) {
+        [rangeBadges, rangeTicket, rangeTx].forEach(input => {
+            input.addEventListener('input', calculateROI);
+        });
+        // Инициализируем расчет при загрузке
+        calculateROI();
+    }
+
 })();
