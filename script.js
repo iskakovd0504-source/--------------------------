@@ -768,9 +768,298 @@
     let isPlaying = false;
     let playInterval = null;
     let currentTime = 0;
-    const duration = 28; // Длительность диалога Павла Б.
+    let currentDemoType = 'bad'; // 'bad' или 'good'
+    const duration = 28;
 
     let messages = [];
+
+    // Данные для транскриптов
+    const transcripts = {
+        bad: {
+            ru: `
+                <div class="transcript-message highlight-red" data-time="1">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Павел Б.)</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Здрасьте.</div>
+                    <span class="message-badge message-badge--danger">Нарушение приветствия</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Добрый день. Мне 20 литров АИ-92 на 4 колонку.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Павел Б.)</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">4600 тенге к оплате.</div>
+                    <span class="message-badge message-badge--danger">Пропущен повтор заказа</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Держите карту.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Павел Б.)</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">Что-нибудь еще?</div>
+                    <span class="message-badge message-badge--danger">Запрещенный кросс-сейл</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">Нет.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Павел Б.)</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Чек нужен?</div>
+                    <span class="message-badge message-badge--danger">Запрещенный вопрос про чек</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Да.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Павел Б.)</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">До свидания.</div>
+                    <span class="message-badge message-badge--danger">Нарушение стандарта прощания</span>
+                </div>
+            `,
+            en: `
+                <div class="transcript-message highlight-red" data-time="1">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Pavel B.)</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Hi there.</div>
+                    <span class="message-badge message-badge--danger">Greeting Violation</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Good day. 20 liters of Regular on pump 4, please.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Pavel B.)</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">4600 KZT to pay.</div>
+                    <span class="message-badge message-badge--danger">Order Repeat Missed</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Here is my card.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Pavel B.)</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">Anything else?</div>
+                    <span class="message-badge message-badge--danger">Forbidden Cross-sale Question</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">No.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Pavel B.)</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Do you need a receipt?</div>
+                    <span class="message-badge message-badge--danger">Forbidden Receipt Question</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Yes.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Pavel B.)</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">Bye.</div>
+                    <span class="message-badge message-badge--danger">Farewell Violation</span>
+                </div>
+            `
+        },
+        good: {
+            ru: `
+                <div class="transcript-message highlight-green" data-time="1">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Мария К.)</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Здравствуйте! Добро пожаловать на Nomad. Меня зовут Мария.</div>
+                    <span class="message-badge message-badge--success">Приветствие выполнено</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Добрый день. Мне 20 литров АИ-92 на 4 колонку.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Мария К.)</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">20 литров АИ-92, четвертая колонка, всё верно. 4600 тенге к оплате.</div>
+                    <span class="message-badge message-badge--success">Заказ повторен</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Да, всё верно. Оплата картой.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Мария К.)</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">У нас сегодня свежие круассаны и отличный кофе. Возьмете капучино в дорогу?</div>
+                    <span class="message-badge message-badge--success">Предложен кофе/выпечка</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">О, давайте, спасибо! Как раз хотел взбодриться.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Мария К.)</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Отлично. И также у нас сейчас акция: при заправке от 20 литров скидка 50% на омыватель. Добавим?</div>
+                    <span class="message-badge message-badge--success">Озвучена промо-акция</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Да, давайте омыватель тоже возьму, полезная вещь.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир (Мария К.)</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">Приложите карту, пожалуйста. Вот ваш чек. Хорошей вам дороги и до встречи на Nomad!</div>
+                    <span class="message-badge message-badge--success">Чек выдан • Прощание выполнено</span>
+                </div>
+            `,
+            en: `
+                <div class="transcript-message highlight-green" data-time="1">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Maria K.)</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Hello! Welcome to Nomad. My name is Maria.</div>
+                    <span class="message-badge message-badge--success">Standard Greeting</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Hi. 20 liters of Regular on pump 4, please.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Maria K.)</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">20 liters of Regular, pump 4. Perfect. That will be $35.</div>
+                    <span class="message-badge message-badge--success">Order Repeated</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Yes, card payment.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Maria K.)</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">We have fresh croissants and premium coffee today. Would you like a warm cappuccino to go?</div>
+                    <span class="message-badge message-badge--success">Coffee/Pastry Offered</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">Oh, sounds great. Let's do a cappuccino, thank you.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Maria K.)</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Excellent. And we also have a promo: with 20 liters of fuel, you get 50% off windshield fluid. Shall I add it?</div>
+                    <span class="message-badge message-badge--success">Promo Mentioned</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Client</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Sure, add the fluid as well. Useful thing.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Cashier (Maria K.)</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">Please tap your card. Here is your receipt. Have a safe trip and see you next time at Nomad!</div>
+                    <span class="message-badge message-badge--success">Receipt Issued • Standard Farewell</span>
+                </div>
+            `
+        }
+    };
 
     function updateMessages() {
         messages = Array.from(document.querySelectorAll('.transcript-message'));
@@ -784,6 +1073,11 @@
         playIcon.className = 'ph ph-play';
         demoPlayerBox.classList.remove('playing');
         
+        // Подгружаем нужный транскрипт
+        const isEn = window.location.pathname.includes('/en/');
+        const lang = isEn ? 'en' : 'ru';
+        demoTranscript.innerHTML = transcripts[currentDemoType][lang];
+
         updateMessages();
         messages.forEach(msg => {
             msg.classList.remove('active');
@@ -794,7 +1088,6 @@
         
         resetChecklist();
         
-        const isEn = window.location.pathname.includes('/en/');
         aiRecText.textContent = isEn 
             ? 'Start the conversation recording to automatically generate recommendations...'
             : 'Запустите запись разговора для автоматической генерации рекомендаций...';
@@ -827,18 +1120,15 @@
     function runDemo() {
         updateMessages();
         if (isPlaying) {
-            // Пауза
             clearInterval(playInterval);
             isPlaying = false;
             playIcon.className = 'ph ph-play';
             demoPlayerBox.classList.remove('playing');
         } else {
-            // Если воспроизведение дошло до конца, сбрасываем перед новым запуском
             if (currentTime >= duration) {
                 resetDemo();
             }
 
-            // Старт / Продолжение
             isPlaying = true;
             playIcon.className = 'ph ph-pause';
             demoPlayerBox.classList.add('playing');
@@ -848,7 +1138,6 @@
             playInterval = setInterval(() => {
                 currentTime++;
                 if (currentTime > duration) {
-                    // Останавливаем воспроизведение на финальном кадре без сброса анализа
                     clearInterval(playInterval);
                     isPlaying = false;
                     playIcon.className = 'ph ph-play';
@@ -856,17 +1145,14 @@
                     return;
                 }
 
-                // Обновляем таймер
                 const formatTime = currentTime < 10 ? `00:0${currentTime}` : `00:${currentTime}`;
                 demoTime.textContent = formatTime;
 
-                // Подсвечиваем сообщения транскрипта
                 messages.forEach(msg => {
                     const msgTime = parseInt(msg.getAttribute('data-time'));
                     if (currentTime >= msgTime) {
                         if (!msg.classList.contains('active')) {
                             msg.classList.add('active');
-                            // Скроллим транскрипт к активному сообщению
                             demoTranscript.scrollTo({
                                 top: msg.offsetTop - demoTranscript.offsetTop - 40,
                                 behavior: 'smooth'
@@ -875,36 +1161,79 @@
                     }
                 });
 
-                // Поэтапно обновляем анализ ИИ под чек #4828
-                if (currentTime >= 1) {
-                    updateChecklistItem(chkGreeting, 'failed');
-                    demoScore.textContent = '0%';
-                }
-                if (currentTime >= 8) {
-                    updateChecklistItem(chkCoffee, 'failed');
-                    demoScore.textContent = '10%';
-                }
-                if (currentTime >= 15) {
-                    updateChecklistItem(chkPromo, 'failed');
-                    demoScore.textContent = '18%';
-                }
-                if (currentTime >= 21) {
-                    updateChecklistItem(chkReceipt, 'failed');
-                    demoScore.textContent = '24%';
-                }
-                if (currentTime >= 27) {
-                    updateChecklistItem(chkFarewell, 'failed');
-                    demoScore.textContent = '29%';
-                    demoScore.className = 'score-circle score-red';
-                    
-                    aiRecText.innerHTML = isEn
-                        ? '<strong>Critical standard non-compliance:</strong> The cashier used a dry "Hi there" greeting, did not offer coffee/pastries, missed the promo campaign, and asked a forbidden receipt question. <br><strong>Lost Profit:</strong> $6.50 (3,000 KZT). <br><em>Recommendation: Assign a mini-training on active sales standards.</em>'
-                        : '<strong>Критическое нарушение стандартов:</strong> Кассир использовал сухое приветствие «Здрасьте», проигнорировал предложение кофе/выпечки, не озвучил промо-акцию и задал запрещенный вопрос про чек. <br><strong>Упущенная выгода:</strong> 3 000 ₸. <br><em>Рекомендация: Назначить повторный курс по стандартам обслуживания на АЗС.</em>';
+                // Логика поэтапного заполнения в зависимости от звонка
+                if (currentDemoType === 'bad') {
+                    if (currentTime >= 1) {
+                        updateChecklistItem(chkGreeting, 'failed');
+                        demoScore.textContent = '0%';
+                    }
+                    if (currentTime >= 8) {
+                        updateChecklistItem(chkCoffee, 'failed');
+                        demoScore.textContent = '10%';
+                    }
+                    if (currentTime >= 15) {
+                        updateChecklistItem(chkPromo, 'failed');
+                        demoScore.textContent = '18%';
+                    }
+                    if (currentTime >= 21) {
+                        updateChecklistItem(chkReceipt, 'failed');
+                        demoScore.textContent = '24%';
+                    }
+                    if (currentTime >= 27) {
+                        updateChecklistItem(chkFarewell, 'failed');
+                        demoScore.textContent = '29%';
+                        demoScore.className = 'score-circle score-red';
+                        
+                        aiRecText.innerHTML = isEn
+                            ? '<strong>Critical standard non-compliance:</strong> The cashier used a dry "Hi there" greeting, did not offer coffee/pastries, missed the promo campaign, and asked a forbidden receipt question. <br><strong>Lost Profit:</strong> $6.50 (3,000 KZT). <br><em>Recommendation: Assign a mini-training on active sales standards.</em>'
+                            : '<strong>Критическое нарушение стандартов:</strong> Кассир использовал сухое приветствие «Здрасьте», проигнорировал предложение кофе/выпечки, не озвучил промо-акцию и задал запрещенный вопрос про чек. <br><strong>Упущенная выгода:</strong> 3 000 ₸. <br><em>Рекомендация: Назначить повторный курс по стандартам обслуживания на АЗС.</em>';
+                    }
+                } else {
+                    // Хороший звонок
+                    if (currentTime >= 1) {
+                        updateChecklistItem(chkGreeting, 'success');
+                        demoScore.textContent = '20%';
+                        demoScore.className = 'score-circle score-green';
+                    }
+                    if (currentTime >= 8) {
+                        demoScore.textContent = '35%';
+                    }
+                    if (currentTime >= 15) {
+                        updateChecklistItem(chkCoffee, 'success');
+                        demoScore.textContent = '60%';
+                    }
+                    if (currentTime >= 21) {
+                        updateChecklistItem(chkPromo, 'success');
+                        demoScore.textContent = '80%';
+                    }
+                    if (currentTime >= 27) {
+                        updateChecklistItem(chkReceipt, 'success');
+                        updateChecklistItem(chkFarewell, 'success');
+                        demoScore.textContent = '96%';
+                        
+                        aiRecText.innerHTML = isEn
+                            ? '<strong>Reference standard implementation:</strong> Cashier welcomed the client warmly, successfully upsold cappuccino, and initiated windshield fluid promo. Correct check output. <br><strong>Added Profit:</strong> +$8.50 (+3,800 KZT). <br><em>Recommendation: Reward cashier for active sales.</em>'
+                            : '<strong>Эталонное соблюдение стандартов:</strong> Кассир тепло поприветствовал клиента, провел успешный кросс-сейл капучино и продал омыватель по акции. Стандарты чека и прощания выполнены на 100%. <br><strong>Дополнительная прибыль:</strong> +3 800 ₸. <br><em>Рекомендация: Поощрить кассира за активные продажи.</em>';
+                    }
                 }
 
             }, 1000);
         }
     }
+
+    // Инициализация кнопок выбора звонка
+    const demoSelectors = document.querySelectorAll('.demo-selector__btn');
+    demoSelectors.forEach(btn => {
+        btn.addEventListener('click', () => {
+            demoSelectors.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentDemoType = btn.getAttribute('data-demo');
+            resetDemo();
+        });
+    });
+
+    // Инициализируем стартовый вид
+    resetDemo();
 
     if (demoPlayBtn) {
         demoPlayBtn.addEventListener('click', runDemo);
