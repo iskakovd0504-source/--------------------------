@@ -177,168 +177,6 @@
             </div>
         </section>
 
-        <!-- ===== AI DEMO WIDGET ===== -->
-        <section class="ai-demo" id="ai-demo">
-            <div class="container">
-                <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">Интерактивный демо-стенд</span>
-                    <h2 class="section-title">Как это работает: <span class="gradient-text">разбор разговора ИИ</span></h2>
-                    <p class="section-subtitle">Запустите плеер, чтобы увидеть, как нейросеть анализирует аудиозапись сотрудника в реальном времени</p>
-                </div>
-
-                <div class="ai-demo__grid" data-animate="fade-up" data-delay="100">
-                    <!-- Left: Player and Transcript -->
-                    <div class="ai-demo__player-box" id="demo-player-box">
-                        <div class="demo-player__controls">
-                            <button class="demo-player__play-btn" id="demo-play-btn">
-                                <i class="ph ph-play" id="play-icon"></i>
-                            </button>
-                            <div class="demo-player__wave" id="demo-wave">
-                                <!-- Wave bars generated dynamically or static for styling -->
-                                <div class="wave-bar" style="height: 30%"></div>
-                                <div class="wave-bar" style="height: 45%"></div>
-                                <div class="wave-bar" style="height: 60%"></div>
-                                <div class="wave-bar" style="height: 25%"></div>
-                                <div class="wave-bar" style="height: 75%"></div>
-                                <div class="wave-bar" style="height: 90%"></div>
-                                <div class="wave-bar" style="height: 40%"></div>
-                                <div class="wave-bar" style="height: 65%"></div>
-                                <div class="wave-bar" style="height: 80%"></div>
-                                <div class="wave-bar" style="height: 35%"></div>
-                                <div class="wave-bar" style="height: 50%"></div>
-                                <div class="wave-bar" style="height: 70%"></div>
-                                <div class="wave-bar" style="height: 85%"></div>
-                                <div class="wave-bar" style="height: 55%"></div>
-                                <div class="wave-bar" style="height: 30%"></div>
-                                <div class="wave-bar" style="height: 45%"></div>
-                                <div class="wave-bar" style="height: 60%"></div>
-                                <div class="wave-bar" style="height: 20%"></div>
-                            </div>
-                            <div class="demo-player__time" id="demo-time">00:00</div>
-                        </div>
-
-                        <div class="demo-transcript" id="demo-transcript">
-                            <div class="transcript-message highlight-red" data-time="1" data-scroll-to="0">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Кассир (Павел Б.)</span>
-                                    <span class="message-timestamp">00:01</span>
-                                </div>
-                                <div class="message-text">Здрасьте.</div>
-                                <span class="message-badge message-badge--danger">Нарушение приветствия</span>
-                            </div>
-
-                            <div class="transcript-message" data-time="4">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:04</span>
-                                </div>
-                                <div class="message-text">Добрый день. Мне 20 литров АИ-92 на 4 колонку.</div>
-                            </div>
-
-                            <div class="transcript-message highlight-red" data-time="8">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Кассир (Павел Б.)</span>
-                                    <span class="message-timestamp">00:08</span>
-                                </div>
-                                <div class="message-text">4600 тенге к оплате.</div>
-                                <span class="message-badge message-badge--danger">Пропущен повтор заказа</span>
-                            </div>
-
-                            <div class="transcript-message" data-time="12">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:12</span>
-                                </div>
-                                <div class="message-text">Держите карту.</div>
-                            </div>
-
-                            <div class="transcript-message highlight-red" data-time="15">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Кассир (Павел Б.)</span>
-                                    <span class="message-timestamp">00:15</span>
-                                </div>
-                                <div class="message-text">Что-нибудь еще?</div>
-                                <span class="message-badge message-badge--danger">Запрещенный кросс-сейл</span>
-                            </div>
-
-                            <div class="transcript-message" data-time="18">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:18</span>
-                                </div>
-                                <div class="message-text">Нет.</div>
-                            </div>
-
-                            <div class="transcript-message highlight-red" data-time="21">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Кассир (Павел Б.)</span>
-                                    <span class="message-timestamp">00:21</span>
-                                </div>
-                                <div class="message-text">Чек нужен?</div>
-                                <span class="message-badge message-badge--danger">Запрещенный вопрос про чек</span>
-                            </div>
-
-                            <div class="transcript-message" data-time="24">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Клиент</span>
-                                    <span class="message-timestamp">00:24</span>
-                                </div>
-                                <div class="message-text">Да.</div>
-                            </div>
-                            
-                            <div class="transcript-message highlight-red" data-time="27">
-                                <div class="message-meta">
-                                    <span class="message-speaker">Кассир (Павел Б.)</span>
-                                    <span class="message-timestamp">00:27</span>
-                                </div>
-                                <div class="message-text">До свидания.</div>
-                                <span class="message-badge message-badge--danger">Нарушение стандарта прощания</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: AI Insights -->
-                    <div class="ai-demo__analysis">
-                        <div class="analysis-header">
-                            <div>
-                                <h3 style="margin: 0 0 4px 0; font-size: 20px;">Анализ диалога ИИ</h3>
-                                <span style="font-size: 13px; color: var(--c-text-muted);">ID транзакции: #4828-QC</span>
-                            </div>
-                            <div class="score-circle" id="demo-score">0%</div>
-                        </div>
-
-                        <ul class="analysis-checklist">
-                            <li class="checklist-item" id="chk-greeting">
-                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Приветствие и имя</span>
-                            </li>
-                            <li class="checklist-item" id="chk-coffee">
-                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Продажа кофе / выпечки</span>
-                            </li>
-                            <li class="checklist-item" id="chk-promo">
-                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Промо «Бензин в подарок»</span>
-                            </li>
-                            <li class="checklist-item" id="chk-receipt">
-                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Выдача чека по умолчанию</span>
-                            </li>
-                            <li class="checklist-item" id="chk-farewell">
-                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
-                                <span>Стандарт прощания</span>
-                            </li>
-                        </ul>
-
-                        <div class="ai-recommendation">
-                            <h5><i class="ph ph-sparkle"></i> Аналитическое заключение</h5>
-                            <p id="ai-rec-text">Запустите запись разговора для автоматической генерации рекомендаций...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- ===== PROBLEM ===== -->
         <section class="problem" id="problem">
             <div class="container">
@@ -365,40 +203,6 @@
                             <p class="problem__card-text">Руководители принимают решения «на глаз», без аналитики по
                                 работе каждого сотрудника.</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== LOGOS ===== -->
-        <section class="logos">
-            <div class="container">
-                <p class="logos__title">Нам доверяют лидеры рынка</p>
-                <div class="logos__grid">
-                    <!-- Fictional Brands -->
-                    <div class="logos__item">Qazaq Petrol</div>
-                    <div class="logos__item">Sunkar Pharm</div>
-                    <div class="logos__item">Nomad Fuel</div>
-                    <div class="logos__item">BioSfera KZ</div>
-                    <div class="logos__item">Alatau Oil</div>
-                    <div class="logos__item">MedService Plus</div>
-                </div>
-                <div class="logos__cases" data-animate="fade-up" data-delay="100">
-                    <div class="case-card">
-                        <div class="case-card__header">
-                            <span class="case-card__company">Qazaq Petrol</span>
-                            <span class="case-card__badge">+22%</span>
-                        </div>
-                        <h4 class="case-card__title">Рост продаж сопутствующих товаров на АЗС</h4>
-                        <p class="case-card__text">ИИ выявил, что заправщики в 40% случаев забывали предлагать сопутствующие товары. Исправление скрипта повысило выручку кафе за 30 дней.</p>
-                    </div>
-                    <div class="case-card">
-                        <div class="case-card__header">
-                            <span class="case-card__company">Sunkar Pharm</span>
-                            <span class="case-card__badge">+18%</span>
-                        </div>
-                        <h4 class="case-card__title">Увеличение доли СТМ в чеке</h4>
-                        <p class="case-card__text">Автоматический контроль 100% диалогов фармацевтов позволил полностью исключить пропуски обязательных рекомендаций СТМ.</p>
                     </div>
                 </div>
             </div>
@@ -547,114 +351,6 @@
                     <div data-animate="fade-left" style="text-align: center;">
                         <img src="assets/ab400-badge.png" alt="Аудиобейдж Октава АБ-400" style="max-width: 100%; filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.3));">
                         <p style="margin-top: var(--space-4); font-size: var(--f-size-sm); color: var(--c-text-muted);">Профессиональное решение для сбора данных в офлайне</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== PARTNERSHIP ===== -->
-        <section class="partnership" id="partnership" style="padding: var(--space-20) 0; background: var(--c-bg-elevated);">
-            <div class="container">
-                <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 800px; margin: 0 auto;">
-                    <div class="section-tag">Технологии</div>
-                    <h2 class="section-title">Синергия с <span class="gradient-text">Aitomaton</span></h2>
-                    <p class="section-subtitle" style="margin-bottom: var(--space-8);">
-                        Наше программное обеспечение разработано в партнерстве с командой <strong>Aitomaton</strong>. 
-                        <strong>ТОО Aiprotocol.kz</strong> является официальным партнером по внедрению и поддержке решения, 
-                        обеспечивая клиентам максимальную безопасность и гибкость развертывания.
-                    </p>
-                    <div style="display: flex; gap: var(--space-6); flex-wrap: wrap; justify-content: center;">
-                        <div style="background: var(--c-surface); border: 1px solid var(--c-border); padding: var(--space-4) var(--space-6); border-radius: var(--r-md);">
-                            <span style="font-weight: 500; color: var(--c-text-primary);">Официальное партнерство</span>
-                        </div>
-                        <div style="background: var(--c-surface); border: 1px solid var(--c-border); padding: var(--space-4) var(--space-6); border-radius: var(--r-md);">
-                            <span style="font-weight: 500; color: var(--c-text-primary);">Cloud / On-premise</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="metrics" id="metrics">
-            <div class="container">
-                <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">12+ метрик</span>
-                    <h2 class="section-title">ИИ слышит то, что <span class="gradient-text">вы не&nbsp;можете</span>
-                    </h2>
-                    <p class="section-subtitle">Каждый разговор оценивается по десяткам параметров в реальном времени
-                    </p>
-                </div>
-                <div class="metrics__grid">
-                    <div class="metric-card" data-animate="fade-up" data-delay="50">
-                        <div class="metric-card__icon"><i class="ph ph-scroll"></i></div>
-                        <h3 class="metric-card__title">Соблюдение скриптов</h3>
-                        <p class="metric-card__text">Проверяем каждый этап скрипта — приветствие, выявление
-                            потребностей, презентация, закрытие</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="100">
-                        <div class="metric-card__icon"><i class="ph ph-lightning"></i></div>
-                        <h3 class="metric-card__title">Конфликтные ситуации</h3>
-                        <p class="metric-card__text">Повышенный тон, агрессия, негавтивные эмоции — система мгновенно
-                            фиксирует и алертит</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="150">
-                        <div class="metric-card__icon"><i class="ph ph-trend-up"></i></div>
-                        <h3 class="metric-card__title">Допродажи</h3>
-                        <p class="metric-card__text">Предложил ли сотрудник дополнительные товары или услуги? Сколько из
-                            предложений привели к покупке?</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="200">
-                        <div class="metric-card__icon"><i class="ph ph-target"></i></div>
-                        <h3 class="metric-card__title">Выявление потребностей</h3>
-                        <p class="metric-card__text">Задаёт ли сотрудник правильные вопросы? Слушает ли клиента или
-                            навязывает?</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="250">
-                        <div class="metric-card__icon"><i class="ph ph-smiley-wink"></i></div>
-                        <h3 class="metric-card__title">Эмоциональный тон</h3>
-                        <p class="metric-card__text">Анализ тональности обоих собеседников — позитивный, нейтральный,
-                            негативный</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="300">
-                        <div class="metric-card__icon"><i class="ph ph-chat-centered-text"></i></div>
-                        <h3 class="metric-card__title">Слова-паразиты</h3>
-                        <p class="metric-card__text">«Ну», «типа», «как бы» — фиксируем частоту и помогаем искоренить
-                            непрофессиональную речь</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="350">
-                        <div class="metric-card__icon"><i class="ph ph-hourglass-high"></i></div>
-                        <h3 class="metric-card__title">Время диалога</h3>
-                        <p class="metric-card__text">Средняя длительность, соотношение «говорит/слушает», молчание и
-                            паузы</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="400">
-                        <div class="metric-card__icon"><i class="ph ph-shield-check"></i></div>
-                        <h3 class="metric-card__title">Работа с возражениями</h3>
-                        <p class="metric-card__text">Как сотрудник парирует «дорого», «подумаю», «у конкурентов дешевле»
-                        </p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="450">
-                        <div class="metric-card__icon"><i class="ph ph-hand-waving"></i></div>
-                        <h3 class="metric-card__title">Приветствие и прощание</h3>
-                        <p class="metric-card__text">Корректное начало и завершение контакта — основа первого
-                            впечатления</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="500">
-                        <div class="metric-card__icon"><i class="ph ph-prohibit"></i></div>
-                        <h3 class="metric-card__title">Запрещённые фразы</h3>
-                        <p class="metric-card__text">Ненормативная лексика, несогласованные обещания, разглашение
-                            конфиденциальной информации</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="550">
-                        <div class="metric-card__icon"><i class="ph ph-chart-bar"></i></div>
-                        <h3 class="metric-card__title">Рейтинг сотрудника</h3>
-                        <p class="metric-card__text">Сводная оценка по всем метрикам — кого поощрить, кого обучить, кого
-                            взять на контроль</p>
-                    </div>
-                    <div class="metric-card" data-animate="fade-up" data-delay="600">
-                        <div class="metric-card__icon"><i class="ph ph-lightbulb"></i></div>
-                        <h3 class="metric-card__title">Инсайты клиентов</h3>
-                        <p class="metric-card__text">О чём спрашивают клиенты, что хотят, чем недовольны — данные для
-                            маркетинга и продукта</p>
                     </div>
                 </div>
             </div>
@@ -820,6 +516,327 @@
             </div>
         </section>
 
+        <!-- ===== AI DEMO WIDGET ===== -->
+        <section class="ai-demo" id="ai-demo">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Интерактивный демо-стенд</span>
+                    <h2 class="section-title">Как это работает: <span class="gradient-text">разбор разговора ИИ</span></h2>
+                    <p class="section-subtitle">Запустите плеер, чтобы увидеть, как нейросеть анализирует аудиозапись сотрудника в реальном времени</p>
+                </div>
+
+                <div class="ai-demo__grid" data-animate="fade-up" data-delay="100">
+                    <!-- Left: Player and Transcript -->
+                    <div class="ai-demo__player-box" id="demo-player-box">
+                        <div class="demo-player__controls">
+                            <button class="demo-player__play-btn" id="demo-play-btn">
+                                <i class="ph ph-play" id="play-icon"></i>
+                            </button>
+                            <div class="demo-player__wave" id="demo-wave">
+                                <!-- Wave bars generated dynamically or static for styling -->
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 25%"></div>
+                                <div class="wave-bar" style="height: 75%"></div>
+                                <div class="wave-bar" style="height: 90%"></div>
+                                <div class="wave-bar" style="height: 40%"></div>
+                                <div class="wave-bar" style="height: 65%"></div>
+                                <div class="wave-bar" style="height: 80%"></div>
+                                <div class="wave-bar" style="height: 35%"></div>
+                                <div class="wave-bar" style="height: 50%"></div>
+                                <div class="wave-bar" style="height: 70%"></div>
+                                <div class="wave-bar" style="height: 85%"></div>
+                                <div class="wave-bar" style="height: 55%"></div>
+                                <div class="wave-bar" style="height: 30%"></div>
+                                <div class="wave-bar" style="height: 45%"></div>
+                                <div class="wave-bar" style="height: 60%"></div>
+                                <div class="wave-bar" style="height: 20%"></div>
+                            </div>
+                            <div class="demo-player__time" id="demo-time">00:00</div>
+                        </div>
+
+                        <div class="demo-transcript" id="demo-transcript">
+                            <div class="transcript-message highlight-red" data-time="1" data-scroll-to="0">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:01</span>
+                                </div>
+                                <div class="message-text">Здрасьте.</div>
+                                <span class="message-badge message-badge--danger">Нарушение приветствия</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="4">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:04</span>
+                                </div>
+                                <div class="message-text">Добрый день. Мне 20 литров АИ-92 на 4 колонку.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-red" data-time="8">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:08</span>
+                                </div>
+                                <div class="message-text">4600 тенге к оплате.</div>
+                                <span class="message-badge message-badge--danger">Пропущен повтор заказа</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="12">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:12</span>
+                                </div>
+                                <div class="message-text">Держите карту.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-red" data-time="15">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:15</span>
+                                </div>
+                                <div class="message-text">Что-нибудь еще?</div>
+                                <span class="message-badge message-badge--danger">Запрещенный кросс-сейл</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="18">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:18</span>
+                                </div>
+                                <div class="message-text">Нет.</div>
+                            </div>
+
+                            <div class="transcript-message highlight-red" data-time="21">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:21</span>
+                                </div>
+                                <div class="message-text">Чек нужен?</div>
+                                <span class="message-badge message-badge--danger">Запрещенный вопрос про чек</span>
+                            </div>
+
+                            <div class="transcript-message" data-time="24">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Клиент</span>
+                                    <span class="message-timestamp">00:24</span>
+                                </div>
+                                <div class="message-text">Да.</div>
+                            </div>
+                            
+                            <div class="transcript-message highlight-red" data-time="27">
+                                <div class="message-meta">
+                                    <span class="message-speaker">Кассир (Павел Б.)</span>
+                                    <span class="message-timestamp">00:27</span>
+                                </div>
+                                <div class="message-text">До свидания.</div>
+                                <span class="message-badge message-badge--danger">Нарушение стандарта прощания</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Insights -->
+                    <div class="ai-demo__analysis">
+                        <div class="analysis-header">
+                            <div>
+                                <h3 style="margin: 0 0 4px 0; font-size: 20px;">Анализ диалога ИИ</h3>
+                                <span style="font-size: 13px; color: var(--c-text-muted);">ID транзакции: #4828-QC</span>
+                            </div>
+                            <div class="score-circle" id="demo-score">0%</div>
+                        </div>
+
+                        <ul class="analysis-checklist">
+                            <li class="checklist-item" id="chk-greeting">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Приветствие и имя</span>
+                            </li>
+                            <li class="checklist-item" id="chk-coffee">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Продажа кофе / выпечки</span>
+                            </li>
+                            <li class="checklist-item" id="chk-promo">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Промо «Бензин в подарок»</span>
+                            </li>
+                            <li class="checklist-item" id="chk-receipt">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Выдача чека по умолчанию</span>
+                            </li>
+                            <li class="checklist-item" id="chk-farewell">
+                                <span class="checklist-icon"><i class="ph ph-circle"></i></span>
+                                <span>Стандарт прощания</span>
+                            </li>
+                        </ul>
+
+                        <div class="ai-recommendation">
+                            <h5><i class="ph ph-sparkle"></i> Аналитическое заключение</h5>
+                            <p id="ai-rec-text">Запустите запись разговора для автоматической генерации рекомендаций...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== METRICS ===== -->
+        <section class="metrics" id="metrics">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">12+ метрик</span>
+                    <h2 class="section-title">ИИ слышит то, что <span class="gradient-text">вы не&nbsp;можете</span>
+                    </h2>
+                    <p class="section-subtitle">Каждый разговор оценивается по десяткам параметров в реальном времени
+                    </p>
+                </div>
+                <div class="metrics__grid">
+                    <div class="metric-card" data-animate="fade-up" data-delay="50">
+                        <div class="metric-card__icon"><i class="ph ph-scroll"></i></div>
+                        <h3 class="metric-card__title">Соблюдение скриптов</h3>
+                        <p class="metric-card__text">Проверяем каждый этап скрипта — приветствие, выявление
+                            потребностей, презентация, закрытие</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="100">
+                        <div class="metric-card__icon"><i class="ph ph-lightning"></i></div>
+                        <h3 class="metric-card__title">Конфликтные ситуации</h3>
+                        <p class="metric-card__text">Повышенный тон, агрессия, негавтивные эмоции — система мгновенно
+                            фиксирует и алертит</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="150">
+                        <div class="metric-card__icon"><i class="ph ph-trend-up"></i></div>
+                        <h3 class="metric-card__title">Допродажи</h3>
+                        <p class="metric-card__text">Предложил ли сотрудник дополнительные товары или услуги? Сколько из
+                            предложений привели к покупке?</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="200">
+                        <div class="metric-card__icon"><i class="ph ph-target"></i></div>
+                        <h3 class="metric-card__title">Выявление потребностей</h3>
+                        <p class="metric-card__text">Задаёт ли сотрудник правильные вопросы? Слушает ли клиента или
+                            навязывает?</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="250">
+                        <div class="metric-card__icon"><i class="ph ph-smiley-wink"></i></div>
+                        <h3 class="metric-card__title">Эмоциональный тон</h3>
+                        <p class="metric-card__text">Анализ тональности обоих собеседников — позитивный, нейтральный,
+                            негативный</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="300">
+                        <div class="metric-card__icon"><i class="ph ph-chat-centered-text"></i></div>
+                        <h3 class="metric-card__title">Слова-паразиты</h3>
+                        <p class="metric-card__text">«Ну», «типа», «как бы» — фиксируем частоту и помогаем искоренить
+                            непрофессиональную речь</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="350">
+                        <div class="metric-card__icon"><i class="ph ph-hourglass-high"></i></div>
+                        <h3 class="metric-card__title">Время диалога</h3>
+                        <p class="metric-card__text">Средняя длительность, соотношение «говорит/слушает», молчание и
+                            паузы</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="400">
+                        <div class="metric-card__icon"><i class="ph ph-shield-check"></i></div>
+                        <h3 class="metric-card__title">Работа с возражениями</h3>
+                        <p class="metric-card__text">Как сотрудник парирует «дорого», «подумаю», «у конкурентов дешевле»
+                        </p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="450">
+                        <div class="metric-card__icon"><i class="ph ph-hand-waving"></i></div>
+                        <h3 class="metric-card__title">Приветствие и прощание</h3>
+                        <p class="metric-card__text">Корректное начало и завершение контакта — основа первого
+                            впечатления</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="500">
+                        <div class="metric-card__icon"><i class="ph ph-prohibit"></i></div>
+                        <h3 class="metric-card__title">Запрещённые фразы</h3>
+                        <p class="metric-card__text">Ненормативная лексика, несогласованные обещания, разглашение
+                            конфиденциальной информации</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="550">
+                        <div class="metric-card__icon"><i class="ph ph-chart-bar"></i></div>
+                        <h3 class="metric-card__title">Рейтинг сотрудника</h3>
+                        <p class="metric-card__text">Сводная оценка по всем метрикам — кого поощрить, кого обучить, кого
+                            взять на контроль</p>
+                    </div>
+                    <div class="metric-card" data-animate="fade-up" data-delay="600">
+                        <div class="metric-card__icon"><i class="ph ph-lightbulb"></i></div>
+                        <h3 class="metric-card__title">Инсайты клиентов</h3>
+                        <p class="metric-card__text">О чём спрашивают клиенты, что хотят, чем недовольны — данные для
+                            маркетинга и продукта</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ROI CALCULATOR ===== -->
+        <section class="roi-calc" id="roi-calc" style="padding: var(--space-24) 0; background: var(--c-bg); border-top: 1px solid var(--c-border);">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Калькулятор</span>
+                    <h2 class="section-title">Рассчитайте окупаемость <span class="gradient-text">внедрения</span></h2>
+                    <p class="section-subtitle">Посмотрите, сколько прибыли принесет автоматизация контроля диалогов на базе реальной статистики наших кейсов</p>
+                </div>
+                <div class="roi-calc__grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-12); align-items: start;" data-animate="fade-up" data-delay="100">
+                    <!-- Left: Controls -->
+                    <div class="roi-calc__controls" style="background: var(--c-bg-card); border: 1px solid var(--c-border); padding: var(--space-8); border-radius: var(--r-2xl); display: flex; flex-direction: column; gap: var(--space-6);">
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Количество сотрудников (бейджей)</label>
+                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">10 шт</span>
+                            </div>
+                            <input type="range" id="range-badges" min="2" max="100" value="10" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Текущий средний чек</label>
+                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">5 000 ₸</span>
+                            </div>
+                            <input type="range" id="range-ticket" min="1000" max="50000" step="500" value="5000" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+
+                        <div class="calc-group">
+                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <label style="font-weight: 600; color: white;">Транзакций на сотрудника в день</label>
+                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">30 шт</span>
+                            </div>
+                            <input type="range" id="range-tx" min="5" max="150" value="30" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                        </div>
+                    </div>
+
+                    <!-- Right: Results display -->
+                    <div class="roi-calc__results" style="background: var(--gradient-card); border: 2px solid rgba(6, 182, 212, 0.3); padding: var(--space-8); border-radius: var(--r-2xl); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
+                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Ожидаемый результат (в месяц)</h4>
+                        
+                        <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Дополнительная выручка (рост чека на 15%)</span>
+                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2 250 000 ₸</span>
+                        </div>
+
+                        <div class="roi-result-item" style="text-align: center;">
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Экономия на отделе контроля качества (ОКК)</span>
+                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-green);">до 350 000 ₸</span>
+                        </div>
+
+                        <!-- Визуальный мини-график окупаемости -->
+                        <div class="roi-chart-container" style="margin: var(--space-4) 0; height: 110px; display: flex; align-items: flex-end; justify-content: space-around; background: rgba(255,255,255,0.02); border-radius: var(--r-lg); padding: 10px; border: 1px solid var(--c-border); position: relative;">
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
+                                <div id="bar-costs" style="width: 32px; height: 10px; background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.8) 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 2px 10px rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4);"></div>
+                                <span id="bar-costs-label" style="font-size: 10px; font-weight: 600; color: #ef4444; margin-top: 4px;">15 000 ₸</span>
+                                <span style="font-size: 9px; color: var(--c-text-muted); white-space: nowrap;">Затраты на ИИ</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
+                                <div id="bar-revenue" style="width: 32px; height: 80px; background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);"></div>
+                                <span id="bar-revenue-label" style="font-size: 10px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 4px;">2.2M ₸</span>
+                                <span style="font-size: 9px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Чистый профит</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: var(--space-4); text-align: center;">
+                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Получить детальный расчет</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== COMPARISON ===== -->
         <section class="comparison" id="comparison">
             <div class="container">
@@ -880,6 +897,63 @@
             </div>
         </section>
 
+        <!-- ===== PARTNERSHIP ===== -->
+        <section class="partnership" id="partnership" style="padding: var(--space-20) 0; background: var(--c-bg-elevated);">
+            <div class="container">
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 800px; margin: 0 auto;">
+                    <div class="section-tag">Технологии</div>
+                    <h2 class="section-title">Синергия с <span class="gradient-text">Aitomaton</span></h2>
+                    <p class="section-subtitle" style="margin-bottom: var(--space-8);">
+                        Наше программное обеспечение разработано в партнерстве с командой <strong>Aitomaton</strong>. 
+                        <strong>ТОО Aiprotocol.kz</strong> является официальным партнером по внедрению и поддержке решения, 
+                        обеспечивая клиентам максимальную безопасность и гибкость развертывания.
+                    </p>
+                    <div style="display: flex; gap: var(--space-6); flex-wrap: wrap; justify-content: center;">
+                        <div style="background: var(--c-surface); border: 1px solid var(--c-border); padding: var(--space-4) var(--space-6); border-radius: var(--r-md);">
+                            <span style="font-weight: 500; color: var(--c-text-primary);">Официальное партнерство</span>
+                        </div>
+                        <div style="background: var(--c-surface); border: 1px solid var(--c-border); padding: var(--space-4) var(--space-6); border-radius: var(--r-md);">
+                            <span style="font-weight: 500; color: var(--c-text-primary);">Cloud / On-premise</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== LOGOS ===== -->
+        <section class="logos">
+            <div class="container">
+                <p class="logos__title">Нам доверяют лидеры рынка</p>
+                <div class="logos__grid">
+                    <!-- Fictional Brands -->
+                    <div class="logos__item">Qazaq Petrol</div>
+                    <div class="logos__item">Sunkar Pharm</div>
+                    <div class="logos__item">Nomad Fuel</div>
+                    <div class="logos__item">BioSfera KZ</div>
+                    <div class="logos__item">Alatau Oil</div>
+                    <div class="logos__item">MedService Plus</div>
+                </div>
+                <div class="logos__cases" data-animate="fade-up" data-delay="100">
+                    <div class="case-card">
+                        <div class="case-card__header">
+                            <span class="case-card__company">Qazaq Petrol</span>
+                            <span class="case-card__badge">+22%</span>
+                        </div>
+                        <h4 class="case-card__title">Рост продаж сопутствующих товаров на АЗС</h4>
+                        <p class="case-card__text">ИИ выявил, что заправщики в 40% случаев забывали предлагать сопутствующие товары. Исправление скрипта повысило выручку кафе за 30 дней.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-card__header">
+                            <span class="case-card__company">Sunkar Pharm</span>
+                            <span class="case-card__badge">+18%</span>
+                        </div>
+                        <h4 class="case-card__title">Увеличение доли СТМ в чеке</h4>
+                        <p class="case-card__text">Автоматический контроль 100% диалогов фармацевтов позволил полностью исключить пропуски обязательных рекомендаций СТМ.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ===== BRIDGE ===== -->
         <section class="bridge" id="bridge" style="padding: var(--space-12) 0; background: linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg-elevated) 100%);">
             <div class="container">
@@ -900,61 +974,97 @@
                     <h2 class="section-title">Решение для любого <span class="gradient-text">B2B-бизнеса</span></h2>
                     <p class="section-subtitle">Везде, где есть живое общение сотрудников с клиентами</p>
                 </div>
-                <div class="industries__grid">
-                    <div class="industry-card" data-animate="fade-up" data-delay="50">
-                        <div class="industry-card__icon"><i class="ph ph-storefront"></i></div>
-                        <h3 class="industry-card__title">Ритейл</h3>
-                        <p class="industry-card__text">Контроль консультантов в торговых залах. Допродажи, стандарты обслуживания, работа с возражениями.</p>
-                        <span class="industry-card__example">Магазины электроники, одежды, косметики</span>
+                <div class="industries-tabs" data-animate="fade-up" data-delay="100">
+                    <!-- Left nav -->
+                    <div class="industries-tabs__nav">
+                        <button class="industry-tab-btn active" data-tab="retail">
+                            <i class="ph ph-storefront"></i>
+                            <span>Ритейл</span>
+                        </button>
+                        <button class="industry-tab-btn" data-tab="pharm">
+                            <i class="ph ph-pill"></i>
+                            <span>Аптеки</span>
+                        </button>
+                        <button class="industry-tab-btn" data-tab="gas">
+                            <i class="ph ph-gas-pump"></i>
+                            <span>АЗС</span>
+                        </button>
+                        <button class="industry-tab-btn" data-tab="med">
+                            <i class="ph ph-first-aid-kit"></i>
+                            <span>Медицина</span>
+                        </button>
+                        <button class="industry-tab-btn" data-tab="services">
+                            <i class="ph ph-coffee"></i>
+                            <span>Услуги и авто</span>
+                        </button>
                     </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="100">
-                        <div class="industry-card__icon"><i class="ph ph-pill"></i></div>
-                        <h3 class="industry-card__title">Аптеки</h3>
-                        <p class="industry-card__text">Соблюдение фармацевтического порядка и скриптов предложения СТМ. Качество консультаций.</p>
-                        <span class="industry-card__example">Аптечные сети, оптики, медтехника</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="250">
-                        <div class="industry-card__icon"><i class="ph ph-first-aid-kit"></i></div>
-                        <h3 class="industry-card__title">Медицина</h3>
-                        <p class="industry-card__text">Качество приёма пациентов, запись на повторные визиты, продажа
-                            дополнительных услуг.</p>
-                        <span class="industry-card__example">Клиники, стоматологии, лаборатории</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="300">
-                        <div class="industry-card__icon"><i class="ph ph-barbell"></i></div>
-                        <h3 class="industry-card__title">Фитнес и красота</h3>
-                        <p class="industry-card__text">Продление абонементов, продажа персональных тренировок, допуслуг.</p>
-                        <span class="industry-card__example">Фитнес-клубы, салоны красоты, SPA</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="350">
-                        <div class="industry-card__icon"><i class="ph ph-car"></i></div>
-                        <h3 class="industry-card__title">Автосалоны и СТО</h3>
-                        <p class="industry-card__text">Контроль мастеров-приемщиков и менеджеров продаж. Соблюдение стандартов обслуживания, предложение допуслуг и запчастей.</p>
-                        <span class="industry-card__example">Автодилеры, сервисные центры, детейлинг</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="400">
-                        <div class="industry-card__icon"><i class="ph ph-gas-pump"></i></div>
-                        <h3 class="industry-card__title">АЗС</h3>
-                        <p class="industry-card__text">Контроль кассиров и заправщиков. Контроль проговаривания акций на топливо, допродажи сопутствующих товаров, фастфуда и кофе.</p>
-                        <span class="industry-card__example">Крупные сети АЗС, заправочные комплексы</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="450">
-                        <div class="industry-card__icon"><i class="ph ph-coffee"></i></div>
-                        <h3 class="industry-card__title">Рестораны и кофейни</h3>
-                        <p class="industry-card__text">Контроль официантов, хостес и бариста. Соблюдение стандартов гостеприимства, скорость обслуживания, предложение десертов.</p>
-                        <span class="industry-card__example">Рестораны, кофейни, пиццерии, фастфуд</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="500">
-                        <div class="industry-card__icon"><i class="ph ph-bank"></i></div>
-                        <h3 class="industry-card__title">Банки и финансы</h3>
-                        <p class="industry-card__text">Контроль менеджеров в отделениях. Соблюдение регламентов обслуживания, предложение финансовых продуктов, страховок, отработка возражений.</p>
-                        <span class="industry-card__example">Отделения банков, МФО, страховые компании</span>
-                    </div>
-                    <div class="industry-card" data-animate="fade-up" data-delay="550">
-                        <div class="industry-card__icon"><i class="ph ph-buildings"></i></div>
-                        <h3 class="industry-card__title">Недвижимость</h3>
-                        <p class="industry-card__text">Анализ встреч и звонков менеджеров по продажам. Качество презентации объектов недвижимости, ведение по воронке, отработка возражений.</p>
-                        <span class="industry-card__example">Застройщики, агентства недвижимости</span>
+
+                    <!-- Right panels -->
+                    <div class="industries-tabs__content-panel">
+                        <!-- Retail -->
+                        <div class="industry-content-tab active" id="tab-retail">
+                            <span class="industry-tab-badge">Ритейл</span>
+                            <h3 style="font-size: var(--f-size-2xl); margin: 0 0 12px 0;">Контроль качества в торговых залах</h3>
+                            <p style="color: var(--c-text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                                Автоматический контроль работы консультантов и кассиров. ИИ проверяет стандарты приветствия, выявляет предложение сопутствующих товаров, соблюдение промо-акций и корректность отработки возражений.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--c-border); padding: 15px; border-radius: var(--r-xl);">
+                                <strong style="color: white; display: block; margin-bottom: 5px;">Где применяется:</strong>
+                                <span style="color: var(--c-text-muted); font-size: var(--f-size-sm);">Магазины электроники, бытовой техники, одежды, обуви, косметики и FMCG-сети.</span>
+                            </div>
+                        </div>
+
+                        <!-- Pharm -->
+                        <div class="industry-content-tab" id="tab-pharm">
+                            <span class="industry-tab-badge">Аптеки</span>
+                            <h3 style="font-size: var(--f-size-2xl); margin: 0 0 12px 0;">Соблюдение фарм-порядка и рекомендаций</h3>
+                            <p style="color: var(--c-text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                                Проверка проговаривания фармацевтами обязательных скриптов, предложения собственных торговых марок (СТМ) и товаров с высокой маржинальностью. Контроль проявления эмпатии и вежливости.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--c-border); padding: 15px; border-radius: var(--r-xl);">
+                                <strong style="color: white; display: block; margin-bottom: 5px;">Где применяется:</strong>
+                                <span style="color: var(--c-text-muted); font-size: var(--f-size-sm);">Аптечные сети, оптики, ортопедические салоны и магазины медтехники.</span>
+                            </div>
+                        </div>
+
+                        <!-- Gas -->
+                        <div class="industry-content-tab" id="tab-gas">
+                            <span class="industry-tab-badge">АЗС</span>
+                            <h3 style="font-size: var(--f-size-2xl); margin: 0 0 12px 0;">Допродажи сопутствующих товаров и кафе</h3>
+                            <p style="color: var(--c-text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                                Кассиры и заправщики часто забывают предлагать выпечку, хот-доги, кофе и фирменное топливо. ИИ анализирует 100% чеков и сопоставляет их с записями разговоров, выявляя упущенную выгоду.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--c-border); padding: 15px; border-radius: var(--r-xl);">
+                                <strong style="color: white; display: block; margin-bottom: 5px;">Где применяется:</strong>
+                                <span style="color: var(--c-text-muted); font-size: var(--f-size-sm);">Крупные сети автозаправочных комплексов, придорожные кафе и магазины при АЗС.</span>
+                            </div>
+                        </div>
+
+                        <!-- Med -->
+                        <div class="industry-content-tab" id="tab-med">
+                            <span class="industry-tab-badge">Медицина</span>
+                            <h3 style="font-size: var(--f-size-2xl); margin: 0 0 12px 0;">Контроль регистратуры и сервиса клиники</h3>
+                            <p style="color: var(--c-text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                                Проверка соблюдения медицинских регламентов, вежливости администраторов, корректности записи пациентов на повторные приемы и соблюдения этических норм.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--c-border); padding: 15px; border-radius: var(--r-xl);">
+                                <strong style="color: white; display: block; margin-bottom: 5px;">Где применяется:</strong>
+                                <span style="color: var(--c-text-muted); font-size: var(--f-size-sm);">Частные многопрофильные клиники, стоматологии, диагностические центры и лаборатории.</span>
+                            </div>
+                        </div>
+
+                        <!-- Services -->
+                        <div class="industry-content-tab" id="tab-services">
+                            <span class="industry-tab-badge">Услуги и авто</span>
+                            <h3 style="font-size: var(--f-size-2xl); margin: 0 0 12px 0;">Автосалоны, СТО, рестораны и фитнес</h3>
+                            <p style="color: var(--c-text-secondary); line-height: 1.6; margin-bottom: 20px;">
+                                Анализ разговоров менеджеров, мастеров-приемщиков и хостес. Контроль предложения продления абонементов, бронирования столов, рекомендации запчастей и дополнительных услуг.
+                            </p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--c-border); padding: 15px; border-radius: var(--r-xl);">
+                                <strong style="color: white; display: block; margin-bottom: 5px;">Где применяется:</strong>
+                                <span style="color: var(--c-text-muted); font-size: var(--f-size-sm);">СТО, фитнес-клубы, автосалоны, банки, рестораны, салоны красоты и SPA.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1054,157 +1164,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- ===== FAQ ===== -->
-        <section class="faq" id="faq">
-            <div class="container">
-                <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">Вопросы</span>
-                    <h2 class="section-title">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
-                </div>
-                                <div class="faq__list" data-animate="fade-up" data-delay="200">
-                    <div class="faq__item" id="faq-1">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Сколько стоит решение?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>Стоимость начинается <strong>от 50 000 ₸ в месяц</strong> за одного сотрудника при заключении контракта от 3 месяцев (оборудование выкупается). В эту стоимость входит полный доступ к платформе, безлимитный ИИ-анализ всех разговоров и формирование детальной отчетности. При масштабировании на крупные сети действуют скидки.</p>
-                        </div>
-                    </div>
-                    <div class="faq__item" id="faq-2">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Сколько времени занимает внедрение?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>Базовое внедрение занимает всего <strong>1 рабочий день</strong>. Мы доставляем аудиобейджи, устанавливаем и подключаем зарядные док-станции, настраиваем Wi-Fi и адаптируем метрики ИИ под особенности вашего бизнеса. Первые результаты и подробные отчеты вы увидите в дашборде уже на следующий день.</p>
-                        </div>
-                    </div>
-                    <div class="faq__item" id="faq-4">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Можно ли настроить метрики под наш бизнес?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>Да, все метрики полностью кастомизируемые. Мы загружаем ваши скрипты, настраиваем
-                                чек-листы, добавляем специфичные для вашей отрасли параметры оценки. Вы сами
-                                определяете, что считается «успешным» диалогом.</p>
-                        </div>
-                    </div>
-                    <div class="faq__item" id="faq-3">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Где хранятся записи, насколько это безопасно?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>Записи зашифрованы (AES-128) и хранятся на базовой станции БС-4 со встроенным накопителем
-                                128 ГБ. Далее данные передаются по защищённому каналу на ваши SFTP-серверы или
-                                S3-хранилища. Возможно полностью автономное размещение (on-premise). Мы соответствуем
-                                требованиям Закона РК «О персональных данных и их защите».</p>
-                        </div>
-                    </div>
-                    <div class="faq__item" id="faq-5">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Законно ли записывать разговоры сотрудников?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>Да, абсолютно законно. В соответствии с трудовым законодательством РК работодатель имеет право контролировать исполнение сотрудниками их должностных обязанностей. Наши бейджи снабжены световым индикатором, предупреждающим о записи. Перед внедрением сотрудники подписывают стандартное согласие. Мы предоставляем полный юридический пакет документов.</p>
-                        </div>
-                    </div>
-                    <div class="faq__item" id="faq-6">
-                        <button class="faq__question" aria-expanded="false">
-                            <span>Какой срок автономной работы бейджа?</span>
-                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </button>
-                        <div class="faq__answer">
-                            <p>До 18 часов непрерывной записи на одном заряде. Этого достаточно для любой рабочей смены.
-                                Зарядка через док-станцию занимает 2-3 часа, во время зарядки данные автоматически
-                                выгружаются.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ===== ROI CALCULATOR ===== -->
-        <section class="roi-calc" id="roi-calc" style="padding: var(--space-24) 0; background: var(--c-bg); border-top: 1px solid var(--c-border);">
-            <div class="container">
-                <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">Калькулятор</span>
-                    <h2 class="section-title">Рассчитайте окупаемость <span class="gradient-text">внедрения</span></h2>
-                    <p class="section-subtitle">Посмотрите, сколько прибыли принесет автоматизация контроля диалогов на базе реальной статистики наших кейсов</p>
-                </div>
-                <div class="roi-calc__grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-12); align-items: start;" data-animate="fade-up" data-delay="100">
-                    <!-- Left: Controls -->
-                    <div class="roi-calc__controls" style="background: var(--c-bg-card); border: 1px solid var(--c-border); padding: var(--space-8); border-radius: var(--r-2xl); display: flex; flex-direction: column; gap: var(--space-6);">
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Количество сотрудников (бейджей)</label>
-                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">10 шт</span>
-                            </div>
-                            <input type="range" id="range-badges" min="2" max="100" value="10" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
-
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Текущий средний чек</label>
-                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">5 000 ₸</span>
-                            </div>
-                            <input type="range" id="range-ticket" min="1000" max="50000" step="500" value="5000" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
-
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Транзакций на сотрудника в день</label>
-                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">30 шт</span>
-                            </div>
-                            <input type="range" id="range-tx" min="5" max="150" value="30" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
-                    </div>
-
-                    <!-- Right: Results display -->
-                    <div class="roi-calc__results" style="background: var(--gradient-card); border: 2px solid rgba(6, 182, 212, 0.3); padding: var(--space-8); border-radius: var(--r-2xl); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
-                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Ожидаемый результат (в месяц)</h4>
-                        
-                        <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Дополнительная выручка (рост чека на 15%)</span>
-                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2 250 000 ₸</span>
-                        </div>
-
-                        <div class="roi-result-item" style="text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Экономия на отделе контроля качества (ОКК)</span>
-                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-green);">до 350 000 ₸</span>
-                        </div>
-                        
-                        <div style="margin-top: var(--space-6); text-align: center;">
-                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Получить детальный расчет</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
 
         <!-- ===== PRICING ===== -->
         <section class="pricing" id="pricing">
@@ -1327,6 +1286,97 @@
                         </ul>
                         <div class="pricing__note" style="text-align: center; margin-bottom: 20px; font-size: 0.9em; color: var(--c-text-muted); opacity: 0;">&nbsp;</div>
                         <a href="https://wa.me/77775556789?text=Здравствуйте!%20Интересует%20тариф%20«Лидер%20Рынка»" target="_blank" rel="noopener" class="btn btn--ghost btn--lg btn--full" style="margin-top: auto;">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FAQ ===== -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <div class="section-header" data-animate="fade-up">
+                    <span class="section-tag">Вопросы</span>
+                    <h2 class="section-title">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
+                </div>
+                                <div class="faq__list" data-animate="fade-up" data-delay="200">
+                    <div class="faq__item" id="faq-1">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Сколько стоит решение?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Стоимость начинается <strong>от 50 000 ₸ в месяц</strong> за одного сотрудника при заключении контракта от 3 месяцев (оборудование выкупается). В эту стоимость входит полный доступ к платформе, безлимитный ИИ-анализ всех разговоров и формирование детальной отчетности. При масштабировании на крупные сети действуют скидки.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-2">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Сколько времени занимает внедрение?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Базовое внедрение занимает всего <strong>1 рабочий день</strong>. Мы доставляем аудиобейджи, устанавливаем и подключаем зарядные док-станции, настраиваем Wi-Fi и адаптируем метрики ИИ под особенности вашего бизнеса. Первые результаты и подробные отчеты вы увидите в дашборде уже на следующий день.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-4">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Можно ли настроить метрики под наш бизнес?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Да, все метрики полностью кастомизируемые. Мы загружаем ваши скрипты, настраиваем
+                                чек-листы, добавляем специфичные для вашей отрасли параметры оценки. Вы сами
+                                определяете, что считается «успешным» диалогом.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-3">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Где хранятся записи, насколько это безопасно?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Записи зашифрованы (AES-128) и хранятся на базовой станции БС-4 со встроенным накопителем
+                                128 ГБ. Далее данные передаются по защищённому каналу на ваши SFTP-серверы или
+                                S3-хранилища. Возможно полностью автономное размещение (on-premise). Мы соответствуем
+                                требованиям Закона РК «О персональных данных и их защите».</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-5">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Законно ли записывать разговоры сотрудников?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>Да, абсолютно законно. В соответствии с трудовым законодательством РК работодатель имеет право контролировать исполнение сотрудниками их должностных обязанностей. Наши бейджи снабжены световым индикатором, предупреждающим о записи. Перед внедрением сотрудники подписывают стандартное согласие. Мы предоставляем полный юридический пакет документов.</p>
+                        </div>
+                    </div>
+                    <div class="faq__item" id="faq-6">
+                        <button class="faq__question" aria-expanded="false">
+                            <span>Какой срок автономной работы бейджа?</span>
+                            <svg class="faq__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <div class="faq__answer">
+                            <p>До 18 часов непрерывной записи на одном заряде. Этого достаточно для любой рабочей смены.
+                                Зарядка через док-станцию занимает 2-3 часа, во время зарядки данные автоматически
+                                выгружаются.</p>
+                        </div>
                     </div>
                 </div>
             </div>

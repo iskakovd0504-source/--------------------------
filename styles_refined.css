@@ -238,10 +238,190 @@ hr, .hero__stat-divider {
     transition: border-color 0.3s, transform 0.3s !important;
 }
 
-/* Скрытие 3D-волны на мобильных для оптимизации и читаемости */
 @media (max-width: 768px) {
     .hero__wave-container {
         height: 350px !important;
         top: 45% !important;
     }
+    .hero__stats {
+        align-items: center !important;
+    }
+    .hero__stat-divider {
+        margin: 8px auto !important;
+    }
 }
+
+/* ===== ПРЕМИУМ ЭФФЕКТЫ И ДИНАМИКА ===== */
+
+.gradient-text {
+    background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 50%, #06B6D4 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    display: inline-block;
+    animation: shineGradient 6s linear infinite !important;
+}
+
+@keyframes shineGradient {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Spotlight-подсветка для карточек */
+.problem__card, .metric-card, .industry-card, .pricing__card {
+    position: relative;
+    overflow: hidden;
+}
+
+.problem__card::before, .metric-card::before, .industry-card::before, .pricing__card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(6, 182, 212, 0.15), transparent 80%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: inherit;
+}
+
+.problem__card:hover::before, .metric-card:hover::before, .industry-card:hover::before, .pricing__card:hover::before {
+    opacity: 1;
+}
+
+/* Все дочерние элементы карточек поднимаем над свечением, чтобы сохранить читаемость */
+.problem__card > *, .metric-card > *, .industry-card > *, .pricing__card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Классы для анимации прокрутки */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+}
+
+/* ===== ИНТЕРАКТИВНЫЕ ТАБЫ ОТРАСЛЕЙ ===== */
+
+.industries-tabs {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-10);
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .industries-tabs {
+        grid-template-columns: 1fr;
+    }
+}
+
+.industries-tabs__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media (max-width: 992px) {
+    .industries-tabs__nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 12px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .industry-tab-btn {
+        scroll-snap-align: start;
+        flex-shrink: 0;
+    }
+}
+
+.industry-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: var(--space-3) var(--space-5);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-xl);
+    color: var(--c-text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.industry-tab-btn i {
+    font-size: 20px;
+    color: var(--c-accent-cyan);
+    transition: transform 0.3s;
+}
+
+.industry-tab-btn:hover {
+    background: rgba(6, 182, 212, 0.04);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: white;
+}
+
+.industry-tab-btn:hover i {
+    transform: scale(1.1);
+}
+
+.industry-tab-btn.active {
+    background: rgba(6, 182, 212, 0.08) !important;
+    border-color: var(--c-accent-cyan) !important;
+    color: white !important;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15) !important;
+}
+
+.industries-tabs__content-panel {
+    background: rgba(8, 14, 26, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(6, 182, 212, 0.08);
+    border-radius: var(--r-2xl);
+    padding: var(--space-8);
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.industry-content-tab {
+    display: none;
+    animation: tabFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.industry-content-tab.active {
+    display: block;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(12px) translateZ(0); }
+    to { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+.industry-tab-badge {
+    font-size: var(--f-size-xs);
+    font-weight: 700;
+    color: var(--c-accent-cyan);
+    background: rgba(6, 182, 212, 0.1);
+    padding: 3px 8px;
+    border-radius: 20px;
+    align-self: flex-start;
+    margin-bottom: 12px;
+}
+
+

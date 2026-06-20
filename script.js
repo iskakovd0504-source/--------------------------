@@ -691,10 +691,12 @@
         // Доп. выручка = Кол-во бейджей * Кол-во транзакций в день * Ср. чек * 30 дней * 15% (консервативный прирост за счет допродаж)
         const additionalRevenue = Math.round(badges * tx * ticket * 30 * 0.15);
 
-        // Расчет экономии на ОКК:
-        // Экономия на ручном прослушивании = Примерно 35 000 ₸ (или $80 в США/Европе) в месяц на одного сотрудника при аутсорсе ОКК
         const savingsFactor = isEn ? 80 : 35000;
         const savings = badges * savingsFactor;
+
+        // Стоимость ИИ-подписки (примерно 15 000 ₸ или $35 на 1 бейдж в месяц)
+        const aiCostPerBadge = isEn ? 35 : 15000;
+        const totalAiCost = badges * aiCostPerBadge;
 
         if (isEn) {
             resultRevenue.textContent = `$${additionalRevenue.toLocaleString('en-US')}`;
@@ -702,6 +704,40 @@
         } else {
             resultRevenue.textContent = `${additionalRevenue.toLocaleString('ru-RU')} ₸`;
             resultSavings.textContent = `до ${savings.toLocaleString('ru-RU')} ₸`;
+        }
+
+        // Обновляем визуальный мини-график
+        const barCosts = document.getElementById('bar-costs');
+        const barRevenue = document.getElementById('bar-revenue');
+        const barCostsLabel = document.getElementById('bar-costs-label');
+        const barRevenueLabel = document.getElementById('bar-revenue-label');
+
+        if (barCosts && barRevenue && barCostsLabel && barRevenueLabel) {
+            // Форматируем подписи на столбиках
+            if (isEn) {
+                barCostsLabel.textContent = `$${totalAiCost.toLocaleString('en-US')}`;
+                barRevenueLabel.textContent = additionalRevenue >= 1000 
+                    ? `$${(additionalRevenue / 1000).toFixed(1)}K` 
+                    : `$${additionalRevenue}`;
+            } else {
+                barCostsLabel.textContent = totalAiCost >= 1000000 
+                    ? `${(totalAiCost / 1000000).toFixed(1)}M ₸` 
+                    : `${(totalAiCost / 1000).toFixed(0)}K ₸`;
+                barRevenueLabel.textContent = additionalRevenue >= 1000000 
+                    ? `${(additionalRevenue / 1000000).toFixed(1)}M ₸` 
+                    : `${(additionalRevenue / 1000).toFixed(0)}K ₸`;
+            }
+
+            // Вычисляем пропорциональные высоты
+            const maxProfit = Math.max(additionalRevenue, 1);
+            const costRatio = totalAiCost / maxProfit;
+            
+            // Фиксируем чистый профит на максимуме (80px), а расходы делаем пропорциональными (минимум 8px, максимум 80px)
+            const revenueHeight = 80;
+            const costsHeight = Math.min(80, Math.max(8, Math.round(revenueHeight * costRatio)));
+            
+            barRevenue.style.height = `${revenueHeight}px`;
+            barCosts.style.height = `${costsHeight}px`;
         }
     }
 
@@ -873,5 +909,56 @@
     if (demoPlayBtn) {
         demoPlayBtn.addEventListener('click', runDemo);
     }
+
+    // ===== Табы для отраслей (Industries) =====
+    const industryButtons = document.querySelectorAll('.industry-tab-btn');
+    const industryTabs = document.querySelectorAll('.industry-content-tab');
+
+    industryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            
+            industryButtons.forEach(b => b.classList.remove('active'));
+            industryTabs.forEach(t => t.classList.remove('active'));
+            
+            btn.classList.add('active');
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        });
+    });
+
+    // ===== spotlight-эффект для карточек при движении мыши =====
+    const cards = document.querySelectorAll('.problem__card, .metric-card, .industry-card, .pricing__card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // ===== Плавное появление элементов при скролле (Scroll Reveal) =====
+    const animatedElements = document.querySelectorAll('.section-header, .problem__card, .metric-card, .industry-card, .pricing__card, .ai-demo__player-box, .ai-demo__analysis, .roi-calc__controls, .roi-calc__results, .cta-form');
+    animatedElements.forEach(el => el.classList.add('fade-in-up'));
+
+    const scrollObserverOptions = {
+        threshold: 0.05,
+        rootMargin: '0px 0px -30px 0px'
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, scrollObserverOptions);
+
+    animatedElements.forEach(el => scrollObserver.observe(el));
 
 })();
