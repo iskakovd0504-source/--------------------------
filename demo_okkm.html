@@ -3711,17 +3711,18 @@
 
             const container = document.getElementById('checklist-container');
             container.innerHTML = c.checklist.map((item, i) => `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:12px 15px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); position:relative;" class="checklist-item-hover">
+                <div draggable="true" ondragstart="dragStartChecklist(event, ${i})" ondragover="dragOverChecklist(event)" ondragenter="dragEnterChecklist(event, ${i})" ondragleave="dragLeaveChecklist(event)" ondrop="dropChecklist(event, ${i})" ondragend="dragEndChecklist(event)" style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:12px 15px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); position:relative; cursor:grab;" class="checklist-item-hover">
                     <div style="font-size:13px; flex-grow:1; display:flex; align-items:center; gap:8px;">
+                        <span style="cursor:grab; opacity:0.3; margin-right:4px;">☰</span>
                         <span style="opacity:0.4;">${i+1}.</span>
                         <span>${item}</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:12px;">
                         <div style="display:flex; gap:12px; opacity:0; transition:0.2s; align-items:center;" class="item-actions">
-                            <span title="Редактировать пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="editChecklistItem(${i})" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">✏️</span>
-                            <span title="Удалить пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="deleteChecklistItem(${i})" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">🗑️</span>
+                            <span title="Редактировать пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="editChecklistItem(${i}); event.stopPropagation();" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">✏️</span>
+                            <span title="Удалить пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="deleteChecklistItem(${i}); event.stopPropagation();" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">🗑️</span>
                         </div>
-                        <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                        <div class="toggle active" onclick="this.classList.toggle('active'); event.stopPropagation();"></div>
                     </div>
                 </div>
             `).join('');
@@ -5515,6 +5516,129 @@
             }
             isMouseDownOnDatePickerOverlay = false;
         });
+
+        // DRAG & DROP FOR KPI CARDS
+        let draggedKPIIndex = null;
+
+        function dragStartKPI(e, index) {
+            draggedKPIIndex = index;
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            
+            // Fix drag image visibility in some browsers
+            setTimeout(() => {
+                e.target.style.opacity = '0.5';
+            }, 0);
+        }
+
+        function dragOverKPI(e) {
+            e.preventDefault();
+        }
+
+        function dragEnterKPI(e, index) {
+            e.preventDefault();
+            if (draggedKPIIndex !== index) {
+                e.currentTarget.style.borderLeft = '4px solid #3B82F6';
+            }
+        }
+
+        function dragLeaveKPI(e) {
+            e.currentTarget.style.borderLeft = '';
+        }
+
+        function dropKPI(e, targetIndex) {
+            e.preventDefault();
+            e.currentTarget.style.borderLeft = '';
+            
+            if (draggedKPIIndex !== null && draggedKPIIndex !== targetIndex) {
+                const c = config[currentMode];
+                const list = c.pinnedKPIs;
+                
+                const [movedItem] = list.splice(draggedKPIIndex, 1);
+                list.splice(targetIndex, 0, movedItem);
+                
+                renderAnalytics();
+                showToast('Порядок KPI-карточек изменен');
+            }
+            draggedKPIIndex = null;
+        }
+
+        function dragEndKPI(e) {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('#kpi-cards-container > div').forEach(el => {
+                el.style.borderLeft = '';
+            });
+        }
+
+        // DRAG & DROP FOR SETTINGS CHECKLIST
+        let draggedChecklistIndex = null;
+
+        function dragStartChecklist(e, index) {
+            draggedChecklistIndex = index;
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            
+            setTimeout(() => {
+                e.target.style.opacity = '0.5';
+            }, 0);
+        }
+
+        function dragOverChecklist(e) {
+            e.preventDefault();
+        }
+
+        function dragEnterChecklist(e, index) {
+            e.preventDefault();
+            if (draggedChecklistIndex !== index) {
+                e.currentTarget.style.borderTop = '2px solid #3B82F6';
+            }
+        }
+
+        function dragLeaveChecklist(e) {
+            e.currentTarget.style.borderTop = '';
+        }
+
+        function dropChecklist(e, targetIndex) {
+            e.preventDefault();
+            e.currentTarget.style.borderTop = '';
+            
+            if (draggedChecklistIndex !== null && draggedChecklistIndex !== targetIndex) {
+                const c = config[currentMode];
+                const list = c.checklist;
+                
+                // Rearrange checklist item
+                const [movedItem] = list.splice(draggedChecklistIndex, 1);
+                list.splice(targetIndex, 0, movedItem);
+
+                // Rearrange reference script item if exists
+                if (c.scripts && c.scripts[draggedChecklistIndex]) {
+                    const [movedScript] = c.scripts.splice(draggedChecklistIndex, 1);
+                    c.scripts.splice(targetIndex, 0, movedScript);
+                }
+
+                // Rearrange audits dynamically inside all dialogs
+                dialogs.forEach(d => {
+                    if (d.audit && d.audit.length > Math.max(draggedChecklistIndex, targetIndex)) {
+                        const [movedAudit] = d.audit.splice(draggedChecklistIndex, 1);
+                        d.audit.splice(targetIndex, 0, movedAudit);
+                    }
+                });
+
+                renderSettings();
+                updateTriggerDropdown();
+                showToast('Порядок стандартов обновлен');
+            }
+            draggedChecklistIndex = null;
+        }
+
+        function dragEndChecklist(e) {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('#checklist-container > div').forEach(el => {
+                el.style.borderTop = '';
+            });
+        }
 
         window.addEventListener('DOMContentLoaded', () => { 
             renderAnalytics(); 
