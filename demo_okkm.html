@@ -1329,7 +1329,7 @@
             <div class="pilot-filter-bar" style="display:flex; flex-wrap:wrap; gap:20px; margin-bottom:30px; align-items:center; background: rgba(13, 18, 31, 0.45); border: 1px solid rgba(255,255,255,0.05); padding: 16px 28px; border-radius: 20px; backdrop-filter: blur(10px);">
                 <div style="display:flex; align-items:center; gap:8px;">
                     <label style="font-size:12px; text-transform:uppercase; color: rgba(255,255,255,0.4); font-weight:700; letter-spacing:0.5px;">СТАТУС</label>
-                    <select id="filter-status" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;">
+                    <select id="filter-status" onchange="renderDialogs()" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;">
                         <option value="all">все</option>
                         <option value="DONE">DONE</option>
                         <option value="FAIL">FAIL</option>
@@ -1338,9 +1338,16 @@
                 
                 <div style="display:flex; align-items:center; gap:8px;">
                     <label style="font-size:12px; text-transform:uppercase; color: rgba(255,255,255,0.4); font-weight:700; letter-spacing:0.5px;">сотрудник</label>
-                    <select id="filter-employee" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer; min-width: 150px;">
+                    <select id="filter-employee" onchange="renderDialogs()" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer; min-width: 150px;">
                         <option value="all">все</option>
                         <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <label style="font-size:12px; text-transform:uppercase; color: rgba(255,255,255,0.4); font-weight:700; letter-spacing:0.5px;">триггер</label>
+                    <select id="filter-trigger" onchange="renderDialogs()" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;">
+                        <option value="all">все</option>
                     </select>
                 </div>
 
@@ -1515,10 +1522,14 @@
                 }
             </style>
             <!-- Back button & general header spacing -->
-            <div style="margin-bottom: 20px;">
+            <div style="margin-bottom: 20px; display:flex; gap:10px;">
                 <button class="btn btn--ghost btn--sm" onclick="goBackToDialogs()" style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:10px; border-color:rgba(255,255,255,0.1); cursor:pointer;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                     Назад к списку
+                </button>
+                <button id="btn-back-to-profile" class="btn btn--ghost btn--sm" onclick="goBackToProfile()" style="display:none; align-items:center; gap:8px; padding:8px 16px; border-radius:10px; border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.05); color:#3B82F6; cursor:pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Назад к профилю
                 </button>
             </div>
 
@@ -2940,6 +2951,7 @@
             
             // Dynamically populate employee filter dropdown
             updateEmployeeDropdown('all');
+            updateTriggerDropdown();
             
             dialogs.length = 0; 
             
@@ -3128,9 +3140,11 @@
         function resetDialogFilters() {
             const employee = document.getElementById('filter-employee');
             const status = document.getElementById('filter-status');
+            const trigger = document.getElementById('filter-trigger');
             
             if (employee) employee.value = 'all';
             if (status) status.value = 'all';
+            if (trigger) trigger.value = 'all';
             
             // Сбрасываем глобальный фильтр времени на "За последние 24 часа"
             currentTimePeriod = '24h';
@@ -3195,6 +3209,13 @@
                     const cleanDialogEmp = d.emp.trim().toLowerCase();
                     return cleanDialogEmp.startsWith(cleanEmpVal) || cleanEmpVal.startsWith(cleanDialogEmp);
                 });
+            }
+
+            // 3.5. Фильтр по триггеру (показателю)
+            const triggerVal = document.getElementById('filter-trigger') ? document.getElementById('filter-trigger').value : 'all';
+            if (triggerVal && triggerVal !== 'all') {
+                const triggerIndex = parseInt(triggerVal);
+                filtered = filtered.filter(d => d.audit && d.audit[triggerIndex] && d.audit[triggerIndex].status !== 'green');
             }
 
             // 4. Фильтр по датам
@@ -4148,6 +4169,20 @@
             const detailView = document.getElementById('view-dialog-detail');
             if (detailView) detailView.classList.add('active');
 
+            // Handle back-to-profile button visibility
+            const backToProfileBtn = document.getElementById('btn-back-to-profile');
+            if (backToProfileBtn) {
+                if (comingFromEmployeeProfile) {
+                    backToProfileBtn.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Назад к профилю (${comingFromEmployeeProfile})
+                    `;
+                    backToProfileBtn.style.display = 'inline-flex';
+                } else {
+                    backToProfileBtn.style.display = 'none';
+                }
+            }
+
             // Set sidebar active status to Dialogs
             document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
             const navDialogs = document.getElementById('nav-dialogs');
@@ -4618,7 +4653,7 @@
                     <div style="font-weight:800; font-size:15px; color:#fff; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px;" id="last-dialogues-title">Последние диалоги сотрудника</div>
                     <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
                         ${dialogs.filter(d => d.emp === e.name).slice(0, 3).map(d => `
-                            <div onclick="showDialogDetail(${d.id})" class="dialog-item-interactive" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(59,130,246,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.05)';">
+                            <div onclick="comingFromEmployeeProfile = '${e.name.replace("'", "\\'")}'; showDialogDetail(${d.id})" class="dialog-item-interactive" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(59,130,246,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.05)';">
                                 <div style="font-size:12px; display:flex; flex-direction:column; gap:6px;">
                                     <span style="font-weight:800; color:#fff; font-size:14px;">Чек #${d.id}</span>
                                     <span style="opacity:0.6; color:#A0AEC0;">${d.topic}</span>
@@ -4727,57 +4762,82 @@
             const color = val >= 80 ? '#10B981' : (val >= 60 ? '#F59E0B' : '#EF4444');
             const bg = val >= 80 ? 'rgba(16,185,129,0.1)' : (val >= 60 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)');
 
-            // Find matching employee dialogues
-            const empDialogs = dialogs.filter(d => d.emp === activeEmployeeName);
-            let dialoguesListHtml = "";
-            
-            if (empDialogs.length === 0) {
-                dialoguesListHtml = `<div style="opacity:0.5; font-size:12px; padding:15px; text-align:center;">Записей диалогов не найдено</div>`;
-            } else {
-                dialoguesListHtml = empDialogs.map(d => {
-                    const auditItem = d.audit ? d.audit[index] : null;
-                    if (!auditItem) return "";
-                    const isOk = auditItem.status === 'green';
-                    const statusBadge = isOk 
-                        ? `<span style="color:#10B981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); padding:3px 8px; border-radius:6px; font-weight:800; font-size:10px; letter-spacing:0.3px;">СОБЛЮДЕНО ✅</span>`
-                        : `<span style="color:#EF4444; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); padding:3px 8px; border-radius:6px; font-weight:800; font-size:10px; letter-spacing:0.3px;">НАРУШЕНО ❌</span>`;
-                    
-                    return `
-                        <div class="dialog-item-interactive" onclick="showDialogDetail(${d.id})" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:14px; border-radius:12px; display:flex; flex-direction:column; gap:8px; cursor:pointer; transition: all 0.2s; text-align:left;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(59,130,246,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.05)';">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <div style="font-weight:800; font-size:12.5px; color:#fff;">Чек #${d.id} <span style="font-weight:normal; opacity:0.4; font-size:11px; margin-left:6px;">(${d.audioDate ? d.audioDate.substring(11, 16) : d.time})</span></div>
-                                ${statusBadge}
-                            </div>
-                            <div style="font-size:12px; line-height:1.4; color:#A0AEC0;">
-                                <span style="font-weight:700; color:#fff;">Фраза:</span> ${auditItem.text || '—'}
-                            </div>
-                            <div style="font-size:11px; opacity:0.5; color:${isOk ? '#10B981' : '#EF4444'}; font-style:italic;">
-                                ${auditItem.comment || ''}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
             container.innerHTML = `
                 <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                     <span style="font-weight:800; font-size:13px; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Триггер: ${label}</span>
                     <span style="font-size:12px; font-weight:800; color:${color}; background:${bg}; padding:3px 10px; border-radius:6px; border:1px solid ${color}33;">Соблюдение: ${val}%</span>
                 </div>
-                <div style="font-size:12px; color:#A0AEC0; line-height:1.4; margin-bottom:15px; text-align:left; width:100%; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:12px;">
+                <div style="font-size:13px; color:#A0AEC0; line-height:1.5; margin-bottom:15px; text-align:left; width:100%;">
                     ${detail.desc}
                 </div>
-                
-                <div style="width:100%;">
-                    <div style="font-weight:800; font-size:10px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; text-align:left;">Диалоги сотрудника по этому триггеру (Кликните для аудио-разбора):</div>
-                    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
-                        ${dialoguesListHtml}
-                    </div>
+                <div style="background:rgba(59,130,246,0.03); border:1px solid rgba(59,130,246,0.15); border-left:3px solid #3B82F6; border-radius:12px; padding:15px; width:100%; text-align:left; box-sizing:border-box; margin-bottom:20px;">
+                    <div style="font-weight:800; font-size:10px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Эталонный скрипт продаж:</div>
+                    <div style="font-size:13px; color:#fff; font-style:italic; line-height:1.4;">${detail.script}</div>
                 </div>
+                
+                <button class="btn btn--primary" onclick="goToFilteredDialogs('${activeEmployeeName.replace("'", "\\'")}', ${index}, '${label.replace("'", "\\'")}')" style="width:100%; font-size:13px; font-weight:800; padding:12.5px; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:12px; cursor:pointer;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Показать все диалоги по триггеру "${label}"
+                </button>
             `;
             container.style.background = 'rgba(255,255,255,0.02)';
             container.style.border = '1px solid rgba(255,255,255,0.05)';
             container.style.display = 'block';
+        }
+
+        function goToFilteredDialogs(empName, triggerIndex, label) {
+            // Set comingFromEmployeeProfile so they can navigate back to this profile from dialog detail
+            comingFromEmployeeProfile = empName;
+
+            // Switch to Dialogs tab
+            switchTab('dialogs');
+
+            // Select Employee
+            const empSelect = document.getElementById('filter-employee');
+            if (empSelect) {
+                const cleanEmp = empName.trim().toLowerCase();
+                for (let option of empSelect.options) {
+                    const cleanOpt = option.value.trim().toLowerCase();
+                    if (cleanOpt.startsWith(cleanEmp) || cleanEmp.startsWith(cleanOpt)) {
+                        empSelect.value = option.value;
+                        break;
+                    }
+                }
+            }
+
+            // Select Trigger
+            const trigSelect = document.getElementById('filter-trigger');
+            if (trigSelect) {
+                trigSelect.value = triggerIndex;
+            }
+
+            // Keep status to Fail so they see standard violations, but they can switch to 'all'
+            const statusSelect = document.getElementById('filter-status');
+            if (statusSelect) {
+                statusSelect.value = 'FAIL';
+            }
+
+            // Trigger filtering and render the list
+            renderDialogs();
+        }
+
+        function goBackToProfile() {
+            if (comingFromEmployeeProfile) {
+                const name = comingFromEmployeeProfile;
+                comingFromEmployeeProfile = ''; // Reset
+                openEmployee(name, previousEmployeeTab);
+            }
+        }
+
+        function updateTriggerDropdown() {
+            const selectEl = document.getElementById('filter-trigger');
+            if (!selectEl) return;
+            const labels = currentMode === 'azs' 
+                ? ['Приветствие', 'Продажа кофе', 'Выпечка и кросс-сейл', 'Повторение заказа', 'Выдача чека', 'Прощание'] 
+                : ['Приветствие', 'Пробиотики', 'Витамины', 'Аналоги', 'Выдача чека', 'Прощание'];
+            
+            selectEl.innerHTML = '<option value="all">все триггеры</option>' + 
+                labels.map((l, i) => `<option value="${i}">${l}</option>`).join('');
         }
 
         function showDisciplineIncident(time, duration) {
