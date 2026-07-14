@@ -4408,10 +4408,12 @@
 
         let previousEmployeeTab = 'employees';
         let sidebarWasCollapsed = false;
+        let activeEmployeeName = '';
 
         function openEmployee(name, fromTab = 'employees') {
             previousEmployeeTab = fromTab;
             const e = employees.find(x => x.name === name) || employees[0];
+            activeEmployeeName = e.name;
 
             // Remember sidebar state and collapse for detail view
             const sidebar = document.querySelector('.sidebar');
@@ -4548,7 +4550,7 @@
 
                         <!-- Trigger Detail Card (updated by JS) -->
                         <div id="trigger-detail-card" style="background:rgba(255,255,255,0.01); border:1px dashed rgba(255,255,255,0.08); border-radius:24px; padding:25px; min-height:120px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#A0AEC0; font-size:13px; text-align:center;">
-                            <span>💡 Выберите любой столбик на графике выше, чтобы открыть разбор стандарта и идеальный скрипт продаж</span>
+                            <span>💡 Выберите любой столбик на графике выше, чтобы открыть диалоги сотрудника</span>
                         </div>
 
                         <!-- Discipline Card -->
@@ -4725,21 +4727,57 @@
             const color = val >= 80 ? '#10B981' : (val >= 60 ? '#F59E0B' : '#EF4444');
             const bg = val >= 80 ? 'rgba(16,185,129,0.1)' : (val >= 60 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)');
 
+            // Find matching employee dialogues
+            const empDialogs = dialogs.filter(d => d.emp === activeEmployeeName);
+            let dialoguesListHtml = "";
+            
+            if (empDialogs.length === 0) {
+                dialoguesListHtml = `<div style="opacity:0.5; font-size:12px; padding:15px; text-align:center;">Записей диалогов не найдено</div>`;
+            } else {
+                dialoguesListHtml = empDialogs.map(d => {
+                    const auditItem = d.audit ? d.audit[index] : null;
+                    if (!auditItem) return "";
+                    const isOk = auditItem.status === 'green';
+                    const statusBadge = isOk 
+                        ? `<span style="color:#10B981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); padding:3px 8px; border-radius:6px; font-weight:800; font-size:10px; letter-spacing:0.3px;">СОБЛЮДЕНО ✅</span>`
+                        : `<span style="color:#EF4444; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); padding:3px 8px; border-radius:6px; font-weight:800; font-size:10px; letter-spacing:0.3px;">НАРУШЕНО ❌</span>`;
+                    
+                    return `
+                        <div class="dialog-item-interactive" onclick="showDialogDetail(${d.id})" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:14px; border-radius:12px; display:flex; flex-direction:column; gap:8px; cursor:pointer; transition: all 0.2s; text-align:left;" onmouseover="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(59,130,246,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.05)';">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div style="font-weight:800; font-size:12.5px; color:#fff;">Чек #${d.id} <span style="font-weight:normal; opacity:0.4; font-size:11px; margin-left:6px;">(${d.audioDate ? d.audioDate.substring(11, 16) : d.time})</span></div>
+                                ${statusBadge}
+                            </div>
+                            <div style="font-size:12px; line-height:1.4; color:#A0AEC0;">
+                                <span style="font-weight:700; color:#fff;">Фраза:</span> ${auditItem.text || '—'}
+                            </div>
+                            <div style="font-size:11px; opacity:0.5; color:${isOk ? '#10B981' : '#EF4444'}; font-style:italic;">
+                                ${auditItem.comment || ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
             container.innerHTML = `
                 <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                     <span style="font-weight:800; font-size:13px; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Триггер: ${label}</span>
                     <span style="font-size:12px; font-weight:800; color:${color}; background:${bg}; padding:3px 10px; border-radius:6px; border:1px solid ${color}33;">Соблюдение: ${val}%</span>
                 </div>
-                <div style="font-size:13px; color:#A0AEC0; line-height:1.5; margin-bottom:20px; text-align:left; width:100%;">
+                <div style="font-size:12px; color:#A0AEC0; line-height:1.4; margin-bottom:15px; text-align:left; width:100%; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:12px;">
                     ${detail.desc}
                 </div>
-                <div style="background:rgba(59,130,246,0.03); border:1px solid rgba(59,130,246,0.15); border-left:3px solid #3B82F6; border-radius:12px; padding:15px; width:100%; text-align:left; box-sizing:border-box;">
-                    <div style="font-weight:800; font-size:10px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Эталонный скрипт продаж:</div>
-                    <div style="font-size:13px; color:#fff; font-style:italic; line-height:1.4;">${detail.script}</div>
+                
+                <div style="width:100%;">
+                    <div style="font-weight:800; font-size:10px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; text-align:left;">Диалоги сотрудника по этому триггеру (Кликните для аудио-разбора):</div>
+                    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+                        ${dialoguesListHtml}
+                    </div>
                 </div>
             `;
             container.style.background = 'rgba(255,255,255,0.02)';
             container.style.border = '1px solid rgba(255,255,255,0.05)';
+            container.style.display = 'block';
         }
 
         function showDisciplineIncident(time, duration) {
