@@ -2856,11 +2856,11 @@
                     const complied = dayTotal - violations;
                     
                     return `
-                        <div class="chart-bar-v3-container" style="--bar-color: ${barColor}; --bar-color-glow: ${barGlow};">
+                        <div class="chart-bar-v3-container" onclick="goToDialogsFromChartBar('${b.d}')" style="--bar-color: ${barColor}; --bar-color-glow: ${barGlow}; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scaleY(1.03)'" onmouseout="this.style.transform=''">
                             <div class="chart-tooltip">
                                 <div style="font-weight:800; font-size:12px; margin-bottom:4px; color:${barColor};">${b.d} — Соблюдение: ${b.v}%</div>
                                 <div style="opacity:0.8;">Проверено диалогов: ${dayTotal}</div>
-                                <div style="opacity:0.8;">Успешно: ${complied} | Нарушений: ${violations}</div>
+                                <div style="opacity:0.8; color:#EF4444; font-weight:bold;">Нарушений: ${violations} (клик для разбора)</div>
                             </div>
                             <span class="chart-bar-v3-value">${b.v}%</span>
                             <div class="chart-bar-v3-fill" style="height: ${b.v}%;"></div>
@@ -4945,6 +4945,59 @@
                 if (bar) bar.style.display = 'none';
                 openEmployee(name, previousEmployeeTab);
             }
+        }
+
+        // Navigate to dialogs from a chart bar representing a day of week
+        function goToDialogsFromChartBar(dayLabel) {
+            const dayMap = {
+                "Пн": "2026-07-13",
+                "Вт": "2026-07-14",
+                "Ср": "2026-07-08",
+                "Чт": "2026-07-09",
+                "Пт": "2026-07-10",
+                "Сб": "2026-07-11",
+                "Вс": "2026-07-12"
+            };
+            const targetDate = dayMap[dayLabel];
+            if (!targetDate) return;
+
+            // Clear any employee profile context
+            comingFromEmployeeProfile = '';
+            const profileBar = document.getElementById('dialogs-back-to-profile-bar');
+            if (profileBar) profileBar.style.display = 'none';
+
+            // Show KPI back banner
+            const kpiBar = document.getElementById('dialogs-back-to-kpi-bar');
+            const kpiLabelEl = document.getElementById('dialogs-back-kpi-name');
+            if (kpiBar && kpiLabelEl) {
+                kpiLabelEl.innerText = `Динамика за ${dayLabel} (${targetDate})`;
+                kpiBar.style.display = 'flex';
+            }
+
+            // Switch to dialogs tab
+            switchTab('dialogs');
+
+            // Employee filter: show all
+            const empSelect = document.getElementById('filter-employee');
+            if (empSelect) empSelect.value = 'all';
+
+            // Set date filters to this specific day
+            syncDateFilters(targetDate, targetDate);
+            customDateFrom = targetDate;
+            customDateTo = targetDate;
+            currentTimePeriod = 'custom';
+            const timeFilter = document.getElementById('time-filter');
+            if (timeFilter) timeFilter.value = 'custom';
+
+            // Reset trigger filter to show all
+            const trigSelect = document.getElementById('filter-trigger');
+            if (trigSelect) trigSelect.value = 'all';
+
+            // Set status to FAIL (violations/requires attention)
+            const statusSelect = document.getElementById('filter-status');
+            if (statusSelect) statusSelect.value = 'FAIL';
+
+            renderDialogs();
         }
 
         // Navigate to dialogs from a KPI card on the Analytics/Overview page
