@@ -1560,6 +1560,10 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Назад к профилю
                 </button>
+                <button id="btn-open-profile-direct" class="btn btn--ghost btn--sm" onclick="openDirectProfileFromDialog()" style="display:none; align-items:center; gap:8px; padding:8px 16px; border-radius:10px; border-color:rgba(59,130,246,0.3); background:rgba(59,130,246,0.05); color:#3B82F6; cursor:pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Профиль сотрудника
+                </button>
             </div>
 
 
@@ -4231,15 +4235,23 @@
 
             // Handle back-to-profile button visibility
             const backToProfileBtn = document.getElementById('btn-back-to-profile');
-            if (backToProfileBtn) {
+            const directProfileBtn = document.getElementById('btn-open-profile-direct');
+            if (backToProfileBtn && directProfileBtn) {
                 if (comingFromEmployeeProfile) {
                     backToProfileBtn.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         Назад к профилю (${comingFromEmployeeProfile})
                     `;
                     backToProfileBtn.style.display = 'inline-flex';
+                    directProfileBtn.style.display = 'none';
                 } else {
                     backToProfileBtn.style.display = 'none';
+                    directProfileBtn.setAttribute('data-emp', d.emp);
+                    directProfileBtn.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Профиль ${d.emp}
+                    `;
+                    directProfileBtn.style.display = 'inline-flex';
                 }
             }
 
@@ -4485,6 +4497,10 @@
                     sidebar.classList.remove('collapsed');
                 }
             }
+
+            // Hide direct profile button
+            const directProfileBtn = document.getElementById('btn-open-profile-direct');
+            if (directProfileBtn) directProfileBtn.style.display = 'none';
 
             // Dynamically adjust header back to normal
             const pageTitle = document.getElementById('page-title');
@@ -4954,6 +4970,18 @@
                 openEmployee(name, previousEmployeeTab);
             }
         }
+
+        function openDirectProfileFromDialog() {
+            const btn = document.getElementById('btn-open-profile-direct');
+            if (btn) {
+                const empName = btn.getAttribute('data-emp');
+                if (empName) {
+                    sidebarWasCollapsed = true; // ensure sidebar collapses inside profile view
+                    openEmployee(empName, 'dialogs');
+                }
+            }
+        }
+
 
         function updateTriggerDropdown() {
             const selectEl = document.getElementById('filter-trigger');
