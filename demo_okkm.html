@@ -3044,25 +3044,23 @@
                 d.audit.forEach(a => {
                     const match = c.checklist.find(trigger => getKeyword(trigger) === getKeyword(a.name));
                     if (match) {
-                        a.name = match; // Rename to match checklist name exactly!
+                        a.name = match;
                     }
                 });
 
                 // Deduplicate items in d.audit
                 const seenNames = new Set();
                 d.audit = d.audit.filter(a => {
-                    if (seenNames.has(a.name)) {
-                        return false;
-                    }
+                    if (seenNames.has(a.name)) return false;
                     seenNames.add(a.name);
                     return true;
                 });
 
-                // Finally add any missing checklist items
+                // Add any missing checklist items with random status
                 c.checklist.forEach(trigger => {
                     const exists = d.audit.some(a => a.name === trigger);
                     if (!exists) {
-                        const status = Math.random() > 0.25 ? 'green' : 'red';
+                        const status = Math.random() > 0.3 ? 'green' : 'red';
                         d.audit.push({
                             name: trigger,
                             status: status,
@@ -3070,6 +3068,22 @@
                             comment: status === 'green' ? 'Стандарт соблюден' : 'Стандарт не выполнен'
                         });
                     }
+                });
+
+                // ВАЖНО: пересортировать audit по порядку чеклиста,
+                // чтобы audit[0] = триггер №0, audit[1] = триггер №1 и т.д.
+                // Это необходимо для фильтрации по индексу триггера в renderDialogs
+                d.audit = c.checklist.map(trigger => {
+                    const found = d.audit.find(a => a.name === trigger);
+                    if (found) return found;
+                    // Fallback if still missing
+                    const status = Math.random() > 0.3 ? 'green' : 'red';
+                    return {
+                        name: trigger,
+                        status: status,
+                        text: status === 'green' ? 'Соблюдено' : 'Пропущено',
+                        comment: status === 'green' ? 'Стандарт соблюден' : 'Стандарт не выполнен'
+                    };
                 });
             });
             syncDateFilters('2026-07-14', '2026-07-14');
