@@ -378,6 +378,142 @@
             opacity: 0.15;
         }
 
+        /* Premium Table Styles */
+        .dialogs-table-container {
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(13, 18, 31, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 10px 0;
+        }
+
+        .premium-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px; /* Расстояние между строками */
+            padding: 0 20px;
+        }
+
+        .premium-table th {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 12px 20px;
+            border: none;
+        }
+
+        .premium-table tbody tr {
+            background: rgba(255, 255, 255, 0.015);
+            transition: all 0.2s ease;
+        }
+
+        .premium-table tbody tr td {
+            padding: 14px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #fff;
+        }
+        
+        .premium-table tbody tr td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+        
+        .premium-table tbody tr td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .premium-table tbody tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .premium-table tbody tr:hover td {
+            border-color: rgba(59, 130, 246, 0.15) !important;
+        }
+
+        /* Аватар сотрудника */
+        .emp-avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        /* Тег оценки качества */
+        .quality-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            border: 1px solid currentColor;
+            width: fit-content;
+        }
+        
+        .quality-badge.green {
+            background: rgba(16, 185, 129, 0.08);
+            color: #10B981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+        }
+        .quality-badge.amber {
+            background: rgba(245, 158, 11, 0.08);
+            color: #F59E0B;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
+        }
+        .quality-badge.red {
+            background: rgba(239, 68, 68, 0.08);
+            color: #EF4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Светлая тема */
+        body.light-theme-active .dialogs-table-container {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+        body.light-theme-active .premium-table tbody tr {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.02);
+        }
+        body.light-theme-active .premium-table tbody tr td {
+            border-color: rgba(0, 0, 0, 0.02) !important;
+            color: #1e293b;
+        }
+        body.light-theme-active .premium-table tbody tr td:first-child {
+            border-left: 1px solid rgba(0,0,0,0.02);
+        }
+        body.light-theme-active .premium-table tbody tr td:last-child {
+            border-right: 1px solid rgba(0,0,0,0.02);
+        }
+        body.light-theme-active .premium-table tbody tr:hover {
+            background: rgba(59, 130, 246, 0.04);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.06);
+        }
+        body.light-theme-active .premium-table tbody tr:hover td {
+            border-color: rgba(59, 130, 246, 0.2) !important;
+        }
+        body.light-theme-active .premium-table th {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
         /* Back banners styling */
         #dialogs-back-to-profile-bar {
             display: none;
@@ -1637,19 +1773,19 @@
                 <button class="btn btn--ghost" onclick="resetDialogFilters()" style="height: 34px; border-radius: 8px; padding: 0 16px; font-size: 13px; font-weight:700; cursor:pointer; border: 1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); background:transparent; margin-left:8px;">Сбросить</button>
             </div>
             
-            <div class="table-wrap">
-                <table class="p-table">
+            <div class="dialogs-table-container">
+                <table class="premium-table">
                     <thead>
                         <tr>
-                            <th>Время</th>
-                            <th>Сотрудник</th>
-                            <th>Офис</th>
-                            <th>Длит.</th>
-                            <th>Качество</th>
-                            <th>Приветствие</th>
-                            <th>Предложение кофе</th>
+                            <th style="width: 140px;">Время</th>
+                            <th style="width: 170px;">Сотрудник</th>
+                            <th style="width: 120px;">Офис</th>
+                            <th style="width: 250px;">Аудиозапись</th>
+                            <th style="width: 110px;">Качество</th>
+                            <th style="width: 120px;">Приветствие</th>
+                            <th id="dialogs-th-trigger2" style="width: 160px;">Предложение кофе</th>
                             <th>Нарушения</th>
-                            <th style="text-align:right;"></th>
+                            <th style="text-align:right; width: 100px;"></th>
                         </tr>
                     </thead>
                     <tbody id="full-dialogs-tbody"></tbody>
@@ -3248,6 +3384,11 @@
                 return `<option value="${val}">${s}</option>`;
             }).join('');
             document.getElementById('ai-prompt').value = c.prompt;
+            
+            const thTrigger2 = document.getElementById('dialogs-th-trigger2');
+            if (thTrigger2) {
+                thTrigger2.innerText = currentMode === 'azs' ? 'Предложение кофе' : 'Предложение пробиотика';
+            }
 
             // Dynamically update hardwareData cities based on mode
             c.hardwareStations.forEach(hs => {
@@ -3671,18 +3812,55 @@
                     }).join('');
                 }
 
+                const dateParts = displayTime.split(' ');
+                const formattedTimeHtml = `<span style="font-weight:700;">${dateParts[1] || ''}</span><br><span style="opacity:0.4; font-size:11px;">${dateParts[0] || ''}</span>`;
+                
+                const avatarLetters = d.emp ? d.emp.split(' ').map(n => n[0]).join('').substring(0, 2) : '??';
+                const empHtml = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="emp-avatar-circle">${avatarLetters}</div>
+                        <span style="font-weight:700;">${d.emp}</span>
+                    </div>
+                `;
+
+                const audioHtml = `
+                    <div class="table-player" onclick="event.stopPropagation(); toggleRowPlayer(${d.id}, '${displayDuration}', this)" style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); padding:6px 12px; border-radius:10px; cursor:pointer; width:fit-content; transition:all 0.2s;">
+                        <button class="row-play-btn" style="background:#3b82f6; border:none; color:white; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:10px; padding-left:2px; transition:all 0.2s; outline:none; border-color:transparent;">▶</button>
+                        <span class="row-player-time" style="font-size:11.5px; font-weight:700; color:rgba(255,255,255,0.8); min-width:32px;">0:00</span>
+                        <div class="row-waveform" style="display:flex; align-items:center; gap:2.5px; height:18px;">
+                            <div style="width:2px; height:6px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:10px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:14px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:8px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:12px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:16px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:10px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:14px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:6px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:12px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:8px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:14px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                            <div style="width:2px; height:4px; background:rgba(255,255,255,0.15); border-radius:1px; transition: background 0.1s;"></div>
+                        </div>
+                        <span style="font-size:11.5px; opacity:0.4; color:rgba(255,255,255,0.7);">/ ${displayDuration}</span>
+                    </div>
+                `;
+
+                let badgeClass = qualityScore > 9 ? 'green' : (qualityScore > 7 ? 'amber' : 'red');
+                const qualityHtml = `<span class="quality-badge ${badgeClass}">${quality}</span>`;
+
                 return `
                     <tr onclick="showDialogDetail(${d.id})" style="cursor:pointer;">
-                        <td style="color:var(--c-text-muted); font-size:13px;">${displayTime}</td>
-                        <td class="emp-row-name" style="font-weight:700;">${d.emp}</td>
-                        <td style="color:var(--c-text-muted); font-size:13px;">${office}</td>
-                        <td style="color:var(--c-text-muted); font-size:13px;">${displayDuration}</td>
-                        <td class="${scoreColorClass}" style="font-weight:700;">${quality}</td>
+                        <td>${formattedTimeHtml}</td>
+                        <td>${empHtml}</td>
+                        <td style="color:rgba(255,255,255,0.6); font-size:13px;">${office}</td>
+                        <td>${audioHtml}</td>
+                        <td>${qualityHtml}</td>
                         <td>${greetingHtml}</td>
                         <td>${coffeeHtml}</td>
-                        <td style="max-width: 320px; overflow: hidden; text-overflow: ellipsis;">${violationsHtml}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${violationsHtml}</td>
                         <td style="text-align:right;">
-                            <button class="btn-view" onclick="event.stopPropagation(); showDialogDetail(${d.id})">Слушать</button>
+                            <button class="btn btn--ghost" style="padding: 6px 12px; font-size:12px; border-radius:8px; font-weight:700; height:32px; border-color: rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:rgba(255,255,255,0.8);" onclick="event.stopPropagation(); showDialogDetail(${d.id})">Анализ ИИ</button>
                         </td>
                     </tr>
                 `;
@@ -3692,6 +3870,95 @@
             if (footerEl) {
                 footerEl.innerText = `Найдено ${filtered.length} записей`;
             }
+        }
+
+        // Active Player Row State
+        let activeRowPlayerId = null;
+        let activeRowPlayerInterval = null;
+        let activeRowPlayerSeconds = 0;
+
+        function parseDurationToSeconds(durStr) {
+            let minutes = 0;
+            let seconds = 0;
+            const minMatch = durStr.match(/(\d+)\s*м/);
+            const secMatch = durStr.match(/(\d+)\s*с/);
+            if (minMatch) minutes = parseInt(minMatch[1]);
+            if (secMatch) seconds = parseInt(secMatch[1]);
+            return (minutes * 60) + seconds;
+        }
+
+        function formatSecondsToMinSec(totalSecs) {
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function toggleRowPlayer(id, durationStr, wrapper) {
+            const playBtn = wrapper.querySelector('.row-play-btn');
+            const timeEl = wrapper.querySelector('.row-player-time');
+            const waveBars = wrapper.querySelectorAll('.row-waveform > div');
+            const maxSeconds = parseDurationToSeconds(durationStr);
+
+            if (activeRowPlayerId === id) {
+                // Pause
+                clearInterval(activeRowPlayerInterval);
+                activeRowPlayerId = null;
+                activeRowPlayerInterval = null;
+                playBtn.innerText = '▶';
+                playBtn.style.background = '#3b82f6';
+                return;
+            }
+
+            if (activeRowPlayerId !== null) {
+                // Stop previous
+                const prevActive = document.querySelector(`.table-player[data-id="${activeRowPlayerId}"]`);
+                if (prevActive) {
+                    prevActive.querySelector('.row-play-btn').innerText = '▶';
+                    prevActive.querySelector('.row-play-btn').style.background = '#3b82f6';
+                    prevActive.querySelector('.row-player-time').innerText = '0:00';
+                    prevActive.querySelectorAll('.row-waveform > div').forEach(b => b.style.background = 'rgba(255,255,255,0.15)');
+                }
+                clearInterval(activeRowPlayerInterval);
+            }
+
+            activeRowPlayerId = id;
+            wrapper.setAttribute('data-id', id);
+            playBtn.innerText = '⏸';
+            playBtn.style.background = '#ef4444';
+            
+            const currentText = timeEl.innerText;
+            if (currentText === '0:00') {
+                activeRowPlayerSeconds = 0;
+            } else {
+                const parts = currentText.split(':');
+                activeRowPlayerSeconds = (parseInt(parts[0]) * 60) + parseInt(parts[1]);
+            }
+
+            activeRowPlayerInterval = setInterval(() => {
+                activeRowPlayerSeconds++;
+                if (activeRowPlayerSeconds >= maxSeconds) {
+                    clearInterval(activeRowPlayerInterval);
+                    activeRowPlayerId = null;
+                    activeRowPlayerInterval = null;
+                    playBtn.innerText = '▶';
+                    playBtn.style.background = '#3b82f6';
+                    timeEl.innerText = '0:00';
+                    waveBars.forEach(b => b.style.background = 'rgba(255,255,255,0.15)');
+                    return;
+                }
+
+                timeEl.innerText = formatSecondsToMinSec(activeRowPlayerSeconds);
+
+                const progressRatio = activeRowPlayerSeconds / maxSeconds;
+                const barsToColor = Math.floor(waveBars.length * progressRatio);
+                waveBars.forEach((bar, idx) => {
+                    if (idx <= barsToColor) {
+                        bar.style.background = '#3b82f6';
+                    } else {
+                        bar.style.background = 'rgba(255,255,255,0.15)';
+                    }
+                });
+            }, 1000);
         }
 
         function showBadgeViolations() {
