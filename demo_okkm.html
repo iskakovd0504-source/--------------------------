@@ -1777,15 +1777,15 @@
                 <table class="premium-table">
                     <thead>
                         <tr>
-                            <th style="width: 140px;">Время</th>
+                            <th style="width: 130px;">Время</th>
                             <th style="width: 170px;">Сотрудник</th>
-                            <th style="width: 120px;">Офис</th>
-                            <th style="width: 250px;">Аудиозапись</th>
-                            <th style="width: 110px;">Качество</th>
+                            <th style="width: 110px;">Офис</th>
                             <th style="width: 120px;">Приветствие</th>
                             <th id="dialogs-th-trigger2" style="width: 160px;">Предложение кофе</th>
                             <th>Нарушения</th>
-                            <th style="text-align:right; width: 100px;"></th>
+                            <th style="width: 110px;">Качество</th>
+                            <th style="width: 250px;">Аудиозапись</th>
+                            <th style="text-align:right; width: 110px;"></th>
                         </tr>
                     </thead>
                     <tbody id="full-dialogs-tbody"></tbody>
@@ -3854,11 +3854,11 @@
                         <td>${formattedTimeHtml}</td>
                         <td>${empHtml}</td>
                         <td style="color:rgba(255,255,255,0.6); font-size:13px;">${office}</td>
-                        <td>${audioHtml}</td>
-                        <td>${qualityHtml}</td>
                         <td>${greetingHtml}</td>
                         <td>${coffeeHtml}</td>
                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${violationsHtml}</td>
+                        <td>${qualityHtml}</td>
+                        <td>${audioHtml}</td>
                         <td style="text-align:right;">
                             <button class="btn btn--ghost" style="padding: 6px 12px; font-size:12px; border-radius:8px; font-weight:700; height:32px; border-color: rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:rgba(255,255,255,0.8);" onclick="event.stopPropagation(); showDialogDetail(${d.id})">Анализ ИИ</button>
                         </td>
