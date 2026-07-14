@@ -1351,7 +1351,7 @@
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
                     <span>Выборка по KPI-карточке: <strong id="dialogs-back-kpi-name" style="color:#fff;"></strong></span>
                 </div>
-                <button onclick="switchTab('analytics')" style="display:inline-flex; align-items:center; gap:7px; padding:7px 16px; border-radius:10px; border:1px solid rgba(16,185,129,0.35); background:rgba(16,185,129,0.12); color:#10B981; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.22)'" onmouseout="this.style.background='rgba(16,185,129,0.12)'">
+                <button onclick="goBackToOverviewFromKPI()" style="display:inline-flex; align-items:center; gap:7px; padding:7px 16px; border-radius:10px; border:1px solid rgba(16,185,129,0.35); background:rgba(16,185,129,0.12); color:#10B981; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.22)'" onmouseout="this.style.background='rgba(16,185,129,0.12)'">
                     📊 Вернуться к обзору
                 </button>
             </div>
@@ -5002,6 +5002,28 @@
             if (statusSelect) statusSelect.value = 'FAIL';
 
             renderDialogs();
+        }
+
+        function goBackToOverviewFromKPI() {
+            // Restore default period to 24 hours
+            currentTimePeriod = '24h';
+            const timeFilter = document.getElementById('time-filter');
+            if (timeFilter) timeFilter.value = '24h';
+            
+            const customOption = document.querySelector('#time-filter option[value="custom"]');
+            if (customOption) {
+                customOption.innerText = 'Выбрать период...';
+            }
+
+            // Sync dates back to default (14.07.2026)
+            syncDateFilters('2026-07-14', '2026-07-14');
+
+            // Hide back to kpi banner
+            const kpiBar = document.getElementById('dialogs-back-to-kpi-bar');
+            if (kpiBar) kpiBar.style.display = 'none';
+
+            // Navigate back to overview
+            switchTab('analytics');
         }
 
         // Navigate to dialogs from a KPI card on the Analytics/Overview page
