@@ -2718,18 +2718,20 @@
 
                     return `
                         <div class="stat-card-v3 kpi-card-hover" draggable="true" ondragstart="dragStartKPI(event, ${i})" ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab; transition: transform 0.18s, box-shadow 0.18s;" onclick="${cardOnClick}" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                            <div class="kpi-card-header" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                            <div class="kpi-card-header" style="font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; width: 100%;">
                                 <span style="display:flex; align-items:center; gap:4px;">
-                                    <span style="cursor:grab; opacity:0.3; margin-right:4px;">☰</span>
-                                    <span style="font-size: 14px; margin-right: 6px;">${card.icon}</span>${card.label}
+                                    <span style="cursor:grab; opacity:0.35; margin-right:4px;">☰</span>
+                                    <span style="font-size: 15px; margin-right: 6px;">${card.icon}</span>${card.label}
                                 </span>
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-size: 10px; opacity: 0.35; font-weight: 500; text-transform: none;">→ диалоги</span>
-                                    <span title="Убрать из обзора" style="cursor: pointer; font-size: 11px; user-select: none; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="removeKPICard(${i}); event.stopPropagation();">🗑️</span>
+                            </div>
+                            <div style="font-size: 40px; font-weight: 900; margin-top: 10px; margin-bottom: 5px;">${val}</div>
+                            <div style="font-size: 13px; margin-top: auto; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span style="color: ${glowColor}; font-weight: 700; opacity: 0.95;">${subText}</span>
+                                <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+                                    <span style="font-size: 11.5px; opacity: 0.6; font-weight: 800; text-transform: none; border-bottom: 1px dashed; padding-bottom: 1px;">разбор</span>
+                                    <span title="Убрать из обзора" style="cursor: pointer; font-size: 12px; user-select: none; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="removeKPICard(${i}); event.stopPropagation();">🗑️</span>
                                 </div>
                             </div>
-                            <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">${val}</div>
-                            <div style="font-size: 12px; color: ${glowColor}; margin-top: 10px;">${subText}</div>
                         </div>
                     `;
                 }).join('');
