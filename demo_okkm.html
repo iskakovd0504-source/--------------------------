@@ -2441,16 +2441,28 @@
                         }
                     }
                     
+                    // Build click handler for the card
+                    let cardOnClick = '';
+                    if (card.type === 'system') {
+                        if (card.id === 'compliance') {
+                            // Show all dialogs with any violation for current station
+                            cardOnClick = `goToDialogsFromKPI('all', -1, '${selectedStationId}')`;
+                        }
+                        // 'checked' card → no specific trigger, just open dialogs
+                        else {
+                            cardOnClick = `goToDialogsFromKPI('all', -2, '${selectedStationId}')`;
+                        }
+                    } else {
+                        // Trigger card — find its index in checklist
+                        const triggerIdx = c.checklist.indexOf(card.id);
+                        cardOnClick = `goToDialogsFromKPI('all', ${triggerIdx}, '${selectedStationId}')`;
+                    }
+
                     return `
-                        <div class="stat-card-v3 kpi-card-hover" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+                        <div class="stat-card-v3 kpi-card-hover" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;" onclick="${cardOnClick}" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
                             <div class="kpi-card-header" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
                                 <span><span style="font-size: 14px; margin-right: 6px;">${card.icon}</span>${card.label}</span>
-                                
-                                <div class="kpi-actions" style="display: flex; gap: 8px; opacity: 0; transition: 0.2s; align-items: center;">
-                                    <span title="Переместить влево" style="cursor: pointer; font-size: 11px; user-select: none; ${i === 0 ? 'opacity:0.2; pointer-events:none;' : ''}" onclick="moveKPICard(${i}, -1); event.stopPropagation();">◀</span>
-                                    <span title="Переместить вправо" style="cursor: pointer; font-size: 11px; user-select: none; ${i === pinnedList.length - 1 ? 'opacity:0.2; pointer-events:none;' : ''}" onclick="moveKPICard(${i}, 1); event.stopPropagation();">▶</span>
-                                    <span title="Убрать из обзора" style="cursor: pointer; font-size: 11px; user-select: none;" onclick="removeKPICard(${i}); event.stopPropagation();">🗑️</span>
-                                </div>
+                                <span style="font-size: 10px; opacity: 0.35; font-weight: 500; text-transform: none;">→ диалоги</span>
                             </div>
                             <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">${val}</div>
                             <div style="font-size: 12px; color: ${glowColor}; margin-top: 10px;">${subText}</div>
@@ -3263,9 +3275,15 @@
             // 3.5. Фильтр по триггеру (показателю)
             const triggerVal = document.getElementById('filter-trigger') ? document.getElementById('filter-trigger').value : 'all';
             if (triggerVal && triggerVal !== 'all') {
-                const triggerIndex = parseInt(triggerVal);
-                filtered = filtered.filter(d => d.audit && d.audit[triggerIndex] && d.audit[triggerIndex].status !== 'green');
+                if (triggerVal === 'violations') {
+                    // Показать все диалоги с хотя бы одним нарушением
+                    filtered = filtered.filter(d => d.audit && d.audit.some(a => a.status !== 'green'));
+                } else {
+                    const triggerIndex = parseInt(triggerVal);
+                    filtered = filtered.filter(d => d.audit && d.audit[triggerIndex] && d.audit[triggerIndex].status !== 'green');
+                }
             }
+
 
             // 4. Фильтр по датам
             if (dateStartVal) {
@@ -4856,6 +4874,45 @@
                 if (bar) bar.style.display = 'none';
                 openEmployee(name, previousEmployeeTab);
             }
+        }
+
+        // Navigate to dialogs from a KPI card on the Analytics/Overview page
+        function goToDialogsFromKPI(empFilter, triggerIndex, stationId) {
+            // Clear any employee profile context
+            comingFromEmployeeProfile = '';
+            const profileBar = document.getElementById('dialogs-back-to-profile-bar');
+            if (profileBar) profileBar.style.display = 'none';
+
+            // Switch to dialogs tab
+            switchTab('dialogs');
+
+            // Employee filter: if a specific station is selected, pre-filter to 'all'
+            // (station-level filtering happens via the station-filter dropdown, not employee dropdown)
+            const empSelect = document.getElementById('filter-employee');
+            if (empSelect) empSelect.value = 'all';
+
+            // If specific station selected, set the station filter element
+            const stationSelect = document.getElementById('station-filter');
+            if (stationSelect && stationId && stationId !== 'all') {
+                stationSelect.value = stationId;
+            }
+
+            // Set trigger filter
+            const trigSelect = document.getElementById('filter-trigger');
+            if (trigSelect) {
+                if (triggerIndex >= 0) {
+                    trigSelect.value = triggerIndex;
+                } else {
+                    // -1 = compliance (show all violations), -2 = checked (show all)
+                    trigSelect.value = triggerIndex === -1 ? 'violations' : 'all';
+                }
+            }
+
+            // Reset status to all
+            const statusSelect = document.getElementById('filter-status');
+            if (statusSelect) statusSelect.value = 'all';
+
+            renderDialogs();
         }
 
         function goBackToProfileFromDialogs() {
