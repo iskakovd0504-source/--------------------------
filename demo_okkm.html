@@ -83,6 +83,21 @@
             background: rgba(6, 9, 15, 0.3);
         }
 
+        /* Responsive Header buttons (collapse text to avoid overflow) */
+        @media (max-width: 1550px) {
+            .dashboard-header .btn-text,
+            .dashboard-header .admin-text {
+                display: none !important;
+            }
+            .dashboard-header #sync-trigger,
+            .dashboard-header button[title="Переанализ ошибок"] {
+                width: 38px !important;
+                padding: 0 !important;
+                justify-content: center !important;
+                gap: 0 !important;
+            }
+        }
+
         .view-content {
             flex-grow: 1;
             overflow-y: auto;
@@ -1290,14 +1305,14 @@
                 
                 <div class="admin-text" style="font-size: 13px; color: rgba(255,255,255,0.6); font-weight:500;">admin@azs.local</div>
                 
-                <button id="sync-trigger" class="btn btn--ghost" onclick="startGlobalSync()" style="white-space:nowrap; height: 38px; border-radius: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white;">
+                <button id="sync-trigger" class="btn btn--ghost" onclick="startGlobalSync()" style="white-space:nowrap; height: 38px; border-radius: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white;" title="Считать данные">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
-                    Считать данные
+                    <span class="btn-text">Считать данные</span>
                 </button>
                 
-                <button class="btn btn--ghost" onclick="showBadgeViolations()" style="white-space:nowrap; height: 38px; border-radius: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white;" title="Показать лог ошибок">
+                <button class="btn btn--ghost" onclick="showBadgeViolations()" style="white-space:nowrap; height: 38px; border-radius: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white;" title="Переанализ ошибок">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    Переанализ. ошибок
+                    <span class="btn-text">Переанализ. ошибок</span>
                 </button>
                 
                 <button id="theme-toggle" onclick="toggleTheme()" class="btn btn--ghost" style="padding: 8px; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white;" title="Сменить тему оформления">
