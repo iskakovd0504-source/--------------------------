@@ -3516,9 +3516,6 @@
                             </select>
                         </th>
                         <th>Локация</th>
-                        <th>ID Бейджа</th>
-                        <th>Батарея</th>
-                        <th>Статус бейджа</th>
                         <th onclick="toggleEmployeeSort('score')" style="cursor: pointer; user-select: none; width: 150px;">Оценка соблюдения ${getSortIndicator('score')}</th>
                         <th style="text-align:right; width: 120px;">Профиль</th>
                     `;
@@ -3569,23 +3566,6 @@
                         </tr>
                     `;
                 } else {
-                    const batteryPercent = (e.batteryLeft / 18) * 100;
-                    const batteryHtml = `
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size:12px; color: ${statusColor}; font-weight:700;">${e.batteryLeft} ч.</span>
-                            <div style="width:60px; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden; display: inline-block;">
-                                <div style="width:${batteryPercent}%; height:100%; background:${statusColor};"></div>
-                            </div>
-                        </div>
-                    `;
-                    let statusPill = '';
-                    if (e.badgeStatus === 'syncing') {
-                        statusPill = `<div class="badge-alert-pill status-badge-orange" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; border-radius: 6px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); color: #F59E0B;"><div class="pulse-red" style="background:#F59E0B; box-shadow:0 0 5px #F59E0B; width: 6px; height: 6px; border-radius: 50%;"></div>ВЫГРУЗКА</div>`;
-                    } else if (e.badgeStatus === 'in-use') {
-                        statusPill = `<div class="badge-online-pill status-badge-green" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10B981;"><div class="pulse-green" style="width: 6px; height: 6px; border-radius: 50%;"></div>В РАБОТЕ</div>`;
-                    } else {
-                        statusPill = `<div class="badge-online-pill status-badge-white" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; border-radius: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #FFF; opacity: 0.7;"><div style="width:6px; height:6px; background:#FFF; border-radius:50%; opacity:0.5;"></div>ГОТОВ</div>`;
-                    }
                     return `
                         <tr onclick="openEmployee('${e.name}')" style="cursor: pointer;">
                             <td>
@@ -3597,9 +3577,6 @@
                                 <div class="emp-row-sub" style="font-size: 13px;">${e.location}</div>
                                 <div style="font-size: 10px; color: var(--c-text-muted); margin-top: 2px;">Фармацевт</div>
                             </td>
-                            <td><code style="font-family: monospace; font-size: 12px; color: var(--c-accent-blue);">${e.rfid || '—'}</code></td>
-                            <td>${batteryHtml}</td>
-                            <td>${statusPill}</td>
                             <td>${complianceScoreHtml}</td>
                             <td style="text-align: right;">
                                 <button class="btn-view" onclick="event.stopPropagation(); openEmployee('${e.name}')">Профиль</button>
@@ -4561,15 +4538,7 @@
                                 <div>за 30 дней</div>
                             </div>
                         </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:10px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Статус бейджа</div>
-                            <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; background:${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.05)'}; border:1px solid ${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius:30px;">
-                                <span style="width:8px; height:8px; background:${e.badgeStatus === 'in-use' ? '#10B981' : '#A0AEC0'}; border-radius:50%; display:inline-block; ${e.badgeStatus === 'in-use' ? 'box-shadow: 0 0 10px #10B981;' : ''}"></span>
-                                <span style="font-size:11px; font-weight:700; color:${e.badgeStatus === 'in-use' ? '#10B981' : '#fff'}">
-                                    ${e.badgeStatus === 'in-use' ? 'АКТИВЕН / ЗАПИСЬ' : 'В БАЗЕ'}
-                                </span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
