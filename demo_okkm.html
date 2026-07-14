@@ -5005,6 +5005,12 @@
             // Switch to Dialogs tab
             switchTab('dialogs');
 
+            // Set time filter to last 7 days to cover all generated archive dialogues
+            currentTimePeriod = '7d';
+            const timeFilter = document.getElementById('time-filter');
+            if (timeFilter) timeFilter.value = '7d';
+            syncDateFilters('2026-07-08', '2026-07-14');
+
             // Select Employee
             const empSelect = document.getElementById('filter-employee');
             if (empSelect) {
