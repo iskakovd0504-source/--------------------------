@@ -3160,6 +3160,10 @@
                         comment: status === 'green' ? 'Стандарт соблюден' : 'Стандарт не выполнен'
                     };
                 });
+
+                // Динамически рассчитываем статус диалога на основе ошибок
+                const hasFail = d.audit.some(a => a.status === 'red' || a.status === 'amber');
+                d.status = hasFail ? 'FAIL' : 'DONE';
             });
             syncDateFilters('2026-07-14', '2026-07-14');
         }
