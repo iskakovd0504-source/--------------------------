@@ -38,6 +38,8 @@
         /* Sidebar & Layout */
         .sidebar {
             width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            flex-shrink: 0;
             background: rgba(13, 18, 30, 0.95);
             backdrop-filter: blur(40px);
             border-right: var(--glass-border);
@@ -45,11 +47,14 @@
             flex-direction: column;
             padding: var(--space-10) 0;
             z-index: 100;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s, border-right 0.3s;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        min-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        padding 0.3s, border-right 0.3s;
             overflow: hidden;
         }
         .sidebar.collapsed {
             width: 0px !important;
+            min-width: 0px !important;
             padding-left: 0px !important;
             padding-right: 0px !important;
             border-right: none !important;
@@ -57,6 +62,7 @@
 
         .view-container {
             flex-grow: 1;
+            min-width: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -183,6 +189,8 @@
             font-weight: 500;
             transition: all 0.3s;
             cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
         }
         .sidebar__link:hover { color: white; background: rgba(255, 255, 255, 0.05); }
         .sidebar__link.active {
@@ -1115,8 +1123,8 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <div style="padding: 0 40px 40px;">
-            <a href="index.html" class="logo" style="text-decoration:none;">
+        <div style="padding: 0 40px 40px; white-space: nowrap; overflow: hidden;">
+            <a href="index.html" class="logo" style="text-decoration:none; white-space:nowrap;">
                 <div class="logo__icon" style="width: 32px; height: 32px;">
                     <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
                         <path d="M2 18h6c1 0 1.5-6 2.5-6s1.5 12 2.5 12c1 0 1.5-18 2.5-18s1.5 24 2.5 24c1 0 1.5-12 2-12" stroke="#06B6D4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -1143,7 +1151,7 @@
             <div onclick="switchTab('hardware')" id="nav-hardware" class="sidebar__link" style="display: none !important;">📦 Оборудование</div>
             <div onclick="switchTab('settings')" id="nav-settings" class="sidebar__link">⚙️ Настройки ИИ</div>
         </nav>
-        <div style="margin-top:auto; padding: 20px 40px;">
+        <div style="margin-top:auto; padding: 20px 40px; white-space: nowrap; overflow: hidden;">
             <div id="sidebar-context" style="font-size: 11px; color: var(--c-text-muted);">Интерфейс: ОККМ</div>
         </div>
     </aside>
