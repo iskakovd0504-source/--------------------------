@@ -2493,30 +2493,27 @@
                         }
                     }
                     
-                    // Build click handler for the card
-                    // Build click handler for the card
+                    // Build click handler for the card with drag protection check
                     let cardOnClick = '';
                     const escapedLabel = card.label.replace(/'/g, "\\'");
                     if (card.type === 'system') {
                         if (card.id === 'compliance') {
-                            // Show all dialogs with any violation for current station
-                            cardOnClick = `goToDialogsFromKPI('all', -1, '${selectedStationId}', '${escapedLabel}')`;
-                        }
-                        // 'checked' card → no specific trigger, just open dialogs
-                        else {
-                            cardOnClick = `goToDialogsFromKPI('all', -2, '${selectedStationId}', '${escapedLabel}')`;
+                            cardOnClick = `if(!window.isDraggingKPI){ goToDialogsFromKPI('all', -1, '${selectedStationId}', '${escapedLabel}'); }`;
+                        } else {
+                            cardOnClick = `if(!window.isDraggingKPI){ goToDialogsFromKPI('all', -2, '${selectedStationId}', '${escapedLabel}'); }`;
                         }
                     } else {
-                        // Trigger card — find its index in checklist
                         const triggerIdx = c.checklist.indexOf(card.id);
-                        cardOnClick = `goToDialogsFromKPI('all', ${triggerIdx}, '${selectedStationId}', '${escapedLabel}')`;
+                        cardOnClick = `if(!window.isDraggingKPI){ goToDialogsFromKPI('all', ${triggerIdx}, '${selectedStationId}', '${escapedLabel}'); }`;
                     }
 
-
                     return `
-                        <div class="stat-card-v3 kpi-card-hover" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;" onclick="${cardOnClick}" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                        <div class="stat-card-v3 kpi-card-hover" draggable="true" ondragstart="dragStartKPI(event, ${i})" ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab; transition: transform 0.18s, box-shadow 0.18s;" onclick="${cardOnClick}" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
                             <div class="kpi-card-header" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                                <span><span style="font-size: 14px; margin-right: 6px;">${card.icon}</span>${card.label}</span>
+                                <span style="display:flex; align-items:center; gap:4px;">
+                                    <span style="cursor:grab; opacity:0.3; margin-right:4px;">☰</span>
+                                    <span style="font-size: 14px; margin-right: 6px;">${card.icon}</span>${card.label}
+                                </span>
                                 <span style="font-size: 10px; opacity: 0.35; font-weight: 500; text-transform: none;">→ диалоги</span>
                             </div>
                             <div style="font-size: 40px; font-weight: 900; margin-top: 5px;">${val}</div>
@@ -5518,9 +5515,11 @@
         });
 
         // DRAG & DROP FOR KPI CARDS
+        window.isDraggingKPI = false;
         let draggedKPIIndex = null;
 
         function dragStartKPI(e, index) {
+            window.isDraggingKPI = true;
             draggedKPIIndex = index;
             e.currentTarget.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
@@ -5569,6 +5568,9 @@
             document.querySelectorAll('#kpi-cards-container > div').forEach(el => {
                 el.style.borderLeft = '';
             });
+            setTimeout(() => {
+                window.isDraggingKPI = false;
+            }, 100);
         }
 
         // DRAG & DROP FOR SETTINGS CHECKLIST
