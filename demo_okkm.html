@@ -5454,89 +5454,330 @@
             }
         }
 
+        // AI Coach State
+        let coachCurrentStep = 0;
+        let coachScore = 0;
+        let coachEmployeeName = "";
+        let coachMistakes = [];
+
+        const azsCoachQuestions = [
+            {
+                trigger: "Приветствие",
+                client: "«Добрый день, мне АИ-95 на 10 000 тенге, пожалуйста.»",
+                options: [
+                    {
+                        text: "«Здравствуйте. Меня зовут Асель, я ваш кассир сегодня. 95-й на 10 000?»",
+                        correct: false,
+                        feedback: "Ошибка: Кассир НЕ должен представляться по имени — это исключено из стандартов лояльности. Также сухое «Здравствуйте» разрешено, но стоп-слово «Здрасьте» или «Здрасти» является нарушением (автоштраф)."
+                    },
+                    {
+                        text: "«Добрый день! Добро пожаловать на KST Trade! АИ-95 на 10 000 тенге, всё верно?»",
+                        correct: true,
+                        feedback: "Отлично! Тёплое вежливое приветствие по стандарту сети. Представляться по имени не стали, всё по правилам!"
+                    }
+                ]
+            },
+            {
+                trigger: "Продажа кофе",
+                client: "«Да, всё верно. И посчитайте ещё сигареты»",
+                options: [
+                    {
+                        text: "«Принято. Кофе не желаете в дорогу?»",
+                        correct: false,
+                        feedback: "Ошибка: Использована отрицательная частица «НЕ» в короткой продаже, что снижает конверсию и нарушает стандарт."
+                    },
+                    {
+                        text: "«Сделаем. Попробуйте наш свежий кофе в дорогу! Вам большой стакан — это выгоднее.»",
+                        correct: true,
+                        feedback: "Правильно! Утвердительная форма предложения, предложен большой объем по умолчанию."
+                    }
+                ]
+            },
+            {
+                trigger: "Выпечка и кросс-сейл",
+                client: "«Давайте кофе. Капучино большой»",
+                options: [
+                    {
+                        text: "«Хорошо. Что-нибудь ещё добавить к заказу?»",
+                        correct: false,
+                        feedback: "Ошибка: Запрещено использовать ленивые открытые вопросы вроде «Что-нибудь еще?». Это сливает допродажи."
+                    },
+                    {
+                        text: "«Отличный выбор. Возьмите к кофе нашу свежую горячую самсу или хот-дог, только привезли!»",
+                        correct: true,
+                        feedback: "Идеально! Вы предложили конкретную позицию выпечки вместо ленивой общей фразы."
+                    }
+                ]
+            },
+            {
+                trigger: "Повторение заказа перед оплатой",
+                client: "«Самсу тоже давайте»",
+                options: [
+                    {
+                        text: "«Итого 95-й на 10 тысяч, капучино и самса. Оплачивать будете картой?»",
+                        correct: false,
+                        feedback: "Ошибка: Стандарт верификации требует проговорить: Номер колонки, марку топлива, объем/сумму, доп. товар и способ оплаты."
+                    },
+                    {
+                        text: "«Хорошо. Проверяем: 2-я колонка, АИ-95 на 10 000 тенге, большой капучино и самса. Оплата картой, верно?»",
+                        correct: true,
+                        feedback: "Абсолютно верно! Полный скрипт верификации заказа выполнен без пропусков."
+                    }
+                ]
+            },
+            {
+                trigger: "Выдача чека по умолчанию",
+                client: "«Да, всё верно» (прикладывает карту)",
+                options: [
+                    {
+                        text: "«Оплата прошла. Вам чек нужен?»",
+                        correct: false,
+                        feedback: "Ошибка: Категорически запрещено спрашивать «Нужен ли чек?». Выдавать фискальный чек необходимо молча в руки."
+                    },
+                    {
+                        text: "(Молча выдает фискальный чек в руки вместе с покупками)",
+                        correct: true,
+                        feedback: "Великолепно! Соблюден стандарт выдачи чека без лишних вопросов."
+                    }
+                ]
+            },
+            {
+                trigger: "Стандарт прощания",
+                client: "«Спасибо» (забирает чек и покупки)",
+                options: [
+                    {
+                        text: "«До свидания»",
+                        correct: false,
+                        feedback: "Ошибка: Простое сухое «До свидания» является слабым прощанием. Сеть требует пожелания счастливого пути."
+                    },
+                    {
+                        text: "«Пожалуйста! Счастливого пути и хорошего дня! Ждем вас снова!»",
+                        correct: true,
+                        feedback: "Замечательно! Вежливое пожелание счастливого пути и приглашение вернуться."
+                    }
+                ]
+            }
+        ];
+
+        const pharmacyCoachQuestions = [
+            {
+                trigger: "Приветствие",
+                client: "«Здравствуйте, у меня сильно болит горло»",
+                options: [
+                    {
+                        text: "«Здравствуйте, вот возьмите Септолете»",
+                        correct: false,
+                        feedback: "Ошибка: Фармацевтическая опека требует вежливого теплого приветствия и уточняющих вопросов."
+                    },
+                    {
+                        text: "«Добрый день! Подскажите, боль сухая или с кашлем? Как долго болит?»",
+                        correct: true,
+                        feedback: "Отлично! Вежливое начало контакта с проявлением заботы."
+                    }
+                ]
+            },
+            {
+                trigger: "Пробиотики",
+                client: "«Да, сухая, и врач выписал Сумамед»",
+                options: [
+                    {
+                        text: "«Пожалуйста, ваш антибиотик. Больше ничего?»",
+                        correct: false,
+                        feedback: "Ошибка: При продаже антибиотика обязательно нужно предложить пробиотик для защиты кишечника."
+                    },
+                    {
+                        text: "«Хорошо. К антибиотику обязательно рекомендую взять пробиотик Линекс для защиты микрофлоры желудка.»",
+                        correct: true,
+                        feedback: "Отлично! Пробиотик предложен по стандарту опеки."
+                    }
+                ]
+            },
+            {
+                trigger: "Дозировка и форма выпуска",
+                client: "«Давайте пробиотик тоже»",
+                options: [
+                    {
+                        text: "«Вот держите Сумамед и Линекс. С вас 4200 тенге»",
+                        correct: false,
+                        feedback: "Ошибка: Не уточнена дозировка антибиотика (500мг или 250мг) и форма выпуска."
+                    },
+                    {
+                        text: "«Сумамед вам в капсулах или таблетках? Дозировка 500мг, верно?»",
+                        correct: true,
+                        feedback: "Правильно! Уточнение формы и дозировки предотвращает медицинские ошибки."
+                    }
+                ]
+            },
+            {
+                trigger: "Витамины/БАД",
+                client: "«Таблетки 500мг, да»",
+                options: [
+                    {
+                        text: "«С вас 4900 тенге, оплата картой?»",
+                        correct: false,
+                        feedback: "Ошибка: Вы упустили возможность предложить витамины для поддержки иммунитета в период простуд."
+                    },
+                    {
+                        text: "«Принято. Для скорейшего выздоровления рекомендую курс витамина C. Добавить к заказу?»",
+                        correct: true,
+                        feedback: "Великолепно! Успешное предложение сопутствующих витаминов."
+                    }
+                ]
+            }
+        ];
+
         function generateAICoachScenario(empName) {
             const coachContainer = document.getElementById('ai-coach-content');
             if (!coachContainer) return;
 
-            // Step 1: Loading simulation
+            // Reset state
+            coachCurrentStep = 0;
+            coachScore = 0;
+            coachEmployeeName = empName || coachEmployeeName || "Сотрудник";
+            coachMistakes = [];
+
+            // Loading simulation
             coachContainer.innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; text-align:center; gap:15px;">
                     <div class="sync-spinner" style="width:30px; height:30px; border:3px solid rgba(59,130,246,0.1); border-top-color:#3B82F6; border-radius:50%; animation: spin 1s linear infinite;"></div>
-                    <div style="font-size:12px; color:#A0AEC0; font-weight:700;">ИИ-Ассистент анализирует слабые стороны ${empName}...</div>
+                    <div style="font-size:12px; color:#A0AEC0; font-weight:700;">ИИ-Ассистент формирует пошаговый тест для ${coachEmployeeName}...</div>
                 </div>
             `;
 
-            // Step 2: Show interactive scenario after 1.2s
             setTimeout(() => {
-                const topic = currentMode === 'azs' ? "Отработка продажи кофе и выпечки без стоп-слов" : "Отработка предложения пробиотика к антибиотику";
-                const clientMessage = currentMode === 'azs' ? "«Здравствуйте, мне АИ-92 на 5000 тенге, пожалуйста.»" : "«Здравствуйте, мне нужен рецептурный препарат Сумамед 500мг.»";
-                
-                let optionA_label = "";
-                let optionA_feedback = "";
-                let optionB_label = "";
-                let optionB_feedback = "";
-                
-                if (currentMode === 'azs') {
-                    optionA_label = "«Хорошо. Кофе не желаете? Может еще что-нибудь?»";
-                    optionA_feedback = "Ошибка: Использована отрицательная частица «НЕ» в короткой продаже и ленивая фраза «Что-нибудь еще?». Это слив продаж. Попробуйте другой вариант!";
-                    
-                    optionB_label = "«Принято. Попробуйте наш свежий кофе в дорогу! Вам большой стакан — это выгоднее. И рекомендую взять горячую самсу к нему.»";
-                    optionB_feedback = "Идеально! Вы использовали утвердительную форму предложения кофе с указанием объема по умолчанию, а также сделали кросс-сейл конкретного товара (выпечки). Оценка ИИ: 10/10!";
-                } else {
-                    optionA_label = "«Пожалуйста, ваш Сумамед. С вас 3500 тенге. Принимайте по инструкции.»";
-                    optionA_feedback = "Ошибка: Вы пропустили обязательное предложение сопутствующего пробиотика для защиты желудка. Стандарт не выполнен. Попробуйте другой вариант!";
-                    
-                    optionB_label = "«Пожалуйста. К этому антибиотику обязательно рекомендую взять пробиотик Линекс для защиты микрофлоры кишечника и предотвращения побочных эффектов. Берем?»";
-                    optionB_feedback = "Великолепно! Вы грамотно обосновали медицинскую ценность допродажи пробиотика к антибиотику. Стандарт соблюден на 100%. Оценка ИИ: 10/10!";
-                }
-
-                coachContainer.innerHTML = `
-                    <div style="font-size:12px; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
-                        <span style="opacity:0.5;">Сценарий:</span> <b style="color:#fff;">${topic}</b>
-                    </div>
-                    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
-                        <!-- Client Speech bubble -->
-                        <div style="background:rgba(255,255,255,0.03); padding:10px 14px; border-radius:12px; align-self:flex-start; max-width:85%; border:1px solid rgba(255,255,255,0.05);">
-                            <div style="font-size:9px; color:#A0AEC0; font-weight:800; margin-bottom:2px; text-transform:uppercase;">Покупатель:</div>
-                            <div style="font-size:13px; color:#fff; font-style:italic;">${clientMessage}</div>
-                        </div>
-
-                        <!-- Feedback placeholder -->
-                        <div id="coach-feedback" style="display:none; padding:10px 14px; border-radius:12px; font-size:12.5px; line-height:1.4;"></div>
-                    </div>
-
-                    <div style="font-size:10px; color:#A0AEC0; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Ваш ответ (Выбор варианта):</div>
-                    <div style="display:flex; flex-direction:column; gap:8px;" id="coach-options">
-                        <div onclick="selectCoachChoice(false, '${optionA_feedback.replace(/'/g, "\\'")}')" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:10px 14px; border-radius:12px; cursor:pointer; font-size:12.5px; color:#fff; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
-                            ${optionA_label}
-                        </div>
-                        <div onclick="selectCoachChoice(true, '${optionB_feedback.replace(/'/g, "\\'")}')" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:10px 14px; border-radius:12px; cursor:pointer; font-size:12.5px; color:#fff; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
-                            ${optionB_label}
-                        </div>
-                    </div>
-                `;
-            }, 1200);
+                renderCoachStep();
+            }, 1000);
         }
 
-        function selectCoachChoice(isCorrect, feedback) {
+        function renderCoachStep() {
+            const coachContainer = document.getElementById('ai-coach-content');
+            if (!coachContainer) return;
+
+            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
+            const totalSteps = questions.length;
+            
+            if (coachCurrentStep >= totalSteps) {
+                showCoachFinalResult();
+                return;
+            }
+
+            const q = questions[coachCurrentStep];
+            
+            // Progress Bar HTML
+            const progressPercent = ((coachCurrentStep) / totalSteps) * 100;
+            
+            coachContainer.innerHTML = `
+                <div style="margin-bottom:15px;">
+                    <div style="display:flex; justify-content:space-between; font-size:11px; color:#A0AEC0; font-weight:800; text-transform:uppercase; margin-bottom:6px;">
+                        <span>Триггер ${coachCurrentStep + 1} из ${totalSteps}: ${q.trigger}</span>
+                        <span>${Math.round(progressPercent)}%</span>
+                    </div>
+                    <div style="width:100%; height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden;">
+                        <div style="width:${progressPercent}%; height:100%; background:#3B82F6; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                    <!-- Client Speech bubble -->
+                    <div style="background:rgba(255,255,255,0.03); padding:12px 16px; border-radius:12px; align-self:flex-start; max-width:90%; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-size:9px; color:#A0AEC0; font-weight:800; margin-bottom:4px; text-transform:uppercase;">Покупатель:</div>
+                        <div style="font-size:13.5px; color:#fff; font-style:italic; line-height:1.4;">${q.client}</div>
+                    </div>
+
+                    <!-- Feedback placeholder -->
+                    <div id="coach-feedback" style="display:none; padding:12px 16px; border-radius:12px; font-size:12.5px; line-height:1.4;"></div>
+                </div>
+
+                <div style="font-size:10px; color:#A0AEC0; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Выберите верный ответ сотрудника:</div>
+                <div style="display:flex; flex-direction:column; gap:8px;" id="coach-options">
+                    ${q.options.map((opt, idx) => `
+                        <div onclick="selectCoachChoice(${opt.correct}, ${idx})" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:12px; cursor:pointer; font-size:12.5px; color:#fff; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(59,130,246,0.2)';" onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.05)';">
+                            ${opt.text}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectCoachChoice(isCorrect, optionIdx) {
+            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
+            const q = questions[coachCurrentStep];
+            const opt = q.options[optionIdx];
+            
             const feedbackEl = document.getElementById('coach-feedback');
             const optionsEl = document.getElementById('coach-options');
-            if (!feedbackEl) return;
+            if (!feedbackEl || !optionsEl) return;
+
+            if (isCorrect) {
+                coachScore++;
+            } else {
+                coachMistakes.push(q.trigger);
+            }
 
             feedbackEl.innerHTML = `
-                <div style="font-weight:800; font-size:10px; color:${isCorrect ? '#10B981' : '#EF4444'}; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">ИИ-Разбор:</div>
-                <div style="color:#fff;">${feedback}</div>
+                <div style="font-weight:800; font-size:10px; color:${isCorrect ? '#10B981' : '#EF4444'}; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">ИИ-Разбор:</div>
+                <div style="color:#fff;">${opt.feedback}</div>
             `;
-            feedbackEl.style.background = isCorrect ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)';
+            feedbackEl.style.background = isCorrect ? 'rgba(16,185,129,0.04)' : 'rgba(239,68,68,0.04)';
             feedbackEl.style.border = isCorrect ? '1px solid rgba(16,185,129,0.15)' : '1px solid rgba(239,68,68,0.15)';
             feedbackEl.style.borderLeft = isCorrect ? '3px solid #10B981' : '3px solid #EF4444';
             feedbackEl.style.display = 'block';
 
-            if (isCorrect) {
-                optionsEl.innerHTML = `
-                    <button class="btn btn--primary" onclick="generateAICoachScenario()" style="width:100%; font-size:12px; padding:10px;">Пройти еще раз</button>
+            const nextLabel = (coachCurrentStep + 1 < questions.length) 
+                ? `Далее: к триггеру «${questions[coachCurrentStep + 1].trigger}»` 
+                : "Показать результаты обучения";
+
+            optionsEl.innerHTML = `
+                <button class="btn btn--primary" onclick="goToNextCoachStep()" style="width:100%; font-size:13px; font-weight:800; padding:12px; border-radius:12px; cursor:pointer;">
+                    <span>${nextLabel}</span>
+                    <span>→</span>
+                </button>
+            `;
+        }
+
+        function goToNextCoachStep() {
+            coachCurrentStep++;
+            renderCoachStep();
+        }
+
+        function showCoachFinalResult() {
+            const coachContainer = document.getElementById('ai-coach-content');
+            if (!coachContainer) return;
+
+            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
+            const total = questions.length;
+            const percent = Math.round((coachScore / total) * 100);
+            
+            let resultColor = percent >= 80 ? '#10B981' : (percent >= 60 ? '#F59E0B' : '#EF4444');
+            let resultBg = percent >= 80 ? 'rgba(16,185,129,0.04)' : (percent >= 60 ? 'rgba(245,158,11,0.04)' : 'rgba(239,68,68,0.04)');
+            let ratingText = percent === 100 ? "🏆 Идеальный результат!" : (percent >= 80 ? "👍 Отличный результат" : "⚠️ Требуется повторение материала");
+
+            let mistakesHtml = "";
+            if (coachMistakes.length > 0) {
+                mistakesHtml = `
+                    <div style="font-size:12px; color:#A0AEC0; margin-bottom:15px; text-align:left;">
+                        <span style="font-weight:700; color:#EF4444;">Ошибки допущены в:</span> ${coachMistakes.join(', ')}
+                    </div>
                 `;
             }
+
+            coachContainer.innerHTML = `
+                <div style="text-align:center; padding:10px 0;">
+                    <div style="font-size:11px; color:#A0AEC0; font-weight:800; text-transform:uppercase; margin-bottom:15px;">Результат обучения</div>
+                    
+                    <div style="background:${resultBg}; border:1px solid ${resultColor}33; border-radius:16px; padding:20px; margin-bottom:20px; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                        <div style="font-size:28px; font-weight:900; color:${resultColor};">${coachScore} из ${total}</div>
+                        <div style="font-size:13px; font-weight:800; color:#fff;">Точность: ${percent}%</div>
+                        <div style="font-size:11.5px; opacity:0.7; color:${resultColor}; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-top:4px;">${ratingText}</div>
+                    </div>
+                    
+                    ${mistakesHtml}
+
+                    <button class="btn btn--primary" onclick="generateAICoachScenario('${coachEmployeeName.replace("'", "\\'")}')" style="width:100%; font-size:13px; font-weight:800; padding:12px; border-radius:12px; cursor:pointer;">
+                        🔄 Начать заново
+                    </button>
+                </div>
+            `;
         }
 
         function toggleSidebar() {
