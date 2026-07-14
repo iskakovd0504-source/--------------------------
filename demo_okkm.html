@@ -262,6 +262,57 @@
             color: #3b82f6;
         }
 
+        /* Back banners styling */
+        #dialogs-back-to-profile-bar {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 20px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 14px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: #93C5FD;
+        }
+        #dialogs-back-to-profile-bar strong {
+            color: #ffffff;
+        }
+
+        body.light-theme-active #dialogs-back-to-profile-bar {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #1e3a8a;
+        }
+        body.light-theme-active #dialogs-back-to-profile-bar strong {
+            color: #1d4ed8;
+        }
+
+        #dialogs-back-to-kpi-bar {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 20px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 14px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: #A7F3D0;
+        }
+        #dialogs-back-to-kpi-bar strong {
+            color: #ffffff;
+        }
+
+        body.light-theme-active #dialogs-back-to-kpi-bar {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.22);
+            color: #064e3b;
+        }
+        body.light-theme-active #dialogs-back-to-kpi-bar strong {
+            color: #047857;
+        }
+
         /* Premium Table */
         .table-wrap { background: var(--c-card-bg); border-radius: 24px; border: var(--glass-border); overflow: hidden; }
         .p-table { width: 100%; border-collapse: collapse; }
@@ -1382,10 +1433,10 @@
         <!-- Dialogs TAB -->
         <div id="view-dialogs" class="view-content">
             <!-- Back to profile banner (shown only when navigated from employee profile) -->
-            <div id="dialogs-back-to-profile-bar" style="display:none; margin-bottom:16px; padding:12px 20px; background:rgba(59,130,246,0.07); border:1px solid rgba(59,130,246,0.2); border-radius:14px; align-items:center; justify-content:space-between; gap:12px;">
-                <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:#93C5FD;">
+            <div id="dialogs-back-to-profile-bar" style="display:none;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/></svg>
-                    <span>Диалоги отфильтрованы по профилю: <strong id="dialogs-back-profile-name" style="color:#fff;"></strong></span>
+                    <span>Диалоги отфильтрованы по профилю: <strong id="dialogs-back-profile-name"></strong></span>
                 </div>
                 <button onclick="goBackToProfileFromDialogs()" style="display:inline-flex; align-items:center; gap:7px; padding:7px 16px; border-radius:10px; border:1px solid rgba(59,130,246,0.35); background:rgba(59,130,246,0.12); color:#3B82F6; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(59,130,246,0.22)'" onmouseout="this.style.background='rgba(59,130,246,0.12)'">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -1393,10 +1444,10 @@
                 </button>
             </div>
             <!-- Back to overview banner (shown only when navigated from KPI cards) -->
-            <div id="dialogs-back-to-kpi-bar" style="display:none; margin-bottom:16px; padding:12px 20px; background:rgba(16,185,129,0.07); border:1px solid rgba(16,185,129,0.2); border-radius:14px; align-items:center; justify-content:space-between; gap:12px;">
-                <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:#A7F3D0;">
+            <div id="dialogs-back-to-kpi-bar" style="display:none;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-                    <span>Выборка по KPI-карточке: <strong id="dialogs-back-kpi-name" style="color:#fff;"></strong></span>
+                    <span>Выборка по KPI-карточке: <strong id="dialogs-back-kpi-name"></strong></span>
                 </div>
                 <button onclick="goBackToOverviewFromKPI()" style="display:inline-flex; align-items:center; gap:7px; padding:7px 16px; border-radius:10px; border:1px solid rgba(16,185,129,0.35); background:rgba(16,185,129,0.12); color:#10B981; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.22)'" onmouseout="this.style.background='rgba(16,185,129,0.12)'">
                     📊 Вернуться к обзору
