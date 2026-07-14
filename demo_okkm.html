@@ -968,6 +968,100 @@
         body.light-theme-active .demo-modal .dialog-item-interactive span[style*="color:#fff"] {
             color: #0F172A !important;
         }
+
+        /* LIGHT THEME FOR EMPLOYEE DETAIL */
+        body.light-theme-active #view-employee-detail {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail .stat-card-v3 {
+            color: #0F172A !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
+        }
+        body.light-theme-active #view-employee-detail #profile-name-title {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail #profile-sub-title span {
+            color: #475569 !important;
+        }
+        body.light-theme-active #view-employee-detail #profile-sub-title b {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail .bar-val {
+            color: #475569 !important;
+        }
+        body.light-theme-active #view-employee-detail .ai-box-text {
+            color: #334155 !important;
+        }
+        body.light-theme-active #view-employee-detail .ai-strength-box {
+            background: rgba(16, 185, 129, 0.05) !important;
+            border: 1px solid rgba(16, 185, 129, 0.2) !important;
+        }
+        body.light-theme-active #view-employee-detail .ai-growth-box {
+            background: rgba(245, 158, 11, 0.05) !important;
+            border: 1px solid rgba(245, 158, 11, 0.2) !important;
+        }
+        body.light-theme-active #view-employee-detail #last-dialogues-title {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail .dialog-item-interactive {
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+        }
+        body.light-theme-active #view-employee-detail .dialog-item-interactive span {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail .dialog-item-interactive span[style*="opacity"] {
+            color: #475569 !important;
+            opacity: 0.8 !important;
+        }
+        body.light-theme-active #view-employee-detail .upsell-chart-bg {
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+        }
+        body.light-theme-active #view-employee-detail .upsell-chart-bg + div span {
+            color: #475569 !important;
+        }
+        body.light-theme-active #view-employee-detail #trigger-detail-card {
+            color: #0F172A !important;
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+        }
+        body.light-theme-active #view-employee-detail #trigger-detail-card span[style*="color:#fff"],
+        body.light-theme-active #view-employee-detail #trigger-detail-card span[style*="color: white"] {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail #trigger-detail-card div[style*="color:#fff"],
+        body.light-theme-active #view-employee-detail #trigger-detail-card div[style*="color: white"] {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail #trigger-detail-card div[style*="background"] {
+            background: #F1F5F9 !important;
+            border-color: #E2E8F0 !important;
+        }
+        body.light-theme-active #view-employee-detail #trigger-detail-card .ai-box-text {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail #ai-coach-content div {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail #ai-coach-content span {
+            color: #475569 !important;
+        }
+        body.light-theme-active #view-employee-detail #ai-coach-content .coach-option-item {
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail span[style*="color:#fff"],
+        body.light-theme-active #view-employee-detail span[style*="color: white"] {
+            color: #0F172A !important;
+        }
+        body.light-theme-active #view-employee-detail div[style*="color:#fff"],
+        body.light-theme-active #view-employee-detail div[style*="color: white"] {
+            color: #0F172A !important;
+        }
     </style>
 
     <!-- Vercel Analytics -->
@@ -4395,13 +4489,31 @@
                             </div>
                         </div>
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:10px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Статус бейджа</div>
-                        <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; background:${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.05)'}; border:1px solid ${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius:30px;">
-                            <span style="width:8px; height:8px; background:${e.badgeStatus === 'in-use' ? '#10B981' : '#A0AEC0'}; border-radius:50%; display:inline-block; ${e.badgeStatus === 'in-use' ? 'box-shadow: 0 0 10px #10B981;' : ''}"></span>
-                            <span style="font-size:11px; font-weight:700; color:${e.badgeStatus === 'in-use' ? '#10B981' : '#fff'}">
-                                ${e.badgeStatus === 'in-use' ? 'АКТИВЕН / ЗАПИСЬ' : 'В БАЗЕ'}
-                            </span>
+                    <div style="display:flex; align-items:center; gap:35px;">
+                        <!-- Circular Score Gauge -->
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div style="position:relative; width:56px; height:56px; display:flex; align-items:center; justify-content:center;">
+                                <svg width="56" height="56" viewBox="0 0 36 36" style="transform: rotate(-90deg);">
+                                    <path stroke="rgba(255,255,255,0.05)" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path stroke="${e.score >= 9.0 ? '#10B981' : (e.score >= 7.5 ? '#F59E0B' : '#EF4444')}" stroke-width="3" stroke-dasharray="${e.score * 10}, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <div style="position:absolute; font-size:15px; font-weight:900; color:#fff;">
+                                    ${e.score}
+                                </div>
+                            </div>
+                            <div style="font-size:10px; opacity:0.6; line-height:1.2;">
+                                <div style="font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Оценка ИИ</div>
+                                <div>за 30 дней</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:10px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Статус бейджа</div>
+                            <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; background:${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.05)'}; border:1px solid ${e.badgeStatus === 'in-use' ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.1)'}; border-radius:30px;">
+                                <span style="width:8px; height:8px; background:${e.badgeStatus === 'in-use' ? '#10B981' : '#A0AEC0'}; border-radius:50%; display:inline-block; ${e.badgeStatus === 'in-use' ? 'box-shadow: 0 0 10px #10B981;' : ''}"></span>
+                                <span style="font-size:11px; font-weight:700; color:${e.badgeStatus === 'in-use' ? '#10B981' : '#fff'}">
+                                    ${e.badgeStatus === 'in-use' ? 'АКТИВЕН / ЗАПИСЬ' : 'В БАЗЕ'}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4409,45 +4521,46 @@
                 <!-- Grid Section -->
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px; margin-bottom:30px;">
                     
-                    <!-- Left Column: Device & Discipline -->
+                    <!-- Left Column: Upsell & Interactive Trigger Details -->
                     <div style="display:flex; flex-direction:column; gap:30px;">
-                        <!-- E-ink Preview Card -->
-                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
-                            <div style="font-weight:800; font-size:13px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px;">Цифровой бейдж (Экран E-ink)</div>
-                            <div style="display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.3); padding:30px; border-radius:18px; border:1px solid rgba(255,255,255,0.03);" class="badge-eink-preview">
-                                <!-- Device Frame -->
-                                <div style="position:relative; width:260px; height:150px; background:#1E293B; border-radius:16px; border:2px solid #475569; box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1); padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
-                                    <!-- LED indicator -->
-                                    <div style="position:absolute; top:8px; right:8px; width:6px; height:6px; background:${e.badgeStatus === 'in-use' ? '#10B981' : '#A0AEC0'}; border-radius:50%; box-shadow: 0 0 6px ${e.badgeStatus === 'in-use' ? '#10B981' : 'transparent'};"></div>
-                                    <div style="position:absolute; top:8px; left:8px; width:20px; height:3px; background:#475569; border-radius:2px;"></div>
-                                    
-                                    <!-- Inner Paper Screen -->
-                                    <div style="flex:1; background:#F8FAFC; border-radius:6px; border:1px solid #CBD5E1; padding:12px; display:flex; flex-direction:column; justify-content:space-between; align-items:center; color:#0F172A; font-family: 'Courier New', monospace; box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);">
-                                        <div style="text-align:center; width:100%;">
-                                            <div style="font-size:15px; font-weight:900; line-height:1.2; letter-spacing:-0.5px; border-bottom:1.5px solid #0F172A; padding-bottom:6px; margin-bottom:6px; text-transform:uppercase; color:#0F172A !important;">
-                                                ${e.name.toUpperCase()}
-                                            </div>
-                                            <div style="font-size:10px; font-weight:700; opacity:0.7; color:#0F172A !important;">AiProtocol / Октава</div>
-                                        </div>
-                                        <div style="width:100%; display:flex; justify-content:space-between; align-items:center; font-size:9px; border-top:1px dashed rgba(0,0,0,0.2); padding-top:6px; font-weight:700; color:#0F172A !important;">
-                                            <span>ОТДЕЛ КМ</span>
-                                            <span>${e.badgeStatus === 'in-use' ? '● ЗАПИСЬ' : 'В БАЗЕ'}</span>
+                        <!-- Upsell Efficiency -->
+                        <div style="background:rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
+                            <div style="font-weight:800; font-size:13px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>Эффективность по триггерам</span>
+                                <span style="font-size:11px; font-weight:normal; opacity:0.5; text-transform:none;">(Нажмите на столбик для деталей)</span>
+                            </div>
+                            <div style="height:150px; background:rgba(0,0,0,0.2); border-radius:16px; display:flex; align-items:flex-end; gap:12px; padding:20px 20px 10px 20px; border: 1px solid rgba(255,255,255,0.03); margin-bottom:15px;" class="upsell-chart-bg">
+                                ${e.upsell ? e.upsell.map((val, i) => {
+                                    const barColor = val >= 80 ? 'linear-gradient(180deg, #10B981, #059669)' : (val >= 60 ? 'linear-gradient(180deg, #F59E0B, #D97706)' : 'linear-gradient(180deg, #EF4444, #DC2626)');
+                                    return `
+                                    <div onclick="showTriggerDetail(${i}, '${labels[i]}', ${val})" style="flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; cursor:pointer;" class="chart-bar-container">
+                                        <div style="width:100%; background:${barColor}; height:${val}%; border-radius:6px 6px 0 0; position:relative; min-height:4px; transition:all 0.2s;" onmouseover="this.style.filter='brightness(1.2)';" onmouseout="this.style.filter='none';" title="${labels[i]}: ${val}%">
+                                            <div style="position:absolute; top:-20px; left:50%; transform:translateX(-50%); font-size:10px; font-weight:700; color:#fff;" class="bar-val">${val}%</div>
                                         </div>
                                     </div>
-                                </div>
+                                    `;
+                                }).join('') : ''}
+                            </div>
+                            <div style="display:grid; grid-template-columns: repeat(${labels.length}, 1fr); text-align:center; font-size:10px; font-weight:700; color:#A0AEC0; letter-spacing:0.5px; text-transform:uppercase;">
+                                ${labels.map(l => `<span>${l}</span>`).join('')}
                             </div>
                         </div>
 
+                        <!-- Trigger Detail Card (updated by JS) -->
+                        <div id="trigger-detail-card" style="background:rgba(255,255,255,0.01); border:1px dashed rgba(255,255,255,0.08); border-radius:24px; padding:25px; min-height:120px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#A0AEC0; font-size:13px; text-align:center;">
+                            <span>💡 Выберите любой столбик на графике выше, чтобы открыть разбор стандарта и идеальный скрипт продаж</span>
+                        </div>
+
                         <!-- Discipline Card -->
-                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px; flex: 1;" class="stat-card-v3">
+                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
                             <div style="font-weight:800; font-size:13px; color:#EF4444; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px; display:flex; align-items:center; gap:8px;">
                                 <span style="font-size:16px;">⚠️</span> Дисциплина ношения бейджа
                             </div>
                             <div style="display:flex; flex-direction:column; gap:12px;">
                                 ${e.badgeHistory && e.badgeHistory.length > 0 ? e.badgeHistory.map(h => `
-                                    <div style="background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.1); padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+                                    <div onclick="showDisciplineIncident('${h.t}', '${h.d.replace("'", "\\'")}')" style="background:rgba(239,68,68,0.03); border:1px solid rgba(239,68,68,0.1); padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.06)'; this.style.borderColor='rgba(239,68,68,0.2)';" onmouseout="this.style.background='rgba(239,68,68,0.03)'; this.style.borderColor='rgba(239,68,68,0.1)';">
                                         <div>
-                                            <div style="font-size:13px; font-weight:700; color:#fff;">Отключение устройства</div>
+                                            <div style="font-size:13px; font-weight:700; color:#fff;">Отключение устройства (Клик для деталей)</div>
                                             <div style="font-size:11px; color:#A0AEC0; margin-top:2px;">Зафиксировано в ${h.t}</div>
                                         </div>
                                         <div style="font-size:11px; font-weight:800; color:#EF4444; background:rgba(239,68,68,0.1); padding:4px 8px; border-radius:6px; text-transform:uppercase;">
@@ -4463,42 +4576,36 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Upsell & AI Recommendations -->
+                    <!-- Right Column: AI Recommendations & AI Coach -->
                     <div style="display:flex; flex-direction:column; gap:30px;">
-                        <!-- Upsell Efficiency -->
+                        <!-- AI Recommendations -->
                         <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
-                            <div style="font-weight:800; font-size:13px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
-                                <span>Эффективность допродаж</span>
-                                <span style="font-size:11px; font-weight:normal; opacity:0.5; text-transform:none;">(за 30 дней)</span>
-                            </div>
-                            <div style="height:150px; background:rgba(0,0,0,0.2); border-radius:16px; display:flex; align-items:flex-end; gap:12px; padding:20px; border: 1px solid rgba(255,255,255,0.03); margin-bottom:15px;" class="upsell-chart-bg">
-                                ${e.upsell ? e.upsell.map((val, i) => `
-                                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end;">
-                                        <div style="width:100%; background:linear-gradient(180deg, #3B82F6, #8B5CF6); height:${val}%; border-radius:6px 6px 0 0; position:relative; min-height:4px;" title="${labels[i]}: ${val}%">
-                                            <div style="position:absolute; top:-20px; left:50%; transform:translateX(-50%); font-size:10px; font-weight:700; color:#fff;" class="bar-val">${val}%</div>
-                                        </div>
-                                    </div>
-                                `).join('') : ''}
-                            </div>
-                            <div style="display:grid; grid-template-columns: repeat(${labels.length}, 1fr); text-align:center; font-size:10px; font-weight:700; color:#A0AEC0; letter-spacing:0.5px; text-transform:uppercase;">
-                                ${labels.map(l => `<span>${l}</span>`).join('')}
+                            <div style="font-weight:800; font-size:13px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px;">Рекомендации ИИ</div>
+                            <div style="display:flex; flex-direction:column; gap:12px;">
+                                <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.15); border-left:3px solid #10B981; border-radius:12px; padding:12px 16px; font-size:13px;" class="ai-strength-box">
+                                    <div style="font-weight:800; color:#10B981; margin-bottom:4px; text-transform:uppercase; font-size:10px; letter-spacing:0.5px;">✓ Сильная сторона</div>
+                                    <span style="color:#fff; line-height:1.4;" class="ai-box-text">${aiStrength}</span>
+                                </div>
+                                <div style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.15); border-left:3px solid #F59E0B; border-radius:12px; padding:12px 16px; font-size:13px;" class="ai-growth-box">
+                                    <div style="font-weight:800; color:#F59E0B; margin-bottom:4px; text-transform:uppercase; font-size:10px; letter-spacing:0.5px;">⚠️ Точка роста</div>
+                                    <span style="color:#fff; line-height:1.4;" class="ai-box-text">${aiGrowth}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- AI Recommendations -->
-                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px; flex:1; display:flex; flex-direction:column; justify-content:space-between;" class="stat-card-v3">
-                            <div>
-                                <div style="font-weight:800; font-size:13px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px;">Рекомендации ИИ</div>
-                                <div style="display:flex; flex-direction:column; gap:12px;">
-                                    <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.15); border-left:3px solid #10B981; border-radius:12px; padding:12px 16px; font-size:13px;" class="ai-strength-box">
-                                        <div style="font-weight:800; color:#10B981; margin-bottom:4px; text-transform:uppercase; font-size:10px; letter-spacing:0.5px;">✓ Сильная сторона</div>
-                                        <span style="color:#fff; line-height:1.4;" class="ai-box-text">${aiStrength}</span>
-                                    </div>
-                                    <div style="background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.15); border-left:3px solid #F59E0B; border-radius:12px; padding:12px 16px; font-size:13px;" class="ai-growth-box">
-                                        <div style="font-weight:800; color:#F59E0B; margin-bottom:4px; text-transform:uppercase; font-size:10px; letter-spacing:0.5px;">⚠️ Точка роста</div>
-                                        <span style="color:#fff; line-height:1.4;" class="ai-box-text">${aiGrowth}</span>
-                                    </div>
+                        <!-- AI Coach (Interactive micro-training) -->
+                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
+                            <div style="font-weight:800; font-size:13px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:16px;">🧠</span> ИИ-Тренер (AI Coach)
+                            </div>
+                            <div id="ai-coach-content">
+                                <div style="font-size:12.5px; color:#A0AEC0; line-height:1.5; margin-bottom:20px;">
+                                    Индивидуальный тренажер на основе реальных «точек роста» сотрудника. Поможет отработать правильные скрипты без стоп-слов и штрафных фраз.
                                 </div>
+                                <button class="btn btn--primary" onclick="generateAICoachScenario('${e.name.replace("'", "\\'")}')" style="width:100%; font-size:13px; font-weight:800; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:12px;">
+                                    <span>Запустить ИИ-тренинг</span>
+                                    <span>→</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -4539,6 +4646,235 @@
             
             const stationFilter = document.getElementById('station-filter');
             if (stationFilter) stationFilter.style.display = 'block';
+        }
+
+        const standardDetails = {
+            azs: [
+                {
+                    label: "Приветствие",
+                    desc: "Приветствие кассира (ТРИГГЕР №1). Кассир обязан использовать теплое вежливое приветствие: «Добрый день/утро/вечер!» или «Добро пожаловать!». Использование сухого слова «Здравствуйте» разрешено, но стоп-слова «Здрасьте» или «Здрасти» являются прямым нарушением лояльности (автоштраф). Представляться по имени кассир не должен.",
+                    script: "«Добрый день, добро пожаловать на KST Trade! Какое топливо заправляем?»"
+                },
+                {
+                    label: "Кофе",
+                    desc: "Продажа кофе (ТРИГГЕР №2). Предложить кофе в утвердительной форме: «Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно держать!». Категорически запрещено использовать отрицательную частицу «НЕ» («Кофе не желаете?», «Чай, кофе не хотите?»).",
+                    script: "«Попробуйте наш фирменный кофе в дорогу! Вам большой стакан — это выгодно!»"
+                },
+                {
+                    label: "Выпечка",
+                    desc: "Выпечка и кросс-сейл (ТРИГГЕР №3). Предложить конкретный сопутствующий товар из магазина или выпечку: «Попробуйте наш горячий хот-дог или свежую самсу». Категорически запрещено использовать ленивую фразу «Что-нибудь еще?», «Это все?» (автоштраф: слив кросс-продаж).",
+                    script: "«К кофе рекомендую нашу свежую выпечку — возьмите вкусный хот-дог или самсу. Вам один или парочку?»"
+                },
+                {
+                    label: "Повтор заказа",
+                    desc: "Повторение (верификация) заказа (ТРИГГЕР №4). Вслух проговорить все детали заказа перед расчетом: «[Номер колонки] колонка, [Марка топлива], [Объем/Сумма], [Доп. товар], оплата [картой/наличными]». Это исключает ошибки налива.",
+                    script: "«3 колонка, АИ-95 на 5000 тенге плюс большой капучино. Оплата картой?»"
+                },
+                {
+                    label: "Выдача чека",
+                    desc: "Выдача чека по умолчанию (ТРИГГЕР №5). Выдать фискальный чек в руки клиенту молча. Действует строгий запрет на вопрос: «Вам чек нужен?» или «Чек давать?».",
+                    script: "(Молча протянуть фискальный чек клиенту в руки)"
+                },
+                {
+                    label: "Прощание",
+                    desc: "Стандарт прощания (ТРИГГЕР №6). Завершить контакт вежливо: «Счастливого пути!», «Хорошего дня!», «Ждем вас снова!». Запрещено сухое «До свидания» или завершение контакта молча.",
+                    script: "«Счастливого пути и хорошего дня! Будем рады видеть Вас снова!»"
+                }
+            ],
+            pharmacy: [
+                {
+                    label: "Приветствие",
+                    desc: "Вежливое приветствие (ТРИГГЕР №1). Фармацевт обязан поприветствовать клиента с улыбкой, используя дружелюбные формулировки.",
+                    script: "«Добрый день! Добро пожаловать! Чем могу вам помочь?»"
+                },
+                {
+                    label: "Пробиотики",
+                    desc: "Предложение пробиотиков (ТРИГГЕР №2). При продаже антибиотиков фармацевт обязан предложить пробиотик для защиты микрофлоры.",
+                    script: "«К антибиотику обязательно рекомендую взять пробиотик, чтобы защитить микрофлору желудка и избежать дисбактериоза.»"
+                },
+                {
+                    label: "Витамины",
+                    desc: "Витамины и БАДы (ТРИГГЕР №3). Рекомендация сопутствующих витаминов (например, Витамин C, D3 или комплекс B) при простудных симптомах.",
+                    script: "«Возьмите витамины группы B или Витамин C для поддержки иммунитета во время болезни.»"
+                },
+                {
+                    label: "Аналоги",
+                    desc: "Предложение аналогов (ТРИГГЕР №4). Профессиональный подбор качественной замены при отсутствии запрашиваемого препарата.",
+                    script: "«Этого препарата сейчас нет в наличии, но есть полный аналог с тем же действующим веществом...»"
+                },
+                {
+                    label: "Выдача чека",
+                    desc: "Выдача чека (ТРИГГЕР №5). Автоматическая выдача фискального чека клиенту без уточняющих вопросов.",
+                    script: "(Выдача чека в руки)"
+                },
+                {
+                    label: "Прощание",
+                    desc: "Вежливое прощание (ТРИГГЕР №6). Пожелание здоровья и хорошего дня.",
+                    script: "«Будьте здоровы! Хорошего дня! Приходите к нам еще.»"
+                }
+            ]
+        };
+
+        function showTriggerDetail(index, label, val) {
+            const container = document.getElementById('trigger-detail-card');
+            if (!container) return;
+
+            const modeGroup = standardDetails[currentMode] || standardDetails.azs;
+            const detail = modeGroup.find(d => d.label.toLowerCase() === label.toLowerCase()) || modeGroup[0];
+
+            const color = val >= 80 ? '#10B981' : (val >= 60 ? '#F59E0B' : '#EF4444');
+            const bg = val >= 80 ? 'rgba(16,185,129,0.1)' : (val >= 60 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)');
+
+            container.innerHTML = `
+                <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <span style="font-weight:800; font-size:13px; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Триггер: ${label}</span>
+                    <span style="font-size:12px; font-weight:800; color:${color}; background:${bg}; padding:3px 10px; border-radius:6px; border:1px solid ${color}33;">Соблюдение: ${val}%</span>
+                </div>
+                <div style="font-size:13px; color:#A0AEC0; line-height:1.5; margin-bottom:20px; text-align:left; width:100%;">
+                    ${detail.desc}
+                </div>
+                <div style="background:rgba(59,130,246,0.03); border:1px solid rgba(59,130,246,0.15); border-left:3px solid #3B82F6; border-radius:12px; padding:15px; width:100%; text-align:left; box-sizing:border-box;">
+                    <div style="font-weight:800; font-size:10px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Эталонный скрипт продаж:</div>
+                    <div style="font-size:13px; color:#fff; font-style:italic; line-height:1.4;">${detail.script}</div>
+                </div>
+            `;
+            container.style.background = 'rgba(255,255,255,0.02)';
+            container.style.border = '1px solid rgba(255,255,255,0.05)';
+        }
+
+        function showDisciplineIncident(time, duration) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            
+            if (modalOverlay && modalTitle && modalBody) {
+                modalTitle.innerText = "Расследование инцидента ношения бейджа";
+                
+                modalBody.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:20px; font-size:13px; color:#fff;">
+                        <div style="display:flex; gap:15px; align-items:center; background:rgba(239, 68, 68, 0.05); border:1px solid rgba(239, 68, 68, 0.15); padding:15px; border-radius:12px;">
+                            <div style="font-size:24px;">⚠️</div>
+                            <div>
+                                <div style="font-weight:800; font-size:14px; color:#EF4444; margin-bottom:4px;">Нарушение регламента ношения бейджа</div>
+                                <div style="color:#A0AEC0;">Зафиксировано отсутствие сигнала устройства в рабочее время.</div>
+                            </div>
+                        </div>
+                        
+                        <div style="position:relative; padding-left:25px; display:flex; flex-direction:column; gap:20px; margin-top:10px;">
+                            <!-- Timeline line -->
+                            <div style="position:absolute; left:5px; top:5px; bottom:5px; width:2px; background:rgba(255,255,255,0.06);"></div>
+                            
+                            <!-- Timeline node 1 -->
+                            <div style="position:relative;">
+                                <div style="position:absolute; left:-24px; top:4px; width:10px; height:10px; border-radius:50%; background:#EF4444; box-shadow:0 0 6px #EF4444;"></div>
+                                <div style="font-weight:800; margin-bottom:4px;">${time} — Отключение бейджа</div>
+                                <div style="color:#A0AEC0;">Акселерометр зафиксировал снятие устройства. Сигнал от базовой станции пропал. Попытка автоматического переподключения не удалась.</div>
+                            </div>
+                            
+                            <!-- Timeline node 2 -->
+                            <div style="position:relative;">
+                                <div style="position:absolute; left:-24px; top:4px; width:10px; height:10px; border-radius:50%; background:#F59E0B; box-shadow:0 0 6px #F59E0B;"></div>
+                                <div style="font-weight:800; margin-bottom:4px;">Через 15 минут — Поиск устройства</div>
+                                <div style="color:#A0AEC0;">Система ОККМ отправила автоматическое Push-уведомление администратору: «Бейдж отключен более 15 минут».</div>
+                            </div>
+                            
+                            <!-- Timeline node 3 -->
+                            <div style="position:relative;">
+                                <div style="position:absolute; left:-24px; top:4px; width:10px; height:10px; border-radius:50%; background:#10B981; box-shadow:0 0 6px #10B981;"></div>
+                                <div style="font-weight:800; margin-bottom:4px;">Восстановление связи</div>
+                                <div style="color:#A0AEC0;">Бейдж возвращен на крепление (на форму сотрудника). Запись аудио и синхронизация показателей возобновлены. Длительность инцидента: ${duration}.</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                modalOverlay.style.display = 'flex';
+            }
+        }
+
+        function generateAICoachScenario(empName) {
+            const coachContainer = document.getElementById('ai-coach-content');
+            if (!coachContainer) return;
+
+            // Step 1: Loading simulation
+            coachContainer.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; text-align:center; gap:15px;">
+                    <div class="sync-spinner" style="width:30px; height:30px; border:3px solid rgba(59,130,246,0.1); border-top-color:#3B82F6; border-radius:50%; animation: spin 1s linear infinite;"></div>
+                    <div style="font-size:12px; color:#A0AEC0; font-weight:700;">ИИ-Ассистент анализирует слабые стороны ${empName}...</div>
+                </div>
+            `;
+
+            // Step 2: Show interactive scenario after 1.2s
+            setTimeout(() => {
+                const topic = currentMode === 'azs' ? "Отработка продажи кофе и выпечки без стоп-слов" : "Отработка предложения пробиотика к антибиотику";
+                const clientMessage = currentMode === 'azs' ? "«Здравствуйте, мне АИ-92 на 5000 тенге, пожалуйста.»" : "«Здравствуйте, мне нужен рецептурный препарат Сумамед 500мг.»";
+                
+                let optionA_label = "";
+                let optionA_feedback = "";
+                let optionB_label = "";
+                let optionB_feedback = "";
+                
+                if (currentMode === 'azs') {
+                    optionA_label = "«Хорошо. Кофе не желаете? Может еще что-нибудь?»";
+                    optionA_feedback = "Ошибка: Использована отрицательная частица «НЕ» в короткой продаже и ленивая фраза «Что-нибудь еще?». Это слив продаж. Попробуйте другой вариант!";
+                    
+                    optionB_label = "«Принято. Попробуйте наш свежий кофе в дорогу! Вам большой стакан — это выгоднее. И рекомендую взять горячую самсу к нему.»";
+                    optionB_feedback = "Идеально! Вы использовали утвердительную форму предложения кофе с указанием объема по умолчанию, а также сделали кросс-сейл конкретного товара (выпечки). Оценка ИИ: 10/10!";
+                } else {
+                    optionA_label = "«Пожалуйста, ваш Сумамед. С вас 3500 тенге. Принимайте по инструкции.»";
+                    optionA_feedback = "Ошибка: Вы пропустили обязательное предложение сопутствующего пробиотика для защиты желудка. Стандарт не выполнен. Попробуйте другой вариант!";
+                    
+                    optionB_label = "«Пожалуйста. К этому антибиотику обязательно рекомендую взять пробиотик Линекс для защиты микрофлоры кишечника и предотвращения побочных эффектов. Берем?»";
+                    optionB_feedback = "Великолепно! Вы грамотно обосновали медицинскую ценность допродажи пробиотика к антибиотику. Стандарт соблюден на 100%. Оценка ИИ: 10/10!";
+                }
+
+                coachContainer.innerHTML = `
+                    <div style="font-size:12px; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                        <span style="opacity:0.5;">Сценарий:</span> <b style="color:#fff;">${topic}</b>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                        <!-- Client Speech bubble -->
+                        <div style="background:rgba(255,255,255,0.03); padding:10px 14px; border-radius:12px; align-self:flex-start; max-width:85%; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="font-size:9px; color:#A0AEC0; font-weight:800; margin-bottom:2px; text-transform:uppercase;">Покупатель:</div>
+                            <div style="font-size:13px; color:#fff; font-style:italic;">${clientMessage}</div>
+                        </div>
+
+                        <!-- Feedback placeholder -->
+                        <div id="coach-feedback" style="display:none; padding:10px 14px; border-radius:12px; font-size:12.5px; line-height:1.4;"></div>
+                    </div>
+
+                    <div style="font-size:10px; color:#A0AEC0; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Ваш ответ (Выбор варианта):</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;" id="coach-options">
+                        <div onclick="selectCoachChoice(false, '${optionA_feedback.replace(/'/g, "\\'")}')" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:10px 14px; border-radius:12px; cursor:pointer; font-size:12.5px; color:#fff; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
+                            ${optionA_label}
+                        </div>
+                        <div onclick="selectCoachChoice(true, '${optionB_feedback.replace(/'/g, "\\'")}')" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:10px 14px; border-radius:12px; cursor:pointer; font-size:12.5px; color:#fff; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
+                            ${optionB_label}
+                        </div>
+                    </div>
+                `;
+            }, 1200);
+        }
+
+        function selectCoachChoice(isCorrect, feedback) {
+            const feedbackEl = document.getElementById('coach-feedback');
+            const optionsEl = document.getElementById('coach-options');
+            if (!feedbackEl) return;
+
+            feedbackEl.innerHTML = `
+                <div style="font-weight:800; font-size:10px; color:${isCorrect ? '#10B981' : '#EF4444'}; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">ИИ-Разбор:</div>
+                <div style="color:#fff;">${feedback}</div>
+            `;
+            feedbackEl.style.background = isCorrect ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)';
+            feedbackEl.style.border = isCorrect ? '1px solid rgba(16,185,129,0.15)' : '1px solid rgba(239,68,68,0.15)';
+            feedbackEl.style.borderLeft = isCorrect ? '3px solid #10B981' : '3px solid #EF4444';
+            feedbackEl.style.display = 'block';
+
+            if (isCorrect) {
+                optionsEl.innerHTML = `
+                    <button class="btn btn--primary" onclick="generateAICoachScenario()" style="width:100%; font-size:12px; padding:10px;">Пройти еще раз</button>
+                `;
+            }
         }
 
         function toggleSidebar() {
