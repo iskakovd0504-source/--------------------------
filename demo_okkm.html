@@ -263,6 +263,95 @@
             color: #3b82f6;
         }
 
+        /* Premium Header Filters */
+        .header-filter-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        
+        .header-filter-icon {
+            position: absolute;
+            left: 14px;
+            pointer-events: none;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+            color: #3b82f6;
+            z-index: 10;
+        }
+
+        .header-filter-select {
+            background: rgba(13, 18, 31, 0.45);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: white;
+            padding: 9px 15px 9px 38px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(10px);
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 32px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .header-filter-wrap::after {
+            content: "";
+            position: absolute;
+            right: 14px;
+            width: 7px;
+            height: 7px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px) rotate(45deg);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .header-filter-wrap:hover .header-filter-select {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(13, 18, 31, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+        
+        .header-filter-wrap:hover::after {
+            border-color: #3b82f6;
+        }
+        
+        .header-filter-wrap:hover .header-filter-icon {
+            opacity: 1;
+            transform: scale(1.08);
+            color: #60a5fa;
+        }
+
+        /* Светлая тема */
+        body.light-theme-active .header-filter-select {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #1e293b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+        body.light-theme-active .header-filter-wrap::after {
+            border-right: 2px solid rgba(0, 0, 0, 0.4);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+        }
+        body.light-theme-active .header-filter-wrap:hover .header-filter-select {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.08);
+        }
+        body.light-theme-active .header-filter-wrap:hover::after {
+            border-color: #3b82f6;
+        }
+
         /* Back banners styling */
         #dialogs-back-to-profile-bar {
             display: none;
@@ -1266,19 +1355,26 @@
                     </svg>
                 </button>
                 <div id="page-title" style="display: none !important;">Обзор показателей сети</div>
-                <select id="station-filter" onchange="onStationFilterChange(this.value)" style="background: rgba(255,255,255,0.05); border: var(--glass-border); color: white; padding: 8px 15px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; width: 340px; flex-shrink: 0;">
-                    <option value="all">Все АЗС (Сеть KST Trade)</option>
-                    <option value="1">АЗС №1 (Костанай, проспект Абая, 1Т)</option>
-                    <option value="7">АЗС №7 (Костанай, улица Карбышева, 71А)</option>
-                    <option value="tobyl">АЗС Тобыл (г. Тобыл, проспект Тауелсиздик, 74А)</option>
-                    <option value="fedorovka">АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)</option>
-                </select>
-                <select id="time-filter" onchange="onTimeFilterChange(this.value)" style="background: rgba(255,255,255,0.05); border: var(--glass-border); color: white; padding: 8px 15px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; width: 200px; flex-shrink: 0;">
-                    <option value="24h">За последние 24 часа</option>
-                    <option value="yesterday">Вчера</option>
-                    <option value="7d">За последние 7 дней</option>
-                    <option value="custom">Выбрать период...</option>
-                </select>
+                <div class="header-filter-wrap">
+                    <span class="header-filter-icon">📍</span>
+                    <select id="station-filter" onchange="onStationFilterChange(this.value)" class="header-filter-select" style="width: 320px;">
+                        <option value="all">Все АЗС (Сеть KST Trade)</option>
+                        <option value="1">АЗС №1 (Костанай, проспект Абая, 1Т)</option>
+                        <option value="7">АЗС №7 (Костанай, улица Карбышева, 71А)</option>
+                        <option value="tobyl">АЗС Тобыл (г. Тобыл, проспект Тауелсиздик, 74А)</option>
+                        <option value="fedorovka">АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)</option>
+                    </select>
+                </div>
+                
+                <div class="header-filter-wrap">
+                    <span class="header-filter-icon">🕒</span>
+                    <select id="time-filter" onchange="onTimeFilterChange(this.value)" class="header-filter-select" style="width: 210px;">
+                        <option value="24h">За последние 24 часа</option>
+                        <option value="yesterday">Вчера</option>
+                        <option value="7d">За последние 7 дней</option>
+                        <option value="custom">Выбрать период...</option>
+                    </select>
+                </div>
             </div>
             <div style="display:flex; align-items:center; gap:15px; justify-content:flex-end; flex-shrink: 0;">
                 <!-- Live indicator -->
