@@ -4975,6 +4975,59 @@
             const color = val >= 80 ? '#10B981' : (val >= 60 ? '#F59E0B' : '#EF4444');
             const bg = val >= 80 ? 'rgba(16,185,129,0.1)' : (val >= 60 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)');
 
+            // Find dialogues of active employee containing this trigger
+            const empDialogs = dialogs.filter(d => {
+                const cleanD = d.emp.trim().toLowerCase();
+                const cleanActive = activeEmployeeName.trim().toLowerCase();
+                return cleanD.startsWith(cleanActive) || cleanActive.startsWith(cleanD);
+            });
+
+            const triggerAuditDialogs = empDialogs.map(d => {
+                const auditItem = d.audit.find(a => a.name.toLowerCase().includes(label.toLowerCase()) || label.toLowerCase().includes(a.name.toLowerCase()));
+                return { dialog: d, auditItem: auditItem };
+            }).filter(item => item.auditItem !== undefined);
+
+            // Sort: errors first, then compliance, then by ID descending
+            triggerAuditDialogs.sort((a, b) => {
+                if (a.auditItem.status !== 'green' && b.auditItem.status === 'green') return -1;
+                if (a.auditItem.status === 'green' && b.auditItem.status !== 'green') return 1;
+                return b.dialog.id - a.dialog.id;
+            });
+
+            let dialogListHtml = "";
+            if (triggerAuditDialogs.length === 0) {
+                dialogListHtml = `
+                    <div style="font-weight:800; font-size:11px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; text-align:left; width:100%;">Диалоги сотрудника (0):</div>
+                    <div style="font-size:12px; opacity:0.5; padding:15px; text-align:center; border:1px dashed rgba(255,255,255,0.05); border-radius:12px; width:100%; margin-bottom:20px;">
+                        Нет записей по этому триггеру
+                    </div>
+                `;
+            } else {
+                dialogListHtml = `
+                    <div style="font-weight:800; font-size:11px; color:#A0AEC0; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; text-align:left; width:100%;">Диалоги сотрудника (${triggerAuditDialogs.length}):</div>
+                    <div style="display:flex; flex-direction:column; gap:8px; width:100%; max-height:220px; overflow-y:auto; margin-bottom:20px; padding-right:5px; box-sizing:border-box;">
+                        ${triggerAuditDialogs.map(item => {
+                            const d = item.dialog;
+                            const audit = item.auditItem;
+                            const statusColor = audit.status === 'green' ? '#10B981' : (audit.status === 'amber' ? '#F59E0B' : '#EF4444');
+                            const statusBg = audit.status === 'green' ? 'rgba(16,185,129,0.04)' : (audit.status === 'amber' ? 'rgba(245,158,11,0.04)' : 'rgba(239,68,68,0.04)');
+                            
+                            return `
+                                <div onclick="showDialogDetail(${d.id}); event.stopPropagation();" style="display:flex; justify-content:space-between; align-items:center; background:${statusBg}; border:1px solid ${statusColor}22; padding:10px 14px; border-radius:12px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(59,130,246,0.3)';" onmouseout="this.style.background='${statusBg}'; this.style.borderColor='${statusColor}22';">
+                                    <div style="display:flex; flex-direction:column; gap:2px; text-align:left; min-width:0; flex-grow:1; margin-right:12px;">
+                                        <div style="font-weight:700; font-size:12.5px; color:#fff;">Запись #${d.id} <span style="font-size:10px; opacity:0.4; font-weight:normal; margin-left:6px;">${d.time}</span></div>
+                                        <div style="font-size:11.5px; color:var(--c-text-muted); font-style:italic; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"${audit.comment || 'Без комментариев'}"</div>
+                                    </div>
+                                    <span style="font-size:9.5px; font-weight:800; color:${statusColor}; background:${statusColor}15; padding:3px 8px; border-radius:6px; border:1px solid ${statusColor}22; text-transform:uppercase; flex-shrink:0;">
+                                        ${audit.status === 'green' ? 'Соблюдено' : 'Ошибка'}
+                                    </span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+
             container.innerHTML = `
                 <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                     <span style="font-weight:800; font-size:13px; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Триггер: ${label}</span>
@@ -4988,9 +5041,11 @@
                     <div style="font-size:13px; color:#fff; font-style:italic; line-height:1.4;">${detail.script}</div>
                 </div>
                 
+                ${dialogListHtml}
+                
                 <button class="btn btn--primary" onclick="goToFilteredDialogs('${activeEmployeeName.replace("'", "\\'")}', ${index}, '${label.replace("'", "\\'")}')" style="width:100%; font-size:13px; font-weight:800; padding:12.5px; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:12px; cursor:pointer;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    Показать все диалоги по триггеру "${label}"
+                    Показать все диалоги по триггеру "${label}" в общей таблице
                 </button>
             `;
             container.style.background = 'rgba(255,255,255,0.02)';
@@ -5002,14 +5057,17 @@
             // Set comingFromEmployeeProfile so they can navigate back to this profile from dialog detail
             comingFromEmployeeProfile = empName;
 
+            // Находим к какой АЗС относится сотрудник, чтобы автоматически выставить верный фильтр АЗС в шапке
+            const empObj = employees.find(e => e.name.toLowerCase().startsWith(empName.toLowerCase()) || empName.toLowerCase().startsWith(e.name.toLowerCase()));
+            const stationSelect = document.getElementById('station-filter');
+            if (stationSelect && empObj) {
+                stationSelect.value = empObj.stationId;
+                // Обновляем список сотрудников в фильтре
+                updateEmployeeDropdown(empObj.stationId);
+            }
+
             // Switch to Dialogs tab
             switchTab('dialogs');
-
-            // Set time filter to last 7 days to cover all generated archive dialogues
-            currentTimePeriod = '7d';
-            const timeFilter = document.getElementById('time-filter');
-            if (timeFilter) timeFilter.value = '7d';
-            syncDateFilters('2026-07-08', '2026-07-14');
 
             // Select Employee
             const empSelect = document.getElementById('filter-employee');
