@@ -83,20 +83,6 @@
             background: rgba(6, 9, 15, 0.3);
         }
 
-        /* Responsive Header buttons (collapse text to avoid overflow) */
-        @media (max-width: 1550px) {
-            .dashboard-header .btn-text,
-            .dashboard-header .admin-text {
-                display: none !important;
-            }
-            .dashboard-header #sync-trigger,
-            .dashboard-header button[title="Переанализ ошибок"] {
-                width: 38px !important;
-                padding: 0 !important;
-                justify-content: center !important;
-                gap: 0 !important;
-            }
-        }
 
         .view-content {
             flex-grow: 1;
@@ -1271,7 +1257,7 @@
 
     <div class="view-container">
         <header class="dashboard-header">
-            <div style="display:flex; align-items:center; gap:15px; flex: 1;">
+            <div style="display:flex; align-items:center; gap:15px; flex-grow: 1; flex-shrink: 1; min-width: 0;">
                 <button onclick="toggleSidebar()" class="btn btn--ghost" style="padding: 8px; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-color: rgba(255,255,255,0.1);" title="Скрыть/Показать меню">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -1294,7 +1280,7 @@
                     <option value="custom">Выбрать период...</option>
                 </select>
             </div>
-            <div style="display:flex; align-items:center; gap:15px; flex:1; justify-content:flex-end;">
+            <div style="display:flex; align-items:center; gap:15px; justify-content:flex-end; flex-shrink: 0;">
                 <!-- Live indicator -->
                 <div class="live-indicator-wrap" style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.03); border: var(--glass-border); padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 600;">
                     <span class="pulse-green" style="width:8px; height:8px; background:#10B981; border-radius:50%; box-shadow: 0 0 10px #10B981;"></span>
