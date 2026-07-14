@@ -4811,10 +4811,10 @@
                 trigSelect.value = triggerIndex;
             }
 
-            // Keep status to Fail so they see standard violations, but they can switch to 'all'
+            // Reset status filter to 'all' — trigger filter already shows only violations
             const statusSelect = document.getElementById('filter-status');
             if (statusSelect) {
-                statusSelect.value = 'FAIL';
+                statusSelect.value = 'all';
             }
 
             // Trigger filtering and render the list
