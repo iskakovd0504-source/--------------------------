@@ -6,12 +6,14 @@
     const glassWaveCanvas = document.getElementById('3d-glass-wave');
     if (glassWaveCanvas && typeof THREE !== 'undefined') {
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, glassWaveCanvas.offsetWidth / glassWaveCanvas.offsetHeight, 0.1, 100);
+        const width = glassWaveCanvas.offsetWidth || window.innerWidth;
+        const height = glassWaveCanvas.offsetHeight || 700;
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
         camera.position.z = 6;
 
         const renderer = new THREE.WebGLRenderer({ canvas: glassWaveCanvas, alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(glassWaveCanvas.offsetWidth, glassWaveCanvas.offsetHeight);
+        renderer.setSize(width, height);
 
         // Геометрия сетки точек для звуковой волны
         const geometry = new THREE.PlaneGeometry(16, 2.5, 120, 20);

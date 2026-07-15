@@ -558,3 +558,7 @@ html[data-theme="light"] .step__number {
     background: rgba(6, 182, 212, 0.08) !important;
     color: var(--c-accent-cyan) !important;
 }
+
+html[data-theme="light"] #3d-glass-wave {
+    mix-blend-mode: normal !important;
+}
