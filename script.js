@@ -1320,6 +1320,18 @@
             moons.forEach(m => m.style.display = 'none');
             suns.forEach(s => s.style.display = 'block');
         }
+
+        // Переключаем скриншот дашборда под тему
+        const dashboardImg = document.getElementById('dashboard-img');
+        if (dashboardImg) {
+            const isEn = window.location.pathname.includes('/en/');
+            const prefix = isEn ? '../' : '';
+            if (theme === 'light') {
+                dashboardImg.src = prefix + 'assets/dashboard_light.png';
+            } else {
+                dashboardImg.src = prefix + 'assets/dashboard_real.png';
+            }
+        }
     }
     
     // Инициализация темы при загрузке
