@@ -58,7 +58,15 @@
                     float dist = distance(modelPosition.xy, mouseProj);
                     vDistToMouse = dist;
                     
-                           vec4 viewPosition = viewMatrix * modelPosition;
+                    if (dist < 3.0) {
+                        float force = (3.0 - dist) / 3.0;
+                        // Высокочастотные волнения при приближении курсора
+                        wave += sin(modelPosition.x * 12.0 + uTime * 15.0) * 0.15 * force * edgeDecay;
+                    }
+                    
+                    modelPosition.y += wave;
+
+                    vec4 viewPosition = viewMatrix * modelPosition;
                     vec4 projectedPosition = projectionMatrix * viewPosition;
                     gl_Position = projectedPosition;
                     
@@ -1335,10 +1343,13 @@
             if (theme === 'light') {
                 waveMaterial.uniforms.uColor1.value.set('#0f172a');
                 waveMaterial.uniforms.uColor2.value.set('#3b82f6');
+                waveMaterial.blending = THREE.NormalBlending;
             } else {
                 waveMaterial.uniforms.uColor1.value.set('#06b6d4');
                 waveMaterial.uniforms.uColor2.value.set('#8b5cf6');
+                waveMaterial.blending = THREE.AdditiveBlending;
             }
+            waveMaterial.needsUpdate = true;
         }
     }
     
