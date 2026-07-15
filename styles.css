@@ -3148,3 +3148,110 @@ select {
     }
 }
 
+/* ===== LIGHT THEME VARIABLE OVERRIDES ===== */
+html[data-theme="light"] {
+    --c-bg: #F4F6F9;
+    --c-bg-elevated: #E5E9F0;
+    --c-bg-card: #FFFFFF;
+    --c-bg-card-hover: #ECEFF4;
+    --c-surface: rgba(15, 23, 42, 0.03);
+    --c-border: rgba(15, 23, 42, 0.08);
+    --c-border-hover: rgba(15, 23, 42, 0.16);
+
+    --c-text-primary: #0F172A;
+    --c-text-secondary: #475569;
+    --c-text-muted: #64748B;
+
+    --gradient-hero: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.03));
+    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(244, 246, 249, 0.8));
+    --gradient-glow: radial-gradient(ellipse, rgba(59, 130, 246, 0.08), transparent 70%);
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.12);
+    --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.08);
+    --shadow-glow-lg: 0 0 80px rgba(59, 130, 246, 0.12);
+}
+
+/* Specific Light Theme Adjustments */
+html[data-theme="light"] body {
+    background-color: var(--c-bg);
+    color: var(--c-text-primary);
+}
+
+html[data-theme="light"] .header {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="light"] .mobile-menu {
+    background: #FFFFFF;
+}
+
+html[data-theme="light"] .hero__title, 
+html[data-theme="light"] .section-title,
+html[data-theme="light"] .metric-card__title,
+html[data-theme="light"] .faq__question span,
+html[data-theme="light"] .pricing__title,
+html[data-theme="light"] .testimonial__name,
+html[data-theme="light"] .comparison__title,
+html[data-theme="light"] .footer__logo {
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .hero__subtitle,
+html[data-theme="light"] .section-subtitle,
+html[data-theme="light"] .metric-card__text,
+html[data-theme="light"] .faq__answer p,
+html[data-theme="light"] .pricing__desc,
+html[data-theme="light"] .testimonial__role,
+html[data-theme="light"] .comparison__text,
+html[data-theme="light"] .footer__text {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .pricing__card--calc label {
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .pricing__card--calc h4 {
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .btn--ghost {
+    border-color: var(--c-border);
+    color: var(--c-text-primary);
+}
+
+html[data-theme="light"] .btn--ghost:hover {
+    background: var(--c-bg-elevated);
+}
+
+html[data-theme="light"] .theme-toggle-sun {
+    display: none !important;
+}
+
+html[data-theme="light"] .theme-toggle-moon {
+    display: block !important;
+}
+
+/* Switcher Button Styles */
+.theme-toggle-btn {
+    border: 1px solid var(--c-border) !important;
+    transition: all var(--duration) var(--ease);
+}
+.theme-toggle-btn:hover {
+    background: var(--c-surface) !important;
+    transform: scale(1.05);
+}
+.theme-toggle-btn svg {
+    pointer-events: none;
+}
+.theme-toggle-moon {
+    color: var(--c-accent-blue);
+}
+.theme-toggle-sun {
+    color: var(--c-accent-amber);
+}
+
+

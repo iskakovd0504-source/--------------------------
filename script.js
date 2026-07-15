@@ -1301,4 +1301,45 @@
 
     animatedElements.forEach(el => scrollObserver.observe(el));
 
+    // ===== Переключение тем (Светлая / Темная) =====
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+    
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Обновляем видимость иконок на всех кнопках
+        const moons = document.querySelectorAll('.theme-toggle-moon');
+        const suns = document.querySelectorAll('.theme-toggle-sun');
+        
+        if (theme === 'light') {
+            moons.forEach(m => m.style.display = 'block');
+            suns.forEach(s => s.style.display = 'none');
+        } else {
+            moons.forEach(m => m.style.display = 'none');
+            suns.forEach(s => s.style.display = 'block');
+        }
+    }
+    
+    // Инициализация темы при загрузке
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+    }
+    
+    if (themeToggleMobileBtn) {
+        themeToggleMobileBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+    }
+
 })();
