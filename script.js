@@ -754,8 +754,8 @@
             const maxVal = Math.max(clientCost, 1);
             const costRatio = totalAiCost / maxVal;
             
-            const revenueHeight = 80;
-            const costsHeight = Math.min(80, Math.max(8, Math.round(revenueHeight * costRatio)));
+            const revenueHeight = 50;
+            const costsHeight = Math.min(50, Math.max(8, Math.round(revenueHeight * costRatio)));
             
             barRevenue.style.height = `${revenueHeight}px`;
             barCosts.style.height = `${costsHeight}px`;
