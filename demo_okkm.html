@@ -2829,15 +2829,15 @@
             let pastryBonus = 0;
 
             if (currentTimePeriod === 'yesterday') {
-                totalMultiplier = 1.1;
-                complianceBonus = 3;
-                coffeeBonus = -2;
-                pastryBonus = 4;
+                totalMultiplier = 1.15;
+                complianceBonus = 5;
+                coffeeBonus = -7;
+                pastryBonus = 8;
             } else if (currentTimePeriod === '7d') {
                 totalMultiplier = 7.2;
-                complianceBonus = 1;
-                coffeeBonus = 2;
-                pastryBonus = -3;
+                complianceBonus = -3;
+                coffeeBonus = 6;
+                pastryBonus = -5;
             } else if (currentTimePeriod === 'custom') {
                 let days = 1;
                 if (customDateFrom && customDateTo) {
@@ -2845,9 +2845,9 @@
                     days = Math.max(0.1, diffTime / (1000 * 60 * 60 * 24));
                 }
                 totalMultiplier = days;
-                complianceBonus = Math.floor(Math.sin(days) * 5);
-                coffeeBonus = Math.floor(Math.cos(days) * 4);
-                pastryBonus = Math.floor(Math.sin(days * 2) * 3);
+                complianceBonus = Math.floor(Math.sin(days) * 8);
+                coffeeBonus = Math.floor(Math.cos(days) * 7);
+                pastryBonus = Math.floor(Math.sin(days * 2) * 6);
             }
 
             // Recalculate based on period
@@ -4660,18 +4660,38 @@
 
         function getTriggerScore(triggerName, stationId, period) {
             const stats = getTriggerRawStats(triggerName, stationId);
+            let baseScore = 0;
             if (stats.totalClients > 0) {
-                return Math.round((stats.compliantClients / stats.totalClients) * 100) + "%";
+                baseScore = Math.round((stats.compliantClients / stats.totalClients) * 100);
+            } else {
+                let hash = 0;
+                const key = triggerName + stationId;
+                for (let i = 0; i < key.length; i++) {
+                    hash = (hash << 5) - hash + key.charCodeAt(i);
+                    hash |= 0;
+                }
+                baseScore = 65 + Math.abs(hash % 26);
             }
             
-            let hash = 0;
-            const key = triggerName + stationId + period;
-            for (let i = 0; i < key.length; i++) {
-                hash = (hash << 5) - hash + key.charCodeAt(i);
-                hash |= 0;
+            // Apply period-specific offsets so numbers change visibly
+            let periodBonus = 0;
+            let nameHash = 0;
+            for (let i = 0; i < triggerName.length; i++) {
+                nameHash = (nameHash << 3) + triggerName.charCodeAt(i);
+                nameHash |= 0;
             }
-            const val = 65 + Math.abs(hash % 26);
-            return val + "%";
+            const sign = (Math.abs(nameHash) % 2 === 0) ? 1 : -1;
+            const magnitude = 3 + (Math.abs(nameHash) % 6); // 3..8
+            
+            if (period === 'yesterday') {
+                periodBonus = sign * magnitude;
+            } else if (period === '7d') {
+                periodBonus = -sign * (magnitude - 1);
+            } else if (period === 'custom') {
+                periodBonus = sign * Math.floor(magnitude / 2);
+            }
+            
+            return Math.min(100, Math.max(0, baseScore + periodBonus)) + "%";
         }
 
         function getTimePeriodLabel(period) {
