@@ -1590,8 +1590,7 @@
                 </div>
                 
                 <div class="header-filter-wrap">
-                    <span class="header-filter-icon">🕒</span>
-                    <select id="time-filter" onchange="onTimeFilterChange(this.value)" class="header-filter-select" style="width: 210px;">
+                    <select id="time-filter" onchange="onTimeFilterChange(this.value)" class="header-filter-select" style="width: 260px;">
                         <option value="24h">За последние 24 часа</option>
                         <option value="yesterday">Вчера</option>
                         <option value="7d">За последние 7 дней</option>
@@ -1600,13 +1599,6 @@
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:15px; justify-content:flex-end; flex-shrink: 0;">
-                <!-- Live indicator -->
-                <div class="live-indicator-wrap" style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.03); border: var(--glass-border); padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 600;">
-                    <span class="pulse-green" style="width:8px; height:8px; background:#10B981; border-radius:50%; box-shadow: 0 0 10px #10B981;"></span>
-                    <span class="live-indicator-text" style="color: rgba(255,255,255,0.7);">live</span>
-                    <span style="opacity:0.3; color: white;">|</span>
-                    <span id="live-time-display" style="font-family: monospace; font-weight:700; color: white;">--:--:--</span>
-                </div>
                 
                 <div class="admin-text" style="font-size: 13px; color: rgba(255,255,255,0.6); font-weight:500;">admin@azs.local</div>
                 
@@ -6706,17 +6698,6 @@
 
         window.addEventListener('DOMContentLoaded', () => { 
             renderAnalytics(); 
-            
-            // Start live time display
-            function updateLiveTime() {
-                const now = new Date();
-                const pad = (num) => String(num).padStart(2, '0');
-                const timeStr = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
-                const el = document.getElementById('live-time-display');
-                if (el) el.innerText = timeStr;
-            }
-            updateLiveTime();
-            setInterval(updateLiveTime, 1000);
 
             const urlParams = new URLSearchParams(window.location.search);
             const dialogId = urlParams.get('dialog');
