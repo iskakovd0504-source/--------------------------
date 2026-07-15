@@ -2552,7 +2552,8 @@
                 employees: [
                     { id: 1, name: "Виктория", score: 9.9, calls: 210, status: "green", upsell: [98, 95, 92, 100], badgeStatus: 'in-use', rfid: '1D-C4-77-10', batteryLeft: 16, badgeHistory: [], location: "Аптека №12" },
                     { id: 2, name: "Евгений", score: 8.2, calls: 185, status: "green", upsell: [75, 60, 85, 80], badgeStatus: 'ready', rfid: '2E-B9-33-11', batteryLeft: 8, badgeHistory: [], location: "Аптека №45" },
-                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45], badgeStatus: 'syncing', rfid: '6F-A2-88-12', batteryLeft: 2, badgeHistory: [{t: "11:20", d: "12 мин"}], location: "Аптека №12" }
+                    { id: 6, name: "Алина", score: 4.8, calls: 140, status: "red", upsell: [40, 30, 50, 45], badgeStatus: 'syncing', rfid: '6F-A2-88-12', batteryLeft: 2, badgeHistory: [{t: "11:20", d: "12 мин"}], location: "Аптека №12" },
+                    { id: 7, name: "Ирина", score: 5.5, calls: 94, status: "amber", upsell: [55, 50, 45, 60], badgeStatus: 'in-use', rfid: '7E-D9-55-14', batteryLeft: 9, badgeHistory: [], location: "Аптека №12" }
                 ],
                 dialogs: [
                     { id: 2045, emp: "Виктория", time: "11:15", topic: "Антибиотик + Пробиотик", script: "100%", tone: "Позитивный", review: "Фармацевт грамотно обосновал необходимость защиты микрофлоры." },
@@ -2646,8 +2647,17 @@
                 greeting = 0;
                 coffee = 31;
                 pastry = 22;
+            } else if (stId === '2') {
+                name = "Татьяна";
+                score = 5.8;
+                calls = 94;
+                greeting = 50;
+                coffee = 45;
+                pastry = 60;
             } else {
-                name = generatedNames[i] || `Сотрудник ${i + 1}`;
+                let genName = generatedNames[i] || `Сотрудник ${i + 1}`;
+                if (genName === "Татьяна А.") genName = "Светлана Р.";
+                name = genName;
                 score = parseFloat((7.0 + Math.random() * 2.8).toFixed(1));
                 calls = Math.floor(80 + Math.random() * 70);
                 greeting = Math.floor(85 + Math.random() * 15);
@@ -3399,9 +3409,9 @@
             // Top Employees List
             const topList = document.getElementById('top-list');
             if (topList) {
-                let stationEmployees = employees;
+                let stationEmployees = employees.map(e => getDynamicEmployee(e, currentTimePeriod));
                 if (selectedStationId && selectedStationId !== 'all') {
-                    stationEmployees = employees.filter(e => e.stationId === selectedStationId);
+                    stationEmployees = stationEmployees.filter(e => e.stationId === selectedStationId);
                 }
                 const sortedEmps = [...stationEmployees].sort((a, b) => b.score - a.score);
                 topList.innerHTML = sortedEmps.slice(0, 3).map((e, index) => {
@@ -3492,9 +3502,9 @@
             // Worst Employees List
             const worstList = document.getElementById('worst-list');
             if (worstList) {
-                let stationEmployees = employees;
+                let stationEmployees = employees.map(e => getDynamicEmployee(e, currentTimePeriod));
                 if (selectedStationId && selectedStationId !== 'all') {
-                    stationEmployees = employees.filter(e => e.stationId === selectedStationId);
+                    stationEmployees = stationEmployees.filter(e => e.stationId === selectedStationId);
                 }
                 const sortedWorst = [...stationEmployees].sort((a, b) => a.score - b.score);
                 worstList.innerHTML = sortedWorst.slice(0, 3).map((e, index) => {
@@ -4223,6 +4233,37 @@
             renderEmployees();
         }
 
+        function getDynamicEmployee(e, period) {
+            let displayScore = e.score;
+            let displayGreeting = e.greeting;
+            let displayCoffee = e.coffee || '0%';
+            let displayPastry = e.pastry || '0%';
+
+            if (period === '24h' || period === 'yesterday') {
+                const offset = e.id + (period === 'yesterday' ? 3 : 8);
+                const diff = parseFloat((((offset % 5) - 2) * 0.15).toFixed(2)); // -0.3 to +0.3
+                displayScore = Math.min(10.0, Math.max(3.0, parseFloat((e.score + diff).toFixed(1))));
+
+                const gVal = Math.min(100, Math.max(0, parseInt(e.greeting.toString().replace('%', '')) + (offset % 7) - 3));
+                displayGreeting = `${gVal}%`;
+
+                const cVal = Math.min(100, Math.max(0, parseInt(displayCoffee.toString().replace('%', '')) + (offset % 5) - 2));
+                displayCoffee = `${cVal}%`;
+
+                const pVal = Math.min(100, Math.max(0, parseInt(displayPastry.toString().replace('%', '')) + (offset % 9) - 4));
+                displayPastry = `${pVal}%`;
+            }
+
+            return {
+                ...e,
+                computedScore: displayScore,
+                computedGreeting: displayGreeting,
+                computedCoffee: displayCoffee,
+                computedPastry: displayPastry,
+                score: displayScore // override base score for correct sorting
+            };
+        }
+
         function renderEmployees(dataToRender) {
             const filterEl = document.getElementById('station-filter');
             const selectedStationId = filterEl ? filterEl.value : 'all';
@@ -4253,36 +4294,7 @@
             }
 
             // Pre-calculate computed values for the period so sorting matches the rendered digits!
-            let computedList = list.map(e => {
-                let displayScore = e.score;
-                let displayGreeting = e.greeting;
-                let displayCoffee = e.coffee || '0%';
-                let displayPastry = e.pastry || '0%';
-
-                if (currentTimePeriod === '24h' || currentTimePeriod === 'yesterday') {
-                    // Introduce small, realistic deviations based on employee ID and period
-                    const offset = e.id + (currentTimePeriod === 'yesterday' ? 3 : 8);
-                    const diff = parseFloat((((offset % 5) - 2) * 0.15).toFixed(2)); // -0.3 to +0.3
-                    displayScore = Math.min(10.0, Math.max(3.0, parseFloat((e.score + diff).toFixed(1))));
-
-                    const gVal = Math.min(100, Math.max(0, parseInt(e.greeting.toString().replace('%', '')) + (offset % 7) - 3));
-                    displayGreeting = `${gVal}%`;
-
-                    const cVal = Math.min(100, Math.max(0, parseInt(displayCoffee.toString().replace('%', '')) + (offset % 5) - 2));
-                    displayCoffee = `${cVal}%`;
-
-                    const pVal = Math.min(100, Math.max(0, parseInt(displayPastry.toString().replace('%', '')) + (offset % 9) - 4));
-                    displayPastry = `${pVal}%`;
-                }
-
-                return {
-                    ...e,
-                    computedScore: displayScore,
-                    computedGreeting: displayGreeting,
-                    computedCoffee: displayCoffee,
-                    computedPastry: displayPastry
-                };
-            });
+            let computedList = list.map(e => getDynamicEmployee(e, currentTimePeriod));
 
             // Apply active sorting on computed values
             if (employeeSortField) {
