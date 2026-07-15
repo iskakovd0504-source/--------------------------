@@ -455,3 +455,106 @@ hr, .hero__stat-divider {
     color: white !important;
     box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15) !important;
 }
+
+/* ===== LIGHT THEME FOR REFINED STYLES ===== */
+html[data-theme="light"] {
+    --c-bg: #F4F6F9;
+    --c-bg-elevated: #E5E9F0;
+    --c-bg-card: #FFFFFF;
+    --c-bg-card-hover: #ECEFF4;
+    --c-border: rgba(15, 23, 42, 0.08);
+    --c-border-hover: rgba(15, 23, 42, 0.16);
+    --c-text-primary: #0F172A;
+    --c-text-secondary: #475569;
+}
+
+html[data-theme="light"] body {
+    background: #F4F6F9 !important;
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .problem__card, 
+html[data-theme="light"] .metric-card, 
+html[data-theme="light"] .industry-card, 
+html[data-theme="light"] .pricing__card, 
+html[data-theme="light"] .faq__item, 
+html[data-theme="light"] .ai-demo__player-box, 
+html[data-theme="light"] .ai-demo__analysis, 
+html[data-theme="light"] .roi-calc__controls, 
+html[data-theme="light"] .roi-calc__results {
+    background: #FFFFFF !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05) !important;
+}
+
+html[data-theme="light"] .problem__card:hover, 
+html[data-theme="light"] .metric-card:hover, 
+html[data-theme="light"] .industry-card:hover {
+    background: #ECEFF4 !important;
+    border-color: rgba(6, 182, 212, 0.3) !important;
+}
+
+html[data-theme="light"] .cta-form__input, 
+html[data-theme="light"] .cta-form__select {
+    color: #0F172A !important;
+    border-bottom-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+html[data-theme="light"] .cta-form__input:focus, 
+html[data-theme="light"] .cta-form__select:focus {
+    border-bottom-color: var(--c-accent-cyan) !important;
+}
+
+html[data-theme="light"] .cta-form__disclaimer, 
+html[data-theme="light"] .pricing__note, 
+html[data-theme="light"] .steps__preview-wrap {
+    color: #64748B !important;
+}
+
+html[data-theme="light"] .steps__preview-wrap {
+    background: #FFFFFF !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-theme="light"] .header.scrolled {
+    background: rgba(255, 255, 255, 0.85) !important;
+}
+
+html[data-theme="light"] .hero__floating-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-theme="light"] .btn--primary {
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    border: none !important;
+}
+
+html[data-theme="light"] .btn--ghost {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.15) !important;
+    color: #0F172A !important;
+}
+html[data-theme="light"] .btn--ghost:hover {
+    background: #ECEFF4 !important;
+}
+
+html[data-theme="light"] .demo-selector__btn {
+    background: #FFFFFF !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
+    color: #475569 !important;
+}
+html[data-theme="light"] .demo-selector__btn:hover {
+    color: #0F172A !important;
+}
+html[data-theme="light"] .demo-selector__btn.active {
+    background: rgba(6, 182, 212, 0.08) !important;
+    border-color: var(--c-accent-cyan) !important;
+    color: var(--c-accent-cyan) !important;
+}
+
+html[data-theme="light"] .step__number {
+    background: rgba(6, 182, 212, 0.08) !important;
+    color: var(--c-accent-cyan) !important;
+}
