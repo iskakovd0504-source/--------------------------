@@ -551,6 +551,9 @@
             color: #3b82f6 !important;
             border-color: rgba(59, 130, 246, 0.3) !important;
         }
+        body.light-theme-active .station-name-text {
+            color: #1e293b !important;
+        }
 
         /* Back banners styling */
         #dialogs-back-to-profile-bar {
@@ -3347,22 +3350,31 @@
             // Geo List
             const geoList = document.getElementById('geo-list');
             if (geoList) {
-                geoList.innerHTML = c.geo.map(g => `
-                    <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.03); padding:12px 16px; border-radius:12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.03)';" onmouseout="this.style.background='rgba(255,255,255,0.01)';">
-                        <div style="display:flex; align-items:center; gap:12px; min-width:0; flex:1;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:${g.color}; box-shadow: 0 0 8px ${g.color}99; flex-shrink:0;"></div>
-                            <div style="min-width:0; flex:1;">
-                                <div style="font-weight:700; font-size:13px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                    ${g.name}
+                const negativeGeo = c.geo.filter(g => g.color !== '#10B981');
+                if (negativeGeo.length === 0) {
+                    geoList.innerHTML = `
+                        <div style="text-align:center; padding:20px; font-size:13px; color:rgba(255,255,255,0.4); font-weight:700;">
+                            ✨ Нарушений в регионах не зафиксировано
+                        </div>
+                    `;
+                } else {
+                    geoList.innerHTML = negativeGeo.map(g => `
+                        <div onclick="goToDialogsFromGeo('${g.name.replace(/'/g, "\\'")}', '${g.info.replace(/'/g, "\\'")}')" style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.03); padding:12px 16px; border-radius:12px; transition: all 0.2s; cursor:pointer;" onmouseover="this.style.background='rgba(59,130,246,0.05)'; this.style.borderColor='rgba(59,130,246,0.15)';" onmouseout="this.style.background='rgba(255,255,255,0.01)'; this.style.borderColor='rgba(255,255,255,0.03)';">
+                            <div style="display:flex; align-items:center; gap:12px; min-width:0; flex:1;">
+                                <div style="width:8px; height:8px; border-radius:50%; background:${g.color}; box-shadow: 0 0 8px ${g.color}99; flex-shrink:0;"></div>
+                                <div style="min-width:0; flex:1;">
+                                    <div style="font-weight:700; font-size:13px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" class="station-name-text">
+                                        ${g.name}
+                                    </div>
+                                    <div style="font-size:10px; opacity:0.4; margin-top:2px;">Регион обслуживания</div>
                                 </div>
-                                <div style="font-size:10px; opacity:0.4; margin-top:2px;">Регион обслуживания</div>
+                            </div>
+                            <div style="text-align:right; flex-shrink:0; font-weight:800; font-size:11px; color:${g.color}; background:${g.color}15; padding:4px 10px; border-radius:6px; border:1px solid ${g.color}33; text-transform:uppercase; letter-spacing:0.3px;">
+                                ${g.info}
                             </div>
                         </div>
-                        <div style="text-align:right; flex-shrink:0; font-weight:800; font-size:11px; color:${g.color}; background:${g.color}15; padding:4px 10px; border-radius:6px; border:1px solid ${g.color}33; text-transform:uppercase; letter-spacing:0.3px;">
-                            ${g.info}
-                        </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
             }
  
             // Worst Employees List
@@ -3997,6 +4009,53 @@
                     }
                 });
             }, 1000);
+        }
+
+        function findStationIdByName(geoName) {
+            const c = config[currentMode];
+            const idx = c.stations.findIndex(s => s.toLowerCase().includes(geoName.toLowerCase()) || geoName.toLowerCase().includes(s.toLowerCase()));
+            if (idx > 0 && c.hardwareStations[idx - 1]) {
+                return c.hardwareStations[idx - 1].id;
+            }
+            if (geoName.includes("№1")) return "1";
+            if (geoName.includes("№7")) return "7";
+            if (geoName.includes("12")) return "1";
+            if (geoName.includes("45")) return "7";
+            if (geoName.includes("08")) return "tobyl";
+            if (geoName.includes("Тобыл")) return "tobyl";
+            if (geoName.includes("Федоровка")) return "fedorovka";
+            return "all";
+        }
+
+        function goToDialogsFromGeo(geoName, info) {
+            const stationId = findStationIdByName(geoName);
+            
+            const stationFilter = document.getElementById('station-filter');
+            if (stationFilter) {
+                stationFilter.value = stationId;
+                onStationFilterChange(stationId);
+            }
+            
+            const triggerFilter = document.getElementById('filter-trigger');
+            if (triggerFilter) {
+                if (info.toLowerCase().includes('акциях') || info.toLowerCase().includes('акции')) {
+                    triggerFilter.value = currentMode === 'azs' ? "Выпечка и кросс-сейл (ТРИГГЕР №3)" : "all";
+                } else if (info.toLowerCase().includes('кофе')) {
+                    triggerFilter.value = currentMode === 'azs' ? "Продажа кофе (ТРИГГЕР №2)" : "all";
+                } else if (info.toLowerCase().includes('пробиотиков')) {
+                    triggerFilter.value = currentMode === 'pharmacy' ? "Пробиотики" : "all";
+                } else {
+                    triggerFilter.value = "all";
+                }
+            }
+            
+            const statusFilter = document.getElementById('filter-status');
+            if (statusFilter) {
+                statusFilter.value = "FAIL";
+            }
+
+            renderDialogs();
+            switchTab('dialogs');
         }
 
         function showBadgeViolations() {
