@@ -3,6 +3,7 @@
  */
 (function () {
     /* ===== THREE.JS 3D GLASS WINE/WAVE SHADER ===== */
+    let waveMaterial = null;
     const glassWaveCanvas = document.getElementById('3d-glass-wave');
     if (glassWaveCanvas && typeof THREE !== 'undefined') {
         const scene = new THREE.Scene();
@@ -57,15 +58,7 @@
                     float dist = distance(modelPosition.xy, mouseProj);
                     vDistToMouse = dist;
                     
-                    if (dist < 3.0) {
-                        float force = (3.0 - dist) / 3.0;
-                        // Высокочастотные волнения при приближении курсора
-                        wave += sin(modelPosition.x * 12.0 + uTime * 15.0) * 0.15 * force * edgeDecay;
-                    }
-                    
-                    modelPosition.y += wave;
-
-                    vec4 viewPosition = viewMatrix * modelPosition;
+                           vec4 viewPosition = viewMatrix * modelPosition;
                     vec4 projectedPosition = projectionMatrix * viewPosition;
                     gl_Position = projectedPosition;
                     
@@ -75,6 +68,8 @@
                 }
             `,
             fragmentShader: `
+                uniform vec3 uColor1;
+                uniform vec3 uColor2;
                 varying vec2 vUv;
                 varying float vDistToMouse;
 
@@ -86,13 +81,9 @@
                     // Мягкое экспоненциальное затухание свечения точки
                     float strength = 1.0 - (distToCenter * 2.0);
                     strength = pow(strength, 2.0);
-
-                    // Luxury Tech Неоновые градиенты (от бирюзового к фиолетовому)
-                    vec3 neonCyan = vec3(0.06, 0.65, 0.95);  // #0EA5E9
-                    vec3 neonPurple = vec3(0.55, 0.36, 0.96); // #8B5CF6
                     
                     // Градиент по ширине волны
-                    vec3 finalColor = mix(neonCyan, neonPurple, vUv.x);
+                    vec3 finalColor = mix(uColor1, uColor2, vUv.x);
                     
                     // Дополнительный импульс свечения вблизи курсора
                     if (vDistToMouse < 3.0) {
@@ -108,9 +99,13 @@
             blending: THREE.AdditiveBlending, // Аддитивное смешивание для красивого свечения точек
             uniforms: {
                 uTime: { value: 0 },
-                uMouse: { value: new THREE.Vector2(0, 0) }
+                uMouse: { value: new THREE.Vector2(0, 0) },
+                uColor1: { value: new THREE.Color('#06B6D4') },
+                uColor2: { value: new THREE.Color('#8B5CF6') }
             }
         });
+
+        waveMaterial = material;
 
         // Создаем систему частиц (Points) вместо цельной плоскости
         const points = new THREE.Points(geometry, material);
@@ -1332,6 +1327,17 @@
                 dashboardImg.src = prefix + 'assets/dashboard_light.png';
             } else {
                 dashboardImg.src = prefix + 'assets/dashboard_real.png';
+            }
+        }
+
+        // Меняем цвет точек 3D волны под тему (темные точки для светлой темы, яркие неоновые для темной)
+        if (typeof THREE !== 'undefined' && waveMaterial) {
+            if (theme === 'light') {
+                waveMaterial.uniforms.uColor1.value.set('#0f172a');
+                waveMaterial.uniforms.uColor2.value.set('#3b82f6');
+            } else {
+                waveMaterial.uniforms.uColor1.value.set('#06b6d4');
+                waveMaterial.uniforms.uColor2.value.set('#8b5cf6');
             }
         }
     }
