@@ -4046,6 +4046,20 @@
         }
 
         function goToDialogsFromGeo(geoName, info) {
+            // Clear profile context
+            comingFromEmployeeProfile = '';
+            const profileBar = document.getElementById('dialogs-back-to-profile-bar');
+            if (profileBar) profileBar.style.display = 'none';
+
+            // Show KPI back banner
+            const kpiBar = document.getElementById('dialogs-back-to-kpi-bar');
+            const kpiLabelEl = document.getElementById('dialogs-back-kpi-name');
+            if (kpiBar && kpiLabelEl) {
+                const shortLoc = geoName.split(' (')[0];
+                kpiLabelEl.innerText = `Инцидент: ${shortLoc} — ${info}`;
+                kpiBar.style.display = 'flex';
+            }
+
             const stationId = findStationIdByName(geoName);
             
             const stationFilter = document.getElementById('station-filter');
@@ -5692,9 +5706,26 @@
             // Sync dates back to default (14.07.2026)
             syncDateFilters('2026-07-14', '2026-07-14');
 
+            // Reset other filters
+            const stationFilter = document.getElementById('station-filter');
+            if (stationFilter) stationFilter.value = 'all';
+
+            const empFilter = document.getElementById('filter-employee');
+            if (empFilter) empFilter.value = 'all';
+
+            const trigFilter = document.getElementById('filter-trigger');
+            if (trigFilter) trigFilter.value = 'all';
+
+            const statusFilter = document.getElementById('filter-status');
+            if (statusFilter) statusFilter.value = 'all';
+
             // Hide back to kpi banner
             const kpiBar = document.getElementById('dialogs-back-to-kpi-bar');
             if (kpiBar) kpiBar.style.display = 'none';
+
+            // Apply updates
+            onStationFilterChange('all');
+            renderDialogs();
 
             // Navigate back to overview
             switchTab('analytics');
