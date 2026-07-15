@@ -6472,13 +6472,15 @@
                     <line x1="12" y1="16" x2="12" y2="12"/>
                     <line x1="12" y1="8" x2="12.01" y2="8"/>
                 </svg>
-                <span>${message}</span>
+                <span style="flex:1;">${message}</span>
+                <span class="toast-close" onclick="this.parentElement.classList.add('fade-out'); setTimeout(() => this.parentElement.remove(), 300);" style="cursor:pointer; font-size:18px; font-weight:700; opacity:0.4; transition:opacity 0.15s; flex-shrink:0; padding:0 2px; line-height:1;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.4'">&times;</span>
             `;
             container.appendChild(toast);
-            setTimeout(() => {
+            const autoTimer = setTimeout(() => {
                 toast.classList.add('fade-out');
                 setTimeout(() => toast.remove(), 400);
             }, 4000);
+            toast.querySelector('.toast-close').addEventListener('click', () => clearTimeout(autoTimer));
         }
         function showModelUpdate() {
             const status = document.getElementById('model-status');
