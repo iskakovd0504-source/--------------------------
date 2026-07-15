@@ -32,6 +32,7 @@
             vertexShader: `
                 uniform float uTime;
                 uniform vec2 uMouse;
+                uniform float uTheme;
                 varying vec2 vUv;
                 varying float vDistToMouse;
 
@@ -72,12 +73,14 @@
                     
                     // Размер частиц зависит от расстояния до камеры и мыши
                     float sizeFactor = 1.0 + (3.0 - min(dist, 3.0)) * 0.5;
-                    gl_PointSize = (18.0 * sizeFactor) * (1.0 / -viewPosition.z);
+                    float baseSize = mix(18.0, 32.0, uTheme); // Увеличиваем размер точек в светлой теме
+                    gl_PointSize = (baseSize * sizeFactor) * (1.0 / -viewPosition.z);
                 }
             `,
             fragmentShader: `
                 uniform vec3 uColor1;
                 uniform vec3 uColor2;
+                uniform float uTheme;
                 varying vec2 vUv;
                 varying float vDistToMouse;
 
@@ -99,7 +102,8 @@
                         finalColor = mix(finalColor, vec3(1.0, 1.0, 1.0), glow * 0.3);
                     }
 
-                    gl_FragColor = vec4(finalColor, strength * 0.85);
+                    float alphaFactor = mix(0.85, 1.0, uTheme); // Увеличиваем прозрачность/насыщенность в светлой теме
+                    gl_FragColor = vec4(finalColor, strength * alphaFactor);
                 }
             `,
             transparent: true,
@@ -108,6 +112,7 @@
             uniforms: {
                 uTime: { value: 0 },
                 uMouse: { value: new THREE.Vector2(0, 0) },
+                uTheme: { value: 0.0 },
                 uColor1: { value: new THREE.Color('#06B6D4') },
                 uColor2: { value: new THREE.Color('#8B5CF6') }
             }
@@ -1343,10 +1348,12 @@
             if (theme === 'light') {
                 waveMaterial.uniforms.uColor1.value.set('#0f172a');
                 waveMaterial.uniforms.uColor2.value.set('#3b82f6');
+                waveMaterial.uniforms.uTheme.value = 1.0;
                 waveMaterial.blending = THREE.NormalBlending;
             } else {
                 waveMaterial.uniforms.uColor1.value.set('#06b6d4');
                 waveMaterial.uniforms.uColor2.value.set('#8b5cf6');
+                waveMaterial.uniforms.uTheme.value = 0.0;
                 waveMaterial.blending = THREE.AdditiveBlending;
             }
             waveMaterial.needsUpdate = true;
