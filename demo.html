@@ -4959,24 +4959,7 @@
             const replacementPill = document.querySelector('.alert-pill-top');
             if (replacementPill) replacementPill.style.display = 'none';
 
-            // Show right header controls
-            let rightHeaderControls = document.getElementById('header-right-controls');
-            if (!rightHeaderControls) {
-                rightHeaderControls = document.createElement('div');
-                rightHeaderControls.id = 'header-right-controls';
-                rightHeaderControls.style.cssText = 'display:flex; align-items:center; gap:20px; font-size:13px;';
-                
-                const headerRight = document.querySelector('.dashboard-header > div:last-child');
-                headerRight.insertBefore(rightHeaderControls, headerRight.firstChild);
-            }
-            rightHeaderControls.innerHTML = `
-                <div style="display:flex; align-items:center; gap:8px; color:#A0AEC0;">
-                    <span style="width:8px; height:8px; background:#10B981; border-radius:50%; display:inline-block; box-shadow: 0 0 8px #10B981;"></span>
-                    idle
-                </div>
-                <div style="color:#718096; font-family:monospace;">admin@demo.local</div>
-            `;
-            rightHeaderControls.style.display = 'flex';
+
 
             // Populate Metadata
             document.getElementById('detail-audio-meta').innerText = `${d.audioDate || '2026-07-01 00:36:43'} · ${d.audioFile || '00000004___20260701_003643_4_VEDETSYA_A.WAV'}`;
