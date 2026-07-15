@@ -115,8 +115,14 @@
         scene.add(points);
 
         const clock = new THREE.Clock();
+        let animationFrameId = null;
+        let isCanvasVisible = true;
 
         function tick() {
+            if (!isCanvasVisible) {
+                animationFrameId = null;
+                return;
+            }
             const elapsedTime = clock.getElapsedTime();
             material.uniforms.uTime.value = elapsedTime;
 
@@ -129,7 +135,24 @@
             animationFrameId = requestAnimationFrame(tick);
         }
 
-        tick();
+        const waveObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isCanvasVisible = entry.isIntersecting;
+                if (isCanvasVisible) {
+                    if (!animationFrameId) {
+                        clock.getDelta(); // сбросить дельту времени
+                        tick();
+                    }
+                } else {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                }
+            });
+        }, { threshold: 0.05 });
+
+        waveObserver.observe(glassWaveCanvas);
 
         // Адаптивность при ресайзе
         window.addEventListener('resize', () => {
