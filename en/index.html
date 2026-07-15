@@ -845,77 +845,7 @@
             </div>
         </section>
 
-        <!-- ===== ROI CALCULATOR ===== -->
-        <section class="roi-calc" id="roi-calc" style="padding: var(--space-24) 0; background: var(--c-bg); border-top: 1px solid var(--c-border);">
-            <div class="container">
-                <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">Tariff Calculator</span>
-                    <h2 class="section-title">Calculate the cost of <span class="gradient-text">service</span></h2>
-                    <p class="section-subtitle">Specify your network parameters to find out the volume of audio analytics and the monthly budget</p>
-                </div>
-                <div class="roi-calc__grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-12); align-items: start;" data-animate="fade-up" data-delay="100">
-                    <!-- Left: Controls -->
-                    <div class="roi-calc__controls" style="background: var(--c-bg-card); border: 1px solid var(--c-border); padding: var(--space-8); border-radius: var(--r-2xl); display: flex; flex-direction: column; gap: var(--space-6);">
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Number of points (stations / shops)</label>
-                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">1 pcs</span>
-                            </div>
-                            <input type="range" id="range-badges" min="1" max="100" value="1" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
 
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Employees in shift (per point)</label>
-                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">2 ppl</span>
-                            </div>
-                            <input type="range" id="range-ticket" min="1" max="10" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
-
-                        <div class="calc-group">
-                            <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Shift duration (working hours)</label>
-                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">12 hrs</span>
-                            </div>
-                            <input type="range" id="range-tx" min="8" max="12" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
-                        </div>
-                    </div>
-
-                    <!-- Right: Results display -->
-                    <div class="roi-calc__results" style="background: var(--gradient-card); border: 2px solid rgba(6, 182, 212, 0.3); padding: var(--space-8); border-radius: var(--r-2xl); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
-                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Calculation Results (per month)</h4>
-                        
-                        <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Total audio analysis volume</span>
-                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">720 hrs</span>
-                        </div>
-
-                        <div class="roi-result-item" style="text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Cost of service</span>
-                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-cyan);">$360 / mo</span>
-                        </div>
-
-                        <!-- Visual mini-chart -->
-                        <div class="roi-chart-container" style="margin: var(--space-4) 0; height: 110px; display: flex; align-items: flex-end; justify-content: space-around; background: rgba(255,255,255,0.02); border-radius: var(--r-lg); padding: 10px; border: 1px solid var(--c-border); position: relative;">
-                            <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
-                                <div id="bar-costs" style="width: 32px; height: 10px; background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.8) 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 2px 10px rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4);"></div>
-                                <span id="bar-costs-label" style="font-size: 10px; font-weight: 600; color: #ef4444; margin-top: 4px;">$216</span>
-                                <span style="font-size: 9px; color: var(--c-text-muted); white-space: nowrap;">AI Cost</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
-                                <div id="bar-revenue" style="width: 32px; height: 80px; background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);"></div>
-                                <span id="bar-revenue-label" style="font-size: 10px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 4px;">$360</span>
-                                <span style="font-size: 9px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Client Tariff</span>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: var(--space-4); text-align: center;">
-                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Order calculation</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- ===== COMPARISON ===== -->
         <section class="comparison" id="comparison">
@@ -1182,52 +1112,113 @@
         <section class="pricing" id="pricing">
             <div class="container">
                 <div class="section-header" data-animate="fade-up">
-                    <h2 class="section-title">Individual <span class="gradient-text">solution</span></h2>
-                    <p class="section-subtitle">We will calculate the cost for your tasks and scale</p>
+                    <h2 class="section-title">Flexible Pricing <span class="gradient-text">Plans</span></h2>
+                    <p class="section-subtitle">Choose the optimal package for the tasks and scale of your business</p>
                 </div>
-                <div class="pricing__grid" style="grid-template-columns: 1fr; max-width: 500px;">
-                    <!-- Single Plan: Analysis + Motivation -->
-                    <div class="pricing__card pricing__card--featured" data-animate="fade-up" data-delay="100">
+
+                <div class="pricing__grid">
+                    <!-- Plan 1: Promo Start -->
+                    <div class="pricing__card" data-animate="fade-up" data-delay="50">
                         <div class="pricing__header">
-                            <h3 class="pricing__title">Analytics + Motivation</h3>
-                            <div class="pricing__price" style="font-size: 1.8rem;">Individual calculation</div>
-                            <p class="pricing__desc">For any number of employees</p>
+                            <span class="pricing__tag" style="background: rgba(6, 182, 212, 0.1); color: var(--c-accent-cyan); padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; display: inline-block; margin-bottom: 12px;">For Campaigns & Promo</span>
+                            <h3 class="pricing__title">Promo Start</h3>
+                            <div class="pricing__price" style="font-size: 1.8rem; margin: 12px 0;">20 000 ₸ <span style="font-size: 0.9rem; font-weight: normal; color: var(--c-text-muted);">/ 10 days per employee</span></div>
+                            <p class="pricing__desc">Ideal for advertising campaigns, promo actions, BTL, and express tests</p>
                         </div>
-                        <ul class="pricing__features">
+                        <ul class="pricing__features" style="margin-top: 20px;">
                             <li>
-                                <svg fill="none" height="20" viewbox="0 0 20 20" width="20">
-                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"></path>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <strong>Full access to the platform</strong>
+                                AI badge rental for 10 days
                             </li>
                             <li>
-                                <svg fill="none" height="20" viewbox="0 0 20 20" width="20">
-                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"></path>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                Personal account and dashboards
+                                2 promo scripts in analytics
                             </li>
                             <li>
-                                <svg fill="none" height="20" viewbox="0 0 20 20" width="20">
-                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"></path>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                Automatic dialogue quality assessment
+                                Dashboard access for campaign duration
                             </li>
                             <li>
-                                <svg fill="none" height="20" viewbox="0 0 20 20" width="20">
-                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2"></path>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.666 5L7.5 14.166 3.333 10" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                AI analysis of conflicts and scripts
+                                Activity & engagement report
                             </li>
                         </ul>
-                        <div class="pricing__note"
-                            style="text-align: center; margin-bottom: 20px; font-size: 0.9em; color: var(--c-text-muted);">
-                            * + one-time purchase of audio badge
+                        <div class="pricing__note" style="text-align: center; margin-bottom: 20px; font-size: 0.9em; color: var(--c-text-muted); opacity: 0;">&nbsp;</div>
+                        <a href="https://wa.me/77775556789?text=Hello!%20I%20am%20interested%20in%20the%20«Promo%20Start»%20tariff" target="_blank" rel="noopener" class="btn btn--ghost btn--lg btn--full" style="margin-top: auto;">Order test drive</a>
+                    </div>
+
+                    <!-- Tariff Calculator Card -->
+                    <div class="pricing__card pricing__card--calc" data-animate="fade-up" data-delay="100" style="grid-column: span 2; display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-6); background: var(--c-bg-card); border: 2px solid rgba(6, 182, 212, 0.3); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); border-radius: var(--radius-lg); padding: var(--space-8); align-items: start;">
+                        <!-- Left inside card: Controls -->
+                        <div style="display: flex; flex-direction: column; gap: var(--space-6); justify-content: center;">
+                            <h4 style="margin-top: 0; font-size: var(--f-size-lg); color: white; margin-bottom: var(--space-2);">«Analytics + Motivation» Calculator</h4>
+                            <p style="font-size: var(--f-size-sm); color: var(--c-text-muted); margin-bottom: var(--space-4);">Flexible calculation of audio analytics cost for permanent quality control in networks of any scale.</p>
+                            
+                            <div class="calc-group">
+                                <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <label style="font-weight: 600; color: white;">Number of points (stations / shops)</label>
+                                    <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">1 pcs</span>
+                                </div>
+                                <input type="range" id="range-badges" min="1" max="100" value="1" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            </div>
+
+                            <div class="calc-group">
+                                <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <label style="font-weight: 600; color: white;">Employees in shift (per point)</label>
+                                    <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">2 ppl</span>
+                                </div>
+                                <input type="range" id="range-ticket" min="1" max="10" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            </div>
+
+                            <div class="calc-group">
+                                <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <label style="font-weight: 600; color: white;">Shift duration (working hours)</label>
+                                    <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">12 hrs</span>
+                                </div>
+                                <input type="range" id="range-tx" min="8" max="12" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            </div>
                         </div>
-                        <a class="btn btn--primary btn--lg btn--full" href="#cta-final">Calculate cost</a>
+                        
+                        <!-- Right inside card: Results -->
+                        <div class="roi-calc__results" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--c-border); padding: var(--space-6); border-radius: var(--radius-lg); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
+                            <h4 style="margin-top: 0; font-size: var(--f-size-md); margin-bottom: var(--space-4); text-align: center; color: white;">Calculation Results (per month)</h4>
+                            
+                            <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
+                                <span style="font-size: var(--f-size-xs); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Total audio analysis volume</span>
+                                <span id="roi-additional-revenue" style="font-size: var(--f-size-2xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">720 hrs</span>
+                            </div>
+
+                            <div class="roi-result-item" style="text-align: center; margin-bottom: var(--space-4);">
+                                <span style="font-size: var(--f-size-xs); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Cost of service</span>
+                                <span id="roi-savings" style="font-size: var(--f-size-xl); font-weight: 800; color: var(--c-accent-cyan);">$360 / mo</span>
+                            </div>
+
+                            <!-- Visual mini-chart -->
+                            <div class="roi-chart-container" style="margin: var(--space-3) 0; height: 100px; display: flex; align-items: flex-end; justify-content: space-around; background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); padding: 8px; border: 1px solid var(--c-border); position: relative;">
+                                <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
+                                    <div id="bar-costs" style="width: 24px; height: 10px; background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.8) 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 1px solid rgba(239, 68, 68, 0.4);"></div>
+                                    <span id="bar-costs-label" style="font-size: 9px; font-weight: 600; color: #ef4444; margin-top: 2px;">$216</span>
+                                    <span style="font-size: 8px; color: var(--c-text-muted); white-space: nowrap;">AI Cost</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
+                                    <div id="bar-revenue" style="width: 24px; height: 80px; background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);"></div>
+                                    <span id="bar-revenue-label" style="font-size: 9px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 2px;">$360</span>
+                                    <span style="font-size: 8px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Client Tariff</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: var(--space-3); text-align: center;">
+                                <a href="#cta-final" class="btn btn--primary btn--md" style="width: 100%;">Order calculation</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
