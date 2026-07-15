@@ -127,7 +127,7 @@
                 <div class="hero__content">
                     <div class="hero__badge" data-animate="fade-up">
                         <span class="hero__badge-dot"></span>
-                        AiProtocol — AI-Powered Quality Control
+                        AiProtocol — 24/7 AI-Powered Quality Control
                     </div>
                     <h1 class="hero__title" data-animate="fade-up" data-delay="100">
                         Отдел контроля качества <br>
@@ -140,7 +140,7 @@
                     </p>
                     <div class="hero__actions" data-animate="fade-up" data-delay="300">
                         <a href="#cta-final" class="btn btn--primary btn--lg" id="hero-cta">
-                            Заявка на демо
+                             Заявка на демо
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
@@ -778,68 +778,68 @@
         <section class="roi-calc" id="roi-calc" style="padding: var(--space-24) 0; background: var(--c-bg); border-top: 1px solid var(--c-border);">
             <div class="container">
                 <div class="section-header" data-animate="fade-up">
-                    <span class="section-tag">Калькулятор</span>
-                    <h2 class="section-title">Рассчитайте окупаемость <span class="gradient-text">внедрения</span></h2>
-                    <p class="section-subtitle">Посмотрите, сколько прибыли принесет автоматизация контроля диалогов на базе реальной статистики наших кейсов</p>
+                    <span class="section-tag">Калькулятор тарифа</span>
+                    <h2 class="section-title">Рассчитайте стоимость <span class="gradient-text">обслуживания</span></h2>
+                    <p class="section-subtitle">Укажите параметры вашей сети, чтобы узнать объем аудиоаналитики и итоговый бюджет в месяц</p>
                 </div>
                 <div class="roi-calc__grid" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-12); align-items: start;" data-animate="fade-up" data-delay="100">
                     <!-- Left: Controls -->
                     <div class="roi-calc__controls" style="background: var(--c-bg-card); border: 1px solid var(--c-border); padding: var(--space-8); border-radius: var(--r-2xl); display: flex; flex-direction: column; gap: var(--space-6);">
                         <div class="calc-group">
                             <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Количество сотрудников (бейджей)</label>
-                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">10 шт</span>
+                                <label style="font-weight: 600; color: white;">Количество точек (АЗС / магазинов)</label>
+                                <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">1 шт</span>
                             </div>
-                            <input type="range" id="range-badges" min="2" max="100" value="10" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            <input type="range" id="range-badges" min="1" max="100" value="1" style="width: 100%; accent-color: var(--c-accent-cyan);">
                         </div>
 
                         <div class="calc-group">
                             <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Текущий средний чек</label>
-                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">5 000 ₸</span>
+                                <label style="font-weight: 600; color: white;">Сотрудников в смене (на 1 точке)</label>
+                                <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">2 чел</span>
                             </div>
-                            <input type="range" id="range-ticket" min="1000" max="50000" step="500" value="5000" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            <input type="range" id="range-ticket" min="1" max="10" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
                         </div>
 
                         <div class="calc-group">
                             <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <label style="font-weight: 600; color: white;">Транзакций на сотрудника в день</label>
-                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">30 шт</span>
+                                <label style="font-weight: 600; color: white;">Длительность смены (рабочих часов)</label>
+                                <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">12 ч</span>
                             </div>
-                            <input type="range" id="range-tx" min="5" max="150" value="30" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                            <input type="range" id="range-tx" min="8" max="12" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
                         </div>
                     </div>
 
                     <!-- Right: Results display -->
                     <div class="roi-calc__results" style="background: var(--gradient-card); border: 2px solid rgba(6, 182, 212, 0.3); padding: var(--space-8); border-radius: var(--r-2xl); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
-                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Ожидаемый результат (в месяц)</h4>
+                        <h4 style="margin-top: 0; font-size: var(--f-size-xl); margin-bottom: var(--space-4); text-align: center;">Результаты расчета (в месяц)</h4>
                         
                         <div class="roi-result-item" style="border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4); margin-bottom: var(--space-4); text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Дополнительная выручка (рост чека на 15%)</span>
-                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2 250 000 ₸</span>
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Общий объем аудиоанализа</span>
+                            <span id="roi-additional-revenue" style="font-size: var(--f-size-3xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">720 ч</span>
                         </div>
 
                         <div class="roi-result-item" style="text-align: center;">
-                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Экономия на отделе контроля качества (ОКК)</span>
-                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-green);">до 350 000 ₸</span>
+                            <span style="font-size: var(--f-size-sm); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Стоимость обслуживания</span>
+                            <span id="roi-savings" style="font-size: var(--f-size-2xl); font-weight: 800; color: var(--c-accent-cyan);">$360 / мес</span>
                         </div>
 
                         <!-- Визуальный мини-график окупаемости -->
                         <div class="roi-chart-container" style="margin: var(--space-4) 0; height: 110px; display: flex; align-items: flex-end; justify-content: space-around; background: rgba(255,255,255,0.02); border-radius: var(--r-lg); padding: 10px; border: 1px solid var(--c-border); position: relative;">
                             <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
                                 <div id="bar-costs" style="width: 32px; height: 10px; background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.8) 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 2px 10px rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4);"></div>
-                                <span id="bar-costs-label" style="font-size: 10px; font-weight: 600; color: #ef4444; margin-top: 4px;">15 000 ₸</span>
-                                <span style="font-size: 9px; color: var(--c-text-muted); white-space: nowrap;">Затраты на ИИ</span>
+                                <span id="bar-costs-label" style="font-size: 10px; font-weight: 600; color: #ef4444; margin-top: 4px;">$216</span>
+                                <span style="font-size: 9px; color: var(--c-text-muted); white-space: nowrap;">Себестоимость ИИ</span>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
                                 <div id="bar-revenue" style="width: 32px; height: 80px; background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);"></div>
-                                <span id="bar-revenue-label" style="font-size: 10px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 4px;">2.2M ₸</span>
-                                <span style="font-size: 9px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Чистый профит</span>
+                                <span id="bar-revenue-label" style="font-size: 10px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 4px;">$360</span>
+                                <span style="font-size: 9px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Тариф для клиента</span>
                             </div>
                         </div>
                         
                         <div style="margin-top: var(--space-4); text-align: center;">
-                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Получить детальный расчет</a>
+                            <a href="#cta-final" class="btn btn--primary btn--lg" style="width: 100%;">Заказать расчет под ключ</a>
                         </div>
                     </div>
                 </div>

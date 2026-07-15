@@ -669,41 +669,42 @@
     function calculateROI() {
         if (!rangeBadges || !rangeTicket || !rangeTx) return;
 
-        const badges = parseInt(rangeBadges.value);
-        const ticket = parseInt(rangeTicket.value);
-        const tx = parseInt(rangeTx.value);
+        const points = parseInt(rangeBadges.value);
+        const emps = parseInt(rangeTicket.value);
+        const shiftDuration = parseInt(rangeTx.value);
 
         // Определяем локаль по URL
         const isEn = window.location.pathname.includes('/en/');
 
-        // Обновляем лейблы
+        // Обновляем лейблы слайдеров
         if (isEn) {
-            valBadges.textContent = `${badges} pcs`;
-            valTicket.textContent = `$${ticket.toLocaleString('en-US')}`;
-            valTx.textContent = `${tx} pcs`;
+            valBadges.textContent = `${points} ${points === 1 ? 'point' : 'points'}`;
+            valTicket.textContent = `${emps} ppl`;
+            valTx.textContent = `${shiftDuration} hrs`;
         } else {
-            valBadges.textContent = `${badges} шт`;
-            valTicket.textContent = `${ticket.toLocaleString('ru-RU')} ₸`;
-            valTx.textContent = `${tx} шт`;
+            valBadges.textContent = `${points} ${points === 1 ? 'точка' : points < 5 ? 'точки' : 'точек'}`;
+            valTicket.textContent = `${emps} чел`;
+            valTx.textContent = `${shiftDuration} ч`;
         }
 
-        // Расчет дополнительной выручки: 
-        // Доп. выручка = Кол-во бейджей * Кол-во транзакций в день * Ср. чек * 30 дней * 15% (консервативный прирост за счет допродаж)
-        const additionalRevenue = Math.round(badges * tx * ticket * 30 * 0.15);
+        // Логика смен: если смена 12 часов — считаем круглосуточную работу (2 смены в сутки), иначе дневную (1 смена в сутки)
+        const shiftsPerDay = (shiftDuration === 12) ? 2 : 1;
+        const totalHours = points * emps * shiftDuration * shiftsPerDay * 30;
 
-        const savingsFactor = isEn ? 80 : 35000;
-        const savings = badges * savingsFactor;
+        // Себестоимость ИИ: 0.3$ за час
+        const totalAiCost = Math.round(totalHours * 0.3);
+        // Тариф для клиента: 0.5$ за час
+        const clientCost = Math.round(totalHours * 0.5);
 
-        // Стоимость ИИ-подписки (примерно 15 000 ₸ или $35 на 1 бейдж в месяц)
-        const aiCostPerBadge = isEn ? 35 : 15000;
-        const totalAiCost = badges * aiCostPerBadge;
+        // Конвертация в тенге для русскоязычной версии (курс 450 ₸ за 1$)
+        const clientCostKzt = Math.round(clientCost * 450);
 
         if (isEn) {
-            resultRevenue.textContent = `$${additionalRevenue.toLocaleString('en-US')}`;
-            resultSavings.textContent = `up to $${savings.toLocaleString('en-US')}`;
+            resultRevenue.textContent = `${totalHours.toLocaleString('en-US')} hrs`;
+            resultSavings.textContent = `$${clientCost.toLocaleString('en-US')} / mo`;
         } else {
-            resultRevenue.textContent = `${additionalRevenue.toLocaleString('ru-RU')} ₸`;
-            resultSavings.textContent = `до ${savings.toLocaleString('ru-RU')} ₸`;
+            resultRevenue.textContent = `${totalHours.toLocaleString('ru-RU')} ч`;
+            resultSavings.textContent = `$${clientCost.toLocaleString('ru-RU')} / мес (${clientCostKzt.toLocaleString('ru-RU')} ₸)`;
         }
 
         // Обновляем визуальный мини-график
@@ -713,26 +714,13 @@
         const barRevenueLabel = document.getElementById('bar-revenue-label');
 
         if (barCosts && barRevenue && barCostsLabel && barRevenueLabel) {
-            // Форматируем подписи на столбиках
-            if (isEn) {
-                barCostsLabel.textContent = `$${totalAiCost.toLocaleString('en-US')}`;
-                barRevenueLabel.textContent = additionalRevenue >= 1000 
-                    ? `$${(additionalRevenue / 1000).toFixed(1)}K` 
-                    : `$${additionalRevenue}`;
-            } else {
-                barCostsLabel.textContent = totalAiCost >= 1000000 
-                    ? `${(totalAiCost / 1000000).toFixed(1)}M ₸` 
-                    : `${(totalAiCost / 1000).toFixed(0)}K ₸`;
-                barRevenueLabel.textContent = additionalRevenue >= 1000000 
-                    ? `${(additionalRevenue / 1000000).toFixed(1)}M ₸` 
-                    : `${(additionalRevenue / 1000).toFixed(0)}K ₸`;
-            }
+            barCostsLabel.textContent = `$${totalAiCost.toLocaleString('en-US')}`;
+            barRevenueLabel.textContent = `$${clientCost.toLocaleString('en-US')}`;
 
             // Вычисляем пропорциональные высоты
-            const maxProfit = Math.max(additionalRevenue, 1);
-            const costRatio = totalAiCost / maxProfit;
+            const maxVal = Math.max(clientCost, 1);
+            const costRatio = totalAiCost / maxVal;
             
-            // Фиксируем чистый профит на максимуме (80px), а расходы делаем пропорциональными (минимум 8px, максимум 80px)
             const revenueHeight = 80;
             const costsHeight = Math.min(80, Math.max(8, Math.round(revenueHeight * costRatio)));
             
