@@ -202,18 +202,24 @@
 
         /* Stat Cards Glow */
         .stat-card-v3 {
-            background: var(--c-card-bg);
-            border: var(--glass-border);
+            background-color: var(--c-card-bg);
+            background-image: radial-gradient(circle at 0% 100%, var(--bg-glow, transparent), transparent 70%);
+            border: 1px solid var(--border-glow, rgba(255, 255, 255, 0.05));
             border-radius: 24px;
             padding: 30px;
             position: relative;
             overflow: hidden;
-            transition: 0.3s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .stat-card-v3:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.4); }
+        .stat-card-v3:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--border-glow-hover, rgba(59, 130, 246, 0.4)) !important; 
+            background-image: radial-gradient(circle at 0% 100%, var(--bg-glow-hover, transparent), transparent 75%);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
         .stat-card-v3::after {
             content: ''; position: absolute; top: -50px; right: -50px; width: 120px; height: 120px;
-            background: var(--glow, #3B82F6); filter: blur(60px); opacity: 0.15; pointer-events: none;
+            background: var(--glow, #3B82F6); filter: blur(60px); opacity: 0.12; pointer-events: none;
         }
 
         /* Add KPI Dropdown Styling */
@@ -1137,12 +1143,24 @@
             color: #475569 !important;
         }
 
-        body.light-theme-active .stat-card-v3,
         body.light-theme-active .table-wrap {
             background: #FFFFFF !important;
             border: 1px solid #E2E8F0 !important;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
             color: #0F172A !important;
+        }
+        body.light-theme-active .stat-card-v3 {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            background-image: radial-gradient(circle at 0% 100%, var(--bg-glow, transparent), transparent 70%) !important;
+            border: 1px solid var(--border-glow, #E2E8F0) !important;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
+            color: #0F172A !important;
+        }
+        body.light-theme-active .stat-card-v3:hover {
+            background-color: #FFFFFF !important;
+            background-image: radial-gradient(circle at 0% 100%, var(--bg-glow-hover, transparent), transparent 75%) !important;
+            border-color: var(--border-glow-hover, rgba(59, 130, 246, 0.4)) !important;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08) !important;
         }
         body.light-theme-active .stat-card-v3 div[id^="stat-label-"] {
             color: #475569 !important;
@@ -2920,7 +2938,7 @@
                     }
 
                     return `
-                        <div class="stat-card-v3 kpi-card-hover" draggable="true" ondragstart="dragStartKPI(event, ${i})" ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab; transition: transform 0.18s, box-shadow 0.18s;" onclick="${cardOnClick}" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                        <div class="stat-card-v3 kpi-card-hover" draggable="true" ondragstart="dragStartKPI(event, ${i})" ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; --border-glow: ${glowColor}33; --border-glow-hover: ${glowColor}66; --bg-glow: ${glowColor}0d; --bg-glow-hover: ${glowColor}1a; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab;" onclick="${cardOnClick}">
                             <span class="kpi-bg-icon">${card.icon}</span>
                             <div class="kpi-card-header" style="font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; width: 100%; position: relative; z-index: 2;">
                                 <span style="display:flex; align-items:center; gap:4px;">
