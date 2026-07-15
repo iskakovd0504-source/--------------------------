@@ -16,8 +16,8 @@
             --sidebar-width: 280px;
             --header-height: 80px;
             --c-dash-bg: #0F1320;
-            --c-card-bg: rgba(17, 24, 39, 0.7);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --c-card-bg: rgba(25, 33, 52, 0.8);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         body {
@@ -204,12 +204,13 @@
         .stat-card-v3 {
             background-color: var(--c-card-bg);
             background-image: radial-gradient(circle at 0% 100%, var(--bg-glow, transparent), transparent 70%);
-            border: 1px solid var(--border-glow, rgba(255, 255, 255, 0.05));
+            border: 1px solid var(--border-glow, rgba(255, 255, 255, 0.10));
             border-radius: 24px;
             padding: 30px;
             position: relative;
             overflow: hidden;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
         }
         .stat-card-v3:hover { 
             transform: translateY(-5px); 
@@ -1150,10 +1151,10 @@
             color: #0F172A !important;
         }
         body.light-theme-active .stat-card-v3 {
-            background-color: rgba(255, 255, 255, 0.85) !important;
+            background-color: #FFFFFF !important;
             background-image: radial-gradient(circle at 0% 100%, var(--bg-glow, transparent), transparent 70%) !important;
             border: 1px solid var(--border-glow, #E2E8F0) !important;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07) !important;
             color: #0F172A !important;
             --checked-val-color: #0F172A;
             --checked-sub-color: #3b82f6;
