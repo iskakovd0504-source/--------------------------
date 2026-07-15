@@ -1155,6 +1155,8 @@
             border: 1px solid var(--border-glow, #E2E8F0) !important;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
             color: #0F172A !important;
+            --checked-val-color: #0F172A;
+            --checked-sub-color: #3b82f6;
         }
         body.light-theme-active .stat-card-v3:hover {
             background-color: #FFFFFF !important;
@@ -2912,14 +2914,21 @@
                         }
                     }
                     
-                    // Determine status color: Blue (Checked), Green (>=75%), Red (<75%)
+                    // Determine status color and text colors
                     let glowColor = '#10B981'; // Green
+                    let valColor = '#10B981';
+                    let subtextColor = '#10B981';
+
                     if (card.type === 'system' && card.id === 'checked') {
                         glowColor = '#3B82F6'; // Blue
+                        valColor = 'var(--checked-val-color, #ffffff)';
+                        subtextColor = 'var(--checked-sub-color, #3B82F6)';
                     } else {
                         const pctVal = parseInt(val.toString().replace(/\D/g, '')) || 0;
                         if (pctVal < 75) {
                             glowColor = '#EF4444'; // Red
+                            valColor = '#EF4444';
+                            subtextColor = '#EF4444';
                         }
                     }
                     
@@ -2946,9 +2955,9 @@
                                     ${card.label}
                                 </span>
                             </div>
-                            <div style="font-size: 40px; font-weight: 900; margin-top: 10px; margin-bottom: 5px; position: relative; z-index: 2;">${val}</div>
+                            <div style="font-size: 40px; font-weight: 900; margin-top: 10px; margin-bottom: 5px; position: relative; z-index: 2; color: ${valColor};">${val}</div>
                             <div style="font-size: 11px; margin-top: auto; display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; z-index: 2; gap: 8px;">
-                                <span style="color: ${glowColor}; font-weight: 700; opacity: 0.95; line-height: 1.3;">${subText}</span>
+                                <span style="color: ${subtextColor}; font-weight: 700; opacity: 0.95; line-height: 1.3;">${subText}</span>
                                 <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
                                     <span style="font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: none; border-bottom: 1px dashed; padding-bottom: 1px;">разбор</span>
                                     <span title="Убрать из обзора" style="cursor: pointer; font-size: 10px; user-select: none; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="removeKPICard(${i}); event.stopPropagation();">🗑️</span>
