@@ -704,7 +704,7 @@
 
         const points = parseInt(rangeBadges.value);
         const emps = parseInt(rangeTicket.value);
-        const shiftDuration = parseInt(rangeTx.value);
+        const hoursPerDay = parseInt(rangeTx.value);
 
         // Определяем локаль по URL
         const isEn = window.location.pathname.includes('/en/');
@@ -712,53 +712,28 @@
         // Обновляем лейблы слайдеров
         if (isEn) {
             valBadges.textContent = `${points} ${points === 1 ? 'point' : 'points'}`;
-            valTicket.textContent = `${emps} ppl`;
-            valTx.textContent = `${shiftDuration} hrs`;
+            valTicket.textContent = `${emps} ${emps === 1 ? 'person' : 'people'}`;
+            valTx.textContent = `${hoursPerDay} ${hoursPerDay === 1 ? 'hour' : 'hours'}`;
         } else {
             valBadges.textContent = `${points} ${points === 1 ? 'точка' : points < 5 ? 'точки' : 'точек'}`;
             valTicket.textContent = `${emps} чел`;
-            valTx.textContent = `${shiftDuration} ч`;
+            valTx.textContent = `${hoursPerDay} ч`;
         }
 
-        // Логика смен: если смена 12 часов — считаем круглосуточную работу (2 смены в сутки), иначе дневную (1 смена в сутки)
-        const shiftsPerDay = (shiftDuration === 12) ? 2 : 1;
-        const totalHours = points * emps * shiftDuration * shiftsPerDay * 30;
+        // Логика расчета: точки * операторы * часы работы в сутки * 30 дней
+        const totalHours = points * emps * hoursPerDay * 30;
 
-        // Себестоимость ИИ: 0.3$ за час
-        const totalAiCost = Math.round(totalHours * 0.3);
-        // Тариф для клиента: 0.5$ за час
-        const clientCost = Math.round(totalHours * 0.5);
-
-        // Конвертация в тенге для русскоязычной версии (курс 450 ₸ за 1$)
-        const clientCostKzt = Math.round(clientCost * 450);
+        // Стоимость обслуживания для клиента: 225 ₸ за час
+        const clientCostKzt = totalHours * 225;
+        // USD эквивалент по курсу 450
+        const clientCostUsd = Math.round(clientCostKzt / 450);
 
         if (isEn) {
             resultRevenue.textContent = `${totalHours.toLocaleString('en-US')} hrs`;
-            resultSavings.textContent = `$${clientCost.toLocaleString('en-US')} / mo`;
+            resultSavings.textContent = `$${clientCostUsd.toLocaleString('en-US')} / mo`;
         } else {
             resultRevenue.textContent = `${totalHours.toLocaleString('ru-RU')} ч`;
-            resultSavings.textContent = `$${clientCost.toLocaleString('ru-RU')} / мес (${clientCostKzt.toLocaleString('ru-RU')} ₸)`;
-        }
-
-        // Обновляем визуальный мини-график
-        const barCosts = document.getElementById('bar-costs');
-        const barRevenue = document.getElementById('bar-revenue');
-        const barCostsLabel = document.getElementById('bar-costs-label');
-        const barRevenueLabel = document.getElementById('bar-revenue-label');
-
-        if (barCosts && barRevenue && barCostsLabel && barRevenueLabel) {
-            barCostsLabel.textContent = `$${totalAiCost.toLocaleString('en-US')}`;
-            barRevenueLabel.textContent = `$${clientCost.toLocaleString('en-US')}`;
-
-            // Вычисляем пропорциональные высоты
-            const maxVal = Math.max(clientCost, 1);
-            const costRatio = totalAiCost / maxVal;
-            
-            const revenueHeight = 50;
-            const costsHeight = Math.min(50, Math.max(8, Math.round(revenueHeight * costRatio)));
-            
-            barRevenue.style.height = `${revenueHeight}px`;
-            barCosts.style.height = `${costsHeight}px`;
+            resultSavings.textContent = `${clientCostKzt.toLocaleString('ru-RU')} ₸ / мес ($${clientCostUsd.toLocaleString('ru-RU')})`;
         }
     }
 

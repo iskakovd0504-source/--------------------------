@@ -1035,7 +1035,7 @@
                     <div class="pricing__card pricing__card--calc" data-animate="fade-up" data-delay="100" style="grid-column: span 2; display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-6); background: var(--c-bg-card); border: 2px solid rgba(6, 182, 212, 0.3); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); border-radius: var(--radius-lg); padding: var(--space-8); align-items: start;">
                         <!-- Left inside card: Controls -->
                         <div style="display: flex; flex-direction: column; gap: var(--space-6); justify-content: center;">
-                            <h4 style="margin-top: 0; font-size: var(--f-size-lg); color: white; margin-bottom: var(--space-2);">«Analytics + Motivation» Calculator</h4>
+                            <h4 style="margin-top: 0; font-size: var(--f-size-lg); color: white; margin-bottom: var(--space-2);">AiProtocol Cost Calculator</h4>
                             <p style="font-size: var(--f-size-sm); color: var(--c-text-muted); margin-bottom: var(--space-4);">Flexible calculation of audio analytics cost for permanent quality control in networks of any scale.</p>
                             
                             <div class="calc-group">
@@ -1051,15 +1051,15 @@
                                     <label style="font-weight: 600; color: white;">Employees in shift (per point)</label>
                                     <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">2 ppl</span>
                                 </div>
-                                <input type="range" id="range-ticket" min="1" max="10" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                                <input type="range" id="range-ticket" min="1" max="5" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
                             </div>
 
                             <div class="calc-group">
                                 <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label style="font-weight: 600; color: white;">Shift duration (working hours)</label>
+                                    <label style="font-weight: 600; color: white;">Cash register working hours per day</label>
                                     <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">12 hrs</span>
                                 </div>
-                                <input type="range" id="range-tx" min="8" max="12" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                                <input type="range" id="range-tx" min="1" max="24" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
                             </div>
                         </div>
                         
@@ -1076,23 +1076,8 @@
                                 <span style="font-size: var(--f-size-xs); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Cost of service</span>
                                 <span id="roi-savings" style="font-size: var(--f-size-xl); font-weight: 800; color: var(--c-accent-cyan);">$360 / mo</span>
                             </div>
-
-                            <!-- Visual mini-chart -->
-                            <div class="roi-chart-container" style="margin: var(--space-3) 0; height: 100px; display: flex; align-items: flex-end; justify-content: space-around; background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); padding: 8px; border: 1px solid var(--c-border); position: relative;">
-                                <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
-                                    <div id="bar-costs" style="width: 24px; height: 10px; background: linear-gradient(180deg, rgba(239, 68, 68, 0.4) 0%, rgba(239, 68, 68, 0.8) 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 1px solid rgba(239, 68, 68, 0.4);"></div>
-                                    <span id="bar-costs-label" style="font-size: 9px; font-weight: 600; color: #ef4444; margin-top: 2px;">$216</span>
-                                    <span style="font-size: 8px; color: var(--c-text-muted); white-space: nowrap;">AI Cost</span>
-                                </div>
-                                <div style="display: flex; flex-direction: column; align-items: center; width: 45%;">
-                                    <div id="bar-revenue" style="width: 24px; height: 80px; background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 4px 4px 0 0; transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);"></div>
-                                    <span id="bar-revenue-label" style="font-size: 9px; font-weight: 600; color: var(--c-accent-cyan); margin-top: 2px;">$360</span>
-                                    <span style="font-size: 8px; color: var(--c-text-primary); white-space: nowrap; font-weight: 500;">Client Tariff</span>
-                                </div>
-                            </div>
                             
                             <div style="margin-top: var(--space-2); font-size: 11px; line-height: 1.4; color: var(--c-text-muted); text-align: center; display: flex; flex-direction: column; gap: 4px;">
-                                <span>* Individual calculation.</span>
                                 <span>* Equipment is purchased one-time.</span>
                             </div>
                             
