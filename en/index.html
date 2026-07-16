@@ -1036,11 +1036,11 @@
                         <!-- Left inside card: Controls -->
                         <div style="display: flex; flex-direction: column; gap: var(--space-6); justify-content: center;">
                             <h4 style="margin-top: 0; font-size: var(--f-size-lg); color: white; margin-bottom: var(--space-2);">AiProtocol Cost Calculator</h4>
-                            <p style="font-size: var(--f-size-sm); color: var(--c-text-muted); margin-bottom: var(--space-4);">Flexible calculation of audio analytics cost for permanent quality control in networks of any scale.</p>
+                            <p style="font-size: var(--f-size-sm); color: var(--c-text-muted); margin-bottom: var(--space-4);">Calculate the exact cost of automated AI quality control for your retail network in 1 minute.</p>
                             
                             <div class="calc-group">
                                 <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label style="font-weight: 600; color: white;">Number of points (stations / shops)</label>
+                                    <label style="font-weight: 600; color: white;">Number of locations</label>
                                     <span id="val-badges" style="color: var(--c-accent-cyan); font-weight: 700;">1 pcs</span>
                                 </div>
                                 <input type="range" id="range-badges" min="1" max="100" value="1" style="width: 100%; accent-color: var(--c-accent-cyan);">
@@ -1048,15 +1048,15 @@
 
                             <div class="calc-group">
                                 <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label style="font-weight: 600; color: white;">Employees in shift (per point)</label>
+                                    <label style="font-weight: 600; color: white;">Employees in shift per location</label>
                                     <span id="val-ticket" style="color: var(--c-accent-cyan); font-weight: 700;">2 ppl</span>
                                 </div>
-                                <input type="range" id="range-ticket" min="1" max="5" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
+                                <input type="range" id="range-ticket" min="1" max="10" value="2" style="width: 100%; accent-color: var(--c-accent-cyan);">
                             </div>
 
                             <div class="calc-group">
                                 <div class="calc-label-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <label style="font-weight: 600; color: white;">Cash register working hours per day</label>
+                                    <label style="font-weight: 600; color: white;">Point working hours per day</label>
                                     <span id="val-tx" style="color: var(--c-accent-cyan); font-weight: 700;">12 hrs</span>
                                 </div>
                                 <input type="range" id="range-tx" min="1" max="24" value="12" style="width: 100%; accent-color: var(--c-accent-cyan);">
@@ -1072,16 +1072,26 @@
                                 <span id="roi-additional-revenue" style="font-size: var(--f-size-2xl); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">720 hrs</span>
                             </div>
 
-                            <div class="roi-result-item" style="text-align: center; margin-bottom: var(--space-4);">
+                            <div class="roi-result-item" style="text-align: center; margin-bottom: var(--space-4); border-bottom: 1px solid var(--c-border); padding-bottom: var(--space-4);">
                                 <span style="font-size: var(--f-size-xs); color: var(--c-text-muted); display: block; margin-bottom: 4px;">Cost of service</span>
-                                <span id="roi-savings" style="font-size: var(--f-size-xl); font-weight: 800; color: var(--c-accent-cyan);">$360 / mo</span>
+                                <span id="roi-savings" style="font-size: 1.6rem; font-weight: 800; color: var(--c-accent-cyan);">$360 <span style="font-size: 1.1rem; font-weight: 500; opacity: 0.85;">/ mo</span></span>
+                            </div>
+
+                            <!-- What is included in price -->
+                            <div style="margin-bottom: var(--space-4); font-size: 11px; line-height: 1.5; color: var(--c-text-primary); text-align: left; display: flex; flex-direction: column; gap: 6px; padding: 0 4px;">
+                                <span style="font-weight: 700; color: white; margin-bottom: 2px; font-size: 11.5px;">Included in tariff:</span>
+                                <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: var(--c-accent-cyan); font-weight: 700;">✓</span> Client dashboard & analytics panel</div>
+                                <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: var(--c-accent-cyan); font-weight: 700;">✓</span> Verbatim speech transcription (RU / KZ)</div>
+                                <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: var(--c-accent-cyan); font-weight: 700;">✓</span> AI analysis of scripts, politeness & conflicts</div>
+                                <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: var(--c-accent-cyan); font-weight: 700;">✓</span> Detection of errors & missed sales</div>
+                                <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: var(--c-accent-cyan); font-weight: 700;">✓</span> Automated reports with actionable insights</div>
                             </div>
                             
-                            <div style="margin-top: var(--space-2); font-size: 11px; line-height: 1.4; color: var(--c-text-muted); text-align: center; display: flex; flex-direction: column; gap: 4px;">
+                            <div style="margin-top: var(--space-1); font-size: 11px; line-height: 1.4; color: var(--c-text-muted); text-align: center; display: flex; flex-direction: column; gap: 4px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: var(--space-3); margin-bottom: var(--space-3);">
                                 <span>* Equipment is purchased one-time.</span>
                             </div>
                             
-                            <div style="margin-top: var(--space-3); text-align: center;">
+                            <div style="text-align: center;">
                                 <a href="#cta-final" class="btn btn--primary btn--md" style="width: 100%;">Order calculation</a>
                             </div>
                         </div>
