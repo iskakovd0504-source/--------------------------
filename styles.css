@@ -2484,6 +2484,17 @@ select {
         gap: var(--space-5) !important;
     }
 
+    #open-demo-btn {
+        white-space: normal !important;
+        max-width: 90% !important;
+        padding: var(--space-4) var(--space-5) !important;
+        line-height: 1.4 !important;
+        margin: 0 auto;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
     .logos__grid {
         gap: var(--space-4);
     }
