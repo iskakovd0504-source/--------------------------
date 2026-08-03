@@ -687,62 +687,139 @@
         });
     }
 
-    // Логика калькулятора ROI
-    const rangeBadges = document.getElementById('range-badges');
-    const rangeTicket = document.getElementById('range-ticket');
-    const rangeTx = document.getElementById('range-tx');
+    /* ===== СЕТЕВОЙ КАЛЬКУЛЯТОР ТАРИФОВ ===== */
+    const calcRowsBody = document.getElementById('calc-rows');
+    const calcAddRowBtn = document.getElementById('calc-add-row');
 
-    const valBadges = document.getElementById('val-badges');
-    const valTicket = document.getElementById('val-ticket');
-    const valTx = document.getElementById('val-tx');
+    if (calcRowsBody && calcAddRowBtn) {
+        const RATES = {
+            "8":  { label: "До 8 часов",   rent: 65000, buy: 58500, badgeMult: 1 },
+            "12": { label: "До 12 часов",  rent: 85000, buy: 76500, badgeMult: 1 },
+            "24": { label: "Круглосуточно (24/7)", rent: 85000, buy: 76500, badgeMult: 2 }
+        };
+        const BADGE_PRICE = 100000;
 
-    const resultRevenue = document.getElementById('roi-additional-revenue');
-    const resultSavings = document.getElementById('roi-savings');
+        let netRows = [];
+        let netIdSeq = 1;
 
-    function calculateROI() {
-        if (!rangeBadges || !rangeTicket || !rangeTx) return;
-
-        const points = parseInt(rangeBadges.value);
-        const emps = parseInt(rangeTicket.value);
-        const hoursPerDay = parseInt(rangeTx.value);
-
-        // Определяем локаль по URL
-        const isEn = window.location.pathname.includes('/en/');
-
-        // Обновляем лейблы слайдеров
-        if (isEn) {
-            valBadges.textContent = `${points} ${points === 1 ? 'point' : 'points'}`;
-            valTicket.textContent = `${emps} ${emps === 1 ? 'person' : 'people'}`;
-            valTx.textContent = `${hoursPerDay} ${hoursPerDay === 1 ? 'hour' : 'hours'}`;
-        } else {
-            valBadges.textContent = `${points} ${points === 1 ? 'точка' : points < 5 ? 'точки' : 'точек'}`;
-            valTicket.textContent = `${emps} чел`;
-            valTx.textContent = `${hoursPerDay} ч`;
+        function fmtKzt(n) {
+            return Math.round(n).toLocaleString("ru-RU").replace(/,/g, " ") + " ₸";
         }
 
-        // Логика расчета: точки * операторы * часы работы в сутки * 30 дней
-        const totalHours = points * emps * hoursPerDay * 30;
-
-        // Стоимость обслуживания для клиента: 225 ₸ за час
-        const clientCostKzt = totalHours * 225;
-        // USD эквивалент по курсу 450
-        const clientCostUsd = Math.round(clientCostKzt / 450);
-
-        if (isEn) {
-            resultRevenue.textContent = `${totalHours.toLocaleString('en-US')} hrs`;
-            resultSavings.textContent = `$${clientCostUsd.toLocaleString('en-US')} / mo`;
-        } else {
-            resultRevenue.textContent = `${totalHours.toLocaleString('ru-RU')} ч`;
-            resultSavings.textContent = `${clientCostKzt.toLocaleString('ru-RU')} ₸ / мес ($${clientCostUsd.toLocaleString('ru-RU')})`;
+        function addNetRow() {
+            netRows.push({ id: netIdSeq++, name: "Точка " + (netRows.length + 1), mode: "12", staff: 1, buy: false });
+            renderNetCalc();
         }
-    }
 
-    if (rangeBadges && rangeTicket && rangeTx) {
-        [rangeBadges, rangeTicket, rangeTx].forEach(input => {
-            input.addEventListener('input', calculateROI);
-        });
-        // Инициализируем расчет при загрузке
-        calculateROI();
+        function removeNetRow(id) {
+            netRows = netRows.filter(r => r.id !== id);
+            renderNetCalc();
+        }
+
+        function updateNetRow(id, field, value) {
+            const r = netRows.find(r => r.id === id);
+            if (!r) return;
+            r[field] = value;
+            renderNetCalc();
+        }
+
+        function rowBadges(r) {
+            const staff = Math.max(1, parseInt(r.staff) || 1);
+            return staff * RATES[r.mode].badgeMult;
+        }
+
+        function rowMonthly(r) {
+            const rate = RATES[r.mode];
+            const perBadge = r.buy ? rate.buy : rate.rent;
+            return rowBadges(r) * perBadge;
+        }
+
+        function rowPurchaseCost(r) {
+            return r.buy ? rowBadges(r) * BADGE_PRICE : 0;
+        }
+
+        function renderNetCalc() {
+            calcRowsBody.innerHTML = "";
+            netRows.forEach((r, i) => {
+                const tr = document.createElement("tr");
+
+                const modeOptions = Object.entries(RATES).map(([k, v]) =>
+                    `<option value="${k}" ${r.mode === k ? "selected" : ""}>${v.label}</option>`
+                ).join("");
+
+                tr.innerHTML = `
+                    <td class="rownum">${i + 1}</td>
+                    <td><input type="text" class="net-input" value="${r.name}" data-field="name" data-id="${r.id}"></td>
+                    <td><select class="net-select" data-field="mode" data-id="${r.id}">${modeOptions}</select></td>
+                    <td><input type="number" class="net-input net-input--num" min="1" step="1" value="${r.staff}" data-field="staff" data-id="${r.id}"></td>
+                    <td class="badges-cell">${rowBadges(r)}</td>
+                    <td>
+                        <div class="mode-toggle">
+                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">Аренда</button>
+                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">Покупка</button>
+                        </div>
+                    </td>
+                    <td class="rowsum">${fmtKzt(rowMonthly(r))}</td>
+                    <td><button type="button" class="del-btn" data-del="${r.id}" title="Удалить точку">×</button></td>
+                `;
+                calcRowsBody.appendChild(tr);
+            });
+
+            calcRowsBody.querySelectorAll("input").forEach(inp => {
+                inp.addEventListener("input", e => {
+                    const id = parseInt(e.target.dataset.id);
+                    const field = e.target.dataset.field;
+                    updateNetRow(id, field, e.target.value);
+                });
+            });
+            calcRowsBody.querySelectorAll("select").forEach(sel => {
+                sel.addEventListener("change", e => {
+                    updateNetRow(parseInt(e.target.dataset.id), "mode", e.target.value);
+                });
+            });
+            calcRowsBody.querySelectorAll("button[data-field='buy']").forEach(btn => {
+                btn.addEventListener("click", e => {
+                    updateNetRow(parseInt(e.target.dataset.id), "buy", e.target.dataset.val === "true");
+                });
+            });
+            calcRowsBody.querySelectorAll("button[data-del]").forEach(btn => {
+                btn.addEventListener("click", e => removeNetRow(parseInt(e.target.dataset.del)));
+            });
+
+            const totalPoints = netRows.length;
+            const totalBadges = netRows.reduce((s, r) => s + rowBadges(r), 0);
+            const totalMonthly = netRows.reduce((s, r) => s + rowMonthly(r), 0);
+            const totalQuarter = totalMonthly * 3;
+            const totalPurchase = netRows.reduce((s, r) => s + rowPurchaseCost(r), 0);
+
+            const elPoints = document.getElementById("totalPoints");
+            const elBadges = document.getElementById("totalBadges");
+            const elMonthly = document.getElementById("totalMonthly");
+            const elQuarter = document.getElementById("totalQuarter");
+            const elPurchaseKpi = document.getElementById("purchaseKpi");
+            const elPurchase = document.getElementById("totalPurchase");
+
+            if (elPoints) elPoints.textContent = totalPoints;
+            if (elBadges) elBadges.textContent = totalBadges;
+            if (elMonthly) elMonthly.textContent = fmtKzt(totalMonthly);
+            if (elQuarter) elQuarter.textContent = fmtKzt(totalQuarter);
+
+            if (elPurchaseKpi) {
+                if (totalPurchase > 0) {
+                    elPurchaseKpi.style.display = "";
+                    if (elPurchase) elPurchase.textContent = fmtKzt(totalPurchase);
+                } else {
+                    elPurchaseKpi.style.display = "none";
+                }
+            }
+        }
+
+        calcAddRowBtn.addEventListener("click", addNetRow);
+
+        // Стартовые 2 точки для демо
+        netRows.push({ id: netIdSeq++, name: "Точка 1", mode: "12", staff: 2, buy: false });
+        netRows.push({ id: netIdSeq++, name: "Точка 2", mode: "24", staff: 1, buy: false });
+        renderNetCalc();
     }
 
     // Логика виджета AI Demo
