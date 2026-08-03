@@ -822,6 +822,68 @@
         renderNetCalc();
     }
 
+    /* ===== СЛАЙДЕР ЭКРАНОВ ДАШБОРДА ===== */
+    const dashSlideBtns = document.querySelectorAll('.dash-slide-btn');
+    const dashSlides = document.querySelectorAll('.dash-slide');
+    const dashPrevBtn = document.getElementById('dash-prev');
+    const dashNextBtn = document.getElementById('dash-next');
+    const dashUrlIndicator = document.getElementById('dash-url-indicator');
+
+    if (dashSlideBtns.length && dashSlides.length) {
+        const dashUrls = [
+            "app.aiprotocol.kz/analytics",
+            "app.aiprotocol.kz/employees",
+            "app.aiprotocol.kz/dialogs",
+            "app.aiprotocol.kz/ai-settings"
+        ];
+        let currentDashIndex = 0;
+
+        function goToDashSlide(index) {
+            if (index < 0) index = dashSlides.length - 1;
+            if (index >= dashSlides.length) index = 0;
+            currentDashIndex = index;
+
+            dashSlideBtns.forEach((btn, i) => {
+                btn.classList.toggle('active', i === currentDashIndex);
+            });
+
+            dashSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentDashIndex);
+            });
+
+            if (dashUrlIndicator) {
+                dashUrlIndicator.textContent = dashUrls[currentDashIndex];
+            }
+        }
+
+        dashSlideBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.slide);
+                goToDashSlide(idx);
+            });
+        });
+
+        if (dashPrevBtn) dashPrevBtn.addEventListener('click', () => goToDashSlide(currentDashIndex - 1));
+        if (dashNextBtn) dashNextBtn.addEventListener('click', () => goToDashSlide(currentDashIndex + 1));
+
+        // Свайпы на мобильных/тач устройствах
+        const dashWrapper = document.querySelector('.dash-slides-wrapper');
+        if (dashWrapper) {
+            let startX = 0;
+            dashWrapper.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            }, { passive: true });
+
+            dashWrapper.addEventListener('touchend', (e) => {
+                const diffX = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) goToDashSlide(currentDashIndex + 1);
+                    else goToDashSlide(currentDashIndex - 1);
+                }
+            }, { passive: true });
+        }
+    }
+
     // Логика виджета AI Demo
     const demoPlayBtn = document.getElementById('demo-play-btn');
     const demoPlayerBox = document.getElementById('demo-player-box');

@@ -408,15 +408,48 @@
                     <p class="section-subtitle">Наглядная аналитика, рейтинги сотрудников, детализация по каждому
                         разговору</p>
                 </div>
-                <div class="dashboard__showcase" data-animate="fade-up" data-delay="200">
+                <div class="dashboard__slider-container" data-animate="fade-up" data-delay="200">
+                    <div class="dashboard__slider-controls">
+                        <button type="button" class="dash-slide-btn active" data-slide="0">
+                            <span class="dash-slide-icon">📊</span>
+                            <span class="dash-slide-text">Сквозная аналитика (Обзор)</span>
+                        </button>
+                        <button type="button" class="dash-slide-btn" data-slide="1">
+                            <span class="dash-slide-icon">👥</span>
+                            <span class="dash-slide-text">Рейтинг сотрудников</span>
+                        </button>
+                        <button type="button" class="dash-slide-btn" data-slide="2">
+                            <span class="dash-slide-icon">💬</span>
+                            <span class="dash-slide-text">Реестр диалогов и аудио</span>
+                        </button>
+                        <button type="button" class="dash-slide-btn" data-slide="3">
+                            <span class="dash-slide-icon">🤖</span>
+                            <span class="dash-slide-text">Настройка ИИ-промпта</span>
+                        </button>
+                    </div>
+
                     <div class="dashboard__frame">
-                        <div class="dashboard__topbar">
-                            <div class="dashboard__dots">
-                                <span></span><span></span><span></span>
+                        <div class="dash-slides-wrapper">
+                            <button type="button" class="dash-arrow-btn dash-arrow-btn--prev" id="dash-prev" title="Предыдущий скриншот">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <button type="button" class="dash-arrow-btn dash-arrow-btn--next" id="dash-next" title="Следующий скриншот">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+
+                            <div class="dash-slide active" data-index="0">
+                                <img src="assets/dashboard_real.png" alt="Сквозная аналитика сети" class="dashboard__img">
                             </div>
-                            <div class="dashboard__url">app.aiprotocol.kz/analytics</div>
+                            <div class="dash-slide" data-index="1">
+                                <img src="assets/dashboard_employees.png" alt="Рейтинг и показатели сотрудников" class="dashboard__img">
+                            </div>
+                            <div class="dash-slide" data-index="2">
+                                <img src="assets/dashboard_dialogs.png" alt="Реестр и аудиоанализ диалогов" class="dashboard__img">
+                            </div>
+                            <div class="dash-slide" data-index="3">
+                                <img src="assets/dashboard_prompt.png" alt="Настройка инструкции ИИ-агента" class="dashboard__img">
+                            </div>
                         </div>
-                        <img class="dashboard__img" id="dashboard-img" src="assets/dashboard_real.png" alt="Панель аналитики ОККМ" style="width: 100%; height: auto; display: block; border-radius: 0 0 var(--r-xl) var(--r-xl);">
                     </div>
                     <div class="dashboard__glow"></div>
                 </div>
