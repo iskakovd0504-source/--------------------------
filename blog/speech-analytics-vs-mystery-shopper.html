@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Речевая аналитика vs Тайный покупатель: что выгоднее для АЗС в 2026 году? — Блог AiProtocol</title>
+    <meta name="description"
+        content="Как внедрить допродажи без сопротивления сотрудников. Кейс: рост среднего чека на 30% с помощью AI-аудиобейджей AiProtocol.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="«Вам пирожок?» — как одна фраза увеличивает выручку на 30%">
+    <meta property="og:description"
+        content="Почему сотрудники молчат, а вы теряете миллионы. Технология контроля допродаж в ритейле и HoReCa.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/upsell-hero.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .article-page {
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .article-hero {
+            position: relative;
+            height: 400px;
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .article-hero__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .article-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%);
+        }
+
+        .article-header {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .article-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .article-content {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--c-text-secondary);
+        }
+
+        .article-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--c-text-primary);
+            margin: 40px 0 20px;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+        }
+
+        .article-content ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .article-content li {
+            margin-bottom: 12px;
+        }
+
+        /* Highlight Box inside article */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--c-text-muted);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin: 32px 0;
+            font-style: italic;
+        }
+
+        .stat-box {
+            background: rgba(34, 197, 94, 0.05);
+            border-left: 4px solid #22c55e;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 var(--r-lg) var(--r-lg) 0;
+        }
+
+        .stat-box__num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-xl);
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 28px;
+            }
+
+            .article-hero {
+                height: 250px;
+            }
+        }
+    </style>
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Как речевая аналитика увеличивает средний чек на 20%",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2023-10-15T08:00:00+05:00"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": "https://aiprotocol.kz/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Блог",
+      "item": "https://aiprotocol.kz/blog/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Increase Average Check",
+      "item": "https://aiprotocol.kz/blog/increase-average-check.html"
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Речевая аналитика vs Тайный покупатель: что выгоднее для АЗС в 2026 году?",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-20T12:00:00+05:00"
+}
+</script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <article class="article-page">
+        <div class="container" style="max-width: 800px;">
+            <div class="article-hero">
+                <img src="images/upsell-hero.png" alt="Речевая аналитика vs Тайный покупатель: что выгоднее для АЗС в 2026 году?" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            
+            <h1 class="section-title">Речевая аналитика vs Тайный покупатель: что выгоднее для АЗС в 2026 году?</h1>
+            <div class="article-card__meta" style="margin-bottom: 40px;">
+                <span>21 Авг 2026</span>
+                <span>7 мин чтения</span>
+            </div>
+            
+            <div class="article-content">
+                
+            <h2>Эволюция контроля качества на АЗС</h2>
+            <p>Еще несколько лет назад тайный покупатель считался золотым стандартом контроля качества на АЗС, в ритейле и аптеках. Владельцы бизнеса нанимали агентства, которые присылали "шпионов" с диктофонами в карманах. Но сегодня этот подход безнадежно устарел.</p>
+            <p>Давайте честно: сколько проверок в месяц делает тайный покупатель на одной точке? В лучшем случае — 3 или 4. А сколько реальных транзакций проходит через кассу? Тысячи. Это значит, что вы контролируете менее 1% работы вашего персонала.</p>
+            
+            <h2>Проблема тайных покупателей</h2>
+            <ul>
+                <li><strong>Микроскопическая выборка.</strong> Оценка по 2-3 визитам не отражает реальную картину. Сотрудник мог быть в плохом настроении именно в этот день, или наоборот, блестяще отработать скрипт только с проверяющим.</li>
+                <li><strong>Узнаваемость.</strong> "Свои" быстро вычисляют "чужих". Операторы АЗС часто имеют чаты в WhatsApp, где предупреждают соседние смены: "Сегодня ездит серая Тойота, проверяют кофе".</li>
+                <li><strong>Долгое ожидание отчетов.</strong> Пока агентство соберет данные, расшифрует аудио и пришлет сводный Excel, проходит минимум неделя. За это время кассир уже забудет этот диалог, и обратная связь потеряет смысл.</li>
+            </ul>
+
+            <h2>Как работают AI-аудиобейджи</h2>
+            <p>Умные аудиобейджи от AiProtocol полностью меняют парадигму. Это не разовая проверка, а 100% оцифровка всех диалогов.</p>
+            <div class="stat-box">
+                <span class="stat-box__num">100%</span>
+                диалогов анализируется искусственным интеллектом в реальном времени.
+            </div>
+            
+            <h3>Преимущества речевой аналитики:</h3>
+            <ul>
+                <li><strong>Тотальный контроль.</strong> ИИ не спит, не отвлекается и работает всю смену. Анализируется каждый чек и каждое предложение.</li>
+                <li><strong>Моментальная обратная связь.</strong> Если сотрудник в течение часа ни разу не предложил акционный товар, супервайзер получает уведомление и может сразу скорректировать работу смены.</li>
+                <li><strong>Исключение человеческого фактора.</strong> Нейросеть оценивает диалоги объективно, строго по заданным стандартам. Нет личных симпатий или антипатий к проверяемому.</li>
+            </ul>
+
+            <h2>Сравнение затрат (ROI)</h2>
+            <p>Услуги хорошего тайного покупателя стоят дорого. За 10 проверок в месяц на 5 точках вы можете отдавать от 200 000 до 500 000 тенге. При этом вы получаете лишь "срез" ситуации.</p>
+            <p>Внедрение речевой аналитики AiProtocol обходится значительно дешевле в пересчете на один проверенный диалог. Более того, за счет роста кросс-продаж (Cross-sell) и апсейлов (Up-sell), система полностью окупается в первые 3-4 недели использования.</p>
+
+            <div class="cta-box">
+                <h3>Сделайте контроль качества 100% прозрачным</h3>
+                <p style="color: #94a3b8; margin-bottom: 24px;">Оставьте заявку на демо-доступ к платформе AiProtocol и убедитесь в эффективности AI.</p>
+                <a href="../index.html#cta-final" class="btn btn--primary btn--lg">Запросить демо</a>
+            </div>
+        
+            </div>
+        </div>
+    </article>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <div class="footer__copy text-center">
+                    &copy; 2026 ТОО Aiprotocol.kz. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
