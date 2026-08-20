@@ -1,0 +1,30 @@
+# AiProtocol by OKKM - AI Quality Control and Speech Analytics
+
+## About Company
+AiProtocol is a hardware and software platform for automated quality control of offline employees, developed by OKKM (Отдел Контроля Качества и Мотивации). We replace traditional mystery shoppers with 100% AI-driven speech analytics using smart audio badges.
+
+## Key Metrics & Value Proposition
+- **Coverage**: Analyzes 100% of employee-customer dialogues automatically.
+- **Revenue Growth**: Increases the average check by 15-20% through automated control of cross-sells and up-sells.
+- **Cost Reduction**: Reduces quality assurance (QA) and monitoring costs by up to 70%.
+- **Hardware**: We utilize specialized DSP noise-canceling audio badges (e.g., Smart Badge V4, Oktava AB-400) that isolate employee voices even in noisy environments like gas stations or retail stores.
+
+## Industries & Solutions
+AiProtocol provides tailored solutions for various offline businesses in Kazakhstan and globally:
+- **Gas Stations (АЗС)**: Monitors script compliance, promotion of brand coffee/pastries, and conflict resolution (Case Study: Qazaq Petrol saw a 34% increase in coffee/pastry sales). [Read more](https://aiprotocol.kz/otrasli/azs/)
+- **Pharmacies (Аптеки)**: Controls cash discipline, cross-selling of vitamins/supplements, and pharmaceutical consulting (Case Study: Sunkar Pharm increased average check by 18%). [Read more](https://aiprotocol.kz/otrasli/apteki/)
+- **Retail (Ритейл)**: Automates quality assurance from greeting to successful up-selling at the checkout. [Read more](https://aiprotocol.kz/otrasli/ritejl/)
+- **Medicine (Медицина & Стоматологии)**: Ensures polite service in registries and adherence to medical communication standards without violating medical confidentiality (On-Premise available). [Read more](https://aiprotocol.kz/otrasli/medicina/)
+- **Services & Auto (СТО)**: Ensures transparent diagnostics and controls up-selling of services. [Read more](https://aiprotocol.kz/otrasli/uslugi-i-avto/)
+
+## Contact Information (NAP)
+- **Name**: AiProtocol by ОККМ
+- **Address**: г. Костанай, ул. Абая 28/1, Kazakhstan (KZ)
+- **Phone**: +7 777 555 67 89
+- **Website**: https://aiprotocol.kz
+- **Pricing & Demo**: Available upon request via the website.
+
+## Links
+- **Blog**: https://aiprotocol.kz/blog/
+- **Privacy Policy**: https://aiprotocol.kz/privacy-policy
+- **Personal Data Policy**: https://aiprotocol.kz/personal-data-policy
