@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI отдела контроля качества: как окупить умные аудиобейджи за 30 дней — Блог AiProtocol</title>
+    <meta name="description"
+        content="Как внедрить допродажи без сопротивления сотрудников. Кейс: рост среднего чека на 30% с помощью AI-аудиобейджей AiProtocol.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="«Вам пирожок?» — как одна фраза увеличивает выручку на 30%">
+    <meta property="og:description"
+        content="Почему сотрудники молчат, а вы теряете миллионы. Технология контроля допродаж в ритейле и HoReCa.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/upsell-hero.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .article-page {
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .article-hero {
+            position: relative;
+            height: 400px;
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .article-hero__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .article-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%);
+        }
+
+        .article-header {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .article-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .article-content {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--c-text-secondary);
+        }
+
+        .article-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--c-text-primary);
+            margin: 40px 0 20px;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+        }
+
+        .article-content ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .article-content li {
+            margin-bottom: 12px;
+        }
+
+        /* Highlight Box inside article */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--c-text-muted);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin: 32px 0;
+            font-style: italic;
+        }
+
+        .stat-box {
+            background: rgba(34, 197, 94, 0.05);
+            border-left: 4px solid #22c55e;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 var(--r-lg) var(--r-lg) 0;
+        }
+
+        .stat-box__num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-xl);
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 28px;
+            }
+
+            .article-hero {
+                height: 250px;
+            }
+        }
+    </style>
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Как речевая аналитика увеличивает средний чек на 20%",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2023-10-15T08:00:00+05:00"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": "https://aiprotocol.kz/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Блог",
+      "item": "https://aiprotocol.kz/blog/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Increase Average Check",
+      "item": "https://aiprotocol.kz/blog/increase-average-check.html"
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ROI отдела контроля качества: как окупить умные аудиобейджи за 30 дней",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-20T12:00:00+05:00"
+}
+</script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <article class="article-page">
+        <div class="container" style="max-width: 800px;">
+            <div class="article-hero">
+                <img src="images/upsell-hero.png" alt="ROI отдела контроля качества: как окупить умные аудиобейджи за 30 дней" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            
+            <h1 class="section-title">ROI отдела контроля качества: как окупить умные аудиобейджи за 30 дней</h1>
+            <div class="article-card__meta" style="margin-bottom: 40px;">
+                <span>18 Авг 2026</span>
+                <span>6 мин чтения</span>
+            </div>
+            
+            <div class="article-content">
+                
+            <h2>Зачем бизнесу оцифровывать диалоги?</h2>
+            <p>Внедрение любой IT-системы должно иметь четкий финансовый смысл. Когда мы предлагаем бизнесу умные аудиобейджи AiProtocol, мы всегда начинаем с расчета окупаемости (ROI - Return on Investment).</p>
+            <p>Давайте на реальном примере разберем, как инвестиции в речевую аналитику возвращаются в первый же месяц.</p>
+
+            <h2>Математика допродаж</h2>
+            <p>Представим сеть аптек (5 точек, 15 фармацевтов в смене). Ежедневно через одну кассу проходит около 200 человек. Суммарно — 3000 чеков в день на всю сеть.</p>
+            <p>Маржинальность сопутствующих товаров (витамины, гематоген, акционные БАДы) достигает 50-70%. Допустим, средняя стоимость допродажи составляет 1000 тенге.</p>
+            
+            <div class="stat-box">
+                <span class="stat-box__num">+450 000 ₸</span>
+                дополнительной выручки <strong>в день</strong> при увеличении конверсии всего на 15%.
+            </div>
+
+            <ul>
+                <li><strong>Без контроля:</strong> Фармацевты предлагают доп. товары лишь в 10% случаев. Конверсия в покупку = 3%. Это 90 успешных допродаж в день (90 000 тенге).</li>
+                <li><strong>С контролем AiProtocol:</strong> Фармацевты знают, что каждый диалог анализируется. Частота предложений вырастает до 80%. Конверсия увеличивается. Теперь у вас 450 успешных допродаж в день (450 000 тенге).</li>
+            </ul>
+
+            <h2>Снижение расходов на классический ОКК</h2>
+            <p>Помимо прямого роста выручки, вы экономите на штате тайных покупателей и аудиторов.</p>
+            <p>Один сотрудник отдела контроля качества может вручную прослушать не более 3-4 часов записей в день. Нейросеть обрабатывает тысячи часов аудио параллельно и мгновенно. Вам больше не нужно раздувать штат контролеров по мере роста количества точек — один супервайзер может контролировать 50-100 точек с помощью дашбордов AiProtocol.</p>
+
+            <h2>Вывод: окупаемость меньше месяца</h2>
+            <p>Практика показывает, что рост среднего чека на 15-20% с лихвой перекрывает стоимость лицензий и оборудования. Клиенты AiProtocol выходят в плюс уже на 3-й неделе использования платформы, после чего система начинает генерировать чистую прибыль.</p>
+
+            <div class="cta-box">
+                <h3>Рассчитайте ROI для вашей ниши</h3>
+                <p style="color: #94a3b8; margin-bottom: 24px;">Оставьте заявку, и мы бесплатно посчитаем потенциал роста вашей выручки на основе ваших метрик.</p>
+                <a href="../index.html#cta-final" class="btn btn--primary btn--lg">Заказать расчет</a>
+            </div>
+        
+            </div>
+        </div>
+    </article>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <div class="footer__copy text-center">
+                    &copy; 2026 ТОО Aiprotocol.kz. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

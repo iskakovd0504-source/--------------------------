@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Законно ли записывать разговоры сотрудников в Казахстане? — Блог AiProtocol</title>
+    <meta name="description"
+        content="Как внедрить допродажи без сопротивления сотрудников. Кейс: рост среднего чека на 30% с помощью AI-аудиобейджей AiProtocol.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="«Вам пирожок?» — как одна фраза увеличивает выручку на 30%">
+    <meta property="og:description"
+        content="Почему сотрудники молчат, а вы теряете миллионы. Технология контроля допродаж в ритейле и HoReCa.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/upsell-hero.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .article-page {
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        .article-hero {
+            position: relative;
+            height: 400px;
+            border-radius: var(--r-xl);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .article-hero__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .article-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%);
+        }
+
+        .article-header {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .article-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .article-content {
+            max-width: 720px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--c-text-secondary);
+        }
+
+        .article-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--c-text-primary);
+            margin: 40px 0 20px;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+        }
+
+        .article-content ul {
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .article-content li {
+            margin-bottom: 12px;
+        }
+
+        /* Highlight Box inside article */
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--c-text-muted);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin: 32px 0;
+            font-style: italic;
+        }
+
+        .stat-box {
+            background: rgba(34, 197, 94, 0.05);
+            border-left: 4px solid #22c55e;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 var(--r-lg) var(--r-lg) 0;
+        }
+
+        .stat-box__num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-xl);
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 28px;
+            }
+
+            .article-hero {
+                height: 250px;
+            }
+        }
+    </style>
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Как речевая аналитика увеличивает средний чек на 20%",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2023-10-15T08:00:00+05:00"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": "https://aiprotocol.kz/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Блог",
+      "item": "https://aiprotocol.kz/blog/index.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Increase Average Check",
+      "item": "https://aiprotocol.kz/blog/increase-average-check.html"
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Законно ли записывать разговоры сотрудников в Казахстане?",
+  "author": {
+    "@type": "Organization",
+    "name": "AiProtocol by ОККМ"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://aiprotocol.kz/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-20T12:00:00+05:00"
+}
+</script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <article class="article-page">
+        <div class="container" style="max-width: 800px;">
+            <div class="article-hero">
+                <img src="images/missed-calls-hero.png" alt="Законно ли записывать разговоры сотрудников в Казахстане?" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            
+            <h1 class="section-title">Законно ли записывать разговоры сотрудников в Казахстане?</h1>
+            <div class="article-card__meta" style="margin-bottom: 40px;">
+                <span>20 Авг 2026</span>
+                <span>5 мин чтения</span>
+            </div>
+            
+            <div class="article-content">
+                
+            <h2>Запись аудио: что говорит закон РК?</h2>
+            <p>Один из самых частых вопросов, которые мы получаем от клиентов перед внедрением аудиобейджей AiProtocol: <strong>"А это вообще законно?"</strong></p>
+            <p>Короткий ответ: <strong>Да, абсолютно законно</strong>. Но при соблюдении определенных процедур. Давайте разберем их подробно.</p>
+
+            <h2>Требования Трудового кодекса и Закона о защите персональных данных</h2>
+            <p>Согласно законодательству Республики Казахстан, работодатель имеет право контролировать рабочий процесс и использовать технические средства для обеспечения качества услуг и безопасности. Однако, негласная (скрытая) прослушка запрещена.</p>
+
+            <h3>Как сделать аудиозапись легальной: 3 шага</h3>
+            <ul>
+                <li><strong>Шаг 1. Внутренние документы.</strong> В Правилах внутреннего трудового распорядка (ПВТР) или в отдельном Положении о контроле качества должно быть четко прописано, что на рабочих местах ведется аудио- и видеофиксация для оценки качества обслуживания.</li>
+                <li><strong>Шаг 2. Согласие сотрудников.</strong> Каждый сотрудник должен подписать Согласие на сбор и обработку персональных данных, где будет указано, что в процессе работы используются аудиобейджи. Это стандартная практика при трудоустройстве.</li>
+                <li><strong>Шаг 3. Информирование клиентов.</strong> Клиенты также должны знать, что их разговор может быть записан. Для этого достаточно разместить на кассе или входной двери стикер: «В целях улучшения качества обслуживания ведется аудио- и видеозапись». Кроме того, на самом бейдже AiProtocol всегда мигает индикатор записи.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>Важно:</strong> Запись разговоров должна использоваться <strong>исключительно</strong> для оценки рабочих функций. Если сотрудник отошел в комнату отдыха или говорит по личному телефону — запись должна быть приостановлена.
+            </div>
+
+            <h2>Безопасность данных (On-Premise vs Cloud)</h2>
+            <p>Для таких чувствительных сфер, как медицина или банковский сектор, мы в AiProtocol предлагаем On-Premise решение. Это означает, что сервер с искусственным интеллектом разворачивается внутри вашей корпоративной сети. Аудиофайлы и транскрипции не покидают периметр вашей компании, что полностью исключает утечку врачебной или коммерческой тайны.</p>
+
+            <div class="cta-box">
+                <h3>Нужна помощь с документами?</h3>
+                <p style="color: #94a3b8; margin-bottom: 24px;">Нашим клиентам мы предоставляем готовые шаблоны юридических документов для легального внедрения аудиобейджей в РК.</p>
+                <a href="../index.html#cta-final" class="btn btn--primary btn--lg">Связаться с нами</a>
+            </div>
+        
+            </div>
+        </div>
+    </article>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <div class="footer__copy text-center">
+                    &copy; 2026 ТОО Aiprotocol.kz. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
