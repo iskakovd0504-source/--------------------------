@@ -501,9 +501,10 @@ select {
 .hero__subtitle {
     font-size: var(--f-size-lg);
     color: var(--c-text-secondary);
+    font-weight: 500; /* Добавил чуть жирности */
     line-height: 1.7;
     margin-bottom: var(--space-8);
-    max-width: 520px;
+    max-width: 580px; /* Немного расширил, чтобы текст хорошо лег */
 }
 
 .hero__subtitle strong {
@@ -3906,4 +3907,13 @@ html[data-theme="light"] .dash-arrow-btn:hover {
 
 
 
+
+
+/* Fix input text color for light theme */
+html[data-theme="light"] .form-input,
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+    color: #0F172A !important;
+}
 

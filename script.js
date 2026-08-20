@@ -695,7 +695,7 @@
         const RATES = {
             "8":  { label: "До 8 часов",   rent: 65000, buy: 58500, badgeMult: 1 },
             "12": { label: "До 12 часов",  rent: 85000, buy: 76500, badgeMult: 1 },
-            "24": { label: "Круглосуточно (24/7)", rent: 85000, buy: 76500, badgeMult: 2 }
+            "24": { label: "24 часа (Круглосуточно)", rent: 85000, buy: 76500, badgeMult: 2 }
         };
         const BADGE_PRICE = 100000;
 
@@ -816,9 +816,10 @@
 
         calcAddRowBtn.addEventListener("click", addNetRow);
 
-        // Стартовые 2 точки для демо
-        netRows.push({ id: netIdSeq++, name: "Точка 1", mode: "12", staff: 2, buy: false });
-        netRows.push({ id: netIdSeq++, name: "Точка 2", mode: "24", staff: 1, buy: false });
+        // Стартовые 3 точки для демо
+        netRows.push({ id: netIdSeq++, name: "Точка 1", mode: "8", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: "Точка 2", mode: "12", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: "Точка 3", mode: "24", staff: 1, buy: false });
         renderNetCalc();
     }
 
