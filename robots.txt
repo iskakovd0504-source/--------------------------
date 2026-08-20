@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /scratch/
+Disallow: /node_modules/
+Disallow: /okk/
+
 Sitemap: https://aiprotocol.kz/sitemap.xml
