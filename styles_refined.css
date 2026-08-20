@@ -42,8 +42,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero__subtitle {
-    font-weight: 300 !important;
-    color: var(--c-text-secondary) !important;
+    font-weight: 400 !important;
+    color: var(--c-text-primary) !important; /* Чуть темнее/контрастнее, чем secondary */
     letter-spacing: 0.02em !important;
     line-height: 1.7 !important;
 }

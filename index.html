@@ -76,11 +76,12 @@
                 <a href="#metrics" class="nav__link">Метрики</a>
                 <a href="#industries" class="nav__link">Отрасли</a>
                 <a href="#pricing" class="nav__link">Тарифы</a>
+                <a href="blog/index.html" class="nav__link">Блог</a>
             </nav>
             <div class="lang-switcher">
                 <a href="/" class="lang-link active">RU</a>
                 <span class="lang-separator">|</span>
-                <a href="/en/" class="lang-link">EN</a>
+                <a href="en/index.html" class="lang-link">EN</a>
             </div>
             <button id="theme-toggle" class="theme-toggle-btn" aria-label="Переключить тему" style="background: none; border: 1px solid var(--c-border); color: var(--c-text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; margin: 0 10px;">
                 <svg class="theme-toggle-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -113,7 +114,7 @@
             <div class="lang-switcher" style="justify-content: center; margin: 10px 0;">
                 <a href="/" class="lang-link active">RU</a>
                 <span class="lang-separator">|</span>
-                <a href="/en/" class="lang-link">EN</a>
+                <a href="en/index.html" class="lang-link">EN</a>
             </div>
             <button id="theme-toggle-mobile" class="theme-toggle-btn mobile-only" aria-label="Переключить тему" style="background: none; border: 1px solid var(--c-border); color: var(--c-text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; margin: 10px auto; transition: all var(--duration) var(--ease);">
                 <svg class="theme-toggle-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -151,23 +152,11 @@
                         <span class="gradient-text">и мотивации сотрудников на базе ИИ</span>
                     </h1>
                     <p class="hero__subtitle" data-animate="fade-up" data-delay="200" style="margin-bottom: var(--space-6);">
-                        Интеллектуальная платформа <strong>AiProtocol</strong> для ритейла, АЗС и аптек.
+                        Интеллектуальная платформа <strong>AiProtocol</strong> для офлайн-бизнеса и торговых сетей.
                         <br><br>
-                        Автоматизирует 100% контроля на местах без человеческого фактора.
+                        Находим упущенную выручку в каждом диалоге. Автоматизируем 100% контроля стандартов, превращая дисциплину в стабильный рост продаж.
                     </p>
-                    <div class="hero__actions" data-animate="fade-up" data-delay="300">
-                        <a href="#cta-final" class="btn btn--primary btn--lg" id="hero-cta">
-                             Заявка на демо
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                        <a href="#how-it-works" class="btn btn--ghost btn--lg" id="hero-learn">
-                            Как это работает
-                        </a>
-                    </div>
-                    <div class="hero__stats" data-animate="fade-up" data-delay="400">
+                    <div class="hero__stats" data-animate="fade-up" data-delay="300" style="margin-bottom: 2rem;">
                         <div class="hero__stat">
                             <span class="hero__stat-value" style="display: inline-flex; align-items: baseline;">
                                 <span class="hero__stat-suffix" style="margin-right: 2px;">+</span><span data-count="15">15</span>-20<span class="hero__stat-suffix">%</span>
@@ -188,6 +177,18 @@
                             </span>
                             <span class="hero__stat-label">снижение затрат на окк</span>
                         </div>
+                    </div>
+                    <div class="hero__actions" data-animate="fade-up" data-delay="400">
+                        <a href="#cta-final" class="btn btn--primary btn--lg" id="hero-cta">
+                             Заявка на демо
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                        <a href="#how-it-works" class="btn btn--ghost btn--lg" id="hero-learn">
+                            Как это работает
+                        </a>
                     </div>
                 </div>
 
@@ -368,6 +369,7 @@
                         <div style="text-align: center; margin-top: auto;">
                             <img src="assets/smart-badge-v4.jpg" alt="AI Smart Badge V4" style="max-width: 100%; border-radius: var(--r-lg); filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.25));">
                             <p style="margin-top: var(--space-3); font-size: var(--f-size-sm); color: var(--c-text-muted);">Компактный беспроводной смарт-бейдж V4</p>
+                            <p style="margin-top: 4px; font-size: 13px; color: var(--c-text-primary); font-weight: 500;">(Вариант аренды или покупки)</p>
                         </div>
                     </div>
 
@@ -391,8 +393,11 @@
                             </ul>
                         </div>
                         <div style="text-align: center; margin-top: auto;">
-                            <img src="assets/ab400-badge.png" alt="Аудиобейдж Октава АБ-400" style="max-width: 100%; filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.25));">
+                            <div style="background: var(--c-surface); border-radius: var(--r-lg); padding: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(6, 182, 212, 0.3); border: 1px solid var(--c-border); width: 100%; aspect-ratio: 16/9; box-sizing: border-box; overflow: hidden;">
+                                <img src="assets/bs4-station.png" alt="Аудиобейдж Октава АБ-400" style="width: 100%; height: 100%; object-fit: contain; transform: scale(1.6);">
+                            </div>
                             <p style="margin-top: var(--space-3); font-size: var(--f-size-sm); color: var(--c-text-muted);">Премиальный аудиокомплекс Тульского завода «Октава»</p>
+                            <p style="margin-top: 4px; font-size: 13px; color: var(--c-text-primary); font-weight: 500;">(Приобретается клиентом у представителя в РК)</p>
                         </div>
                     </div>
                 </div>
@@ -1051,8 +1056,8 @@
                                     <tr>
                                         <th style="width: 30px;">№</th>
                                         <th style="min-width: 140px;">Точка</th>
-                                        <th style="width: 190px;">Режим работы</th>
-                                        <th style="width: 100px; text-align: center;">Сотрудников</th>
+                                        <th style="width: 220px;">Режим работы</th>
+                                        <th style="width: 100px; text-align: center;">Сотрудников в смене</th>
                                         <th style="width: 75px; text-align: center;">Бейджей</th>
                                         <th style="width: 150px; text-align: center;">Оборудование</th>
                                         <th style="width: 130px; text-align: right;">Сумма / мес</th>
@@ -1122,8 +1127,8 @@
                                     stroke-linecap="round" />
                             </svg>
                         </button>
-                           <div class="faq__answer">
-                            <p>Стоимость рассчитывается индивидуально и зависит от количества сотрудников и торговых точек. Вы можете быстро рассчитать ориентировочную стоимость внедрения с помощью нашего <a href="#calculator" class="faq__link" style="color: var(--c-accent-cyan); text-decoration: underline;">онлайн-калькулятора</a> выше на этой странице, либо оставить заявку на бесплатный 3-дневный тест-драйв для получения персонального предложения.</p>
+                        <div class="faq__answer">
+                            <p>Стоимость рассчитывается индивидуально и зависит от количества сотрудников и торговых точек. Вы можете быстро рассчитать ориентировочную стоимость внедрения с помощью нашего <a href="#pricing" class="faq__link" style="color: var(--c-accent-cyan); text-decoration: underline;">онлайн-калькулятора</a> выше на этой странице, либо оставить заявку на бесплатный 3-дневный тест-драйв для получения персонального предложения.</p>
                         </div>
                     </div>
                     <div class="faq__item" id="faq-2">
@@ -1135,7 +1140,7 @@
                             </svg>
                         </button>
                         <div class="faq__answer">
-                            <p>Базовое внедрение занимает всего <strong>1 рабочий день</strong>. Мы доставляем аудиобейджи, устанавливаем и подключаем зарядные док-станции, настраиваем Wi-Fi и адаптируем метрики ИИ под особенности вашего бизнеса. Первые результаты и подробные отчеты вы увидите в дашборде уже на следующий день.</p>
+                            <p>Зависит от варианта покупки или аренды бейджей, в среднем до 3-х дней при наличии оборудования на складе. Мы доставляем аудиобейджи, устанавливаем и подключаем зарядные док-станции, настраиваем Wi-Fi и адаптируем метрики ИИ под особенности вашего бизнеса. Первые результаты вы увидите в дашборде сразу после запуска.</p>
                         </div>
                     </div>
                     <div class="faq__item" id="faq-4">
@@ -1161,10 +1166,7 @@
                             </svg>
                         </button>
                         <div class="faq__answer">
-                            <p>Записи зашифрованы (AES-128) и хранятся на базовой станции БС-4 со встроенным накопителем
-                                128 ГБ. Далее данные передаются по защищённому каналу на ваши SFTP-серверы или
-                                S3-хранилища. Возможно полностью автономное размещение (on-premise). Мы соответствуем
-                                требованиям Закона РК «О персональных данных и их защите».</p>
+                            <p>Записи хранятся в серверной инфраструктуре в дата-центре уровня Tier III (г. Алматы, Республика Казахстан). Передача данных между компонентами платформы осуществляется по защищенным протоколам (TLS/HTTPS). Доступ к исходным аудиозаписям строго ограничен кругом администраторов, ответственных за эксплуатацию хранилища и базы данных. Шифрование данных при хранении реализуется на уровне инфраструктуры и настраивается в соответствии с требованиями заказчика в рамках договора. Возможно полностью автономное размещение (on-premise).</p>
                         </div>
                     </div>
                     <div class="faq__item" id="faq-5">
@@ -1243,7 +1245,7 @@
                         <div class="cta-form__checkbox-wrapper">
                             <input type="checkbox" id="form-consent" class="cta-form__checkbox" required checked>
                             <label for="form-consent" class="cta-form__label">
-                                Я соглашаюсь с <a href="privacy-policy.html" class="link">политикой обработки
+                                Я соглашаюсь с <a href="personal-data-policy.html" class="link">политикой обработки
                                     персональных данных</a>
                             </label>
                         </div>
@@ -1308,6 +1310,7 @@
                     <a href="#faq" class="footer__link">FAQ</a>
                     <a href="blog/index.html" class="footer__link">Блог</a>
                     <a href="#" class="footer__link">Контакты</a>
+                    <a href="personal-data-policy.html" class="footer__link">Политика обработки ПД</a>
                     <a href="privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
                 </div>
             </div>
@@ -1335,7 +1338,7 @@
                         </svg>
                     </a>
                 </div>
-                <p class="footer__copy">© 2026 AiProtocol. Все права защищены. Совместная разработка с Aitomaton. Права на ПО принадлежат AiProtocol.</p>
+                <p class="footer__copy">© 2026 AiProtocol. Все права защищены.</p>
                 <a href="tel:+77775556789" class="footer__phone">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                         <path
