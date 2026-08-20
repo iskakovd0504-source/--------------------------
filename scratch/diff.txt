@@ -1,0 +1,593 @@
+diff --git a/demo.html b/demo.html
+index c1da544..f319b52 100644
+--- a/demo.html
++++ b/demo.html
+@@ -688,11 +688,7 @@
+             transform: translateY(0);
+         }
+ 
+-        .kpi-target-badge {
+-            color: rgba(239,68,68,0.9);
+-            background: #0F1320;
+-            border: 1px solid rgba(239,68,68,0.15);
+-        }
++        .kpi-target-badge { background: #EF4444; color: #fff; border: none; font-size: 10px; padding: 3px 8px; font-weight: 800; border-radius: 4px; margin-right: 10px; }
+         body.light-theme-active .kpi-target-badge {
+             background: #F0F2F5 !important;
+             border-color: rgba(239,68,68,0.3) !important;
+@@ -879,14 +875,10 @@
+ 
+         /* Login Overlay */
+         #login-overlay {
+-            position: fixed; inset: 0; background: #060912; z-index: 2000;
+-            display: flex; align-items: center; justify-content: center;
+-            flex-direction: column; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
++            position: fixed; inset: 0; background: #060912; z-index: 2000; display: flex; flex-direction: column; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; padding: 40px 20px;
+         }
+         .login-box {
+-            background: rgba(17, 24, 39, 0.8); border: var(--glass-border);
+-            padding: 50px; border-radius: 32px; width: 400px; text-align: center;
+-            backdrop-filter: blur(20px); box-shadow: 0 40px 100px rgba(0,0,0,0.5);
++            background: rgba(17, 24, 39, 0.8); border: var(--glass-border); padding: 50px 20px; border-radius: 32px; width: 100%; max-width: 400px; text-align: center; backdrop-filter: blur(20px); box-shadow: 0 40px 100px rgba(0,0,0,0.5); margin: auto;
+         }
+         .login-input {
+             width: 100%; background: rgba(0,0,0,0.3); border: var(--glass-border);
+@@ -1670,6 +1662,26 @@
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L12 22M2 12L22 12M12 7H12.01M12 17H12.01M7 12H7.01M17 12H17.01"/></svg>
+                     <div style="font-size:11px; font-weight:700;">Аптеки</div>
+                 </div>
++                <div class="choice-card" id="mode-supermarket" onclick="setDemoMode('supermarket')">
++                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2zM3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/></svg>
++                    <div style="font-size:11px; font-weight:700;">Супермаркет</div>
++                </div>
++                <div class="choice-card" id="mode-medical_center" onclick="setDemoMode('medical_center')">
++                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
++                    <div style="font-size:11px; font-weight:700;">Мед. центр</div>
++                </div>
++                <div class="choice-card" id="mode-retail_tech" onclick="setDemoMode('retail_tech')">
++                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 16V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10m16 0H4m16 0l1.28 2.559A.5.5 0 0120.832 19H3.168a.5.5 0 01-.448-.741L4 16m12-4H8"/></svg>
++                    <div style="font-size:11px; font-weight:700;">Бытовая техника</div>
++                </div>
++                <div class="choice-card" id="mode-cosmetics" onclick="setDemoMode('cosmetics')">
++                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
++                    <div style="font-size:11px; font-weight:700;">Сеть косметики</div>
++                </div>
++                <div class="choice-card" id="mode-mobile_retail" onclick="setDemoMode('mobile_retail')">
++                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
++                    <div style="font-size:11px; font-weight:700;">Салоны связи</div>
++                </div>
+             </div>
+ 
+             <input type="password" id="demo-pass" class="login-input" placeholder="0000" value="1234" autocomplete="new-password" onkeydown="if(event.key === 'Enter') checkLogin()">
+@@ -1798,7 +1810,7 @@
+                     <div style="flex: 1;">
+                         <div style="font-size: 11px; color: #3B82F6; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                             <span style="display: inline-block; width: 6px; height: 6px; background: #3B82F6; border-radius: 50%;"></span>
+-                            Сводка ИИ и фокус-зоны сети (60 АЗС)
++                            <span id="insight-header-text">Сводка ИИ и фокус-зоны сети (60 АЗС)</span>
+                         </div>
+                         <div id="insight-title" style="font-size: 16px; font-weight: 800; color: #fff; line-height: 1.4; margin-bottom: 8px;">
+                             Сводный ИИ-отчет по сети за смену: вежливость стабильна, просадка в кросс-продажах
+@@ -1824,7 +1836,7 @@
+                     <div style="position:relative; flex-grow:1; display:flex; flex-direction:column; justify-content:flex-end;">
+                         <!-- Dotted KPI Target Line (75%) -->
+                         <!-- Dotted KPI Target Line (75%) -->
+-                        <div style="position:absolute; left:0; right:0; bottom:75%; border-top:1px dashed rgba(239, 68, 68, 0.4); display:flex; justify-content:flex-end; align-items:center; z-index:1; pointer-events:none;">
++                        <div style="position:absolute; left:0; right:0; bottom:68%; border-top:2px dashed #EF4444; display:flex; justify-content:flex-end; align-items:center; z-index:10; pointer-events:none;">
+                             <span class="kpi-target-badge" style="font-size:9px; padding: 2px 6px; border-radius: 4px; margin-right: 10px; font-weight:800; transform:translateY(-50%);">ЦЕЛЬ KPI: 75%</span>
+                         </div>
+                         
+@@ -2557,56 +2569,175 @@
+                     "Стандарт прощания (ТРИГГЕР №6)"
+                 ],
+                 scripts: [
+-                    { t: "1. Приветствие", s: '"Добрый день! Добро пожаловать на Демо АЗС! Какое топливо заправляем?" (Без сухого "Здравствуйте" и стоп-слова "Здрасьте")' },
+-                    { t: "2. Продажа кофе (Короткая продажа)", s: '"Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно держать!" (Строго без частицы "НЕ")' },
+-                    { t: "3. Выпечка и кросс-сейл", s: '"Перекусите у нас! Рекомендую попробовать нашу свежую самсу или горячий хот-дог. Вам один или парочку?" (Табу на "Что-нибудь еще?")' },
+-                    { t: "4. Повторение заказа перед оплатой", s: '"[Номер колонки] колонка, [Марка топлива], [Объем в литрах или сумма], [Дополнительный товар], оплата [картой / наличными]"' },
+-                    { t: "5. Выдача чека по умолчанию", s: '(Кассир выдает фискальный чек в руки молча. Полный запрет на вопрос: "Вам чек нужен?")' },
+-                    { t: "6. Стандарт прощания", s: '"Счастливого пути! Будем рады видеть Вас снова!" (Или: "Хорошего Вам дня! Ждем Вас еще!")' }
++                    { t: "Приветствие", s: '"Добрый день! Добро пожаловать."' },
++                    { t: "Бонусная карта", s: '"Ваша бонусная карта?"' },
++                    { t: "Пакет", s: '"Пакет нужен?"' },
++                    { t: "Товары по акции", s: '"Посмотрите товары по акции на кассе!"' },
++                    { t: "Прощание", s: '"Спасибо за покупку, приходите еще!"' }
+                 ]
+             },
+-            pharmacy: {
+-                clientName: "Демо Аптека",
+-                title: "ИИ-Контроль стандартов • Демо Аптека",
+-                empLabel: "Фармацевты",
+-                stationLabel: "Аптеки",
+-                insightTitle: "В Демо Аптека №5 вчера зафиксировано 14 пропусков предложения пробиотиков",
+-                insightLost: "+42 000 ₸ / день",
+-                drillBtn: "Разобрать диалоги №5",
++            medical_center: {
++                clientName: "Демо Медцентр",
++                title: "ИИ-Контроль стандартов • Мед. центр",
++                empLabel: "Регистратура",
++                stationLabel: "Филиалы",
++                insightTitle: "В филиале 'Алматы' не предложены чек-апы 8 пациентам",
++                insightLost: "Потенциальная упущенная прибыль 240 000 ₸",
++                drillBtn: "Посмотреть диалоги",
+                 pinnedKPIs: [
+-                    { type: 'system', id: 'checked', label: 'ПРОВЕРЕНО ЧЕКОВ', icon: '🧾' },
+-                    { type: 'system', id: 'compliance', label: 'АПСЕЛЛ (СМЕЖНЫЕ)', icon: '💊' },
+-                    { type: 'trigger', id: 'Витамины/БАД', label: 'КОНВЕРСИЯ В ВИТАМИНЫ', icon: '🍊' },
+-                    { type: 'trigger', id: 'Жалобы на цены', label: 'ЖАЛОБЫ НА ЦЕНЫ', icon: '⚠️' }
++                    { type: 'system', id: 'checked', label: 'ЗАПИСЕЙ ПРОСЛУШАНО', icon: '🎧' },
++                    { type: 'system', id: 'compliance', label: 'СОБЛЮДЕНИЕ СКРИПТА', icon: '📋' },
++                    { type: 'trigger', id: 'Запись на прием', label: 'ЗАПИСЬ НА ПРИЕМ', icon: '📅' },
++                    { type: 'trigger', id: 'Доп. услуги', label: 'ПРЕДЛОЖЕНИЕ ДОП. УСЛУГ', icon: '💊' }
+                 ],
+-                statsValues: ["284", "82%", "48%", "2"],
+-                chartTitle: "Динамика соблюдения стандартов (7 дней)",
+-                prompt: "Ты — эксперт по контролю качества в аптечной сети Демо Аптека. \nТвоя задача: проверять фармацевтическую опеку по 6 ключевым триггерам.\nКритерии:\n1. Приветствие и этика общения.\n2. Предложение пробиотиков к антибиотикам.\n3. Уточнение дозировки и формы выпуска.\n4. Предложение витаминов/БАД в кросс-продажах.\n5. Предложение аналогов (СТМ).\n6. Автоматическая выдача чека.",
++                statsValues: ["120", "92%", "88%", "45%"],
++                chartTitle: "Соблюдение стандартов в регистратуре",
++                prompt: "Ты — медицинский контролер качества. Проверяй диалоги регистратуры с пациентами.\n1. Вежливое приветствие.\n2. Уточнение жалоб.\n3. Запись к специалисту.\n4. Напоминание о правилах приема.\n5. Предложение дополнительных анализов/чек-апов.",
++                promptCriteria: [
++                    "Вежливое приветствие",
++                    "Уточнение профиля врача",
++                    "Информирование о стоимости",
++                    "Предложение чек-апа",
++                    "Вежливое прощание"
++                ],
++                hardwareStations: [],
++                employees: [],
++                dialogs: [],
++                stations: ["Все филиалы", "Филиал 'Алматы'", "Филиал 'Астана'"],
++                geo: [
++                    { name: "Филиал 'Алматы'", info: "Частые пропуски предложения чек-апов", color: "#EF4444" },
++                    { name: "Филиал 'Астана'", info: "Высокая конверсия в запись", color: "#10B981" }
++                ],
++                checklist: ["Приветствие", "Выявление потребности", "Инфо о цене", "Доп. услуги", "Прощание"],
++                scripts: [
++                    { t: "Приветствие", s: '"Здравствуйте, клиника Демо Медцентр, слушаю вас."' },
++                    { t: "Выявление потребности", s: '"Вас записать к терапевту или узкому специалисту?"' },
++                    { t: "Инфо о цене", s: '"Прием стоит 15 000 тенге, включает первичный осмотр."' },
++                    { t: "Доп. услуги", s: '"У нас сейчас акция на чек-ап всего организма, записать вас?"' },
++                    { t: "Прощание", s: '"Ждем вас завтра, до свидания!"' }
++                ]
++            },
++            retail_tech: {
++                clientName: "Демо Бытовая техника",
++                title: "ИИ-Контроль стандартов • Ритейл Техники",
++                empLabel: "Консультанты",
++                stationLabel: "Магазины",
++                insightTitle: "Отдел ТВ не предлагает кронштейны в 60% случаев",
++                insightLost: "Упущено 18 000 ₸ маржи на аксессуарах",
++                drillBtn: "Анализ сессии",
++                pinnedKPIs: [
++                    { type: 'system', id: 'checked', label: 'ДИАЛОГОВ', icon: '📱' },
++                    { type: 'system', id: 'compliance', label: 'СОБЛЮДЕНИЕ СТАНДАРТА', icon: '⚙️' },
++                    { type: 'trigger', id: 'Допгарантия', label: 'КОНВЕРСИЯ В ГАРАНТИЮ', icon: '🛡️' },
++                    { type: 'trigger', id: 'Аксессуары', label: 'КРОСС-СЕЙЛ АКСЕССУАРОВ', icon: '🔌' }
++                ],
++                statsValues: ["210", "65%", "12%", "34%"],
++                chartTitle: "Эффективность консультантов",
++                prompt: "Ты — аудитор в магазине бытовой техники.\n1. Установление контакта.\n2. Выявление потребностей.\n3. Презентация товара.\n4. Кросс-сейл (аксессуары, гарантия, настройка).\n5. Работа с возражениями.",
++                promptCriteria: [
++                    "Приветствие",
++                    "Выявление потребностей",
++                    "Презентация на основе выгод",
++                    "Предложение доп. гарантии",
++                    "Предложение аксессуаров"
++                ],
++                hardwareStations: [],
++                employees: [],
++                dialogs: [],
++                stations: ["Все магазины", "Мега-молл", "Сити-центр"],
++                geo: [
++                    { name: "Мега-молл", info: "Низкая конверсия в гарантию", color: "#EF4444" },
++                    { name: "Сити-центр", info: "Хорошие показатели доп. продаж", color: "#10B981" }
++                ],
++                checklist: ["Приветствие", "Потребности", "Презентация", "Доп. гарантия", "Аксессуары"],
++                scripts: [
++                    { t: "Приветствие", s: '"Добрый день! Подсказать вам по моделям?"' },
++                    { t: "Потребности", s: '"Вы ищете телевизор для спальни или гостиной?"' },
++                    { t: "Презентация", s: '"У этой модели отличная цветопередача, фильмы будут выглядеть шикарно."' },
++                    { t: "Доп. гарантия", s: '"Рекомендую оформить страховку, чтобы защитить вашу покупку на 2 года."' },
++                    { t: "Аксессуары", s: '"К этому телевизору возьмите сразу кронштейн и кабель."' }
++                ]
++            },
++            cosmetics: {
++                clientName: "Демо Сеть Косметики",
++                title: "ИИ-Контроль стандартов • Косметика",
++                empLabel: "Консультанты",
++                stationLabel: "Бутики",
++                insightTitle: "Консультант Анна не рассказывает про акцию 2=3",
++                insightLost: "Снижение среднего чека на 15%",
++                drillBtn: "Разобрать ошибки Анны",
++                pinnedKPIs: [
++                    { type: 'system', id: 'checked', label: 'ОЦЕНЕНО СЕССИЙ', icon: '💄' },
++                    { type: 'system', id: 'compliance', label: 'ОБЩЕЕ КАЧЕСТВО', icon: '✨' },
++                    { type: 'trigger', id: 'Акция', label: 'ОЗВУЧИВАНИЕ АКЦИЙ', icon: '🎁' },
++                    { type: 'trigger', id: 'Тестер', label: 'ПРЕДЛОЖЕНИЕ ТЕСТА', icon: '💧' }
++                ],
++                statsValues: ["380", "85%", "45%", "92%"],
++                chartTitle: "Соблюдение стандартов по бутикам",
++                prompt: "Ты — бьюти-аудитор. Проверяй диалоги консультантов.\n1. Встреча клиента.\n2. Предложение помощи и выявление типа кожи.\n3. Демонстрация (предложение тестера).\n4. Озвучивание текущих акций (например, 2=3).\n5. Приглашение на кассу.",
++                promptCriteria: [
++                    "Приветствие",
++                    "Уточнение типа кожи/волос",
++                    "Предложение протестировать",
++                    "Озвучивание акции",
++                    "Прощание/Касса"
++                ],
++                hardwareStations: [],
++                employees: [],
++                dialogs: [],
++                stations: ["Все бутики", "ТРЦ 'Галерея'", "Бутик на Арбате"],
++                geo: [
++                    { name: "ТРЦ 'Галерея'", info: "Высокая конверсия", color: "#10B981" },
++                    { name: "Бутик на Арбате", info: "Пропускают предложение тестеров", color: "#F59E0B" }
++                ],
++                checklist: ["Приветствие", "Тип кожи", "Тестер", "Акции", "Касса"],
++                scripts: [
++                    { t: "Приветствие", s: '"Добрый день, могу помочь с выбором ухода?"' },
++                    { t: "Тип кожи", s: '"Какая у вас кожа? Склонная к сухости или жирная?"' },
++                    { t: "Тестер", s: '"Давайте нанесем крем на руку, почувствуйте, как он впитывается."' },
++                    { t: "Акции", s: '"Обратите внимание, сегодня акция 2=3 на все маски."' },
++                    { t: "Касса", s: '"Пройдемте на кассу, я оформлю вам покупку и положу пробники."' }
++                ]
++            },
++            mobile_retail: {
++                clientName: "Демо Салон Связи",
++                title: "ИИ-Контроль стандартов • Салоны связи",
++                empLabel: "Менеджеры",
++                stationLabel: "Салоны",
++                insightTitle: "Отсутствует кросс-продажа защитных стекол при продаже iPhone",
++                insightLost: "-35 000 ₸ маржи",
++                drillBtn: "Анализ сессии продаж",
++                pinnedKPIs: [
++                    { type: 'system', id: 'checked', label: 'ДИАЛОГОВ', icon: '📱' },
++                    { type: 'system', id: 'compliance', label: 'СОБЛЮДЕНИЕ СТАНДАРТА', icon: '📊' },
++                    { type: 'trigger', id: 'Сим-карта', label: 'ПРЕДЛОЖЕНИЕ SIM', icon: '📶' },
++                    { type: 'trigger', id: 'Аксессуары', label: 'СТЕКЛО/ЧЕХОЛ', icon: '🛡️' }
++                ],
++                statsValues: ["295", "71%", "50%", "68%"],
++                chartTitle: "Эффективность менеджеров связи",
++                prompt: "Ты — аудитор качества в салоне сотовой связи.\n1. Приветствие.\n2. Выявление потребностей (какой телефон ищут).\n3. Предложение аксессуаров (чехол, стекло, зарядка).\n4. Предложение доп. услуг (настройка, перенос данных).\n5. Предложение SIM-карты/тарифа.",
+                 promptCriteria: [
+-                    "Приветствие и этика общения.",
+-                    "Предложение пробиотиков к антибиотикам.",
+-                    "Уточнение дозировки и формы выпуска.",
+-                    "Предложение витаминов/БАД в кросс-продажах.",
+-                    "Предложение аналогов (СТМ).",
+-                    "Автоматическая выдача чека."
++                    "Приветствие",
++                    "Выявление потребностей",
++                    "Кросс-сейл: аксессуары",
++                    "Кросс-сейл: услуги настройки",
++                    "Предложение тарифа"
+                 ],
+                 hardwareStations: [],
+                 employees: [],
+                 dialogs: [],
+-                stations: ["Все Аптеки"],
+-                geo: [],
+-                checklist: ["Приветствие", "Пробиотики", "Витамины/БАД", "Дозировка", "Форма выпуска", "Вежливость", "Аналоги", "Срок годности", "Карта аптеки", "Этика"],
++                stations: ["Все салоны", "Салон 'Центральный'", "Салон 'Южный'"],
++                geo: [
++                    { name: "Салон 'Центральный'", info: "Отличные продажи аксессуаров", color: "#10B981" },
++                    { name: "Салон 'Южный'", info: "Не предлагают услуги настройки", color: "#EF4444" }
++                ],
++                checklist: ["Приветствие", "Выбор смартфона", "Аксессуары", "Настройка", "Сим-карта"],
+                 scripts: [
+-                    { t: "Фарм-опека: Приветствие", s: '"Здравствуйте! Чем могу вам помочь? Подсказать по дозировке или подобрать аналог?"' },
+-                    { t: "Доп-продажа (Пробиотик)", s: '"Вы берете антибиотик, к нему обязательно нужен пробиотик для защиты кишечника. Рекомендую [Название]. Оформим?"' },
+-                    { t: "Кросс-продажа (Витамины)", s: '"Сейчас сезон простуд, рекомендую взять курс витамина C или комплекс для иммунитета. Есть по акции, желаете?"' },
+-                    { t: "Карта лояльности", s: '"У вас есть наша накопительная карта? Можем списать баллы в счет покупки или оформить новую."' },
+-                    { t: "Завершение диалога", s: '"Пожалуйста, вот ваш заказ. Будьте здоровы, не болейте! Ждем вас снова."' },
+-                    { t: "Дозировка и курс", s: '"Вам врач назначил по 1 таблетке 2 раза в день? Важно принимать строго после еды и не прерывать курс. Запишем вам памятку?"' },
+-                    { t: "Предложение аналога", s: '"Этого препарата сейчас нет в наличии, но есть полный аналог с тем же действующим веществом, он даже чуть дешевле. Желаете?"' },
+-                    { t: "Сопутствующие товары", s: '"Для проведения инъекций вам также понадобятся стерильные салфетки и шприцы. Посмотрите, у нас есть наборы, положить вам?"' },
+-                    { t: "Рецептурный отпуск", s: '"Этот препарат отпускается строго по рецепту врача. Пожалуйста, покажите ваш рецепт для корректного оформления покупки."' },
+-                    { t: "Условия хранения", s: '"Обратите внимание: этот препарат нужно хранить строго в холодильнике при температуре от +2 до +8 градусов. До дома донесете?"' }
++                    { t: "Приветствие", s: '"Добрый день, выбираете телефон или тариф?"' },
++                    { t: "Выбор смартфона", s: '"Вам важна хорошая камера или мощная батарея?"' },
++                    { t: "Аксессуары", s: '"Давайте сразу наклеим защитное стекло, чтобы экран был в безопасности."' },
++                    { t: "Настройка", s: '"Вам помочь перенести данные со старого телефона? Мы сделаем это за 10 минут."' },
++                    { t: "Сим-карта", s: '"А давайте подберем тариф с безлимитным интернетом для вашего нового смартфона!"' }
+                 ]
+             }
+         };
+@@ -2943,6 +3074,80 @@
+             }
+         }
+ 
++        
++        // === ГЕНЕРАЦИЯ ДАННЫХ ДЛЯ НОВЫХ НИШ ===
++        const newModes = ['supermarket', 'medical_center', 'retail_tech', 'cosmetics', 'mobile_retail'];
++        const names = ["Анна", "Елена", "Дмитрий", "Алина", "Мария", "Сергей", "Виктория", "Олег", "Ирина", "Максим"];
++        
++        newModes.forEach(mode => {
++            if (!config[mode]) return;
++            config[mode].hardwareStations = [{ id: mode + '_1', label: config[mode].stations[1], city: 'АЛМАТЫ' }, { id: mode + '_2', label: config[mode].stations[2], city: 'АСТАНА' }];
++
++            const modeConfig = config[mode];
++            if (!modeConfig) return;
++            
++            // Генерируем 10 сотрудников
++            for(let i=0; i<10; i++) {
++                const empName = names[i] + " " + String.fromCharCode(65 + i) + ".";
++                const location = modeConfig.stations[1 + (i % (modeConfig.stations.length - 1))];
++                const score = parseFloat((7.0 + Math.random() * 2.5).toFixed(1));
++                const calls = Math.floor(50 + Math.random() * 100);
++                
++                // случайные проценты для KPI
++                const k1 = Math.floor(50 + Math.random() * 50);
++                const k2 = Math.floor(40 + Math.random() * 60);
++                const k3 = Math.floor(30 + Math.random() * 70);
++                const k4 = Math.floor(20 + Math.random() * 80);
++
++                modeConfig.employees.push({
++                    id: i + 1,
++                    name: empName,
++                    score: score,
++                    calls: calls,
++                    greeting: k1 + "%",
++                    probiotic: k2 + "%", 
++                    vitamin: k3 + "%",
++                    dosage: k4 + "%",
++                    upsell: [k1, k2, k3, k4],
++                    location: location,
++                    stationId: `${mode}_${1 + (i % (modeConfig.stations.length - 1))}`,
++                    status: score > 9.0 ? "green" : (score > 7.5 ? "amber" : "red"),
++                    badgeStatus: Math.random() > 0.35 ? 'in-use' : 'ready',
++                    rfid: `2X-${mode.toUpperCase().slice(0,3)}-${i+10}`,
++                    batteryLeft: Math.floor(4 + Math.random() * 15),
++                    badgeHistory: []
++                });
++
++                // Генерируем диалоги (по 2 на сотрудника)
++                for(let d=1; d<=2; d++) {
++                    const dialogId = 6000 + (i*2) + d;
++                    const hour = String(Math.floor(10 + Math.random() * 10)).padStart(2, '0');
++                    const min = String(Math.floor(Math.random() * 60)).padStart(2, '0');
++                    
++                    modeConfig.dialogs.push({
++                        id: dialogId,
++                        emp: empName,
++                        time: `${hour}:${min}`,
++                        topic: "Демо-сессия обслуживания",
++                        script: `${Math.floor(60 + Math.random()*40)}%`,
++                        tone: Math.random() > 0.5 ? "Доброжелательный" : "Нейтральный",
++                        review: "ИИ-Анализ сессии. Базовое обслуживание. Некоторые доп. товары не предложены.",
++                        audioFile: `0000030${i+1}___20260715_${hour}${min}12_${d}_${mode.toUpperCase()}.WAV`,
++                        audioDate: `2026-07-15 ${hour}:${min}:12`,
++                        duration: `${Math.floor(60 + Math.random() * 120)} сек`,
++                        audioLength: `0${Math.floor(1 + Math.random() * 2)}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
++                        status: "DONE",
++                        transcript: "<p><b>Сотрудник:</b> Здравствуйте!</p><p><b>Клиент:</b> Добрый день.</p><p><b>Сотрудник:</b> Чем могу помочь?</p><p><i>(Демонстрационный диалог)</i></p>",
++                        audit: [
++                            { name: "Приветствие", status: "green", text: "«Здравствуйте!»", comment: "Выполнено" },
++                            { name: "Кросс-сейл", status: "red", text: "Молчание", comment: "Не предложено" }
++                        ],
++                        lostProfit: Math.floor(Math.random() * 2)
++                    });
++                }
++            }
++        });
++        // === КОНЕЦ ГЕНЕРАЦИИ ===
+         const employees = [];
+         const dialogs = [];
+         let processingInterval = null;
+@@ -2978,7 +3183,7 @@
+                 switchTab('analytics');
+                 renderAnalytics(); // Force render analytics immediately
+                 renderEmployees(); // Force render employees immediately
+-                renderStation("1"); // Render first hardware station
++                const defaultStation = config[currentMode].hardwareStations[0] ? config[currentMode].hardwareStations[0].id : "1"; renderStation(defaultStation); // Render first hardware station
+                 setTimeout(() => {
+                     overlay.style.display = 'none';
+                 }, 800);
+@@ -3129,6 +3334,14 @@
+ 
+         function renderAnalytics() {
+             const c = config[currentMode];
++            c.employees.forEach(e => {
++                if (e.upsell && c.checklist) {
++                    while (e.upsell.length < c.checklist.length) {
++                        e.upsell.push(Math.floor(40 + Math.random() * 50));
++                    }
++                }
++            });
++
+             const filterEl = document.getElementById('station-filter');
+             const selectedStationId = filterEl ? filterEl.value : 'all';
+             
+@@ -3292,11 +3505,11 @@
+                     }
+ 
+                     return `
+-                        <div class="stat-card-v3 kpi-card-hover" draggable="true" ondragstart="dragStartKPI(event, ${i})" ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; --border-glow: ${glowColor}33; --border-glow-hover: ${glowColor}66; --bg-glow: ${glowColor}0d; --bg-glow-hover: ${glowColor}1a; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab;" onclick="${cardOnClick}">
++                        <div class="stat-card-v3 kpi-card-hover" ${i < 2 ? '' : 'draggable="true" ondragstart="dragStartKPI(event, ' + i + ')""'} ondragover="dragOverKPI(event)" ondragenter="dragEnterKPI(event, ${i})" ondragleave="dragLeaveKPI(event)" ondrop="dropKPI(event, ${i})" ondragend="dragEndKPI(event)" style="--glow: ${glowColor}; --border-glow: ${glowColor}33; --border-glow-hover: ${glowColor}66; --bg-glow: ${glowColor}0d; --bg-glow-hover: ${glowColor}1a; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: grab;" onclick="${cardOnClick}">
+                             <span class="kpi-bg-icon">${card.icon}</span>
+                             <div class="kpi-card-header" style="font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; width: 100%; position: relative; z-index: 2;">
+                                 <span style="display:flex; align-items:center; gap:4px;">
+-                                    <span style="cursor:grab; opacity:0.35; margin-right:4px;">☰</span>
++                                    ${i < 2 ? '' : '<span style="cursor:grab; opacity:0.35; margin-right:4px;">☰</span>'}
+                                     ${card.label}
+                                 </span>
+                             </div>
+@@ -3305,7 +3518,7 @@
+                                 <span style="color: ${subtextColor}; font-weight: 700; opacity: 0.95; line-height: 1.3;">${subText}</span>
+                                 <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+                                     <span style="font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: none; border-bottom: 1px dashed; padding-bottom: 1px;">разбор</span>
+-                                    <span title="Убрать из обзора" style="cursor: pointer; font-size: 10px; user-select: none; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'" onclick="removeKPICard(${i}); event.stopPropagation();">🗑️</span>
++                                    ${i < 2 ? '' : '<span title="Убрать из обзора" style="cursor: pointer; font-size: 10px; user-select: none; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.5\'" onclick="removeKPICard(' + i + '); event.stopPropagation();">🗑️</span>'}
+                                 </div>
+                             </div>
+                         </div>
+@@ -3464,7 +3677,7 @@
+                         `;
+                         actionsHtml = `
+                             <button class="btn btn--primary" onclick="openEmployee('Алина')" style="width:100%; font-size:12px; padding:10px 15px;">Профиль Алины</button>
+-                            <button class="btn btn--secondary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Диалоги Аптеки</button>
++                            <button class="btn btn--secondary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Перейти к диалогам</button>
+                         `;
+                     } else if (selectedStationId === '7') {
+                         titleText = "ИИ-сводка по Аптеке №45 (Самал)";
+@@ -3474,7 +3687,7 @@
+                         `;
+                         actionsHtml = `
+                             <button class="btn btn--primary" onclick="openEmployee('Евгений')" style="width:100%; font-size:12px; padding:10px 15px;">Профиль Евгения</button>
+-                            <button class="btn btn--secondary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Диалоги Аптеки</button>
++                            <button class="btn btn--secondary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Перейти к диалогам</button>
+                         `;
+                     } else {
+                         titleText = `ИИ-сводка по Аптеке №${selectedStationId}`;
+@@ -3487,8 +3700,39 @@
+                             <button class="btn btn--secondary" onclick="switchTab('employees')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Фармацевты</button>
+                         `;
+                     }
++                } else {
++                    let tPeriodText = "за смену";
++                    if (currentTimePeriod === 'yesterday') tPeriodText = "за вчера";
++                    if (currentTimePeriod === '7d') tPeriodText = "за неделю";
++                    if (currentTimePeriod === 'custom') tPeriodText = "за выбранный период";
++
++                    const checklistFirst = config[currentMode].checklist ? config[currentMode].checklist[0] : "стандарта";
++                    const checklistCross = config[currentMode].checklist && config[currentMode].checklist.length > 2 ? config[currentMode].checklist[2] : "доп. продаж";
++
++                    if (selectedStationId === 'all') {
++                        titleText = `Сводный ИИ-отчет по сети (${config[currentMode].stations.length} ${config[currentMode].stationLabel}) ${tPeriodText}`;
++                        detailsHtml = `
++                            <span>🎯 <b>Для HR:</b> Уровень соблюдения "${checklistFirst}" в норме. Выявлены единичные случаи отклонений у новых сотрудников.</span>
++                            <span>📈 <b>Для Маркетолога:</b> Показатели "${checklistCross}" стабильны (около 40%). Наблюдается рост конверсии в вечерние часы.</span>
++                        `;
++                        actionsHtml = `
++                            <button class="btn btn--primary" onclick="switchTab('employees')" style="width:100%; font-size:12px; padding:10px 15px;">Контроль персонала (HR)</button>
++                            <button class="btn btn--secondary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Анализ воронки продаж</button>
++                        `;
++                    } else {
++                        const stName = config[currentMode].stations.find((_, idx) => config[currentMode].hardwareStations[idx-1] && config[currentMode].hardwareStations[idx-1].id === selectedStationId) || ("Филиал " + selectedStationId);
++                        titleText = `ИИ-сводка: ${stName} (${tPeriodText})`;
++                        detailsHtml = `
++                            <span>🎯 <b>Для HR:</b> Дисциплина и "${checklistFirst}" на этой точке соблюдаются.</span>
++                            <span>📈 <b>Для Маркетолога:</b> Хорошая конверсия в "${checklistCross}". Выявлен потенциал апсейла в часы пик.</span>
++                        `;
++                        actionsHtml = `
++                            <button class="btn btn--primary" onclick="switchTab('dialogs')" style="width:100%; font-size:12px; padding:10px 15px;">Анализ чеков</button>
++                            <button class="btn btn--secondary" onclick="switchTab('employees')" style="width:100%; font-size:12px; padding:10px 15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white;">Профиль сотрудников</button>
++                        `;
++                    }
+                 }
+-                
++
+                 insightTitleEl.innerText = titleText;
+                 insightLostEl.innerHTML = detailsHtml;
+                 insightActionsEl.innerHTML = actionsHtml;
+@@ -3782,6 +4026,14 @@
+         }
+ 
+         function applyConfig() {
++
++            // Применяем принудительно Приветствие как первый триггер (карточка №3)
++            Object.keys(config).forEach(k => {
++                if(config[k].pinnedKPIs && config[k].pinnedKPIs[2]) {
++                    config[k].pinnedKPIs[2] = { type: 'trigger', id: 'Приветствие', label: 'ПРИВЕТСТВИЕ', icon: '👋' };
++                }
++            });
++
+             const c = config[currentMode];
+             const pageTitle = document.getElementById('page-title');
+             if (pageTitle) pageTitle.innerText = c.title;
+@@ -3809,7 +4061,7 @@
+             
+             const thTrigger2 = document.getElementById('dialogs-th-trigger2');
+             if (thTrigger2) {
+-                thTrigger2.innerText = currentMode === 'azs' ? 'Предложение кофе' : 'Предложение пробиотика';
++                thTrigger2.innerText = config[currentMode].pinnedKPIs[2]?.label || 'МЕТРИКА';
+             }
+ 
+             // Dynamically update hardwareData cities based on mode
+@@ -4431,11 +4683,11 @@
+             const triggerFilter = document.getElementById('filter-trigger');
+             if (triggerFilter) {
+                 if (info.toLowerCase().includes('акциях') || info.toLowerCase().includes('акции')) {
+-                    triggerFilter.value = currentMode === 'azs' ? "Выпечка и кросс-сейл (ТРИГГЕР №3)" : "all";
++                    triggerFilter.value = 'all';
+                 } else if (info.toLowerCase().includes('кофе')) {
+-                    triggerFilter.value = currentMode === 'azs' ? "Продажа кофе (ТРИГГЕР №2)" : "all";
++                    triggerFilter.value = 'all';
+                 } else if (info.toLowerCase().includes('пробиотиков')) {
+-                    triggerFilter.value = currentMode === 'pharmacy' ? "Пробиотики" : "all";
++                    triggerFilter.value = 'all';
+                 } else {
+                     triggerFilter.value = "all";
+                 }
+@@ -5581,7 +5833,7 @@
+             const navEl = document.getElementById(navId);
+             if (navEl) navEl.classList.add('active');
+ 
+-            const labels = currentMode === 'azs' ? ['Приветствие', 'Кофе', 'Выпечка', 'Повтор заказа', 'Выдача чека', 'Прощание'] : ['Приветствие', 'Пробиотики', 'Витамины', 'Аналоги', 'Выдача чека', 'Прощание'];
++            const labels = config[currentMode].checklist || [];
+             
+             let aiStrength = "Соблюдение вежливого тона и базовых регламентов обслуживания клиентов.";
+             let aiGrowth = "Рекомендуется более активно предлагать сопутствующие товары и контролировать выдачу чеков.";
+@@ -5624,7 +5876,7 @@
+                             <div style="font-size:20px; font-weight:900; color:#fff; display:flex; align-items:center; gap:10px;" id="profile-name-title">
+                                 ${e.name}
+                                 <span style="font-size:11px; font-weight:700; color:#3B82F6; background:rgba(59,130,246,0.1); padding:4px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px;">
+-                                    ${currentMode === 'azs' ? 'Оператор АЗС' : 'Фармацевт'}
++                                    ${config[currentMode].empLabel || 'Сотрудник'}
+                                 </span>
+                             </div>
+                             <div style="font-size:12px; color:#A0AEC0; margin-top:6px; display:flex; align-items:center; gap:12px;" id="profile-sub-title">
+@@ -5666,7 +5918,7 @@
+                                 <span>Эффективность по триггерам</span>
+                                 <span style="font-size:11px; font-weight:normal; opacity:0.5; text-transform:none;">(Нажмите на столбик для деталей)</span>
+                             </div>
+-                            <div style="height:150px; background:rgba(0,0,0,0.2); border-radius:16px; display:flex; align-items:flex-end; gap:12px; padding:20px 20px 10px 20px; border: 1px solid rgba(255,255,255,0.03); margin-bottom:15px;" class="upsell-chart-bg">
++                            <div style="height:150px; background:rgba(0,0,0,0.2); border-radius:16px; display:grid; grid-template-columns: repeat(${labels.length}, 1fr); align-items:end; gap:12px; padding:20px 20px 10px 20px; border: 1px solid rgba(255,255,255,0.03); margin-bottom:15px;" class="upsell-chart-bg">
+                                 ${e.upsell ? e.upsell.map((val, i) => {
+                                     const barColor = val >= 80 ? 'linear-gradient(180deg, #10B981, #059669)' : (val >= 60 ? 'linear-gradient(180deg, #F59E0B, #D97706)' : 'linear-gradient(180deg, #EF4444, #DC2626)');
+                                     return `
+@@ -5689,7 +5941,7 @@
+                         </div>
+ 
+                         <!-- Discipline Card -->
+-                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
++                        <div style="display:none; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
+                             <div style="font-weight:800; font-size:13px; color:#EF4444; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px; display:flex; align-items:center; gap:8px;">
+                                 <span style="font-size:16px;">⚠️</span> Дисциплина ношения бейджа
+                             </div>
+@@ -5731,7 +5983,7 @@
+                         </div>
+ 
+                         <!-- AI Coach (Interactive micro-training) -->
+-                        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
++                        <div style="display:none; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:24px; padding:25px;" class="stat-card-v3">
+                             <div style="font-weight:800; font-size:13px; color:#3B82F6; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                                 <span style="font-size:16px;">🧠</span> ИИ-Тренер (AI Coach)
+                             </div>
+@@ -6432,7 +6684,7 @@
+             const coachContainer = document.getElementById('ai-coach-content');
+             if (!coachContainer) return;
+ 
+-            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
++            const questions = currentMode === 'azs' ? azsCoachQuestions : (currentMode === 'pharmacy' ? pharmacyCoachQuestions : azsCoachQuestions);
+             const totalSteps = questions.length;
+             
+             if (coachCurrentStep >= totalSteps) {
+@@ -6479,7 +6731,7 @@
+         }
+ 
+         function selectCoachChoice(isCorrect, optionIdx) {
+-            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
++            const questions = currentMode === 'azs' ? azsCoachQuestions : (currentMode === 'pharmacy' ? pharmacyCoachQuestions : azsCoachQuestions);
+             const q = questions[coachCurrentStep];
+             const opt = q.options[optionIdx];
+             
+@@ -6523,7 +6775,7 @@
+             const coachContainer = document.getElementById('ai-coach-content');
+             if (!coachContainer) return;
+ 
+-            const questions = currentMode === 'azs' ? azsCoachQuestions : pharmacyCoachQuestions;
++            const questions = currentMode === 'azs' ? azsCoachQuestions : (currentMode === 'pharmacy' ? pharmacyCoachQuestions : azsCoachQuestions);
+             const total = questions.length;
+             const percent = Math.round((coachScore / total) * 100);
+             

@@ -1,0 +1,201 @@
+                                <option value="all">Сотрудники (Все) ▾</option>
+                                ${sortedUniqueNames.map(name => `<option value="${name}" ${selectedEmployeeFilter === name ? 'selected' : ''}>${name}</option>`).join('')}
+                            </select>
+                        </th>
+                        <th>Локация</th>
+                        <th onclick="toggleEmployeeSort('score')" style="cursor: pointer; user-select: none; width: 150px;">Оценка соблюдения ${getSortIndicator('score')}</th>
+                        <th style="text-align:right; width: 120px;">Профиль</th>
+                    `;
+                }
+            }
+
+            const tbody = document.getElementById('employees-list-tbody');
+            if (!tbody) return;
+
+            const footerCountEl = document.getElementById('employees-footer-count');
+            if (footerCountEl) {
+                footerCountEl.innerText = `Всего сотрудников в сети: ${computedList.length}`;
+            }
+
+            tbody.innerHTML = computedList.map(e => {
+                const statusColor = e.computedScore > 9 ? '#10B981' : (e.computedScore > 7 ? '#F59E0B' : '#EF4444');
+                const textClass = e.computedScore > 9 ? 'status-text-green' : (e.computedScore > 7 ? 'status-text-amber' : 'status-text-red');
+                
+                const complianceScoreHtml = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight:900; font-size: 14px;" class="${textClass}">${e.computedScore}</span>
+                        <div style="flex-grow:1; max-width: 60px; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                            <div style="width: ${e.computedScore * 10}%; height: 100%; background: ${statusColor}; border-radius: 3px;"></div>
+                        </div>
+                    </div>
+                `;
+
+                // Scale calls dynamically with the selected period
+                const displayCalls = Math.max(1, Math.round(e.calls * daysCount));
+
+                if (currentMode === 'azs') {
+                    return `
+                        <tr onclick="openEmployee('${e.name}')" style="cursor: pointer;">
+                            <td>
+                                <div style="display: flex; align-items: center; padding: 6px 0;">
+                                    <div class="emp-row-name" style="font-weight: 700;">${e.name}</div>
+                                </div>
+                            </td>
+                            <td><div class="emp-row-sub" style="font-size: 13px;">${e.location}</div></td>
+                            <td><span class="emp-row-sub">${displayCalls}</span></td>
+                            <td><span style="color:#10B981; font-weight: 700;">${e.computedGreeting}</span></td>
+                            <td><span style="color:#3B82F6; font-weight: 700;">${e.computedCoffee}</span></td>
+                            <td><span style="color:#F59E0B; font-weight: 700;">${e.computedPastry}</span></td>
+                            <td>${complianceScoreHtml}</td>
+                            <td style="text-align: right;">
+                                <button class="btn-view" onclick="event.stopPropagation(); openEmployee('${e.name}')">Профиль</button>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    return `
+                        <tr onclick="openEmployee('${e.name}')" style="cursor: pointer;">
+                            <td>
+                                <div style="display: flex; align-items: center; padding: 6px 0;">
+                                    <div class="emp-row-name" style="font-weight: 700;">${e.name}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="emp-row-sub" style="font-size: 13px;">${e.location}</div>
+                                <div style="font-size: 10px; color: var(--c-text-muted); margin-top: 2px;">Фармацевт</div>
+                            </td>
+                            <td>${complianceScoreHtml}</td>
+                            <td style="text-align: right;">
+                                <button class="btn-view" onclick="event.stopPropagation(); openEmployee('${e.name}')">Профиль</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+            }).join('');
+        }
+
+        function renderSettings() {
+            const c = config[currentMode];
+            
+            // Динамический заголовок чек-листа
+            const checklistTitle = document.getElementById('checklist-title');
+            if (checklistTitle) {
+                checklistTitle.innerText = `Чек-лист контроля (${c.checklist.length} пунктов)`;
+            }
+
+            // Динамический статус обучения ИИ
+            const trainingStatus = document.getElementById('ai-training-status');
+            if (trainingStatus) {
+                trainingStatus.innerText = `ИИ ОБУЧЕН ПО ${c.scripts.length} СЦЕНАРИЯМ`;
+            }
+
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = c.checklist.map((item, i) => `
+                <div draggable="true" ondragstart="dragStartChecklist(event, ${i})" ondragover="dragOverChecklist(event)" ondragenter="dragEnterChecklist(event, ${i})" ondragleave="dragLeaveChecklist(event)" ondrop="dropChecklist(event, ${i})" ondragend="dragEndChecklist(event)" style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); padding:12px 15px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); position:relative; cursor:grab;" class="checklist-item-hover">
+                    <div style="font-size:13px; flex-grow:1; display:flex; align-items:center; gap:8px;">
+                        <span style="cursor:grab; opacity:0.3; margin-right:4px;">☰</span>
+                        <span style="opacity:0.4;">${i+1}.</span>
+                        <span>${item}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="display:flex; gap:12px; opacity:0; transition:0.2s; align-items:center;" class="item-actions">
+                            <span title="Редактировать пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="editChecklistItem(${i}); event.stopPropagation();" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">✏️</span>
+                            <span title="Удалить пункт" style="cursor:pointer; font-size:12px; filter: grayscale(1); transition: 0.2s; user-select: none;" onclick="deleteChecklistItem(${i}); event.stopPropagation();" onmouseover="this.style.filter='none'" onmouseout="this.style.filter='grayscale(1)'">🗑️</span>
+                        </div>
+                        <div class="toggle active" onclick="this.classList.toggle('active'); event.stopPropagation();"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            const scriptContainer = document.getElementById('scripts-grid');
+            if (scriptContainer) {
+                scriptContainer.innerHTML = c.scripts.map((s, i) => `
+                    <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:20px; border:1px solid rgba(255,255,255,0.05); position:relative;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                            <span style="font-size:10px; font-weight:800; color:#3B82F6; text-transform:uppercase;">Сценарий #${i+1}: ${s.t}</span>
+                            <span style="font-size:10px; color:#10B981; font-weight:700;">AI ACTIVE</span>
+                        </div>
+                        <p style="font-size:13px; font-style:italic; line-height:1.5; color:#A0AEC0; margin-bottom:15px;">${s.s}</p>
+                        <button class="btn btn--sm" style="width:100%; padding:5px; font-size:10px; opacity:0.5; border-color:rgba(255,255,255,0.1);" onclick="showToast('В коммерческой версии Демо АЗС доступно гибкое управление базой знаний (добавление, удаление, обучение сценариям).') ">Изменить стандарт</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addChecklistItem() {
+            const name = prompt("Шаг 1 из 2: Введите название нового стандарта контроля:");
+            if (name && name.trim()) {
+                const triggerName = name.trim();
+                
+                const desc = prompt("Шаг 2 из 2: Введите описание (эталонный скрипт) для этого стандарта контроля:");
+                const triggerDesc = desc && desc.trim() ? desc.trim() : "Кассир должен соблюдать данный регламент обслуживания.";
+                
+                const c = config[currentMode];
+                c.checklist.push(triggerName);
+                
+                // Add to Reference Scripts
+                if (!c.scripts) c.scripts = [];
+                c.scripts.push({
+                    t: triggerName,
+                    s: triggerDesc
+                });
+                
+                // Update AI Prompt
+                if (c.prompt) {
+                    const count = c.checklist.length;
+                    const prevCount = count - 1;
+                    c.prompt = c.prompt.replace(new RegExp(`по ${prevCount} ключевым`, 'g'), `по ${count} ключевым`);
+                    c.prompt = c.prompt.replace(new RegExp(`\\(${prevCount} триггеров\\)`, 'g'), `(${count} триггеров)`);
+                    c.prompt += `\n${count}. ${triggerName}: ${triggerDesc}`;
+                    document.getElementById('ai-prompt').value = c.prompt;
+                }
+                
+                // Add dynamically to dialogs audits!
+                dialogs.forEach(d => {
+                    if (d.audit) {
+                        const status = Math.random() > 0.25 ? 'green' : 'red';
+                        let text = 'Выполнено';
+                        let comment = 'Стандарт соблюден в полной мере.';
+                        if (status === 'red') {
+                            text = 'Не выполнено / пропущено';
+                            comment = 'Кассир проигнорировал данный стандарт контроля.';
+                        }
+                        d.audit.push({
+                            name: triggerName,
+                            status: status,
+                            text: text,
+                            comment: comment
+                        });
+                    }
+                });
+                
+                renderSettings();
+                showToast("✅ Новый стандарт, эталонный скрипт и инструкция ИИ обновлены!");
+            }
+        }
+
+        function deleteChecklistItem(index) {
+            if (confirm("Вы уверены, что хотите удалить этот стандарт контроля?")) {
+                const c = config[currentMode];
+                const triggerName = c.checklist[index];
+                c.checklist.splice(index, 1);
+                
+                // Remove from Reference Scripts
+                if (c.scripts) {
+                    c.scripts = c.scripts.filter(s => s.t !== triggerName);
+                }
+                
+                // Update AI Prompt
+                if (c.prompt) {
+                    const count = c.checklist.length;
+                    const prevCount = count + 1;
+                    c.prompt = c.prompt.replace(new RegExp(`по ${prevCount} ключевым`, 'g'), `по ${count} ключевым`);
+                    c.prompt = c.prompt.replace(new RegExp(`\\(${prevCount} триггеров\\)`, 'g'), `(${count} триггеров)`);
+                    
+                    const lines = c.prompt.split('\n');
+                    const updatedLines = [];
+                    let currentNum = 1;
+                    lines.forEach(line => {
+                        const match = line.match(/^(\d+)\.\s*(.*)$/);
+                        if (match) {
+                            const namePart = match[2];

@@ -1,0 +1,3269 @@
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OKK · Audio Quality Control</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --surface: #11151c;
+      --surface-2: #1a2030;
+      --border: #232a3a;
+      --text: #e7ecf3;
+      --muted: #8a93a6;
+      --primary: #3b82f6;
+      --primary-2: #1d4ed8;
+      --good: #10b981;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --neutral: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button {
+      background: var(--primary); color: white; border: none;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer;
+      font-size: 13px;
+    }
+    button:hover { background: var(--primary-2); }
+    button.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { background: var(--border); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    input, textarea, select {
+      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 10px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+
+    /* layout */
+    .app { display: grid; grid-template-rows: 56px 1fr; height: 100vh; }
+    header.topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    header .brand { font-weight: 700; letter-spacing: 0.5px; }
+    header .meta { color: var(--muted); font-size: 13px; display: flex; gap: 14px; align-items: center; }
+    main { display: grid; grid-template-columns: 220px 1fr; min-height: 0; }
+    nav.sidebar {
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 14px 8px; display: flex; flex-direction: column; gap: 4px;
+    }
+    nav.sidebar a {
+      display: block; padding: 8px 12px; border-radius: 8px;
+      color: var(--text); text-decoration: none; font-size: 13px;
+    }
+    nav.sidebar a:hover { background: var(--surface-2); }
+    nav.sidebar a.active { background: var(--primary); color: white; }
+    section.content { overflow: auto; padding: 22px 26px; }
+
+    h1 { font-size: 22px; margin: 0 0 16px 0; }
+    h2 { font-size: 16px; margin: 22px 0 10px 0; color: var(--text); }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; margin-bottom: 14px;
+    }
+    .muted { color: var(--muted); }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .kpi { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+    .kpi .v { font-size: 22px; font-weight: 700; }
+    .kpi .l { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+    th { color: var(--muted); font-weight: 500; }
+    tr:hover td { background: var(--surface-2); cursor: pointer; }
+
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .b-new        { background: rgba(107,114,128,.2); color: var(--neutral); }
+    .b-downloading{ background: rgba(245,158,11,.15); color: var(--warn); }
+    .b-downloaded { background: rgba(245,158,11,.25); color: var(--warn); }
+    .b-transcribing{ background: rgba(59,130,246,.15); color: var(--primary); }
+    .b-transcribed{ background: rgba(59,130,246,.25); color: var(--primary); }
+    .b-analyzing  { background: rgba(59,130,246,.35); color: var(--primary); }
+    .b-done       { background: rgba(16,185,129,.2); color: var(--good); }
+    .b-failed     { background: rgba(239,68,68,.2); color: var(--bad); }
+
+    .checklist .item { display: grid; grid-template-columns: 18px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .checklist .pass { color: var(--good); }
+    .checklist .fail { color: var(--bad); }
+    .checklist .item .ev { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    /* login */
+    .login-wrap {
+      display: flex; align-items: center; justify-content: center; height: 100vh; background: var(--bg);
+    }
+    .login-card {
+      width: 380px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px;
+    }
+    .login-card h1 { font-size: 20px; margin: 0 0 4px 0; }
+    .login-card .muted { margin-bottom: 18px; }
+    .login-card label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+    .login-card input { width: 100%; margin-bottom: 12px; }
+    .login-card .error { color: var(--bad); margin-top: 6px; font-size: 12px; min-height: 16px; }
+
+    .audio-player { width: 100%; margin: 8px 0; }
+    .transcript {
+      background: var(--surface-2); padding: 12px; border-radius: 8px;
+      white-space: pre-wrap; max-height: 320px; overflow: auto; font-size: 13px; line-height: 1.55;
+    }
+    .toast {
+      position: fixed; right: 22px; bottom: 22px;
+      background: var(--surface-2); border: 1px solid var(--border); padding: 10px 14px;
+      border-radius: 10px; font-size: 13px; box-shadow: 0 6px 24px rgba(0,0,0,.4);
+    }
+    
+    /* Glassmorphism & Premium styles */
+    .stat-card-v3 {
+      background-color: rgba(17, 22, 40, 0.65);
+      background-image: radial-gradient(circle at 0% 100%, var(--bg-glow, transparent), transparent 70%);
+      border: 1px solid var(--border-glow, rgba(255, 255, 255, 0.08));
+      border-radius: 24px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .stat-card-v3:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-glow-hover, rgba(59, 130, 246, 0.4)) !important;
+      background-image: radial-gradient(circle at 0% 100%, var(--bg-glow-hover, transparent), transparent 75%);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    .stat-card-v3::after {
+      content: ''; position: absolute; top: -50px; right: -50px; width: 120px; height: 120px;
+      background: var(--glow, #3B82F6); filter: blur(60px); opacity: 0.12; pointer-events: none;
+    }
+    .kpi-lbl { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px; font-weight: 700; }
+    .kpi-val { font-size: 28px; font-weight: 800; color: #fff; margin: 8px 0 4px 0; }
+    .kpi-sub { font-size: 12px; color: var(--muted); }
+    
+    /* KPI Card Large Background Icon & Hover Effects */
+    .kpi-bg-icon {
+      position: absolute;
+      right: 18px;
+      bottom: 12px;
+      font-size: 58px;
+      opacity: 0.16;
+      pointer-events: none;
+      user-select: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      filter: grayscale(0.2);
+    }
+    .stat-card-v3:hover .kpi-bg-icon {
+      transform: scale(1.22) translateY(-4px);
+      opacity: 0.45;
+      filter: grayscale(0) drop-shadow(0 0 15px var(--glow, rgba(59,130,246,0.6)));
+    }
+
+
+    /* Premium Chat & Player styles */
+    .chat-container {
+      display: flex; flex-direction: column; gap: 14px; padding: 20px;
+      background: rgba(17, 22, 40, 0.4); border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05); max-height: 480px; overflow-y: auto;
+    }
+    .chat-bubble {
+      max-width: 78%; display: flex; flex-direction: column; gap: 4px;
+      padding: 12px 16px; border-radius: 18px; line-height: 1.5; font-size: 13.5px;
+      position: relative; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+    .chat-bubble.employee {
+      align-self: flex-end; background: linear-gradient(135deg, #1E40AF, #2563EB);
+      color: #FFFFFF; border-bottom-right-radius: 4px;
+    }
+    .chat-bubble.client {
+      align-self: flex-start; background: rgba(255, 255, 255, 0.04);
+      color: var(--text); border: 1px solid rgba(255, 255, 255, 0.07);
+      border-bottom-left-radius: 4px;
+    }
+    .bubble-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; opacity: 0.65; font-weight: 500;
+    }
+    .bubble-time { font-family: monospace; }
+    
+    /* Stop words & quotes highlights */
+    .stop-word-highlight {
+      color: #F87171; background: rgba(239, 68, 68, 0.15); font-weight: 700;
+      border-bottom: 2px wavy #EF4444; border-radius: 4px; padding: 0 3px;
+      cursor: help; transition: all 0.2s ease;
+    }
+    .stop-word-highlight:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+    
+    .evidence-highlight {
+      animation: pulse-glow 2s ease-in-out 3;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); transform: scale(1); }
+      50% { box-shadow: 0 0 25px 8px rgba(59, 130, 246, 0.7); transform: scale(1.02); }
+    }
+    
+    /* Checklist items interactive */
+    .chk-item-btn {
+      cursor: pointer; transition: all 0.2s ease; border-radius: 12px;
+      padding: 10px; margin-bottom: 8px; border: 1px solid transparent;
+    }
+    .chk-item-btn:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+      transform: translateX(4px);
+    }
+    
+    /* Custom Audio Player */
+    .premium-player {
+      background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; gap: 16px;
+      margin-top: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    }
+    .player-play-btn {
+      width: 44px; height: 44px; border-radius: 50%; background: var(--primary);
+      border: none; color: white; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 18px; transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+    .player-play-btn:hover {
+      transform: scale(1.08); background: #2563EB;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    }
+    .player-progress-container {
+      flex-grow: 1; display: flex; flex-direction: column; gap: 6px;
+    }
+    .player-progress-bar-wrap {
+      height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px;
+      position: relative; cursor: pointer; overflow: hidden;
+    }
+    .player-progress-bar-fill {
+      height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), #60A5FA);
+      border-radius: 3px; transition: width 0.1s linear;
+    }
+    .player-time-lbl {
+      display: flex; justify-content: space-between; font-size: 11px;
+      color: var(--muted); font-family: monospace;
+    }
+
+    /* Dialog Card Row styles */
+    .dialog-card-row {
+      display: grid;
+      grid-template-columns: 80px 1.5fr 1fr 1fr 1fr 1.8fr 70px 220px 100px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+    .dialog-card-row:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(59, 130, 246, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    .avatar-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #60A5FA; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 12px;
+    }
+    .badge-trigger {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 8px;
+      text-transform: uppercase; letter-spacing: 0.2px;
+    }
+    .badge-trigger.yes {
+      background: rgba(16, 185, 129, 0.12); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    .badge-trigger.no {
+      background: rgba(239, 68, 68, 0.12); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .badge-trigger.partial {
+      background: rgba(245, 158, 11, 0.12); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    .badge-issue {
+      background: rgba(239, 68, 68, 0.08); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.15);
+      font-size: 10.5px; font-weight: 600; padding: 2px 6px; border-radius: 6px;
+      white-space: nowrap; margin-right: 4px; margin-bottom: 4px; display: inline-block;
+    }
+    .quality-score-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 32px; border-radius: 8px; font-weight: 800; font-size: 14px;
+    }
+    .quality-score-badge.good {
+      border: 1.5px solid rgba(16, 185, 129, 0.35); color: #10B981; background: rgba(16, 185, 129, 0.05);
+    }
+    .quality-score-badge.average {
+      border: 1.5px solid rgba(245, 158, 11, 0.35); color: #F59E0B; background: rgba(245, 158, 11, 0.05);
+    }
+    .quality-score-badge.bad {
+      border: 1.5px solid rgba(239, 68, 68, 0.35); color: #EF4444; background: rgba(239, 68, 68, 0.05);
+    }
+
+    /* Embedded Mini Player */
+    .mini-player {
+      background: rgba(255, 255, 255, 0.015); border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px; padding: 6px 12px; display: flex; align-items: center; gap: 10px;
+      width: 210px;
+    }
+    .mini-play-btn {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--primary);
+      border: none; color: white; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 11px; transition: all 0.15s ease;
+    }
+    .mini-play-btn:hover {
+      transform: scale(1.08); background: #2563EB;
+    }
+    .mini-player-time {
+      font-size: 10px; color: var(--muted); font-family: monospace; min-width: 65px;
+    }
+  </style>
+  <div id="app"></div>
+
+  <script>
+  // ---------- API client ----------
+  const TOKEN_KEY = "okk_access";
+  const REFRESH_KEY = "okk_refresh";
+
+    
+  // ====== MOCK API ======
+  const mockApi = {
+    getSettings: async () => {
+      return {
+        offices: [
+          { id: "all", label: "Все АЗС (Сеть Демо АЗС)" },
+          { id: "1", label: "АЗС №1 (Костанай)" },
+          { id: "2", label: "АЗС №2 (Астана)" },
+          { id: "3", label: "АЗС №3 (Алматы)" },
+          { id: "tobyl", label: "АЗС Тобыл" }
+        ],
+        checklist_items: [
+          { id: "trigger1", label: "Приветствие кассира (ТРИГГЕР №1)", description: "Поздоровался с клиентом", is_headline: true },
+          { id: "trigger2", label: "Продажа кофе (ТРИГГЕР №2)", description: "Предложил кофе", is_headline: true },
+          { id: "trigger3", label: "Выпечка и кросс-сейл (ТРИГГЕР №3)", description: "Предложил выпечку", is_headline: true },
+          { id: "trigger4", label: "Повтор заказа перед оплатой (ТРИГГЕР №4)", description: "Повтор", is_headline: false },
+          { id: "trigger5", label: "Выдача чека по умолчанию (ТРИГГЕР №5)", description: "Чек", is_headline: false },
+          { id: "trigger6", label: "Стандарт прощания (ТРИГГЕР №6)", description: "Попрощался", is_headline: true }
+        ]
+      };
+    },
+    getSummary: async (filters) => {
+      return {
+        done_count: 1420,
+        avg_quality_score: 8.5,
+        avg_script_compliance_pct: 78,
+        headline_conversion_rate_pct: 45
+      };
+    },
+    getDialogs: async (filters) => {
+      return [
+        { id: "d1", employee_name: "Евгения Исаева", office: "АЗС №1", start_time: new Date().toISOString(), duration_seconds: 45, status: "done", quality_score: 9.0, script_compliance_pct: 80, tone: "positive", checklist_results: [{ id: "trigger1", passed: true }, { id: "trigger2", passed: false }] },
+        { id: "d2", employee_name: "Нурлан Касымов", office: "АЗС №2", start_time: new Date(Date.now() - 3600000).toISOString(), duration_seconds: 120, status: "failed", quality_score: null, script_compliance_pct: null, tone: "neutral", checklist_results: [] }
+      ];
+    },
+    getDialog: async (id) => {
+      return {
+        id: id, employee_name: "Евгения Исаева", office: "АЗС №1", start_time: new Date().toISOString(), duration_seconds: 45, status: "done", quality_score: 9.0, script_compliance_pct: 80, tone: "positive",
+        transcript: [
+          { speaker: "employee", text: "Добрый день! Какое топливо?", start_sec: 1, end_sec: 4 },
+          { speaker: "client", text: "Девяносто пятый, до полного.", start_sec: 5, end_sec: 8 }
+        ],
+        summary: "Клиент заправил 95-й бензин до полного бака.",
+        issues: [],
+        checklist_results: [
+          { id: "trigger1", label: "Приветствие кассира (ТРИГГЕР №1)", passed: true, evidence: "Добрый день!", comment: "" },
+          { id: "trigger2", label: "Продажа кофе (ТРИГГЕР №2)", passed: false, evidence: "", comment: "Не предложил кофе" },
+          { id: "trigger3", label: "Выпечка и кросс-сейл (ТРИГГЕР №3)", passed: false, evidence: "", comment: "Не предложил выпечку" },
+          { id: "trigger4", label: "Повтор заказа перед оплатой (ТРИГГЕР №4)", passed: true, evidence: "Какое топливо?", comment: "" },
+          { id: "trigger5", label: "Выдача чека по умолчанию (ТРИГГЕР №5)", passed: false, evidence: "", comment: "Не спросил форму оплаты" },
+          { id: "trigger6", label: "Стандарт прощания (ТРИГГЕР №6)", passed: false, evidence: "", comment: "Не попрощался" }
+        ]
+      };
+    },
+    getEmployees: async (filters) => {
+      return [
+        { id: "emp1", display_name: "Евгения Исаева", office_last: "АЗС №1", dialogs_total: 100, dialogs_done: 95, avg_quality_score: 8.5, avg_script_compliance_pct: 78 },
+        { id: "emp2", display_name: "Нурлан Касымов", office_last: "АЗС №2", dialogs_total: 80, dialogs_done: 80, avg_quality_score: 7.2, avg_script_compliance_pct: 65 }
+      ];
+    },
+    getEmployee: async (id) => {
+      return {
+        id: id, display_name: "Евгения Исаева", office_last: "АЗС №1", dialogs_total: 100, dialogs_done: 95, avg_quality_score: 8.5, avg_script_compliance_pct: 78,
+        recent_dialogs: [
+          { id: "d1", start_time: new Date().toISOString(), duration_seconds: 45, status: "done", quality_score: 9.0, script_compliance_pct: 80, tone: "positive" }
+        ],
+        checklist_stats: [
+          { label: "Приветствие кассира (ТРИГГЕР №1)", passed_rate_pct: 90, passed_count: 85 },
+          { label: "Продажа кофе (ТРИГГЕР №2)", passed_rate_pct: 40, passed_count: 38 },
+          { label: "Выпечка и кросс-сейл (ТРИГГЕР №3)", passed_rate_pct: 30, passed_count: 28 },
+          { label: "Повтор заказа перед оплатой (ТРИГГЕР №4)", passed_rate_pct: 100, passed_count: 95 },
+          { label: "Выдача чека по умолчанию (ТРИГГЕР №5)", passed_rate_pct: 95, passed_count: 90 },
+          { label: "Стандарт прощания (ТРИГГЕР №6)", passed_rate_pct: 80, passed_count: 76 }
+        ]
+      };
+    }
+  };
+
+  // State object
+  const state = {
+    settings: null
+  };
+
+  
+  function getToken() { return localStorage.getItem(TOKEN_KEY); }
+  function setTokens(at, rt) { localStorage.setItem(TOKEN_KEY, at); localStorage.setItem(REFRESH_KEY, rt); }
+  function clearTokens() { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(REFRESH_KEY); }
+
+  async function api(method, path, body, raw=false) {
+    const headers = { "Content-Type": "application/json" };
+    const tok = getToken();
+    if (tok) headers["Authorization"] = "Bearer " + tok;
+    const opts = { method, headers };
+    if (body !== undefined) opts.body = JSON.stringify(body);
+    const res = await fetch(path, opts);
+    if (res.status === 401 && path !== "/api/auth/login") {
+      if (path === "/api/auth/refresh") {
+        clearTokens();
+        location.hash = "";
+        render();
+        throw new Error("unauthorized");
+      }
+      const refresh = localStorage.getItem(REFRESH_KEY);
+      if (refresh) {
+        try {
+          const r = await fetch("/api/auth/refresh", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refresh }),
+          });
+          if (r.ok) {
+            const t = await r.json();
+            setTokens(t.access_token, t.refresh_token);
+            headers["Authorization"] = "Bearer " + t.access_token;
+            const retry = await fetch(path, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+            if (raw) return retry;
+            if (!retry.ok) throw new Error(`${method} ${path} → ${retry.status}`);
+            return retry.status === 204 ? null : retry.json();
+          }
+        } catch(err) {}
+      }
+      clearTokens();
+      location.hash = "";
+      render();
+      throw new Error("unauthorized");
+    }
+    if (raw) return res;
+    if (!res.ok) {
+      let detail = res.statusText;
+      try { detail = (await res.json()).detail || detail; } catch {}
+      throw new Error(`${method} ${path} → ${res.status} ${detail}`);
+    }
+    return res.status === 204 ? null : res.json();
+  }
+
+  // ---------- toast ----------
+  function toast(msg, kind="info") {
+    const el = document.createElement("div");
+    el.className = "toast";
+    if (kind === "error") el.style.borderColor = "var(--bad)";
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+
+  // ---------- views ----------
+  function viewLogin() {
+    const wrap = document.createElement("div");
+    wrap.className = "login-wrap";
+    wrap.innerHTML = `
+      <div class="login-card">
+        <h1>OKK</h1>
+        <div class="muted">Audio quality control · MVP</div>
+        <label>Email</label>
+        <input id="email" type="email" value="" autocomplete="username" />
+        <label>Password</label>
+        <input id="password" type="password" value="demo" autocomplete="current-password" />
+        <button id="loginBtn" style="width:100%;margin-top:6px;">Sign in</button>
+        <button id="demoBtn" class="secondary" style="width:100%;margin-top:10px;background:rgba(16,185,129,0.1);color:var(--good);border:1px solid rgba(16,185,129,0.2);">👁️ Демо-просмотр UI</button>
+        <div class="error" id="loginError"></div>
+      </div>
+    `;
+    wrap.querySelector("#loginBtn").addEventListener("click", async () => {
+      const email = wrap.querySelector("#email").value.trim();
+      const password = wrap.querySelector("#password").value;
+      const err = wrap.querySelector("#loginError");
+      err.textContent = "";
+      try {
+        const t = await api("POST", "/api/auth/login", { email, password });
+        setTokens(t.access_token, t.refresh_token);
+        location.hash = "#/dialogs";
+        render();
+      } catch (e) {
+        err.textContent = e.message;
+      }
+    });
+    wrap.querySelector("#demoBtn").addEventListener("click", () => {
+      setTokens("demo_access", "demo_refresh");
+      location.hash = "#/overview";
+      render();
+    });
+    return wrap;
+  }
+
+  function tabLink(label, href, active) {
+    return `<a href="${href}" class="${active ? "active" : ""}">${label}</a>`;
+  }
+
+  function statusBadge(s) {
+    return `<span class="badge b-${s}">${s}</span>`;
+  }
+
+  async function viewDashboard(activeTab, render) {
+    let me = { email: "demo@azs.local" };
+    try {
+      if (getToken() !== "demo_access") {
+        me = await api("GET", "/api/auth/me");
+      }
+    } catch {
+      return viewLogin();
+    }
+
+    const wrap = document.createElement("div");
+    wrap.className = "app";
+    wrap.innerHTML = `
+      <header class="topbar" style="display:flex; justify-content:space-between; align-items:center; padding:0 24px; height:64px; background:rgba(13,18,30,0.95); border-bottom:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(20px);">
+        <div class="brand" style="display:flex; align-items:center; gap:16px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:900; letter-spacing:1px; font-size:18px;">ОКК<span style="color:var(--primary);">М</span></span>
+            <span class="muted" style="font-size:11px; font-weight:normal; border-left:1px solid rgba(255,255,255,0.12); padding-left:8px;">АЗС Модуль v2.5</span>
+          </div>
+
+          <!-- GLOBAL FILTERS (Header dropdowns) -->
+          <div style="display:flex; align-items:center; gap:10px; margin-left:10px;">
+            <!-- Station Selector -->
+            <div style="position:relative; display:flex; align-items:center;">
+              <span style="position:absolute; left:12px; font-size:13px; pointer-events:none;">📍</span>
+              <select id="global-station-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#fff; padding:7px 12px 7px 32px; border-radius:10px; font-size:12.5px; font-weight:700; outline:none; cursor:pointer; min-width:230px;">
+                <option value="all">Все АЗС (Сеть Демо АЗС)</option>
+                <option value="1">АЗС №1 (Костанай, проспект Абая, 1Т)</option>
+                <option value="7">АЗС №7 (Костанай, улица Карбышева, 71А)</option>
+                <option value="tobyl">АЗС Тобыл (г. Тобыл, проспект Тауелсыздык, 74А)</option>
+                <option value="fedorovka">АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)</option>
+                <option value="2">АЗС №2 (Костанай, АЗС Сеть-Регион)</option>
+                <option value="3">АЗС №3 (Караганда, АЗС Сеть-Регион)</option>
+                <option value="4">АЗС №4 (Шымкент, АЗС Сеть-Регион)</option>
+                <option value="5">АЗС №5 (Павлодар, АЗС Сеть-Регион)</option>
+                <option value="6">АЗС №6 (Уральск, АЗС Сеть-Регион)</option>
+                <option value="8">АЗС №8 (Актобе, АЗС Сеть-Регион)</option>
+                <option value="9">АЗС №9 (Тараз, АЗС Сеть-Регион)</option>
+                <option value="10">АЗС №10 (Астана, АЗС Сеть-Регион)</option>
+                <option value="11">АЗС №11 (Алматы, АЗС Сеть-Регион)</option>
+              </select>
+            </div>
+
+            <!-- Time Period Selector -->
+            <div style="position:relative; display:flex; align-items:center;">
+              <select id="global-period-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#fff; padding:7px 14px; border-radius:10px; font-size:12.5px; font-weight:700; outline:none; cursor:pointer;">
+                <option value="24h">За последние 24 часа</option>
+                <option value="yesterday">Вчера</option>
+                <option value="7d">За последние 7 дней</option>
+                <option value="custom">Выбрать период...</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="meta" style="display:flex; align-items:center; gap:16px;">
+          <button id="syncBtn" class="secondary" style="font-size:12px; padding:6px 12px; display:flex; align-items:center; gap:6px; border-radius:8px;">🔄 Считать данные</button>
+          <span class="muted" style="font-size:12px;">${me.email}</span>
+          <button class="secondary" id="logoutBtn" style="font-size:12px; padding:6px 12px; border-radius:8px;">Выйти</button>
+        </div>
+      </header>
+      <main>
+        <nav class="sidebar">
+          ${tabLink("📊 Обзор", "#/overview", activeTab === "overview")}
+          ${tabLink("💬 Диалоги", "#/dialogs", activeTab === "dialogs")}
+          ${tabLink("👥 Команда", "#/employees", activeTab === "employees")}
+          ${tabLink("⚙️ Настройки ИИ", "#/settings", activeTab === "settings")}
+        </nav>
+        <section class="content" id="content"></section>
+      </main>
+    `;
+    // Restore global header filter values
+    const stationSel = wrap.querySelector("#global-station-select");
+    const periodSel = wrap.querySelector("#global-period-select");
+    if(stationSel) stationSel.value = localStorage.getItem("okkm_global_station") || "all";
+    if(periodSel) periodSel.value = localStorage.getItem("okkm_global_period") || "24h";
+
+    if(stationSel) {
+      stationSel.addEventListener("change", () => {
+        localStorage.setItem("okkm_global_station", stationSel.value);
+        // Re-render current page
+        render();
+      });
+    }
+
+    if(periodSel) {
+      periodSel.addEventListener("change", () => {
+        localStorage.setItem("okkm_global_period", periodSel.value);
+        // Re-render current page
+        render();
+      });
+    }
+
+    wrap.querySelector("#logoutBtn").addEventListener("click", () => {
+      clearTokens();
+      location.hash = "";
+      render();
+    });
+    const syncBtn = wrap.querySelector("#syncBtn");
+    if (syncBtn) {
+      syncBtn.addEventListener("click", async () => {
+        syncBtn.disabled = true;
+        try {
+          const r = await api("POST", "/api/sync/run");
+          toast(`Синхронизация завершена: обработано ${r.inserted || 0} аудио, ${r.ready || 0} готово.`);
+        } catch (e) {
+          toast("Синхронизация запущена в фоновом режиме", "info");
+        }
+        syncBtn.disabled = false;
+      });
+    }
+    return wrap;
+  }
+
+  // ---------- pages ----------
+  function parseFiltersFromHash() {
+    const h = location.hash || "";
+    const q = h.split("?")[1] || "";
+    return new URLSearchParams(q);
+  }
+
+  function updateHashFilters(params) {
+    const base = "#/dialogs";
+    const qs = params.toString();
+    history.replaceState(null, "", qs ? base + "?" + qs : base);
+  }
+
+  async function pageDialogs(container) {
+    const hf = parseFiltersFromHash();
+
+    // Only show profile banner if employee_id parameter is present in URL hash!
+    let _fromEmpProfile = null;
+    if (!hf.get("employee_id")) {
+      sessionStorage.removeItem("empProfile");
+    } else {
+      try { _fromEmpProfile = JSON.parse(sessionStorage.getItem("empProfile")||"null"); } catch(e){}
+    }
+
+    container.innerHTML = `
+      <!-- Employee profile banner (shown when coming from employee profile) -->
+      <div id="emp-profile-banner" style="display:${_fromEmpProfile?"flex":"none"}; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:14px; margin-bottom:20px; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><polyline points="9 18 15 12 9 6"/><polyline points="15 18 21 12 15 6"/></svg>
+          <span style="color:rgba(255,255,255,0.7);">Диалоги отфильтрованы по профилю:</span>
+          <span style="color:#3B82F6;font-weight:800;">${_fromEmpProfile?_fromEmpProfile.name:""}</span>
+        </div>
+        <button id="returnToProfile" style="padding:7px 16px;border-radius:10px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.35);color:#3B82F6;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Вернуться в профиль
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="stat-card-v3" style="padding:18px 22px; margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">Статус</label>
+            <select id="fStatus" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:7px 10px;border-radius:8px;font-size:13px;outline:none;">
+              <option value="">Все</option>
+              <option value="new">Новый</option><option value="downloading">Загрузка</option><option value="downloaded">Загружен</option>
+              <option value="processing">Обработка</option><option value="done">Готов</option><option value="failed">Ошибка</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">Сотрудник</label>
+            <select id="fEmp" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:7px 10px;border-radius:8px;font-size:13px;outline:none;min-width:150px;"><option value="">Все</option></select>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">Триггер</label>
+            <select id="fTrigger" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:7px 10px;border-radius:8px;font-size:13px;outline:none;min-width:150px;">
+              <option value="">Все</option>
+              <option value="0">Приветствие</option>
+              <option value="1">Продажа кофе</option>
+              <option value="2">Выпечка и кросс-сейл</option>
+              <option value="3">Повтор заказа</option>
+              <option value="4">Выдача чека</option>
+              <option value="5">Прощание</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">От</label>
+            <input type="date" id="fDateFrom" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:7px 10px;border-radius:8px;font-size:13px;outline:none;"/>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">До</label>
+            <input type="date" id="fDateTo" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:7px 10px;border-radius:8px;font-size:13px;outline:none;"/>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button id="reload" style="padding:7px 18px;border-radius:8px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.35);color:#3B82F6;font-size:13px;font-weight:700;cursor:pointer;">Выбрать</button>
+            <button class="secondary" id="resetFilters" style="padding:7px 14px;border-radius:8px;font-size:13px;">Сбросить</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="kpis" class="grid-4" style="margin-bottom:14px;"></div>
+      <div id="list" class="card">Загрузка…</div>
+      <div id="detail"></div>
+    `;
+
+    // restore filters from URL
+    if (hf.get("status")) container.querySelector("#fStatus").value = hf.get("status");
+    if (hf.get("from")) container.querySelector("#fDateFrom").value = hf.get("from");
+    if (hf.get("to")) container.querySelector("#fDateTo").value = hf.get("to");
+
+    let emps = [];
+    try {
+      if (getToken() !== "demo_access") {
+        emps = await api("GET", "/api/employees");
+      } else {
+        emps = demoEmployees.map(e => ({
+          id: e.id || e.ab400_user_id,
+          display_name: e.display_name,
+          ab400_user_id: e.ab400_user_id,
+          dialogs_total: e.dialogs_done || 20
+        }));
+      }
+    } catch (e) {
+      emps = [
+        { id: "e1", display_name: "Асель Нургалиева", ab400_user_id: "8A-F2-31-01", dialogs_total: 45 },
+        { id: "e2", display_name: "Данияр Искаков", ab400_user_id: "7B-E1-22-02", dialogs_total: 38 }
+      ];
+    }
+
+    const fEmp = container.querySelector("#fEmp");
+    for (const e of emps) {
+      const o = document.createElement("option");
+      o.value = e.id || e.ab400_user_id;
+      o.textContent = `${e.display_name || "RFID="+e.ab400_user_id} (${e.dialogs_total || 0})`;
+      fEmp.appendChild(o);
+    }
+    if (hf.get("employee_id")) {
+      const targetId = hf.get("employee_id");
+      // Find option where value is targetId or the text contains RFID/name matching targetId
+      const opt = Array.from(fEmp.options).find(o => 
+        String(o.value) === String(targetId) || 
+        (o.value && targetId && String(o.value).toLowerCase() === String(targetId).toLowerCase())
+      );
+      if (opt) {
+        fEmp.value = opt.value;
+      } else {
+        // Fallback: search by sessionStorage info if available
+        try {
+          const stored = JSON.parse(sessionStorage.getItem("empProfile") || "null");
+          if (stored && String(stored.id) === String(targetId)) {
+            const foundOpt = Array.from(fEmp.options).find(o => 
+              o.textContent.includes(stored.name) || 
+              (stored.rfid && o.value === stored.rfid)
+            );
+            if (foundOpt) fEmp.value = foundOpt.value;
+          }
+        } catch(e){}
+      }
+    }
+    const trigParam = hf.get("trigger_idx");
+    if (trigParam !== null && trigParam !== undefined && trigParam !== "") {
+      const ft = container.querySelector("#fTrigger");
+      if(ft) ft.value = trigParam;
+    }
+
+    // Return to profile banner action
+    const returnBtn = container.querySelector("#returnToProfile");
+    if(returnBtn) {
+      returnBtn.addEventListener("click", () => {
+        if(_fromEmpProfile) {
+          try { sessionStorage.setItem("returnToEmp", _fromEmpProfile.id); } catch(e) {}
+        }
+        location.hash = "#/employees";
+      });
+    }
+
+    // Reset filters
+    const resetBtn = container.querySelector("#resetFilters");
+    if(resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        container.querySelector("#fStatus").value = "";
+        fEmp.value = "";
+        const ft = container.querySelector("#fTrigger"); if(ft) ft.value = "";
+        container.querySelector("#fDateFrom").value = "";
+        container.querySelector("#fDateTo").value = "";
+        sessionStorage.removeItem("empProfile");
+        const banner = container.querySelector("#emp-profile-banner"); if(banner) banner.style.display = "none";
+        _fromEmpProfile = null;
+        reload();
+      });
+    }
+
+    // Trigger filter listener
+    const fTrigger = container.querySelector("#fTrigger");
+    if(fTrigger) fTrigger.addEventListener("change", reload);
+
+    async function loadKpis() {
+      try {
+        if (getToken() !== "demo_access") {
+          const params = new URLSearchParams();
+          const dateFrom = container.querySelector("#fDateFrom").value;
+          const dateTo = container.querySelector("#fDateTo").value;
+          if (dateFrom) params.set("from", dateFrom + "T00:00:00");
+          if (dateTo) params.set("to", dateTo + "T23:59:59");
+          const s = await api("GET", "/api/analytics/summary?" + params.toString());
+          container.querySelector("#kpis").innerHTML = `
+            <div class="kpi"><div class="v">${s.done_count}</div><div class="l">Обработано</div></div>
+            <div class="kpi"><div class="v">${s.avg_quality_score != null ? s.avg_quality_score.toFixed(1) : "—"}</div><div class="l">Ср. Качество</div></div>
+            <div class="kpi"><div class="v">${s.avg_script_compliance_pct != null ? s.avg_script_compliance_pct + "%" : "—"}</div><div class="l">Соблюдение</div></div>
+            <div class="kpi"><div class="v">${s.headline_conversion_rate_pct != null ? s.headline_conversion_rate_pct.toFixed(0) + "%" : "—"}</div><div class="l">Доп. продажи</div></div>
+          `;
+        } else {
+          const selSt = localStorage.getItem("okkm_global_station") || "all";
+          const selPer = localStorage.getItem("okkm_global_period") || "24h";
+
+          const stationCoeffs = {
+            "all": { count: 142, compliance: 84, upsell: 61 },
+            "1": { count: 34, compliance: 68, upsell: 42 },
+            "7": { count: 48, compliance: 95, upsell: 78 },
+            "tobyl": { count: 42, compliance: 91, upsell: 69 },
+            "fedorovka": { count: 18, compliance: 54, upsell: 28 },
+            "2": { count: 25, compliance: 74, upsell: 48 },
+            "3": { count: 29, compliance: 88, upsell: 64 },
+            "4": { count: 22, compliance: 76, upsell: 50 },
+            "5": { count: 19, compliance: 65, upsell: 38 },
+            "6": { count: 21, compliance: 82, upsell: 59 },
+            "8": { count: 15, compliance: 48, upsell: 22 },
+            "9": { count: 17, compliance: 71, upsell: 45 },
+            "10": { count: 26, compliance: 84, upsell: 60 },
+            "11": { count: 14, compliance: 68, upsell: 40 }
+          };
+
+          const stData = stationCoeffs[selSt] || stationCoeffs["all"];
+          const mult = selPer === "7d" ? 7 : (selPer === "yesterday" ? 1.1 : 1);
+
+          container.querySelector("#kpis").innerHTML = `
+            <div class="kpi"><div class="v">${Math.round(stData.count * mult)}</div><div class="l">Обработано (Демо)</div></div>
+            <div class="kpi"><div class="v">${(stData.compliance / 10).toFixed(1)}</div><div class="l">Ср. Качество (Демо)</div></div>
+            <div class="kpi"><div class="v">${stData.compliance}%</div><div class="l">Соблюдение (Демо)</div></div>
+            <div class="kpi"><div class="v">${stData.upsell}%</div><div class="l">Доп. продажи (Демо)</div></div>
+          `;
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    async function reload() {
+      const params = new URLSearchParams();
+      const s = container.querySelector("#fStatus").value;
+      const eid = fEmp.value;
+      const ftVal = container.querySelector("#fTrigger") ? container.querySelector("#fTrigger").value : "";
+      const dateFrom = container.querySelector("#fDateFrom").value;
+      const dateTo = container.querySelector("#fDateTo").value;
+      if (s) params.set("status", s);
+      if (eid) params.set("employee_id", eid);
+      if (ftVal !== "") params.set("trigger_idx", ftVal);
+      if (dateFrom) params.set("from", dateFrom);
+      if (dateTo) params.set("to", dateTo);
+      updateHashFilters(params);
+
+      let items = [];
+      try {
+        if (getToken() !== "demo_access") {
+          const apiParams = new URLSearchParams();
+          if (s) apiParams.set("status", s);
+          if (eid) apiParams.set("employee_id", eid);
+          
+          // 1. Pass translated global station to backend office_last parameter
+          if (selGlobalStation !== "all") {
+            const stationMap = {
+              "1": "АЗС №1", "7": "АЗС №7", "tobyl": "АЗС Тобыл", "fedorovka": "АЗС Федоровка",
+              "2": "АЗС №2", "3": "АЗС №3", "4": "АЗС №4", "5": "АЗС №5", "6": "АЗС №6",
+              "8": "АЗС №8", "9": "АЗС №9", "10": "АЗС №10", "11": "АЗС №11"
+            };
+            const stName = stationMap[selGlobalStation];
+            if (stName) apiParams.set("office_last", stName);
+          }
+
+          // 2. Use global period date ranges if manual date pickers are not active
+          let finalFrom = dateFrom;
+          let finalTo = dateTo;
+          if (!finalFrom && !finalTo) {
+            const nowTime = new Date();
+            if (selGlobalPeriod === "24h") {
+              const past24 = new Date(nowTime.getTime() - 24 * 60 * 60 * 1000);
+              finalFrom = past24.toISOString().split(".")[0];
+            } else if (selGlobalPeriod === "yesterday") {
+              const yesterdayStart = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 0, 0, 0);
+              const yesterdayEnd = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 23, 59, 59);
+              finalFrom = yesterdayStart.toISOString().split(".")[0];
+              finalTo = yesterdayEnd.toISOString().split(".")[0];
+            } else if (selGlobalPeriod === "7d") {
+              const past7d = new Date(nowTime.getTime() - 7 * 24 * 60 * 60 * 1000);
+              finalFrom = past7d.toISOString().split(".")[0];
+            }
+          } else {
+            if (finalFrom) finalFrom = finalFrom + "T00:00:00";
+            if (finalTo) finalTo = finalTo + "T23:59:59";
+          }
+
+          if (finalFrom) apiParams.set("from", finalFrom);
+          if (finalTo) apiParams.set("to", finalTo);
+
+          items = await api("GET", "/api/dialogs?" + apiParams.toString());
+        } else {
+          items = await mockApi.getDialogs();
+        }
+      } catch (e) {
+        items = await mockApi.getDialogs();
+      }
+
+      // Apply Global Header Filters (Station & Period) to Dialogs
+      const selGlobalStation = localStorage.getItem("okkm_global_station") || "all";
+      const selGlobalPeriod = localStorage.getItem("okkm_global_period") || "24h";
+
+      if (selGlobalStation !== "all") {
+        const stationMap = {
+          "1": "АЗС №1", "7": "АЗС №7", "tobyl": "АЗС Тобыл", "fedorovka": "АЗС Федоровка",
+          "2": "АЗС №2", "3": "АЗС №3", "4": "АЗС №4", "5": "АЗС №5", "6": "АЗС №6",
+          "8": "АЗС №8", "9": "АЗС №9", "10": "АЗС №10", "11": "АЗС №11"
+        };
+        const stName = stationMap[selGlobalStation];
+        if (stName) {
+          items = items.filter(d => (d.office_last || d.office || "").includes(stName));
+        }
+      }
+
+      // Filter Dialogs by Period (24h, yesterday, 7d)
+      const now = new Date().getTime();
+      const ONE_DAY = 24 * 60 * 60 * 1000;
+      if (selGlobalPeriod === "24h") {
+        items = items.filter(d => d.start_time ? (now - new Date(d.start_time).getTime() <= ONE_DAY) : true);
+      } else if (selGlobalPeriod === "yesterday") {
+        items = items.filter(d => d.start_time ? (now - new Date(d.start_time).getTime() >= ONE_DAY && now - new Date(d.start_time).getTime() <= 2 * ONE_DAY) : true);
+      } else if (selGlobalPeriod === "7d") {
+        items = items.filter(d => d.start_time ? (now - new Date(d.start_time).getTime() <= 7 * ONE_DAY) : true);
+      }
+
+      // Сортировка по убыванию времени начала
+      items.sort((a, b) => {
+        const tA = a.start_time ? new Date(a.start_time).getTime() : 0;
+        const tB = b.start_time ? new Date(b.start_time).getTime() : 0;
+        return tB - tA;
+      });
+
+      // 1. Filter by Employee (#fEmp or URL employee_id)
+      if (eid) {
+        let searchName = "";
+        let searchRfid = "";
+        
+        // 1. Try from session storage (if transitioning from employee profile)
+        try {
+          const stored = JSON.parse(sessionStorage.getItem("empProfile") || "null");
+          if (stored && (String(stored.id) === String(eid))) {
+            searchName = stored.name || "";
+            searchRfid = stored.rfid || "";
+          }
+        } catch(e) {}
+        
+        // 2. Try from dropdown list option
+        const matchOpt = Array.from(fEmp.options).find(o => o.value === eid);
+        if (matchOpt) {
+          const rawName = matchOpt.textContent.replace(/\s*\(\d+\)\s*$/, "").trim();
+          if (rawName.startsWith("RFID=")) {
+            searchRfid = rawName.replace("RFID=", "").trim();
+          } else {
+            searchName = rawName;
+          }
+        }
+
+        // Fallback if we couldn't resolve name/rfid yet
+        if (!searchName && !searchRfid) {
+          searchName = eid;
+        }
+
+        items = items.filter(d => {
+          if (!d.employee_name) return false;
+          
+          // STRICT MATCH:
+          // Check if explicit employee_id matches
+          if (d.employee_id && String(d.employee_id) === String(eid)) return true;
+          
+          // Check if employee name matches
+          if (searchName && d.employee_name.toLowerCase().trim() === searchName.toLowerCase().trim()) return true;
+          
+          // Check if employee RFID matches
+          if (searchRfid && d.employee_rfid && String(d.employee_rfid) === String(searchRfid)) return true;
+          
+          return false;
+        });
+      }
+
+      // 2. Filter by Status (#fStatus)
+      if (s) {
+        items = items.filter(d => (d.status || "done") === s);
+      }
+
+      // 3. Filter by Trigger (#fTrigger or URL trigger_idx)
+      const fTriggerEl = container.querySelector("#fTrigger");
+      const triggerIdx = fTriggerEl ? fTriggerEl.value : "";
+      if (triggerIdx !== "" && triggerIdx !== null) {
+        const tIdx = parseInt(triggerIdx);
+        const triggerIdStr = String(tIdx + 1);
+        items = items.filter(d => {
+          const cr = d.checklist_results || [];
+          // Item must match trigger index or id, and it must have FAILED (passed === false)
+          const targetItem = cr.find((item, idx) => String(item.id) === triggerIdStr || idx === tIdx);
+          return targetItem && targetItem.passed === false;
+        });
+      }
+
+      const list = container.querySelector("#list");
+      if (!items.length) { list.innerHTML = `<div class="muted">Диалоги не найдены.</div>`; return; }
+
+      // Загружаем закреплённые триггеры из настроек (источник правды — бэк)
+      let pinnedTriggers = []; // [{id, label}, ...]
+      try {
+        if (getToken() !== "demo_access") {
+          const settings = await api("GET", "/api/settings/active");
+          pinnedTriggers = (settings.checklist_items || [])
+            .filter(x => x.pinned)
+            .slice(0, 2);
+        } else {
+          // В демо читаем актуальный пиннинг из localStorage (устанавливается в Settings)
+          try {
+            const saved = localStorage.getItem("okkm_pinned_triggers");
+            if (saved) {
+              pinnedTriggers = JSON.parse(saved).slice(0, 2);
+            } else {
+              pinnedTriggers = [
+                { id: "1", label: "Приветствие кассира (ТРИГГЕР №1)" },
+                { id: "2", label: "Продажа кофе (ТРИГГЕР №2)" }
+              ];
+            }
+          } catch(err) {
+            pinnedTriggers = [
+              { id: "1", label: "Приветствие кассира (ТРИГГЕР №1)" },
+              { id: "2", label: "Продажа кофе (ТРИГГЕР №2)" }
+            ];
+          }
+        }
+      } catch(e) {
+        try {
+          const saved = localStorage.getItem("okkm_pinned_triggers");
+          pinnedTriggers = saved ? JSON.parse(saved).slice(0, 2) : [
+            { id: "1", label: "Приветствие кассира (ТРИГГЕР №1)" },
+            { id: "2", label: "Продажа кофе (ТРИГГЕР №2)" }
+          ];
+        } catch(err) {
+          pinnedTriggers = [
+            { id: "1", label: "Приветствие кассира (ТРИГГЕР №1)" },
+            { id: "2", label: "Продажа кофе (ТРИГГЕР №2)" }
+          ];
+        }
+      }
+
+      // Очищаем заголовки от суффиксов типа "(ТРИГГЕР №1)"
+      const cleanLabel = (label) => label.split(" (")[0].replace(" кассира", "");
+      const t1Label = pinnedTriggers[0] ? cleanLabel(pinnedTriggers[0].label) : "—";
+      const t2Label = pinnedTriggers[1] ? cleanLabel(pinnedTriggers[1].label) : "—";
+      const t1Id = pinnedTriggers[0] ? pinnedTriggers[0].id : null;
+      const t2Id = pinnedTriggers[1] ? pinnedTriggers[1].id : null;
+
+      list.innerHTML = `
+        <div style="display: grid; grid-template-columns: 80px 1.5fr 1fr 1fr 1fr 1.8fr 70px 220px 100px; padding: 10px 18px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 8px;">
+          <div>Время</div>
+          <div>Сотрудник</div>
+          <div>Офис</div>
+          <div>${escapeHtml(t1Label)}</div>
+          <div>${escapeHtml(t2Label)}</div>
+          <div>Нарушения</div>
+          <div>Качество</div>
+          <div>Аудиозапись</div>
+          <div>Действие</div>
+        </div>
+        <div class="dialogs-cards-container" style="padding-bottom: 24px; display: flex; flex-direction: column;">
+          ${items.map(d => {
+            const startTime = d.start_time ? new Date(d.start_time) : null;
+            const timeStr = startTime ? startTime.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '—';
+            const dateStr = startTime ? startTime.toLocaleDateString('ru-RU', {month: '2-digit', day: '2-digit'}) : '—';
+
+            let initials = "—";
+            if (d.employee_name) {
+              const parts = d.employee_name.split(" ");
+              initials = parts.map(p => p[0]).join("").slice(0, 2).toUpperCase();
+            }
+
+            let welcomeStatus = '<span class="badge-trigger no">✗ Нет</span>';
+            let coffeeStatus = '<span class="badge-trigger no">✗ Нет</span>';
+            let issuesHtml = "";
+
+            if (d.checklist_results && d.checklist_results.length) {
+              // Матчим по id закреплённого триггера — точно, не по позиции
+              const getBadge = (trigger) => {
+                if (!trigger) return '<span class="badge-trigger no">✗ Нет</span>';
+                if (trigger.passed) return '<span class="badge-trigger yes">✓ Да</span>';
+                const hasPartial = (trigger.evidence && trigger.evidence.toLowerCase().includes("неполн")) || 
+                                   (trigger.comment && trigger.comment.toLowerCase().includes("неполн"));
+                if (hasPartial) return '<span class="badge-trigger partial">⚠ Частич.</span>';
+                return '<span class="badge-trigger no">✗ Нет</span>';
+              };
+
+              const t1Match = t1Id ? d.checklist_results.find(c => String(c.id) === String(t1Id)) : null;
+              const t2Match = t2Id ? d.checklist_results.find(c => String(c.id) === String(t2Id)) : null;
+              if (t1Match) welcomeStatus = getBadge(t1Match);
+              if (t2Match) coffeeStatus = getBadge(t2Match);
+
+              const failed = d.checklist_results.filter(c => !c.passed);
+              if (failed.length === 0) {
+                issuesHtml = '<span style="color:#10B981; font-size:12px; font-weight:600;">Нет нарушений</span>';
+              } else {
+                const limit = 2;
+                const visible = failed.slice(0, limit);
+                const remaining = failed.slice(limit);
+                
+                let html = visible.map(c => {
+                  let shortLabel = c.label.split(" (")[0].replace(" кассира", "");
+                  return `<span class="badge-issue" title="${c.comment || ''}">${shortLabel}</span>`;
+                }).join("");
+
+                if (remaining.length > 0) {
+                  const remNames = remaining.map(c => c.label.split(" (")[0].replace(" кассира", "")).join(", ");
+                  html += `<span class="badge-issue" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:var(--muted);" title="Еще нарушения: ${remNames}">+${remaining.length}</span>`;
+                }
+                issuesHtml = html;
+              }
+            } else {
+              welcomeStatus = '<span class="badge-trigger no">✗ Нет</span>';
+              coffeeStatus = '<span class="badge-trigger no">✗ Нет</span>';
+              issuesHtml = '<span class="muted" style="font-size:12px;">Не проанализирован</span>';
+            }
+
+            let scoreClass = 'bad';
+            if (d.quality_score >= 8.0) scoreClass = 'good';
+            else if (d.quality_score >= 5.0) scoreClass = 'average';
+            const scoreStr = d.quality_score != null ? d.quality_score.toFixed(1) : '—';
+
+            let durationStr = "0:00";
+            if (d.duration_seconds) {
+              const m = Math.floor(d.duration_seconds / 60);
+              const s = Math.round(d.duration_seconds % 60);
+              durationStr = `${m}м ${s}с`;
+            }
+
+            const audioUrl = d.id.startsWith("d") ? "" : `/api/dialogs/${d.id}/audio`;
+
+            return `
+              <div class="dialog-card-row" data-id="${d.id}" style="cursor:pointer;">
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:14.5px; font-weight:700; color:#FFFFFF;">${timeStr}</span>
+                  <span style="font-size:11px; color:var(--muted);">${dateStr}</span>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <div class="avatar-circle">${initials}</div>
+                  <span style="font-weight:600; color:#FFFFFF; font-size:13px;">${d.employee_name || '—'}</span>
+                </div>
+
+                <div style="font-size:12.5px; color:var(--text); opacity:0.85;">${d.office || '—'}</div>
+
+                <div>${welcomeStatus}</div>
+
+                <div>${coffeeStatus}</div>
+
+                <div style="max-height: 50px; overflow: hidden; display: flex; flex-wrap: wrap;">${issuesHtml}</div>
+
+                <div>
+                  <span class="quality-score-badge ${scoreClass}">${scoreStr}</span>
+                </div>
+
+                <div>
+                  <div class="mini-player" onclick="event.stopPropagation();">
+                    <button class="mini-play-btn" id="mini-play-${d.id}" onclick="toggleMiniPlayer('${d.id}', '${audioUrl}')">▶</button>
+                    <div style="display:flex; flex-direction:column; gap:2px; flex-grow:1;">
+                      <div class="mini-player-time" id="mini-time-${d.id}">0:00 / ${durationStr}</div>
+                      <div style="height:3px; background:rgba(255,255,255,0.1); border-radius:1.5px; position:relative; overflow:hidden;">
+                        <div id="mini-progress-${d.id}" style="height:100%; width:0%; background:var(--primary); border-radius:1.5px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button class="primary" style="padding: 6px 12px; font-size: 12px; font-weight:700; width:100%;" onclick="event.stopPropagation(); location.hash='#/dialogs/${d.id}';">Анализ ИИ</button>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+      list.querySelectorAll(".dialog-card-row").forEach(tr => {
+        tr.addEventListener("click", () => {
+          location.hash = `#/dialogs/${tr.dataset.id}`;
+        });
+      });
+    }
+    container.querySelector("#reload").addEventListener("click", () => { reload(); loadKpis(); });
+    container.querySelector("#fStatus").addEventListener("change", reload);
+    fEmp.addEventListener("change", reload);
+    container.querySelector("#fDateFrom").addEventListener("change", () => { reload(); loadKpis(); });
+    container.querySelector("#fDateTo").addEventListener("change", () => { reload(); loadKpis(); });
+    await reload();
+    await loadKpis();
+  }
+
+  async function pageDialogDetail(container, id) {
+    container.innerHTML = `<div id="detail">Загрузка анализа…</div>`;
+    await showDialog(container, id);
+  }
+
+  async function showDialog(container, id) {
+    let d;
+    try {
+      if (getToken() !== "demo_access" && !id.startsWith("d")) {
+        d = await api("GET", `/api/dialogs/${id}`);
+      } else {
+        const dlist = await mockApi.getDialogs();
+      d = dlist.find(x => x.id === id) || dlist[0];
+      }
+    } catch (e) {
+      const dlist = await mockApi.getDialogs();
+      d = dlist.find(x => x.id === id) || dlist[0];
+    }
+    const det = container.querySelector("#detail");
+    const cl = (d.checklist_results || []);
+
+    // 1. Transcript parser helper
+    function parseTranscript(text) {
+      if (!text) return [];
+      const lines = text.split('\n');
+      const result = [];
+      
+      lines.forEach(line => {
+        if (!line.trim()) return;
+        const match = line.match(/^(?:\[(\d{2}:\d{2})\])?\s*([^:]+):\s*(.*)$/);
+        if (match) {
+          result.push({
+            time: match[1] || "",
+            speaker: match[2].trim(),
+            text: match[3].trim()
+          });
+        } else {
+          result.push({
+            time: "",
+            speaker: "",
+            text: line.trim()
+          });
+        }
+      });
+      return result;
+    }
+
+    // 2. Stop words highlighter helper
+    function highlightStopWords(text) {
+      if (!text) return "";
+      const stopPhrases = [
+        { regex: /\b(здрасьте|здрасти)\b/gi, label: "Стоп-слово: грубое приветствие" },
+        { regex: /\b(что-нибудь еще|что-то еще|еще что-нибудь|еще что-то)\b/gi, label: "Стоп-слово: неэффективный кросс-сейл" },
+        { regex: /\b(вам чек нужен|чек нужен|нужен чек|чек надо)\b/gi, label: "Стоп-слово: нарушение стандартов ФЗ" },
+        { regex: /\bне\s+(хотите|желаете|попробуете|будете|надо|нужно)\b/gi, label: "Нарушение: предложение через отрицание 'НЕ'" }
+      ];
+      
+      let highlighted = text;
+      stopPhrases.forEach(item => {
+        highlighted = highlighted.replace(item.regex, (match) => {
+          return `<span class="stop-word-highlight" title="${escapeHtml(item.label)}">${escapeHtml(match)}</span>`;
+        });
+      });
+      return highlighted;
+    }
+
+    try {
+      const parsedChat = parseTranscript(d.transcript);
+      const failedCount = cl.filter(c => !c.passed).length;
+      const passOrFail = failedCount > 0 
+        ? `<span class="badge" style="background:rgba(239,68,68,0.15); color:#EF4444; border:1px solid rgba(239,68,68,0.25); font-weight:800; padding:4px 10px; border-radius:6px; font-size:11px;">FAIL</span>` 
+        : `<span class="badge" style="background:rgba(16,185,129,0.15); color:#10B981; border:1px solid rgba(16,185,129,0.25); font-weight:800; padding:4px 8px; border-radius:6px; font-size:11px;">PASS</span>`;
+
+      let durationStr = "0:00";
+      if (d.duration_seconds) {
+        const m = Math.floor(d.duration_seconds / 60);
+        const s = Math.round(d.duration_seconds % 60);
+        durationStr = `${m}м ${s}с`;
+      }
+
+      det.innerHTML = `
+        <!-- Action bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button class="secondary" id="backBtn" style="padding: 8px 16px; font-weight:700;"><span style="margin-right:6px;">←</span> Назад к списку</button>
+            <button class="primary" id="profileBtn" style="padding: 8px 16px; font-weight:700; background:rgba(59,130,246,0.1); color:#60A5FA; border:1px solid rgba(59,130,246,0.25);">👤 Профиль ${escapeHtml(d.employee_name || "кассира")}</button>
+          </div>
+          <div style="font-size:13px; color:var(--muted); font-family:monospace;">ID: ${d.id}</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start;">
+          <!-- Left Column: Audio and Checklist -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            
+            <!-- Player Card -->
+            <div class="card" style="border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.015); position:relative;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
+                <div>
+                  <h3 style="margin:0; font-size:20px; font-weight:800; color:#FFFFFF;">${escapeHtml(d.employee_name || "—")}</h3>
+                  <div style="font-size:12px; color:var(--muted); margin-top:4px;">
+                    ${d.start_time ? d.start_time.replace("T"," ").slice(0,19) : ""} · ${escapeHtml(d.office || "Без офиса")}
+                  </div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <span style="font-size:12px; font-weight:700; color:var(--muted); background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:6px;">${durationStr}</span>
+                  ${passOrFail}
+                </div>
+              </div>
+
+              <audio id="audioPlayer" style="display:none;"></audio>
+              
+              <div class="premium-player" id="customPlayerWrap" style="margin-top:14px;">
+                <button class="player-play-btn" id="playBtn">▶</button>
+                <div class="player-progress-container">
+                  <div class="player-progress-bar-wrap" id="progressWrap">
+                    <div class="player-progress-bar-fill" id="progressFill"></div>
+                  </div>
+                  <div class="player-time-lbl">
+                    <span id="currentTime">00:00</span>
+                    <span id="durationTime">00:00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-size:11px; color:var(--muted); font-family:monospace;">
+                <span>Файл: ${escapeHtml(d.object_key || "AUDIO.WAV")}</span>
+                <button class="secondary" id="reanBtn" style="padding: 6px 12px; font-size:11px;" ${d.status === "done" || d.status === "transcribed" ? "" : "disabled"}>🔄 Переанализировать ИИ</button>
+              </div>
+            </div>
+
+            <!-- Checklist Card -->
+            <div class="card" style="border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.015);">
+              <h3 style="margin-top:0; margin-bottom:6px; font-size:18px;">Чек-лист обслуживания</h3>
+              <div class="muted" style="font-size:12px; margin-bottom:16px; font-style:italic;">💡 Нажмите на пункт чек-листа, чтобы подсветить реплику в стенограмме</div>
+              
+              ${cl.length ? `
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  ${cl.map((c, idx) => {
+                    const isPassed = c.passed;
+                    const icon = isPassed 
+                      ? `<div style="width:24px; height:24px; border-radius:50%; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); color:#10B981; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;">✓</div>`
+                      : `<div style="width:24px; height:24px; border-radius:50%; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:#EF4444; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;">✗</div>`;
+                    
+                    return `
+                      <div class="chk-item-btn" data-idx="${idx}" style="background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.04); display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px;">
+                        ${icon}
+                        <div style="flex-grow:1;">
+                          <div style="font-weight:700; font-size:13.5px; color:${isPassed ? '#34D399' : '#F87171'};">${escapeHtml(c.label || c.id)}</div>
+                          ${c.comment ? `<div style="font-size:12px; color:var(--muted); margin-top:4px;">${escapeHtml(c.comment)}</div>` : ""}
+                          ${c.evidence ? `<div style="font-size:11.5px; color:#60A5FA; font-style:italic; margin-top:6px; background:rgba(59,130,246,0.05); padding:4px 8px; border-radius:6px; border:1px dashed rgba(59,130,246,0.15);">Цитата: "${escapeHtml(c.evidence)}"</div>` : ""}
+                        </div>
+                      </div>
+                    `;
+                  }).join("")}
+                </div>
+              ` : `<span class="muted">Чек-лист не заполнен.</span>`}
+            </div>
+          </div>
+
+          <!-- Right Column: Verification, Summary, Transcript -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            
+            <!-- Verification Result -->
+            <div class="card" style="border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.015);">
+              <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--muted); letter-spacing:0.5px; margin-bottom:8px;">Результат проверки</div>
+              <h2 style="margin:0; font-size:26px; font-weight:800; color:${failedCount > 0 ? '#F87171' : '#34D399'};">
+                Нарушено: ${failedCount} из ${cl.length}
+              </h2>
+              ${failedCount > 0 ? `
+                <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;">
+                  ${cl.filter(c => !c.passed).map(c => `<span class="badge-issue" style="margin:0; font-size:11px; padding:4px 8px; border-radius:8px;">${escapeHtml(c.label.split(" (")[0])}</span>`).join("")}
+                </div>
+              ` : `<div style="margin-top:8px; color:#10B981; font-size:13.5px; font-weight:600;">Все стандарты обслуживания выполнены идеально!</div>`}
+            </div>
+
+            <!-- Summary -->
+            <div class="card" style="border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.015);">
+              <h3 style="margin-top:0; margin-bottom:12px; font-size:16px;">Сводка</h3>
+              <div style="font-size:13.5px; line-height:1.6; color:rgba(255,255,255,0.8); margin-bottom:16px;">
+                ${d.summary ? escapeHtml(d.summary) : `<span class="muted">Анализ отсутствует (статус: ${d.status}).</span>`}
+              </div>
+              
+              <!-- KPI blocks -->
+              <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); border-radius:12px; padding:12px 16px; border:1px solid rgba(255,255,255,0.04);">
+                <div style="text-align:center; flex:1;">
+                  <div style="font-size:18px; font-weight:800; color:#FFFFFF;">${d.quality_score != null ? d.quality_score.toFixed(1) : "—"}</div>
+                  <div style="font-size:10px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-top:2px;">Качество</div>
+                </div>
+                <div style="width:1px; height:32px; background:rgba(255,255,255,0.08);"></div>
+                <div style="text-align:center; flex:1;">
+                  <div style="font-size:18px; font-weight:800; color:#10B981;">${d.script_compliance_pct != null ? d.script_compliance_pct + "%" : "—"}</div>
+                  <div style="font-size:10px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-top:2px;">Соблюдение</div>
+                </div>
+                <div style="width:1px; height:32px; background:rgba(255,255,255,0.08);"></div>
+                <div style="text-align:center; flex:1;">
+                  <span style="background:rgba(59,130,246,0.12); color:#60A5FA; font-size:11px; font-weight:700; padding:4px 8px; border-radius:6px; border:1px solid rgba(59,130,246,0.2); text-transform:uppercase;">
+                    ${escapeHtml(d.tone || "нейтральный")}
+                  </span>
+                  <div style="font-size:10px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-top:6px;">Тон</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transcript -->
+            <div class="card" style="border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.015); max-height: 520px; display:flex; flex-direction:column;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="margin:0; font-size:16px;">Транскрипт <span class="muted" style="font-size:11px; font-weight:500;">ru</span></h3>
+                <span class="muted" style="font-size:12px; cursor:pointer; user-select:none;" id="toggleTranscriptBtn">Свернуть ↑</span>
+              </div>
+              
+              <div id="transcriptWrap" style="overflow-y:auto; flex-grow:1; max-height: 420px;">
+                ${parsedChat.length ? `
+                  <div class="chat-container" id="chatContainer">
+                    ${parsedChat.map((msg, idx) => {
+                      const speakerLower = msg.speaker.toLowerCase();
+                      const isEmp = speakerLower === "сотрудник" || speakerLower === "кассир" || speakerLower === "фармацевт" || speakerLower.startsWith("speaker 0") || speakerLower.includes("касса");
+                      const bubbleClass = isEmp ? "employee" : "client";
+                      const speakerLabel = isEmp ? (d.employee_name || msg.speaker) : "Клиент";
+                      const avatar = isEmp ? "👤" : "👥";
+                      const textHighlighted = highlightStopWords(msg.text);
+                      
+                      return `
+                        <div class="chat-bubble ${bubbleClass}" data-line-idx="${idx}">
+                          <div class="bubble-meta">
+                            <span style="font-weight:700;">${avatar} ${escapeHtml(speakerLabel)}</span>
+                            ${msg.time ? `<span class="bubble-time" style="opacity:0.8;">${escapeHtml(msg.time)}</span>` : ""}
+                          </div>
+                          <div class="bubble-text" style="font-size:13px; line-height:1.5;">${textHighlighted}</div>
+                        </div>
+                      `;
+                    }).join("")}
+                  </div>
+                ` : `<span class="muted">Текст отсутствует.</span>`}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      det.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (e) {
+      det.innerHTML = `<div class="card" style="border-color:var(--bad);">Error rendering dialog: ${e.message}</div>`;
+      return;
+    }
+
+    // 3. Audio & Custom Player Setup
+    const audioEl = det.querySelector("#audioPlayer");
+    const playBtn = det.querySelector("#playBtn");
+    const progressWrap = det.querySelector("#progressWrap");
+    const progressFill = det.querySelector("#progressFill");
+    const currentTimeEl = det.querySelector("#currentTime");
+    const durationTimeEl = det.querySelector("#durationTime");
+    const customPlayerWrap = det.querySelector("#customPlayerWrap");
+
+    function formatTime(secs) {
+      if (isNaN(secs)) return "00:00";
+      const m = Math.floor(secs / 60).toString().padStart(2, '0');
+      const s = Math.floor(secs % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    (async () => {
+      try {
+        const r = await api("GET", `/api/dialogs/${d.id}/audio`, undefined, true);
+        if (!r.ok) {
+          customPlayerWrap.outerHTML = `<div class="muted" style="margin-top:14px;">Аудиофайл недоступен (${r.status})</div>`;
+          return;
+        }
+        const blob = await r.blob();
+        audioEl.src = URL.createObjectURL(blob);
+      } catch (e) {
+        customPlayerWrap.outerHTML = `<div class="muted" style="margin-top:14px;">Аудиофайл недоступен (Демо-режим)</div>`;
+      }
+    })();
+
+    playBtn.addEventListener("click", () => {
+      if (audioEl.paused) {
+        audioEl.play().catch(() => {});
+        playBtn.textContent = "⏸";
+      } else {
+        audioEl.pause();
+        playBtn.textContent = "▶";
+      }
+    });
+
+    audioEl.addEventListener("timeupdate", () => {
+      if (!audioEl.duration) return;
+      const pct = (audioEl.currentTime / audioEl.duration) * 100;
+      progressFill.style.width = `${pct}%`;
+      currentTimeEl.textContent = formatTime(audioEl.currentTime);
+    });
+
+    audioEl.addEventListener("loadedmetadata", () => {
+      durationTimeEl.textContent = formatTime(audioEl.duration);
+    });
+
+    progressWrap.addEventListener("click", (e) => {
+      if (!audioEl.duration) return;
+      const rect = progressWrap.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const pct = clickX / width;
+      audioEl.currentTime = pct * audioEl.duration;
+    });
+
+    // Action handlers
+    det.querySelector("#backBtn").addEventListener("click", () => {
+      location.hash = "#/dialogs";
+    });
+    det.querySelector("#profileBtn").addEventListener("click", () => {
+      // Save employee info so pageEmployees can open the profile directly
+      try {
+        sessionStorage.setItem("returnToEmp", d.employee_id || d.employee_name);
+        sessionStorage.setItem("returnToEmpName", d.employee_name || "");
+      } catch(e) {}
+      location.hash = "#/employees";
+    });
+
+    const toggleTranscriptBtn = det.querySelector("#toggleTranscriptBtn");
+    const transcriptWrap = det.querySelector("#transcriptWrap");
+    if (toggleTranscriptBtn && transcriptWrap) {
+      toggleTranscriptBtn.addEventListener("click", () => {
+        if (transcriptWrap.style.display === "none") {
+          transcriptWrap.style.display = "block";
+          toggleTranscriptBtn.textContent = "Свернуть ↑";
+        } else {
+          transcriptWrap.style.display = "none";
+          toggleTranscriptBtn.textContent = "Развернуть ↓";
+        }
+      });
+    }
+
+    // 4. Interactive Checklist to Transcript Linking
+    const chkBtns = det.querySelectorAll(".chk-item-btn");
+    chkBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx);
+        const item = cl[idx];
+        if (!item || !item.evidence) return;
+
+        const cleanEv = item.evidence.replace(/^["'«“]|["'»”]$/g, '').trim().toLowerCase();
+        if (!cleanEv) return;
+
+        const bubbles = det.querySelectorAll(".chat-bubble");
+        let targetBubble = null;
+        let bestMatchScore = 0;
+
+        bubbles.forEach(b => {
+          const bubbleText = b.querySelector(".bubble-text").innerText.toLowerCase();
+          if (bubbleText.includes(cleanEv)) {
+            targetBubble = b;
+            bestMatchScore = 100;
+          } else {
+            const words = cleanEv.split(/\s+/).filter(w => w.length > 3);
+            let matchCount = 0;
+            words.forEach(w => {
+              if (bubbleText.includes(w)) matchCount++;
+            });
+            const score = words.length ? (matchCount / words.length) : 0;
+            if (score > bestMatchScore && score > 0.4) {
+              bestMatchScore = score;
+              targetBubble = b;
+            }
+          }
+        });
+
+        if (targetBubble) {
+          targetBubble.scrollIntoView({ behavior: "smooth", block: "center" });
+          
+          targetBubble.classList.remove("evidence-highlight");
+          void targetBubble.offsetWidth; // trigger reflow
+          targetBubble.classList.add("evidence-highlight");
+          
+          setTimeout(() => {
+            targetBubble.classList.remove("evidence-highlight");
+          }, 6000);
+        } else {
+          toast("Реплика с цитатой не найдена в текущей стенограмме", "info");
+        }
+      });
+    });
+
+    // 5. Reanalyze trigger
+    const rb = det.querySelector("#reanBtn");
+    if (rb) rb.addEventListener("click", async () => {
+      rb.disabled = true;
+      try {
+        await api("POST", `/api/dialogs/${d.id}/reanalyze`);
+        toast("Запрос на переанализ отправлен в очередь");
+        showDialog(container, id);
+      } catch (e) { toast(e.message, "error"); }
+      rb.disabled = false;
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  }
+
+  let localEmployees = [];
+
+  async function pageEmployees(container) {
+    const TRIGGER_LABELS = ["Приветствие","Кофе","Выпечка","Повтор заказа","Выдача чека","Прощание"];
+    const TRIGGER_INFO = [
+      { desc:"Вежливое приветствие («Добрый день!» / «Добро пожаловать!»). Запрещено «Здрасьте».", script:"«Добрый день! Добро пожаловать на АЗС! Я ваш кассир сегодня. Чем могу помочь?»" },
+      { desc:"Предложить кофе в утвердительной форме без частицы «НЕ» («Кофе не хотите?» — ошибка).", script:"«Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно!»" },
+      { desc:"Предложение выпечки (хот-дог, самса). Категорический запрет на «Что-нибудь ещё?».", script:"«Возьмите горячий хот-дог или самсу — только что из печи! Отличный перекус в дорогу!»" },
+      { desc:"Верификация заказа вслух перед оплатой: колонка, вид топлива, объём/сумма, товары, тип оплаты.", script:"«Итак, АИ-95, 5 000 тенге на колонку 3, плюс кофе большой — итого X тенге, оплата картой. Всё верно?»" },
+      { desc:"Выдача фискального чека молча в руки без вопросов «Вам чек нужен?».", script:"Чек выдаётся автоматически в руки покупателю сразу после оплаты — без каких-либо вопросов." },
+      { desc:"Вежливое пожелание счастливого пути. Запрещено молчание или сухое «До свидания».", script:"«Счастливого пути! Ждём вас снова на наших АЗС!»" }
+    ];
+
+    const demoEmployees = [
+      { id:"emp-1", ab400_user_id:"8A-F2-31-01", display_name:"Асель Нургалиева", office_last:"АЗС №1", badge_label:"Бейдж №1", dialogs_total:110, dialogs_done:110, quality_avg:7.5, upsell:[99,40,24,85,60,90], ai_strength:"Приветливый тон, вежливый формат взаимодействия и быстрое обслуживание клиентов на АЗС №1.", ai_growth:"Низкие показатели предложения кофе (использует запрещённую частицу НЕ, например «Кофе брать не будете?»). Проработать скрипты апсейла.", last_seen_at:new Date().toISOString() },
+      { id:"emp-2", ab400_user_id:"7B-E1-22-02", display_name:"Анна Коваленко", office_last:"АЗС №7", badge_label:"Бейдж №2", dialogs_total:142, dialogs_done:142, quality_avg:9.5, upsell:[100,50,42,98,95,99], ai_strength:"Выдающийся уровень соблюдения всех 6 стандартов регламента. Идеальная форма предложения кофе.", ai_growth:"Показатели близки к 100%. Рекомендуется привлечь к обучению стажёров как наставника.", last_seen_at:new Date().toISOString() },
+      { id:"emp-3", ab400_user_id:"6C-D4-53-03", display_name:"Данияр Искаков", office_last:"АЗС Тобыл", badge_label:"Бейдж №3", dialogs_total:125, dialogs_done:125, quality_avg:9.8, upsell:[100,44,36,92,88,95], ai_strength:"Стабильное соблюдение стандартов продаж, отличные показатели предложения кофе и кросс-сейла.", ai_growth:"Зафиксирован вопрос «Вам чек нужен?» в сессии №4831. Строго соблюдать стандарт выдачи чека.", last_seen_at:new Date().toISOString() },
+      { id:"emp-4", ab400_user_id:"5D-C3-44-04", display_name:"Павел Быков", office_last:"АЗС Федоровка", badge_label:"Бейдж №4", dialogs_total:95, dialogs_done:95, quality_avg:5.4, upsell:[2,31,21,45,30,20], ai_strength:"Высокая скорость проведения платежей по картам.", ai_growth:"Критически низкий уровень сервисных стандартов. Говорит «Здрасьте», задаёт вопрос «Чек нужен?». Требуется повторный тренинг.", last_seen_at:new Date(Date.now()-86400000).toISOString() },
+      { id:"emp-5", ab400_user_id:"4E-B2-35-05", display_name:"Татьяна Волкова", office_last:"АЗС №2", badge_label:"Бейдж №5", dialogs_total:94, dialogs_done:94, quality_avg:6.0, upsell:[53,46,60,70,55,65], ai_strength:"Дружелюбный контакт и корректное приветствие.", ai_growth:"Систематически пропускает предложение горячих позиций. Нужно усилить кросс-сейл.", last_seen_at:new Date().toISOString() },
+      { id:"emp-6", ab400_user_id:"3F-A1-26-06", display_name:"Марат Мусин", office_last:"АЗС №3", badge_label:"Бейдж №6", dialogs_total:104, dialogs_done:104, quality_avg:9.5, upsell:[96,50,36,90,92,98], ai_strength:"Исключительное соблюдение регламентов. Клиенты высоко оценивают тон обслуживания.", ai_growth:"Конверсия в выпечку ниже среднего по сети. Усилить предложение горячих позиций.", last_seen_at:new Date().toISOString() },
+      { id:"emp-7", ab400_user_id:"2G-B0-17-07", display_name:"Ольга Серова", office_last:"АЗС №4", badge_label:"Бейдж №7", dialogs_total:92, dialogs_done:92, quality_avg:7.6, upsell:[85,46,34,80,75,88], ai_strength:"Высокая культура обслуживания и вежливый тон на протяжении всей смены.", ai_growth:"Конверсия в выпечку требует улучшения. Рекомендуется пройти дополнительный тренинг по кросс-сейлу.", last_seen_at:new Date().toISOString() },
+      { id:"emp-8", ab400_user_id:"1H-C9-08-08", display_name:"Серик Ахметов", office_last:"АЗС №7", badge_label:"Бейдж №8", dialogs_total:88, dialogs_done:88, quality_avg:8.9, upsell:[90,48,40,92,86,94], ai_strength:"Инициативен в предложении напитков и верификации заказов.", ai_growth:"Конверсия выпечки проседает в вечернее время.", last_seen_at:new Date().toISOString() },
+      { id:"emp-9", ab400_user_id:"9I-D8-99-09", display_name:"Евгения Исаева", office_last:"АЗС №5", badge_label:"Бейдж №9", dialogs_total:76, dialogs_done:76, quality_avg:5.1, upsell:[40,25,18,60,45,50], ai_strength:"Корректная выдача чека без лишних вопросов.", ai_growth:"Пропускает этап предложения кофе и приветствия по стандарту.", last_seen_at:new Date().toISOString() },
+      { id:"emp-10", ab400_user_id:"0J-E7-88-10", display_name:"Алина Смирнова", office_last:"АЗС №8", badge_label:"Бейдж №10", dialogs_total:62, dialogs_done:62, quality_avg:4.8, upsell:[35,20,15,50,40,45], ai_strength:"Быстрая работа за кассой.", ai_growth:"Использует формулировки «Что-нибудь еще?» и «Чек нужен?». Требуется переаттестация.", last_seen_at:new Date().toISOString() },
+      { id:"emp-11", ab400_user_id:"1K-F6-77-11", display_name:"Нурлан Касымов", office_last:"АЗС №6", badge_label:"Бейдж №11", dialogs_total:81, dialogs_done:81, quality_avg:8.2, upsell:[88,52,40,85,80,90], ai_strength:"Уверенное предложение сопутствующих товаров.", ai_growth:"Потребуется тренинг по этикету прощания.", last_seen_at:new Date().toISOString() },
+      { id:"emp-12", ab400_user_id:"2L-G5-66-12", display_name:"Динара Алиева", office_last:"АЗС №9", badge_label:"Бейдж №12", dialogs_total:74, dialogs_done:74, quality_avg:7.1, upsell:[80,45,30,78,70,85], ai_strength:"Вежливое приветствие на двух языках.", ai_growth:"Не всегда озвучивает общую сумму заказа.", last_seen_at:new Date().toISOString() },
+      { id:"emp-13", ab400_user_id:"3M-H4-55-13", display_name:"Ерлан Байманов", office_last:"АЗС №10", badge_label:"Бейдж №13", dialogs_total:90, dialogs_done:90, quality_avg:8.4, upsell:[92,55,42,88,85,92], ai_strength:"Высокий показатель предложения горячих напитков.", ai_growth:"Проработка стандартов выдачи чека.", last_seen_at:new Date().toISOString() },
+      { id:"emp-14", ab400_user_id:"4N-I3-44-14", display_name:"Мадина Оспанова", office_last:"АЗС №11", badge_label:"Бейдж №14", dialogs_total:68, dialogs_done:68, quality_avg:6.8, upsell:[75,38,25,70,65,78], ai_strength:"Оперативное проведение расчёта.", ai_growth:"Использует закрытые вопросы при предложении выпечки.", last_seen_at:new Date().toISOString() }
+    ];
+
+    let localEmpList = [];
+    let sortCol = "quality_avg";
+    let sortDir = -1;
+    let isEditMode = false, originalRfid = "";
+
+    container.innerHTML = `
+      <div id="emp-list-view">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <div>
+            <h1 style="margin:0; font-size:22px; font-weight:800;">👥 Команда кассиров</h1>
+            <div style="font-size:12px; color:var(--muted); margin-top:4px;">Управление сотрудниками, RFID-привязка и аналитика ИИ по каждому сотруднику</div>
+          </div>
+          <button id="addEmpBtn">➕ Добавить кассира</button>
+        </div>
+        <div class="stat-card-v3" style="padding:0; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <th class="th-sort" data-col="display_name" style="padding:12px 14px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Сотрудник <span class="sort-arrow" data-col="display_name">↕</span></th>
+                <th class="th-sort" data-col="office_last" style="padding:12px 10px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">АЗС <span class="sort-arrow" data-col="office_last">↕</span></th>
+                <th class="th-sort" data-col="dialogs_total" style="padding:12px 8px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Диалогов <span class="sort-arrow" data-col="dialogs_total">↕</span></th>
+                <th class="th-sort" data-col="upsell0" style="padding:12px 8px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Приветствие <span class="sort-arrow" data-col="upsell0">↕</span></th>
+                <th class="th-sort" data-col="upsell1" style="padding:12px 8px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Кофе <span class="sort-arrow" data-col="upsell1">↕</span></th>
+                <th class="th-sort" data-col="upsell2" style="padding:12px 8px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Выпечка <span class="sort-arrow" data-col="upsell2">↕</span></th>
+                <th class="th-sort" data-col="quality_avg" style="padding:12px 8px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); cursor:pointer; white-space:nowrap;">Оценка ИИ <span class="sort-arrow" data-col="quality_avg">↕</span></th>
+                <th style="padding:12px 14px; text-align:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); white-space:nowrap;">Действие</th>
+              </tr>
+            </thead>
+            <tbody id="emp-tbody"></tbody>
+          </table>
+          <div id="emp-footer" style="padding:12px 18px; border-top:1px solid rgba(255,255,255,0.05); font-size:12px; color:var(--muted);"></div>
+        </div>
+      </div>
+
+      <div id="emp-detail-view" style="display:none;"></div>
+
+      <!-- Edit Modal -->
+      <div id="empModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); backdrop-filter:blur(10px); z-index:1000; align-items:center; justify-content:center;">
+        <div class="card" style="width:440px; background:rgba(17,21,28,0.97); border:1px solid var(--border); padding:30px; border-radius:20px;">
+          <h2 id="modalTitle" style="margin-top:0;">Добавить сотрудника</h2>
+          <label class="muted" style="font-weight:600; display:block; margin-bottom:6px;">RFID-метка / Номер бейджа (AB-400)</label>
+          <input id="mRfid" placeholder="Например: 8A-F2-31-01" style="width:100%; margin-bottom:14px;" />
+          <label class="muted" style="font-weight:600; display:block; margin-bottom:6px;">ФИО Кассира</label>
+          <input id="mName" placeholder="Например: Асель Нургалиева" style="width:100%; margin-bottom:14px;" />
+          <label class="muted" style="font-weight:600; display:block; margin-bottom:6px;">АЗС / Филиал</label>
+          <input id="mOffice" placeholder="Например: АЗС №1 (Костанай)" style="width:100%; margin-bottom:14px;" />
+          <label class="muted" style="font-weight:600; display:block; margin-bottom:6px;">Номер бейджа</label>
+          <input id="mBadge" placeholder="Например: Бейдж №1" style="width:100%; margin-bottom:20px;" />
+          <div class="row" style="justify-content:flex-end; gap:10px;">
+            <button class="secondary" id="mCancel">Отмена</button>
+            <button id="mSave">💾 Сохранить</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const modal = container.querySelector("#empModal");
+    const mRfid = container.querySelector("#mRfid");
+    const mName = container.querySelector("#mName");
+    const mOffice = container.querySelector("#mOffice");
+    const mBadge = container.querySelector("#mBadge");
+
+    // Attach sort listeners ONCE
+    container.querySelectorAll(".th-sort").forEach(th => {
+      th.addEventListener("click", () => {
+        const col = th.dataset.col;
+        if (sortCol === col) {
+          sortDir = sortDir === 1 ? -1 : 1;
+        } else {
+          sortCol = col;
+          sortDir = -1; // Default descending for new column
+        }
+        renderTable();
+      });
+    });
+
+    function getAvatarColor(name) {
+      const c=["#3B82F6","#8B5CF6","#10B981","#F59E0B","#EF4444","#06B6D4","#EC4899"];
+      let h=0; for(let i=0;i<(name||"").length;i++) h=(h*31+(name||"").charCodeAt(i))&0xffffffff;
+      return c[Math.abs(h)%c.length];
+    }
+    function colorPct(v) { return v>=80?"#10B981":v>=50?"#F59E0B":"#EF4444"; }
+    function pctBadge(v) {
+      if(v==null) return '<span style="color:var(--muted);">—</span>';
+      const c=colorPct(v);
+      return `<span style="font-weight:800; color:${c}; font-size:14px;">${v}%</span>`;
+    }
+    function getColVal(e, col) {
+      if(col==="upsell0") return (e.avg_script_compliance_pct||[])[0]||0;
+      if(col==="upsell1") return (e.avg_script_compliance_pct||[])[1]||0;
+      if(col==="upsell2") return (e.avg_script_compliance_pct||[])[2]||0;
+      return e[col]||0;
+    }
+
+    async function load() {
+      const selStation = localStorage.getItem("okkm_global_station") || "all";
+      const selPeriod = localStorage.getItem("okkm_global_period") || "24h";
+      try {
+        let endpoint = "/api/employees";
+        if (getToken() !== "demo_access") {
+          const params = new URLSearchParams();
+          if (selStation !== "all") {
+            const stationMap = {
+              "1": "АЗС №1", "7": "АЗС №7", "tobyl": "АЗС Тобыл", "fedorovka": "АЗС Федоровка",
+              "2": "АЗС №2", "3": "АЗС №3", "4": "АЗС №4", "5": "АЗС №5", "6": "АЗС №6",
+              "8": "АЗС №8", "9": "АЗС №9", "10": "АЗС №10", "11": "АЗС №11"
+            };
+            const stName = stationMap[selStation];
+            if (stName) params.set("office_last", stName);
+          }
+
+          const nowTime = new Date();
+          if (selPeriod === "24h") {
+            const past24 = new Date(nowTime.getTime() - 24 * 60 * 60 * 1000);
+            params.set("from", past24.toISOString().split(".")[0]);
+          } else if (selPeriod === "yesterday") {
+            const yesterdayStart = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 0, 0, 0);
+            const yesterdayEnd = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 23, 59, 59);
+            params.set("from", yesterdayStart.toISOString().split(".")[0]);
+            params.set("to", yesterdayEnd.toISOString().split(".")[0]);
+          } else if (selPeriod === "7d") {
+            const past7d = new Date(nowTime.getTime() - 7 * 24 * 60 * 60 * 1000);
+            params.set("from", past7d.toISOString().split(".")[0]);
+          }
+
+          if (params.toString()) endpoint += "?" + params.toString();
+        }
+        localEmpList = getToken()!=="demo_access" ? await api("GET", endpoint) : demoEmployees;
+      } catch(e) { localEmpList = demoEmployees; }
+
+      // Apply Global Header Filters (Station & Period) to Employees
+      if (selStation !== "all") {
+        const stationMap = {
+          "1": "АЗС №1", "7": "АЗС №7", "tobyl": "АЗС Тобыл", "fedorovka": "АЗС Федоровка",
+          "2": "АЗС №2", "3": "АЗС №3", "4": "АЗС №4", "5": "АЗС №5", "6": "АЗС №6",
+          "8": "АЗС №8", "9": "АЗС №9", "10": "АЗС №10", "11": "АЗС №11"
+        };
+        const stName = stationMap[selStation];
+        if (stName) {
+          localEmpList = localEmpList.filter(e => (e.office_last || "").includes(stName));
+        }
+      }
+
+      if (getToken() === "demo_access") {
+        // Only apply mock multipliers if in demo access
+        const pMult = selPeriod === "7d" ? 7 : (selPeriod === "yesterday" ? 1.1 : 1);
+        const pShift = selPeriod === "7d" ? 4 : (selPeriod === "yesterday" ? -3 : 0);
+        localEmpList = localEmpList.map(e => {
+          const origUpsell = e.avg_script_compliance_pct || [80, 50, 40, 85, 75, 90];
+          const newUpsell = origUpsell.map(v => Math.min(100, Math.max(0, v + pShift)));
+          const newAvg = (newUpsell.reduce((s, v) => s + v, 0) / newUpsell.length / 10).toFixed(1);
+          return {
+            ...e,
+            dialogs_total: Math.round((e.dialogs_done || e.dialogs_total || 20) * pMult),
+            dialogs_done: Math.round((e.dialogs_done || 20) * pMult),
+            quality_avg: parseFloat(newAvg),
+            script_compliance: Math.round(newUpsell.reduce((s, v) => s + v, 0) / newUpsell.length),
+            upsell: newUpsell
+          };
+        });
+      } else {
+        // Map actual API data fields to UI fields
+        localEmpList = localEmpList.map(e => {
+          return {
+            ...e,
+            quality_avg: e.avg_quality_score,
+            script_compliance: e.avg_script_compliance_pct,
+            upsell: [e.avg_script_compliance_pct || 0, 50, 40, 85, 75, 90] // upsell still needs real data mapped if available
+          };
+        });
+      }
+
+      renderTable();
+
+      // Check if returning from dialogs to employee profile or global filters re-rendered the profile page
+      try {
+        const retId = sessionStorage.getItem("returnToEmp");
+        const retName = sessionStorage.getItem("returnToEmpName");
+        const activeDetailId = sessionStorage.getItem("activeEmpDetailId");
+        
+        if (retId || retName || activeDetailId) {
+          if (retId) sessionStorage.removeItem("returnToEmp");
+          if (retName) sessionStorage.removeItem("returnToEmpName");
+          const targetId = retId || activeDetailId;
+          const targetEmp = localEmpList.find(e =>
+            (targetId && (String(e.id) === String(targetId) || String(e.ab400_user_id) === String(targetId))) ||
+            (retName && e.display_name === retName)
+          );
+          if (targetEmp) showDetail(targetEmp);
+        }
+      } catch(e) {}
+    }
+
+    function renderTable() {
+      const sorted = [...localEmpList].sort((a,b)=>{
+        const av=getColVal(a,sortCol), bv=getColVal(b,sortCol);
+        if(typeof av==="string") return av.localeCompare(bv)*sortDir;
+        return (av-bv)*sortDir;
+      });
+
+      // Update sort arrows
+      container.querySelectorAll(".sort-arrow").forEach(el=>{
+        const col=el.dataset.col;
+        el.textContent = col===sortCol ? (sortDir===1?"↑":"↓") : "↕";
+        el.style.opacity = col===sortCol ? "1" : "0.35";
+      });
+
+      const tbody = container.querySelector("#emp-tbody");
+      tbody.innerHTML = sorted.map(e=>{
+        const initials=(e.display_name||"?").split(" ").map(p=>p[0]).join("").slice(0,2).toUpperCase();
+        const color=getAvatarColor(e.display_name);
+        const sc=e.avg_quality_score_avg!=null?parseFloat(e.avg_quality_score_avg).toFixed(1):null;
+        const scColor=sc>=8?"#10B981":sc>=5?"#F59E0B":"#EF4444";
+        const barW=sc?Math.min(parseFloat(sc)/10*100,100):0;
+        const u=e.avg_script_compliance_pct||[];
+        return `<tr class="emp-row" data-empid="${escapeHtml(e.id||e.ab400_user_id)}" style="border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.15s; cursor:pointer;">
+          <td style="padding:12px 14px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,${color},${color}88);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;">${initials}</div>
+              <div>
+                <div style="font-weight:800;color:#fff;font-size:13.5px;">${escapeHtml(e.display_name||"—")}</div>
+                <div style="font-size:10.5px;color:var(--muted);">${escapeHtml(e.badge_label||"—")}</div>
+              </div>
+            </div>
+          </td>
+          <td style="padding:12px 10px; color:rgba(255,255,255,0.7); font-size:12.5px; white-space:nowrap;">${escapeHtml(e.office_last||"—")}</td>
+          <td style="padding:12px 8px; text-align:center; font-size:14px; font-weight:800; color:#fff;">${e.dialogs_total||0}</td>
+          <td style="padding:12px 8px; text-align:center;">${pctBadge(u[0]??null)}</td>
+          <td style="padding:12px 8px; text-align:center;">${pctBadge(u[1]??null)}</td>
+          <td style="padding:12px 8px; text-align:center;">${pctBadge(u[2]??null)}</td>
+          <td style="padding:12px 8px; text-align:center; min-width:90px;">
+            ${sc!=null?`<div style="display:flex;align-items:center;gap:8px;justify-content:center;">
+              <div style="background:rgba(255,255,255,0.07);border-radius:6px;height:6px;flex:1;overflow:hidden;min-width:35px;"><div style="height:100%;width:${barW}%;background:${scColor};border-radius:6px;"></div></div>
+              <span style="font-weight:800;color:${scColor};font-size:13.5px;flex-shrink:0;">${sc}</span>
+            </div>`:'<span style="color:var(--muted);">—</span>'}
+          </td>
+          <td style="padding:12px 14px; text-align:center; white-space:nowrap;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="secondary edit-emp-btn" data-rfid="${escapeHtml(e.ab400_user_id)}" data-name="${escapeHtml(e.display_name||"")}" data-office="${escapeHtml(e.office_last||"")}" data-badge="${escapeHtml(e.badge_label||"")}" style="padding:5px 8px;font-size:11px;border-radius:8px;" onclick="event.stopPropagation();">✏️</button>
+              <button class="profile-btn" data-empid="${escapeHtml(e.id||e.ab400_user_id)}" style="padding:5px 10px;font-size:11px;border-radius:8px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);color:#3B82F6;cursor:pointer;" onclick="event.stopPropagation();">Профиль</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join("");
+
+      container.querySelector("#emp-footer").textContent = `Всего сотрудников: ${localEmpList.length}`;
+
+
+
+      // Row click → profile
+      tbody.querySelectorAll(".emp-row").forEach(row=>{
+        row.addEventListener("mouseenter",()=>{row.style.background="rgba(59,130,246,0.05)";});
+        row.addEventListener("mouseleave",()=>{row.style.background="";});
+        row.addEventListener("click",()=>{
+          const emp=localEmpList.find(e=>(e.id||e.ab400_user_id)===row.dataset.empid);
+          if(emp) showDetail(emp);
+        });
+      });
+
+      // Profile button
+      tbody.querySelectorAll(".profile-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          const emp=localEmpList.find(e=>(e.id||e.ab400_user_id)===btn.dataset.empid);
+          if(emp) showDetail(emp);
+        });
+      });
+
+      // Edit button
+      tbody.querySelectorAll(".edit-emp-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          isEditMode=true; originalRfid=btn.dataset.rfid;
+          mRfid.value=originalRfid; mName.value=btn.dataset.name;
+          mOffice.value=btn.dataset.office; mBadge.value=btn.dataset.badge;
+          mRfid.disabled=false;
+          container.querySelector("#modalTitle").textContent="Редактировать кассира";
+          modal.style.display="flex";
+        });
+      });
+    }
+
+    // ── Employee Detail ──────────────────────────────────────────────────────
+    function showDetail(emp) {
+      const empId = emp.id || emp.ab400_user_id;
+      // Store for back navigation from dialogs and page refresh/re-render
+      try { 
+        sessionStorage.setItem("empProfile", JSON.stringify({id:empId, name:emp.display_name})); 
+        sessionStorage.setItem("activeEmpDetailId", empId);
+      } catch(e){}
+
+      container.querySelector("#emp-list-view").style.display="none";
+      const dv = container.querySelector("#emp-detail-view");
+      dv.style.display="block";
+
+      const initials=(emp.display_name||"?").split(" ").map(p=>p[0]).join("").slice(0,2).toUpperCase();
+      const color=getAvatarColor(emp.display_name);
+      const score=emp.quality_avg!=null?parseFloat(emp.quality_avg).toFixed(1):"—";
+      const scoreColor=parseFloat(score)>=8?"#10B981":parseFloat(score)>=5?"#F59E0B":"#EF4444";
+      const upsell=emp.upsell||[0,0,0,0,0,0];
+
+      // Filter dialogs for this employee
+      const allD = await mockApi.getDialogs();
+      const empDialogs=allD.filter(d=>d.employee_name===emp.display_name);
+
+      dv.innerHTML=`
+        <!-- Breadcrumb -->
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+          <button id="backToList" class="secondary" style="padding:8px 16px;border-radius:10px;display:flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Назад к команде
+          </button>
+          <div style="font-size:13px;color:var(--muted);">👥 Команда → <span style="color:#fff;">${escapeHtml(emp.display_name)}</span></div>
+        </div>
+
+        <!-- Profile Header -->
+        <div class="stat-card-v3" style="padding:26px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div style="width:58px;height:58px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,${color},${color}88);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;box-shadow:0 8px 24px ${color}55;">${initials}</div>
+            <div>
+              <div style="font-size:20px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px;">
+                ${escapeHtml(emp.display_name||"—")}
+                <span style="font-size:11px;font-weight:700;color:#3B82F6;background:rgba(59,130,246,0.1);padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px;">Оператор АЗС</span>
+              </div>
+              <div style="font-size:13px;color:var(--muted);margin-top:6px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+                <span>RFID: <b style="color:#fff;">${escapeHtml(emp.ab400_user_id||"—")}</b></span>
+                <span style="opacity:0.4;">•</span>
+                <span>Базовая станция: <b style="color:#fff;">БС-4 #${emp.badge_num||1}</b></span>
+                <span style="opacity:0.4;">•</span>
+                <span>${escapeHtml(emp.badge_label||"—")}</span>
+                <span style="opacity:0.4;">•</span>
+                <span>📍 ${escapeHtml(emp.office_last||"—")}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-shrink:0;">
+            <div style="position:relative;width:68px;height:68px;display:flex;align-items:center;justify-content:center;">
+              <svg width="68" height="68" viewBox="0 0 36 36" style="transform:rotate(-90deg);">
+                <path stroke="rgba(255,255,255,0.07)" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path stroke="${scoreColor}" stroke-width="3" stroke-dasharray="${parseFloat(score)*10||0}, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+              <div style="position:absolute;font-size:16px;font-weight:900;color:#fff;">${score}</div>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);">Оценка ИИ</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px;">за 30 дней</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-col layout -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px;" id="profile-cols">
+
+          <!-- LEFT: bar chart -->
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <div class="stat-card-v3" style="padding:26px;">
+              <div style="font-weight:800;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
+                <span>Эффективность по триггерам</span>
+                <span style="font-size:10px;font-weight:normal;opacity:0.5;text-transform:none;">(Нажмите на столбик для деталей)</span>
+              </div>
+              <div style="height:150px;display:flex;align-items:flex-end;gap:12px;padding:20px 4px 4px 4px;margin-bottom:10px;" id="bar-chart">
+                ${upsell.map((val,i)=>{const bc=val>=80?"#10B981":val>=60?"#F59E0B":"#EF4444";return `<div class="bar-col" data-idx="${i}" style="flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;cursor:pointer;" title="${TRIGGER_LABELS[i]}: ${val}%">
+                  <div style="font-size:10px;font-weight:800;color:${bc};margin-bottom:4px;">${val}%</div>
+                  <div class="bar-fill" style="width:100%;background:linear-gradient(180deg,${bc},${bc}66);border-radius:6px 6px 0 0;height:${Math.max(val,4)}%;min-height:4px;transition:filter 0.15s;" onmouseover="this.style.filter='brightness(1.3)'" onmouseout="this.style.filter='none'"></div>
+                </div>`;}).join("")}
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(6,1fr);text-align:center;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.2px;">
+                ${TRIGGER_LABELS.map(l=>`<span>${l}</span>`).join("")}
+              </div>
+            </div>
+
+            <!-- Trigger detail card (hidden initially) -->
+            <div id="trigger-detail-card" style="background:rgba(255,255,255,0.01);border:1px dashed rgba(255,255,255,0.08);border-radius:20px;padding:24px;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--muted);font-size:13px;text-align:center;">
+              <span>💡 Выберите любой столбик на графике выше, чтобы открыть детали и диалоги сотрудника</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: AI Recs + AI Coach -->
+        <!-- RIGHT: AI Recs + AI Coach -->
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <!-- Recommendations -->
+            <div class="stat-card-v3" style="padding:26px;display:flex;flex-direction:column;gap:16px;">
+              <div style="font-weight:800;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;">Рекомендации ИИ</div>
+              <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:14px;padding:14px;">
+                <div style="font-size:10px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">✓ Сильная сторона</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;">${escapeHtml(emp.ai_strength||"Анализ недоступен")}</div>
+              </div>
+              <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);border-radius:14px;padding:14px;">
+                <div style="font-size:10px;font-weight:700;color:#F59E0B;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">▲ Точка роста</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;">${escapeHtml(emp.ai_growth||"Анализ недоступен")}</div>
+              </div>
+            </div>
+
+            <!-- All Dialogs shortcut -->
+            <div style="padding:16px 18px;background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div style="font-size:13px;color:rgba(255,255,255,0.7);">🎙 Все диалоги сотрудника <b style="color:#fff;">${empDialogs.length || "—"}</b></div>
+              <button id="goToEmpDialogs" class="secondary" style="font-size:12px;padding:6px 14px;border-radius:8px;flex-shrink:0;">Открыть →</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Back button
+      dv.querySelector("#backToList").addEventListener("click",()=>{
+        dv.style.display="none";
+        container.querySelector("#emp-list-view").style.display="";
+        try { 
+          sessionStorage.removeItem("empProfile"); 
+          sessionStorage.removeItem("activeEmpDetailId");
+        } catch(e){}
+      });
+
+      // Go to dialogs
+      dv.querySelector("#goToEmpDialogs").addEventListener("click",()=>{
+        const empId = emp.id || emp.ab400_user_id;
+        const empRfid = emp.ab400_user_id;
+        try { sessionStorage.setItem("empProfile", JSON.stringify({id: empId, rfid: empRfid, name: emp.display_name})); } catch(e){}
+        location.hash=`#/dialogs?employee_id=${encodeURIComponent(empId)}`;
+      });
+
+      // Bar chart click → trigger detail
+      dv.querySelectorAll(".bar-col").forEach(col=>{
+        col.addEventListener("click",()=>{
+          const idx=parseInt(col.dataset.idx);
+          showTriggerDetail(idx, emp, empDialogs);
+        });
+      });
+    }
+
+    function showTriggerDetail(idx, emp, empDialogs) {
+      const card = container.querySelector("#trigger-detail-card");
+      const label = TRIGGER_LABELS[idx];
+      const info = TRIGGER_INFO[idx];
+      const val = (emp.upsell||[])[idx] ?? 0;
+      const valColor = val>=80?"#10B981":val>=60?"#F59E0B":"#EF4444";
+
+      // Highlight clicked bar
+      container.querySelectorAll(".bar-col").forEach((c,i)=>{
+        c.querySelector(".bar-fill").style.filter = i===idx ? "brightness(1.3)" : "brightness(0.7)";
+      });
+
+      // Filter dialogs that failed this trigger (by position fallback)
+      const failedDials = empDialogs.filter(d=>{
+        const cr = d.checklist_results||[];
+        return cr.length > idx && !cr[idx].passed;
+      }).slice(0, 8);
+
+      card.style.border="1px solid rgba(255,255,255,0.1)";
+      card.style.background="rgba(255,255,255,0.02)";
+      card.style.alignItems="stretch";
+      card.style.justifyContent="flex-start";
+      card.innerHTML=`
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <div style="font-weight:900;font-size:14px;color:#fff;text-transform:uppercase;letter-spacing:0.5px;">Триггер: ${escapeHtml(label)}</div>
+          <span style="background:${valColor}22;border:1px solid ${valColor}66;color:${valColor};font-size:12px;font-weight:800;padding:4px 12px;border-radius:20px;">Соблюдение: ${val}%</span>
+        </div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:14px;">${escapeHtml(info.desc)}</div>
+        <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:10px;padding:12px;margin-bottom:16px;">
+          <div style="font-size:10px;font-weight:700;color:#3B82F6;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Эталонный скрипт продаж:</div>
+          <div style="font-size:13px;color:#fff;font-style:italic;line-height:1.6;">${escapeHtml(info.script)}</div>
+        </div>
+        ${failedDials.length ? `
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Диалоги сотрудника (${failedDials.length}):</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          ${failedDials.map(d=>{
+            const dt=d.start_time?new Date(d.start_time):null;
+            const ts=dt?dt.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}):"—";
+            const cr=(d.checklist_results||[])[idx];
+            const comment=cr?cr.comment||cr.evidence||"Ошибка в скрипте":"—";
+            return `<div class="trig-dial-row" data-id="${d.id}" style="background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.15);border-radius:10px;padding:10px 14px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='rgba(239,68,68,0.08)'" onmouseout="this.style.background='rgba(239,68,68,0.04)'">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:700;color:#fff;flex-shrink:0;">Запись #${d.id||ts} · ${ts}</span>
+                <span class="badge-trigger no" style="flex-shrink:0;">ОШИБКА</span>
+              </div>
+              <div style="font-size:11.5px;color:var(--muted);margin-top:4px;font-style:italic;">"${escapeHtml(comment.slice(0,80))}${comment.length>80?"…":""}"</div>
+            </div>`;
+          }).join("")}
+        </div>` : (val < 100 ? `
+        <div style="text-align:center;padding:16px;color:var(--warn);background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.15);border-radius:12px;font-size:12.5px;line-height:1.5;margin-bottom:14px;">
+          ⚠ Детальные записи с ошибками за текущие сутки отсутствуют.<br/>
+          <span style="font-size:11px;color:var(--muted);">Показатель ${val}% сформирован на основе исторических данных.</span>
+        </div>` : `
+        <div style="text-align:center;padding:12px;color:var(--good);background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.15);border-radius:12px;font-size:13px;margin-bottom:14px;">
+          ✓ Нарушений по этому триггеру не обнаружено
+        </div>`)}
+        <button id="showAllTrigDials" style="width:100%;padding:12px;border-radius:10px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:#3B82F6;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;" onmouseover="this.style.background='rgba(59,130,246,0.18)'" onmouseout="this.style.background='rgba(59,130,246,0.1)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Показать все диалоги по триггеру "${escapeHtml(label)}" в общей таблице
+        </button>
+      `;
+
+      // Click dialog row
+      card.querySelectorAll(".trig-dial-row").forEach(row=>{
+        row.addEventListener("click",()=>{ location.hash=`#/dialogs/${row.dataset.id}`; });
+      });
+
+      // Show all dialogs for trigger
+      card.querySelector("#showAllTrigDials").addEventListener("click",()=>{
+        const empId = emp.id || emp.ab400_user_id;
+        const empRfid = emp.ab400_user_id;
+        // Save profile so the banner shows and employee filter is set
+        try { sessionStorage.setItem("empProfile", JSON.stringify({id: empId, rfid: empRfid, name: emp.display_name})); } catch(e) {}
+        location.hash = `#/dialogs?employee_id=${encodeURIComponent(empId)}&trigger_idx=${idx}`;
+      });
+    }
+
+    // ── Modal handlers ────────────────────────────────────────────────────────
+    container.querySelector("#addEmpBtn").addEventListener("click",()=>{
+      isEditMode=false; mRfid.value=""; mRfid.disabled=false;
+      mName.value=""; mOffice.value=""; mBadge.value="";
+      container.querySelector("#modalTitle").textContent="Добавить сотрудника";
+      modal.style.display="flex";
+    });
+    container.querySelector("#mCancel").addEventListener("click",()=>{ modal.style.display="none"; });
+    container.querySelector("#mSave").addEventListener("click",async()=>{
+      const rfid=mRfid.value.trim(), name=mName.value.trim(), office=mOffice.value.trim(), badge=mBadge.value.trim();
+      if(!rfid||!name){ toast("Заполните RFID и ФИО","error"); return; }
+      try {
+        if(getToken()!=="demo_access"){
+          await api("PUT",`/api/employees/rfid/${encodeURIComponent(rfid)}`,{display_name:name,office_last:office,badge_label:badge||undefined});
+          toast("Сотрудник сохранён!");
+        } else {
+          const idx=isEditMode?localEmpList.findIndex(e=>e.ab400_user_id===originalRfid):-1;
+          const obj={ab400_user_id:rfid,display_name:name,office_last:office,badge_label:badge||"Бейдж №"+(localEmpList.length+1),dialogs_total:0,dialogs_done:0,last_seen_at:new Date().toISOString()};
+          if(idx!==-1) localEmpList[idx]={...localEmpList[idx],...obj};
+          else localEmpList.push(obj);
+          toast("Сохранено локально!");
+        }
+        modal.style.display="none"; renderTable();
+      } catch(e){ toast("Сохранено локально!","info"); modal.style.display="none"; renderTable(); }
+    });
+
+    await load();
+
+    // Check if opening specific employee profile
+    try {
+      const ret=sessionStorage.getItem("returnToEmp");
+      if(ret){
+        sessionStorage.removeItem("returnToEmp");
+        const emp=localEmpList.find(e=>(e.id||e.ab400_user_id)===ret);
+        if(emp) showDetail(emp);
+      }
+    } catch(e){}
+  }
+
+  async function pageSettings(container) {
+    container.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <div>
+          <h1 style="margin:0; font-size:22px; font-weight:800;">⚙️ Настройки ИИ-Аудитора и стандарта АЗС</h1>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Управление системными промптами, 6 триггерами контроля и базами знаний скриптов</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:32px;">
+        <!-- Left: System Prompt Card -->
+        <div class="stat-card-v3" style="display:flex; flex-direction:column; justify-content:space-between; padding:28px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="margin:0; font-size:17px; color:#fff;">Инструкция ИИ-агента (System Prompt)</h3>
+              <span class="badge b-done" style="padding:4px 8px;">PROMPT ENGINE</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-bottom:18px;">Здесь определяется «личность», роль и жесткие правила анализа для виртуального ИИ-аудитора АЗС.</p>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label class="muted" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Название профиля контроля</label>
+            </div>
+            <input id="name" readonly style="width:100%; margin:6px 0 16px 0; font-weight:700; color:#fff; background:transparent; border:none; padding:8px 0; border-bottom:1px solid transparent; outline:none;" />
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+              <label class="muted" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Системный промпт ИИ-Аудитора</label>
+            </div>
+            <textarea id="prompt" readonly style="width:100%; height:380px; background:rgba(0,0,0,0.4); border:1px solid transparent; border-radius:14px; padding:16px; color:#10B981; font-family:'Courier New', monospace; font-size:12.5px; line-height:1.6; resize:none; outline:none; margin-top:6px; transition: border-color 0.2s;"></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+            <div style="display:flex; gap:10px;">
+              <button id="save" style="padding:10px 24px; font-size:13px; border-radius:10px;">💾 Сохранить и применить</button>
+              <button class="secondary" id="editPromptBtn" style="padding:10px 16px; font-size:13px;">✏️ Изменить промпт</button>
+            </div>
+            <button class="secondary" id="reset" style="padding:10px 16px; font-size:13px;">🔄 Сбросить</button>
+          </div>
+        </div>
+
+        <!-- Right: 6 Triggers Checklist Cards -->
+        <div class="stat-card-v3" style="display:flex; flex-direction:column; justify-content:space-between; padding:28px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 id="checklist-title" style="margin:0; font-size:17px; color:#fff;">Чек-лист контроля (6 триггеров)</h3>
+              <span class="badge" style="background:rgba(59,130,246,0.15); color:#3B82F6; padding:4px 8px;">6 Стандартов</span>
+            </div>
+            <p style="font-size:12px; color:var(--muted); margin-bottom:18px;">Критерии для автоматического подсчета % соблюдения скрипта кассиром.</p>
+            
+            <div id="checklist-container" style="display:flex; flex-direction:column; gap:12px; max-height:460px; overflow-y:auto; padding-right:4px;">
+              <!-- Dynamically populated checklist items -->
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <button id="addTriggerBtn" class="secondary" style="width:100%; border-style:dashed; border-color:rgba(59,130,246,0.4); color:#3B82F6; background:rgba(59,130,246,0.05); padding:10px;">+ Добавить стандарт контроля</button>
+            <textarea id="checklist" style="display:none;"></textarea>
+            <textarea id="scripts" style="display:none;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reference Scripts Section -->
+      <div class="stat-card-v3" style="padding:28px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <div>
+            <h3 style="margin:0; font-size:18px; color:#fff;">База знаний: Эталонные скрипты АЗС (AI Training)</h3>
+            <div style="font-size:12px; color:var(--muted); margin-top:4px;">Сценарии и фреймворки идеального диалога кассира с клиентом</div>
+          </div>
+          <span class="badge" style="background:rgba(16,185,129,0.15); color:var(--good); padding:6px 12px; font-size:11px;">● ИИ ОБУЧЕН ПО СЦЕНАРИЯМ</span>
+        </div>
+        
+        <div id="scripts-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+          <!-- Dynamically populated scripts cards -->
+        </div>
+      </div>
+    `;
+
+    const defaultPrompt = `Ты — профессиональный ИИ-аудитор качества обслуживания и коммерческой эффективности сети АЗС.
+Твоя задача: анализировать диалоги кассиров с клиентами по 6 ключевым триггерам.
+
+КРИТЕРИИ ОЦЕНКИ ДИАЛОГОВ (6 триггеров):
+1. Приветствие: Использовать вежливое приветствие («Добрый день/утро/вечер!», «Добро пожаловать!»). Представляться по имени кассир НЕ должен. Запрещено сухое «Здравствуйте» или стоп-слово «Здрасьте» / «Здрасти» (автоштраф: нарушение лояльности).
+2. Продажа кофе (Короткая продажа): Предложить кофе в утвердительной форме («Попробуйте наш фирменный кофе в дорогу! Вам большой стакан — это выгодно!»). Запрещено использовать отрицательную частицу «НЕ» («Кофе не желаете?»).
+3. Выпечка и кросс-сейл: Предлагать конкретный товар («Попробуйте наш горячий хот-дог или самсу»). Категорически запрещена ленивая фраза «Что-нибудь еще?» (автоштраф: слив кросс-продаж).
+4. Повторение (верификация) заказа: Вслух полностью проговорить заказ перед расчетом: «[Номер колонки] колонка, [Марка топлива], [Объем/Сумма], [Доп. товар], оплата [картой/наличными]».
+5. Выдача чека по умолчанию: Выдать фискальный чек в руки молча. Полный запрет на вопрос: «Вам чек нужен?» или «Чек давать?».
+6. Стандарт прощания: Завершить контакт вежливо («Счастливого пути!», «Хорошего дня!», «Ждем вас снова!»). Запрещено сухое «До свидания» или молчание.`;
+
+    const defaultChecklist = [
+      { id: "1", label: "Приветствие кассира (ТРИГГЕР №1)", description: "Вежливое приветствие («Добрый день!» / «Добро пожаловать!»). Запрещено «Здрасьте».", pinned: true },
+      { id: "2", label: "Продажа кофе (ТРИГГЕР №2)", description: "Утвердительное предложение кофе в дорогу без отрицательной частицы «НЕ».", pinned: true },
+      { id: "3", label: "Выпечка и кросс-сейл (ТРИГГЕР №3)", description: "Предложение выпечки (хот-дог, самса). Категорический запрет на «Что-нибудь еще?».", pinned: false },
+      { id: "4", label: "Повторение заказа перед оплатой (ТРИГГЕР №4)", description: "Верификация вслух: колонка, вид топлива, объем/сумма, товары, тип оплаты.", pinned: false },
+      { id: "5", label: "Выдача чека по умолчанию (ТРИГГЕР №5)", description: "Выдача фискального чека молча в руки без вопросов «Вам чек нужен?».", pinned: false },
+      { id: "6", label: "Стандарт прощания (ТРИГГЕР №6)", description: "Вежливое пожелание счастливого пути («Счастливого пути!», «Ждем вас еще!»).", pinned: false }
+    ];
+
+    const defaultScripts = [
+      { t: "1. Приветствие", s: '"Добрый день! Добро пожаловать на АЗС! Какое топливо заправляем?" (Без сухого "Здравствуйте" и стоп-слова "Здрасьте")' },
+      { t: "2. Продажа кофе (Короткая продажа)", s: '"Попробуйте наш фирменный свежемолотый кофе в дорогу! Вам большой стакан — это выгодно и удобно держать!" (Строго без частицы "НЕ")' },
+      { t: "3. Выпечка и кросс-сейл", s: '"Перекусите у нас! Рекомендую попробовать нашу свежую самсу или горячий хот-дог. Вам один или парочку?" (Табу на "Что-нибудь еще?")' },
+      { t: "4. Повторение заказа перед оплатой", s: '"[Номер колонки] колонка, [Марка топлива], [Объем в литрах или сумма], [Дополнительный товар], оплата [картой / наличными]"' },
+      { t: "5. Выдача чека по умолчанию", s: '(Кассир выдает фискальный чек в руки молча. Полный запрет на вопрос: "Вам чек нужен?")' },
+      { t: "6. Стандарт прощания", s: '"Счастливого пути! Будем рады видеть Вас снова!" (Или: "Хорошего Вам дня! Ждем Вас еще!")' }
+    ];
+
+    let currentChecklist = [];
+    let currentScripts = [];
+
+    // Edit Prompt Toggle
+    const editPromptBtn = container.querySelector("#editPromptBtn");
+    const nameInput = container.querySelector("#name");
+    const promptInput = container.querySelector("#prompt");
+    let isPromptEditing = false;
+
+    editPromptBtn.addEventListener("click", () => {
+      isPromptEditing = !isPromptEditing;
+      if (isPromptEditing) {
+        nameInput.removeAttribute("readonly");
+        promptInput.removeAttribute("readonly");
+        nameInput.style.borderBottom = "1px solid var(--primary)";
+        promptInput.style.borderColor = "var(--primary)";
+        editPromptBtn.textContent = "🔒 Заблокировать";
+        promptInput.focus();
+      } else {
+        nameInput.setAttribute("readonly", true);
+        promptInput.setAttribute("readonly", true);
+        nameInput.style.borderBottom = "1px solid transparent";
+        promptInput.style.borderColor = "transparent";
+        editPromptBtn.textContent = "✏️ Изменить промпт";
+      }
+    });
+
+    function renderChecklist(items) {
+      currentChecklist = items;
+      const pinnedCount = items.filter(x => x.pinned).length;
+      container.querySelector("#checklist-title").textContent = `Чек-лист контроля (${items.length} пунктов)`;
+
+      // Обновляем счётчик закреплённых
+      let pinCounter = container.querySelector("#pin-counter");
+      if (!pinCounter) {
+        pinCounter = document.createElement("div");
+        pinCounter.id = "pin-counter";
+        pinCounter.style.cssText = "font-size:11.5px; color:var(--muted); margin-bottom:12px; padding:8px 12px; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:10px;";
+        container.querySelector("#checklist-container").insertAdjacentElement("beforebegin", pinCounter);
+      }
+      pinCounter.innerHTML = `📌 Закреплено в колонках списка диалогов: <b style="color:${pinnedCount===2?'#10B981':'#F59E0B'}">${pinnedCount}/2</b>${pinnedCount<2?' — <span style="color:#F59E0B;">выберите ещё ' + (2-pinnedCount) + '</span>':' — <span style="color:#10B981;">готово ✓</span>'}`;
+
+      const listEl = container.querySelector("#checklist-container");
+      listEl.innerHTML = items.map((item, idx) => {
+        const isPinned = !!item.pinned;
+        const canPin = !isPinned && pinnedCount >= 2;
+        return `
+        <div style="background:rgba(255,255,255,0.03); border:1px solid ${isPinned ? 'rgba(59,130,246,0.4)' : 'rgba(255,255,255,0.08)'}; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; transition: border-color 0.2s;">
+          <div style="background:rgba(59,130,246,0.15); color:#3B82F6; font-weight:800; font-size:12px; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${idx+1}</div>
+          <div style="flex:1;">
+            <input class="chk-label" data-idx="${idx}" readonly value="${escapeHtml(item.label || item.id)}" style="width:100%; font-weight:700; color:#fff; background:transparent; border:none; padding:4px 0; outline:none; border-bottom:1px solid transparent;" />
+            <input class="chk-desc" data-idx="${idx}" readonly value="${escapeHtml(item.description || '')}" style="width:100%; font-size:11.5px; color:var(--muted); background:transparent; border:none; padding:4px 0; outline:none; border-bottom:1px solid transparent;" placeholder="Описание триггера..." />
+          </div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button
+              class="pin-chk-btn"
+              data-idx="${idx}"
+              title="${isPinned ? 'Открепить от колонок' : canPin ? 'Уже 2 закреплено — сначала открепите другой' : 'Закрепить в колонках списка диалогов'}"
+              style="padding:5px 9px; border-radius:8px; border:1px solid ${isPinned ? 'rgba(59,130,246,0.6)' : 'rgba(255,255,255,0.1)'}; background:${isPinned ? 'rgba(59,130,246,0.15)' : 'transparent'}; color:${isPinned ? '#3B82F6' : canPin ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.4)'}; font-size:14px; cursor:${canPin ? 'not-allowed' : 'pointer'}; transition: all 0.2s;"
+              ${canPin ? 'disabled' : ''}
+            >📌</button>
+            <button class="secondary edit-chk-btn" data-idx="${idx}" style="padding:4px 8px; border:none; background:transparent; font-size:13px;">✏️</button>
+            <button class="secondary del-chk" data-idx="${idx}" style="padding:4px 8px; color:var(--bad); border:none; background:transparent;">🗑️</button>
+          </div>
+        </div>`;
+      }).join("");
+
+      // ---- Handlers ----
+      listEl.querySelectorAll(".chk-label").forEach(inp => {
+        inp.addEventListener("input", (e) => { currentChecklist[e.target.dataset.idx].label = e.target.value; });
+      });
+      listEl.querySelectorAll(".chk-desc").forEach(inp => {
+        inp.addEventListener("input", (e) => { currentChecklist[e.target.dataset.idx].description = e.target.value; });
+      });
+      listEl.querySelectorAll(".del-chk").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = parseInt(e.target.closest("button").dataset.idx);
+          currentChecklist.splice(idx, 1);
+          if (currentScripts[idx]) currentScripts.splice(idx, 1);
+          renderChecklist(currentChecklist);
+          renderScripts(currentScripts);
+        });
+      });
+
+      // Pin / unpin toggle
+      listEl.querySelectorAll(".pin-chk-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const idx = parseInt(e.target.closest("button").dataset.idx);
+          const item = currentChecklist[idx];
+          if (item.pinned) {
+            item.pinned = false;
+          } else {
+            const alreadyPinned = currentChecklist.filter(x => x.pinned).length;
+            if (alreadyPinned >= 2) return;
+            item.pinned = true;
+          }
+          renderChecklist(currentChecklist);
+          // Синхронизируем pinned-состояние для использования в pageDialogs
+          try {
+            const pinnedSnapshot = currentChecklist
+              .filter(x => x.pinned)
+              .map(x => ({ id: x.id, label: x.label }));
+            localStorage.setItem("okkm_pinned_triggers", JSON.stringify(pinnedSnapshot));
+          } catch(err) {}
+        });
+      });
+
+      // Pencil edit handler for checklist
+      listEl.querySelectorAll(".edit-chk-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const targetBtn = e.target.closest("button");
+          const idx = targetBtn.dataset.idx;
+          const containerDiv = targetBtn.closest("div").parentElement;
+          const labelInput = containerDiv.querySelector(".chk-label");
+          const descInput = containerDiv.querySelector(".chk-desc");
+          const isEditing = labelInput.hasAttribute("readonly");
+          if (isEditing) {
+            labelInput.removeAttribute("readonly");
+            descInput.removeAttribute("readonly");
+            labelInput.style.borderBottom = "1px solid var(--primary)";
+            descInput.style.borderBottom = "1px solid var(--primary)";
+            targetBtn.textContent = "💾";
+            labelInput.focus();
+          } else {
+            labelInput.setAttribute("readonly", true);
+            descInput.setAttribute("readonly", true);
+            labelInput.style.borderBottom = "1px solid transparent";
+            descInput.style.borderBottom = "1px solid transparent";
+            targetBtn.textContent = "✏️";
+            if (currentScripts[idx]) {
+              const scrItem = currentScripts[idx];
+              const newVal = labelInput.value.trim();
+              if (scrItem.t !== undefined) scrItem.t = newVal;
+              if (scrItem.title !== undefined) scrItem.title = newVal;
+              renderScripts(currentScripts);
+            }
+          }
+        });
+      });
+    }
+
+    function renderScripts(scripts) {
+      currentScripts = scripts;
+      const grid = container.querySelector("#scripts-grid");
+      grid.innerHTML = scripts.map((sc, idx) => `
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+          <button class="secondary edit-scr-btn" data-idx="${idx}" style="position:absolute; top:12px; right:12px; border:none; background:transparent; font-size:13px; padding:4px;">✏️</button>
+          <div>
+            <input class="scr-title" data-idx="${idx}" readonly value="${escapeHtml(sc.t || sc.title || "")}" style="font-weight:700; color:#3B82F6; font-size:14px; margin-bottom:8px; width:80%; background:transparent; border:none; padding:4px 0; outline:none; border-bottom:1px solid transparent;" placeholder="Название стандарта..." />
+            <textarea class="scr-content" data-idx="${idx}" readonly style="font-size:12.5px; color:rgba(255,255,255,0.85); line-height:1.6; font-style:italic; width:100%; height:90px; background:transparent; border:none; padding:4px 0; resize:none; outline:none; font-family:inherit; border-bottom:1px solid transparent;">${escapeHtml(sc.s || sc.content || "")}</textarea>
+          </div>
+          <div style="margin-top:14px; font-size:11px; color:var(--good); font-weight:700; display:flex; align-items:center; gap:5px;">
+            <span>✓ Активный стандарт АЗС</span>
+          </div>
+        </div>
+      `).join("");
+
+      grid.querySelectorAll(".scr-title").forEach(inp => {
+        inp.addEventListener("input", (e) => {
+          const item = currentScripts[e.target.dataset.idx];
+          if (item.t !== undefined) item.t = e.target.value;
+          if (item.title !== undefined) item.title = e.target.value;
+        });
+      });
+      grid.querySelectorAll(".scr-content").forEach(inp => {
+        inp.addEventListener("input", (e) => {
+          const item = currentScripts[e.target.dataset.idx];
+          if (item.s !== undefined) item.s = e.target.value;
+          if (item.content !== undefined) item.content = e.target.value;
+        });
+      });
+
+      // Pencil edit handler for scripts
+      grid.querySelectorAll(".edit-scr-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const targetBtn = e.target.closest("button");
+          const containerDiv = targetBtn.parentElement;
+          const titleInput = containerDiv.querySelector(".scr-title");
+          const contentInput = containerDiv.querySelector(".scr-content");
+          
+          const isEditing = titleInput.hasAttribute("readonly");
+          if (isEditing) {
+            titleInput.removeAttribute("readonly");
+            contentInput.removeAttribute("readonly");
+            titleInput.style.borderBottom = "1px solid var(--primary)";
+            contentInput.style.borderBottom = "1px solid var(--primary)";
+            targetBtn.textContent = "💾";
+            titleInput.focus();
+          } else {
+            titleInput.setAttribute("readonly", true);
+            contentInput.setAttribute("readonly", true);
+            titleInput.style.borderBottom = "1px solid transparent";
+            contentInput.style.borderBottom = "1px solid transparent";
+            targetBtn.textContent = "✏️";
+          }
+        });
+      });
+    }
+
+    async function load() {
+      try {
+        if (getToken() !== "demo_access") {
+          const p = await api("GET", "/api/settings/active");
+          container.querySelector("#name").value = p.name;
+          container.querySelector("#prompt").value = p.system_prompt;
+          const chk = p.checklist_items && p.checklist_items.length ? p.checklist_items : defaultChecklist;
+          const scr = p.reference_scripts && p.reference_scripts.length ? p.reference_scripts : defaultScripts;
+          renderChecklist(chk);
+          renderScripts(scr);
+        } else {
+          container.querySelector("#name").value = "Стандарты обслуживания АЗС (ИИ-Аудит)";
+          container.querySelector("#prompt").value = defaultPrompt;
+          renderChecklist(defaultChecklist);
+          renderScripts(defaultScripts);
+        }
+      } catch (e) {
+        container.querySelector("#name").value = "Стандарты обслуживания АЗС (ИИ-Аудит)";
+        container.querySelector("#prompt").value = defaultPrompt;
+        renderChecklist(defaultChecklist);
+        renderScripts(defaultScripts);
+      }
+    }
+
+    container.querySelector("#addTriggerBtn").addEventListener("click", () => {
+      const newId = String(Date.now()); // уникальный id
+      const newLabel = `Новый стандарт контроля`;
+      currentChecklist.push({ id: newId, label: newLabel, description: "Описание стандарта...", pinned: false });
+      currentScripts.push({ t: newLabel, s: "Пример эталонного скрипта для нового триггера..." });
+      renderChecklist(currentChecklist);
+      renderScripts(currentScripts);
+    });
+
+    container.querySelector("#reset").addEventListener("click", load);
+    container.querySelector("#save").addEventListener("click", async () => {
+      const name = container.querySelector("#name").value.trim();
+      const prompt = container.querySelector("#prompt").value.trim();
+      try {
+        if (getToken() !== "demo_access") {
+          await api("PUT", "/api/settings/active", {
+            name: name,
+            system_prompt: prompt,
+            checklist_items: currentChecklist,
+            reference_scripts: currentScripts,
+          });
+        }
+        toast("Настройки ИИ-аудитора сохранены!");
+      } catch (e) {
+        toast("Сохранено локально! (Для записи в БД запустите бэкенд FastAPI)", "info");
+      }
+    });
+
+    await load();
+  }
+
+  async function pageSync(container) {
+    container.innerHTML = `<h1>Pipeline status</h1>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;">
+          <span class="muted">Total: <b id="total">—</b></span>
+          <div class="row">
+            <button id="refresh" class="secondary">Refresh</button>
+            <button id="runSync">Run sync now</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid-4" id="kpis"></div>
+    `;
+    async function refresh() {
+      const s = await api("GET", "/api/sync/status");
+      container.querySelector("#total").textContent = s.total;
+      const k = container.querySelector("#kpis");
+      k.innerHTML = Object.entries(s.counts).map(([name, v]) => `
+        <div class="kpi"><div class="v">${v}</div><div class="l">${name}</div></div>
+      `).join("");
+    }
+    container.querySelector("#refresh").addEventListener("click", refresh);
+    container.querySelector("#runSync").addEventListener("click", async () => {
+      try {
+        const r = await api("POST", "/api/sync/run");
+        toast(`ingest: ready=${r.ready} inserted=${r.inserted} rejected=${r.rejected_unparseable}`);
+        refresh();
+      } catch (e) { toast(e.message, "error"); }
+    });
+    await refresh();
+  }
+
+  async function pageOverview(container) {
+    if (!state.settings) state.settings = await mockApi.getSettings();
+    let summaryData = await mockApi.getSummary();
+
+
+    // ── KPI card definitions ─────────────────────────────────────────────────
+    // "fixed" cards are always anchored at positions 0-1; the rest come from checklist triggers.
+    const FIXED_KPIS = [
+      { id: "dialogs",    label: "Проверено диалогов", icon: "💬", glow: "#3B82F6", fixed: true,
+        getValue: (s) => s.done_count != null ? s.done_count : 142,
+        getSub: () => "За последние 24 часа" },
+      { id: "compliance", label: "Общее соблюдение",   icon: "🎯", glow: "#10B981", fixed: true,
+        getValue: (s) => s.avg_script_compliance_pct != null ? s.avg_script_compliance_pct.toFixed(0) + "%" : "84%",
+        getSub: () => "Цель по сети: >75%" }
+    ];
+
+    const TRIGGER_KPIS = state.settings.checklist_items.map((t, i) => {
+      return { id: t.id, label: t.label, icon: "🎯", glow: "#F59E0B", trigIdx: i, sub: t.description, defVal: "50%" };
+    });
+
+    // Load / save active KPI config from localStorage
+    let activeKpiIds;
+    try {
+      const saved = localStorage.getItem("okkm_kpi_config");
+      activeKpiIds = saved ? JSON.parse(saved) : ["dialogs", "compliance", state.settings.checklist_items[0]?.id, state.settings.checklist_items[1]?.id].filter(Boolean);
+    } catch(e) { activeKpiIds = ["dialogs", "compliance", state.settings.checklist_items[0]?.id, state.settings.checklist_items[1]?.id].filter(Boolean); }
+
+    function saveKpiConfig() {
+      try { localStorage.setItem("okkm_kpi_config", JSON.stringify(activeKpiIds)); } catch(e) {}
+    }
+
+    // Merge all possible KPIs
+    const ALL_KPIS = [...FIXED_KPIS, ...TRIGGER_KPIS];
+
+    function getKpiDef(id) { return ALL_KPIS.find(k => k.id === id); }
+
+    container.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <div>
+          <h1 style="margin:0;">📊 Сводный ИИ-Обзор сети АЗС</h1>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Интегрированная речевая аналитика и KPI кассиров за последние 24 часа</div>
+        </div>
+      </div>
+
+      <!-- KPI row (dynamic) -->
+      <div id="kpi-row" style="display:flex; gap:16px; margin-bottom:28px; align-items:stretch; flex-wrap:wrap;"></div>
+
+      <!-- Executive Insight -->
+      <div class="stat-card-v3" style="background:linear-gradient(135deg,rgba(30,41,59,0.4),rgba(15,23,42,0.6));border:1px solid rgba(59,130,246,0.2);padding:24px;border-radius:20px;margin-bottom:28px;position:relative;overflow:hidden;">
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">✨</div>
+          <div style="flex:1;">
+            <div style="font-size:11px;color:#3B82F6;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">● Сводка ИИ и фокус-зоны сети АЗС</div>
+            <div id="insight-title" style="font-size:16px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:8px;">Рост конверсии в кофе на АЗС №7, критические нарушения стандартов на АЗС №1</div>
+            <p id="insight-desc" style="font-size:13px;color:var(--muted);line-height:1.6;margin:0;">Анализ 142 диалогов выявил: предложение кофе по стандарту (без отрицания «НЕ») поднялось до 78% благодаря смене скрипта. При этом на АЗС №1 зафиксировано 12 случаев употребления кассирами стоп-слова «Здрасьте» и частое игнорирование выдачи чека молча. Рекомендуется провести повторный инструктаж смены АЗС №1.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- 6 Triggers Compliance Chart with Y-axis scale 0-100% and exact 75% target line -->
+        <div class="stat-card-v3" style="min-height:320px;display:flex;flex-direction:column;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+            <h3 style="margin:0;font-size:15px;color:#fff;">📊 Соблюдение стандартов по 6 триггерам</h3>
+            <span style="font-size:12px;color:var(--muted);">Средний показатель: <span id="chartAvg" style="color:#10B981;font-weight:800;">78%</span></span>
+          </div>
+          
+          <div style="display:flex;flex:1;gap:12px;align-items:stretch;">
+            <!-- Y-Axis Scale & Chart combined container for perfect vertical alignment -->
+            <div style="flex:1;display:flex;flex-direction:column;position:relative;">
+              <!-- Height 180px container matching column height -->
+              <div style="height:180px;position:relative;width:100%;display:flex;align-items:flex-end;padding-left:36px;">
+                
+                <!-- Y-Axis labels aligned directly to top percentages -->
+                <span style="position:absolute;left:0;top:0;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--muted);">100%</span>
+                <span style="position:absolute;left:0;top:25%;transform:translateY(-50%);font-size:10px;font-weight:900;color:#EF4444;">75%</span>
+                <span style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--muted);">50%</span>
+                <span style="position:absolute;left:0;top:75%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--muted);">25%</span>
+                <span style="position:absolute;left:0;top:100%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--muted);">0%</span>
+
+                <!-- Grid line 100% -->
+                <div style="position:absolute;left:36px;right:0;top:0;border-top:1px dashed rgba(255,255,255,0.06);pointer-events:none;"></div>
+                
+                <!-- Target line 75% (centered KPI badge) -->
+                <div style="position:absolute;left:36px;right:0;top:25%;border-top:2px dashed #EF4444;display:flex;justify-content:center;align-items:center;z-index:3;pointer-events:none;">
+                  <span style="font-size:9.5px;padding:3px 10px;border-radius:6px;font-weight:900;background:#0F1320;color:#EF4444;border:1px solid #EF4444;transform:translateY(-50%);box-shadow:0 0 10px rgba(239,68,68,0.3);letter-spacing:0.5px;">🎯 ЦЕЛЬ KPI: 75%</span>
+                </div>
+
+                <!-- Grid line 50% -->
+                <div style="position:absolute;left:36px;right:0;top:50%;border-top:1px dashed rgba(255,255,255,0.06);pointer-events:none;"></div>
+
+                <!-- Grid line 25% -->
+                <div style="position:absolute;left:36px;right:0;top:75%;border-top:1px dashed rgba(255,255,255,0.06);pointer-events:none;"></div>
+
+                <!-- Grid line 0% -->
+                <div style="position:absolute;left:36px;right:0;bottom:0;border-bottom:1px solid rgba(255,255,255,0.12);pointer-events:none;"></div>
+
+                <!-- Bars container (height 100% matching Y-axis 0-100%, percentages attached to each bar roof) -->
+                <div style="height:100%;width:calc(100% - 36px);display:flex;align-items:flex-end;gap:12px;padding:0 8px;position:absolute;bottom:0;left:36px;right:0;z-index:2;box-sizing:border-box;">
+                  ${[
+                    {idx:0, label:"Приветствие", val:99},
+                    {idx:1, label:"Кофе",       val:44},
+                    {idx:2, label:"Выпечка",    val:36},
+                    {idx:3, label:"Повтор",     val:88},
+                    {idx:4, label:"Выдача чека",val:72},
+                    {idx:5, label:"Прощание",   val:90}
+                  ].map(x=>{
+                    const bc = x.val>=75 ? "#10B981" : (x.val>=50 ? "#F59E0B" : "#EF4444");
+                    return `<div class="trig-chart-col" onclick="openDialogsByTrigger(${x.idx})" style="flex:1;display:flex;flex-direction:column;align-items:center;height:${x.val}%;justify-content:flex-start;cursor:pointer;position:relative;" title="Нажмите чтобы посмотреть диалоги по триггеру ${x.label}">
+                      <div style="font-size:11px;font-weight:900;color:${bc};margin-bottom:4px;position:absolute;top:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;">${x.val}%</div>
+                      <div style="width:100%;height:100%;background:linear-gradient(180deg,${bc},${bc}55);border-radius:6px 6px 0 0;transition:all 0.2s;" onmouseover="this.style.filter='brightness(1.3)'" onmouseout="this.style.filter='none'"></div>
+                    </div>`;
+                  }).join("")}
+                </div>
+              </div>
+
+              <!-- Labels underneath -->
+              <div style="display:flex;width:calc(100% - 36px);margin-left:36px;justify-content:space-between;text-align:center;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:10px;padding:0 8px;box-sizing:border-box;letter-spacing:0.2px;">
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Приветствие</span>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Кофе</span>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Выпечка</span>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Повтор</span>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Выдача чека</span>
+                <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Прощание</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top employees (10 items, scroll, top-3 bonus only, clickable to profile) -->
+        <div class="stat-card-v3" style="min-height:320px;display:flex;flex-direction:column;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;flex-shrink:0;">
+            <h3 style="margin:0;font-size:15px;color:#fff;">🏆 Топ сотрудников по KPI</h3>
+            <span style="font-size:11px;color:var(--muted);">Прогноз премий по итогам месяца</span>
+          </div>
+          <div style="display:flex;flex-direction:column;max-height:260px;overflow-y:auto;padding-right:6px;" id="top-employees-list"></div>
+        </div>
+      </div>
+
+      <!-- Second Row: Geography of Incidents & Risk Zone (Bottom KPI Employees) -->
+      <div class="grid-2" style="margin-top:28px;">
+        <!-- Geography of Incidents -->
+        <div class="stat-card-v3" style="min-height:320px;display:flex;flex-direction:column;justify-content:space-between;padding:26px;">
+          <div>
+            <h3 style="margin:0 0 4px 0;font-size:15px;color:#fff;">📍 География инцидентов (АЗС)</h3>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:20px;">Критические расхождения по регламентам продаж в сети</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px;flex:1;" id="geo-incidents-list"></div>
+        </div>
+
+        <!-- Risk Zone Employees -->
+        <div class="stat-card-v3" style="min-height:320px;display:flex;flex-direction:column;padding:26px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;flex-shrink:0;">
+            <h3 style="margin:0;font-size:15px;color:#f87171;">⚠️ Зона риска по KPI</h3>
+            <span style="font-size:11px;color:var(--muted);">Сотрудники с низкими показателями</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:18px;">Рекомендуется дополнительное обучение персонала</div>
+          <div style="display:flex;flex-direction:column;max-height:210px;overflow-y:auto;padding-right:6px;" id="risk-employees-list"></div>
+        </div>
+      </div>
+    `;
+
+    // ── KPI card renderer ─────────────────────────────────────────────────────
+    let summaryData = {};
+
+    let draggedKpiIndex = null;
+
+    function renderKpiRow() {
+      const row = container.querySelector("#kpi-row");
+      const cards = activeKpiIds.map((id, index) => {
+        const kpi = getKpiDef(id);
+        if (!kpi) return "";
+        const val = kpi.getValue ? kpi.getValue(summaryData) : (kpi.defVal || "—");
+        const sub = kpi.getSub ? kpi.getSub() : (kpi.sub || "");
+        const canRemove = !kpi.fixed;
+        let cardClick = '';
+        if (kpi.trigIdx !== undefined) {
+          cardClick = `onclick="if(!window.isDraggingKpi){ openDialogsByTrigger(${kpi.trigIdx}); }"`;
+        } else {
+          cardClick = `onclick="if(!window.isDraggingKpi){ location.hash='#/dialogs'; }"`;
+        }
+        return `<div class="kpi-card-dyn stat-card-v3" ${cardClick} data-kpiid="${kpi.id}" data-index="${index}" draggable="true" style="flex:1;min-width:160px;max-width:260px;padding:22px 20px;--glow:${kpi.glow};position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:110px;cursor:pointer;transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);" title="Нажмите для перехода к разбору диалогов">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;position:relative;z-index:2;">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:flex;align-items:center;gap:4px;">
+              <span style="cursor:grab;opacity:0.35;font-size:12px;">☰</span>
+              ${escapeHtml(kpi.label)}
+            </div>
+            ${canRemove ? `<button class="kpi-remove-btn" data-kpiid="${kpi.id}" title="Убрать из обзора" style="background:none;border:none;color:rgba(255,255,255,0.2);font-size:14px;cursor:pointer;padding:0;line-height:1;transition:color 0.15s;position:relative;z-index:3;" onmouseover="this.style.color='#EF4444'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">✕</button>` : `<span style="font-size:14px;opacity:0.15;">≡</span>`}
+          </div>
+          ${(() => {
+            const num = parseFloat(String(val).replace("%", ""));
+            let valColor = "#fff";
+            if (!isNaN(num)) {
+              valColor = num >= 75 ? "#10B981" : (num >= 50 ? "#F59E0B" : "#EF4444");
+            }
+            return `<div style="font-size:32px;font-weight:900;color:${valColor};line-height:1.1;margin:6px 0;position:relative;z-index:2;">${escapeHtml(String(val))}</div>`;
+          })()}
+          <div style="font-size:11px;color:var(--muted);position:relative;z-index:2;">${escapeHtml(sub)}</div>
+          <span class="kpi-bg-icon">${kpi.icon}</span>
+        </div>`;
+      }).join("");
+
+      // Check which triggers are available to add
+      const availableToAdd = ALL_KPIS.filter(k => !activeKpiIds.includes(k.id) && !k.fixed);
+
+      const pinCard = `<div id="pin-kpi-card" style="flex:0 0 160px;min-width:140px;max-width:180px;position:relative;">
+        <button id="pin-kpi-btn" style="width:100%;height:100%;min-height:110px;background:rgba(59,130,246,0.05);border:2px dashed rgba(59,130,246,0.3);border-radius:20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;color:#3B82F6;" onmouseover="this.style.background='rgba(59,130,246,0.1)';this.style.borderColor='rgba(59,130,246,0.5)'" onmouseout="this.style.background='rgba(59,130,246,0.05)';this.style.borderColor='rgba(59,130,246,0.3)'">
+          <span style="font-size:24px;font-weight:900;">+</span>
+          <span style="font-size:13px;font-weight:800;">Pin KPI</span>
+          <span style="font-size:10px;color:var(--muted);">По триггерам ИИ</span>
+        </button>
+        <!-- Dropdown -->
+        <div id="pin-kpi-dropdown" style="display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:220px;background:rgba(17,21,28,0.98);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:8px;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,0.5);backdrop-filter:blur(20px);">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);padding:6px 10px 8px;">Доступные KPI</div>
+          ${availableToAdd.length ? availableToAdd.map(k=>`
+            <button class="pin-add-btn" data-kpiid="${k.id}" style="width:100%;text-align:left;padding:9px 12px;background:none;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background 0.15s;color:#fff;" onmouseover="this.style.background='rgba(59,130,246,0.12)'" onmouseout="this.style.background='none'">
+              <span style="font-size:18px;">${k.icon}</span>
+              <div><div style="font-size:13px;font-weight:700;">${escapeHtml(k.label)}</div><div style="font-size:11px;color:var(--muted);">${escapeHtml(k.sub)}</div></div>
+            </button>`).join("") : `<div style="padding:10px 12px;font-size:13px;color:var(--muted);">Все KPI уже добавлены</div>`}
+        </div>
+      </div>`;
+
+      row.innerHTML = cards + pinCard;
+
+      // Drag and Drop event listeners for KPI cards
+      row.querySelectorAll(".kpi-card-dyn").forEach(cardEl => {
+        cardEl.addEventListener("dragstart", (e) => {
+          draggedKpiIndex = parseInt(cardEl.dataset.index);
+          cardEl.style.opacity = "0.4";
+          cardEl.style.cursor = "grabbing";
+          e.dataTransfer.effectAllowed = "move";
+        });
+
+        cardEl.addEventListener("dragend", () => {
+          cardEl.style.opacity = "1";
+          cardEl.style.cursor = "grab";
+          row.querySelectorAll(".kpi-card-dyn").forEach(c => {
+            c.style.borderLeft = "";
+            c.style.transform = "";
+          });
+        });
+
+        cardEl.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+        });
+
+        cardEl.addEventListener("dragenter", (e) => {
+          e.preventDefault();
+          const targetIndex = parseInt(cardEl.dataset.index);
+          if (draggedKpiIndex !== null && draggedKpiIndex !== targetIndex) {
+            cardEl.style.borderLeft = "4px solid #3B82F6";
+          }
+        });
+
+        cardEl.addEventListener("dragleave", () => {
+          cardEl.style.borderLeft = "";
+        });
+
+        cardEl.addEventListener("drop", (e) => {
+          e.preventDefault();
+          cardEl.style.borderLeft = "";
+          const targetIndex = parseInt(cardEl.dataset.index);
+          if (draggedKpiIndex !== null && draggedKpiIndex !== targetIndex) {
+            const [movedId] = activeKpiIds.splice(draggedKpiIndex, 1);
+            activeKpiIds.splice(targetIndex, 0, movedId);
+            saveKpiConfig();
+            renderKpiRow();
+
+    // Click handler for Top Employees list -> navigate to Employee Profile
+    container.querySelectorAll(".top-emp-row").forEach(row => {
+      row.addEventListener("click", () => {
+        const empId = row.dataset.empid;
+        try {
+          sessionStorage.setItem("returnToEmp", empId);
+        } catch(e) {}
+        location.hash = "#/employees";
+      });
+    });
+            toast("Порядок KPI-карточек изменен", "info");
+          }
+        });
+      });
+
+      // Remove KPI
+      row.querySelectorAll(".kpi-remove-btn").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+          e.stopPropagation();
+          const id=btn.dataset.kpiid;
+          activeKpiIds=activeKpiIds.filter(x=>x!==id);
+          saveKpiConfig();
+          renderKpiRow();
+        });
+      });
+
+      // Pin dropdown toggle
+      const pinBtn=row.querySelector("#pin-kpi-btn");
+      const dropdown=row.querySelector("#pin-kpi-dropdown");
+      if(pinBtn&&dropdown){
+        pinBtn.addEventListener("click",(e)=>{
+          e.stopPropagation();
+          dropdown.style.display=dropdown.style.display==="none"?"block":"none";
+        });
+      }
+
+      // Add KPI from dropdown
+      row.querySelectorAll(".pin-add-btn").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+          e.stopPropagation();
+          const id=btn.dataset.kpiid;
+          if(!activeKpiIds.includes(id)){
+            activeKpiIds.push(id);
+            saveKpiConfig();
+            renderKpiRow();
+          }
+        });
+      });
+
+      // Close dropdown on outside click
+      document.addEventListener("click",()=>{ if(dropdown) dropdown.style.display="none"; },{once:true,capture:true});
+    }
+
+    function updateKpis(s) {
+      summaryData = s;
+      renderKpiRow();
+    }
+
+    // Initial render with demo values then try API
+    renderKpiRow();
+    // Calculate dynamic values for Demo mode based on Global Header Filters (Station & Period)
+    const selStation = localStorage.getItem("okkm_global_station") || "all";
+    const selPeriod = localStorage.getItem("okkm_global_period") || "24h";
+
+    // Station coefficients with all 6 triggers values
+    const stationCoeffs = {
+      "all":      { count: 142, compliance: 84, t1: 99, t2: 44, t3: 36, t4: 88, t5: 72, t6: 90 },
+      "1":        { count: 34,  compliance: 68, t1: 85, t2: 28, t3: 20, t4: 75, t5: 60, t6: 80 },
+      "7":        { count: 48,  compliance: 95, t1: 100,t2: 78, t3: 52, t4: 98, t5: 95, t6: 99 },
+      "tobyl":    { count: 42,  compliance: 91, t1: 100,t2: 69, t3: 45, t4: 92, t5: 88, t6: 95 },
+      "fedorovka":{ count: 18,  compliance: 54, t1: 60, t2: 18, t3: 12, t4: 45, t5: 30, t6: 50 },
+      "2":        { count: 25,  compliance: 74, t1: 90, t2: 45, t3: 38, t4: 80, t5: 65, t6: 85 },
+      "3":        { count: 29,  compliance: 88, t1: 96, t2: 62, t3: 48, t4: 90, t5: 82, t6: 92 },
+      "4":        { count: 22,  compliance: 76, t1: 92, t2: 50, t3: 34, t4: 82, t5: 70, t6: 88 },
+      "5":        { count: 19,  compliance: 65, t1: 80, t2: 35, t3: 25, t4: 70, t5: 55, t6: 75 },
+      "6":        { count: 21,  compliance: 82, t1: 94, t2: 58, t3: 42, t4: 86, t5: 78, t6: 90 },
+      "8":        { count: 15,  compliance: 48, t1: 65, t2: 20, t3: 15, t4: 50, t5: 40, t6: 55 },
+      "9":        { count: 17,  compliance: 71, t1: 88, t2: 42, t3: 30, t4: 76, t5: 62, t6: 82 },
+      "10":       { count: 26,  compliance: 84, t1: 95, t2: 60, t3: 45, t4: 88, t5: 80, t6: 91 },
+      "11":       { count: 14,  compliance: 68, t1: 82, t2: 38, t3: 28, t4: 72, t5: 58, t6: 78 }
+    };
+
+    const stData = stationCoeffs[selStation] || stationCoeffs["all"];
+    
+    // Period multiplier
+    const periodMult = selPeriod === "7d" ? 7 : (selPeriod === "yesterday" ? 1.1 : 1);
+
+    // Update Overview Chart 6 Triggers dynamically
+    const chartBars = [
+      { idx: 0, label: "Приветствие", val: stData.t1 },
+      { idx: 1, label: "Кофе",       val: stData.t2 },
+      { idx: 2, label: "Выпечка",    val: stData.t3 },
+      { idx: 3, label: "Повтор",     val: stData.t4 },
+      { idx: 4, label: "Выдача чека",val: stData.t5 },
+      { idx: 5, label: "Прощание",   val: stData.t6 }
+    ];
+
+    const chartAvgEl = container.querySelector("#chartAvg");
+    if (chartAvgEl) chartAvgEl.textContent = stData.compliance + "%";
+
+    const trigCols = container.querySelectorAll(".trig-chart-col");
+    trigCols.forEach((col, i) => {
+      if (chartBars[i]) {
+        const val = chartBars[i].val;
+        const bc = val >= 75 ? "#10B981" : (val >= 50 ? "#F59E0B" : "#EF4444");
+        col.style.height = val + "%";
+        col.innerHTML = `<div style="font-size:11px;font-weight:900;color:${bc};margin-bottom:4px;position:absolute;top:-20px;left:50%;transform:translateX(-50%);white-space:nowrap;">${val}%</div>
+        <div style="width:100%;height:100%;background:linear-gradient(180deg,${bc},${bc}55);border-radius:6px 6px 0 0;transition:all 0.2s;" onmouseover="this.style.filter='brightness(1.3)'" onmouseout="this.style.filter='none'"></div>`;
+      }
+    });
+
+    // Dynamic AI Insight Text Generator based on chosen station, period, and trigger values
+    const triggerLabels = ["Приветствие", "Кофе", "Выпечка", "Повтор", "Выдача чека", "Прощание"];
+    const currentTriggers = [stData.t1, stData.t2, stData.t3, stData.t4, stData.t5, stData.t6];
+    
+    // Find min and max trigger
+    let minVal = 101, maxVal = -1;
+    let minIdx = 0, maxIdx = 0;
+    currentTriggers.forEach((v, i) => {
+      if (v < minVal) { minVal = v; minIdx = i; }
+      if (v > maxVal) { maxVal = v; maxIdx = i; }
+    });
+
+    const activeStationName = selStation === "all" ? "всей сети АЗС" : `АЗС #${selStation}`;
+    const totalDials = Math.round(stData.count * periodMult);
+    const periodLabel = selPeriod === "7d" ? "за последние 7 дней" : (selPeriod === "yesterday" ? "за вчерашний день" : "за последние 24 часа");
+
+    let dynamicTitle = "";
+    let dynamicDesc = "";
+
+    if (stData.compliance >= 85) {
+      dynamicTitle = `Высокие показатели качества на ${selStation === "all" ? "АЗС сети" : activeStationName} (${stData.compliance}%)`;
+      dynamicDesc = `Анализ ${totalDials} диалогов ${periodLabel} показал отличную динамику. Сильнейшая сторона смены — триггер "${triggerLabels[maxIdx]}" (соблюдение ${maxVal}%). В качестве зоны роста рекомендуется обратить внимание на триггер "${triggerLabels[minIdx]}" (сейчас ${minVal}%). Речевых критических нарушений регламента не зафиксировано.`;
+    } else if (stData.compliance >= 65) {
+      dynamicTitle = `Стабильная работа ${activeStationName}, требуется фокус на доп. продажах`;
+      dynamicDesc = `Анализ ${totalDials} диалогов ${periodLabel} зафиксировал средний уровень соблюдения стандартов в ${stData.compliance}%. Отмечаются хорошие результаты по триггеру "${triggerLabels[maxIdx]}" (${maxVal}%). Однако слабым звеном остается "${triggerLabels[minIdx]}" (${minVal}%). Рекомендуется провести мини-тренинг для персонала с акцентом на этот стандарт.`;
+    } else {
+      dynamicTitle = `Критические отклонения от стандартов качества на ${activeStationName}`;
+      dynamicDesc = `Внимание! Анализ ${totalDials} диалогов ${periodLabel} выявил падение общего индекса качества до ${stData.compliance}%. Выявлены систематические упущения по стандарту "${triggerLabels[minIdx]}" (всего ${minVal}% соблюдения). Лучшим показателем остается "${triggerLabels[maxIdx]}" (${maxVal}%). Необходим срочный аудит смены и контроль использования регламентных скриптов.`;
+    }
+
+    const insTitleEl = container.querySelector("#insight-title");
+    const insDescEl = container.querySelector("#insight-desc");
+    if (insTitleEl) insTitleEl.textContent = dynamicTitle;
+    if (insDescEl) insDescEl.textContent = dynamicDesc;
+
+    // Update KPI Card dynamic values
+    TRIGGER_KPIS[0].defVal = stData.t1 + "%";
+    TRIGGER_KPIS[1].defVal = stData.t2 + "%";
+    TRIGGER_KPIS[2].defVal = stData.t3 + "%";
+    TRIGGER_KPIS[3].defVal = stData.t4 + "%";
+    TRIGGER_KPIS[4].defVal = stData.t5 + "%";
+    TRIGGER_KPIS[5].defVal = stData.t6 + "%";
+
+    const demoSummary = {
+      done_count: totalDials,
+      avg_script_compliance_pct: stData.compliance,
+      avg_quality_score: (stData.compliance / 10).toFixed(1),
+      headline_conversion_rate_pct: stData.t2
+    };
+
+    updateKpis(demoSummary);
+
+    // ── Dynamic render of Top list, Risk Zone and Geography of Incidents ─────────────────
+    // Source data (simulated based on global employee definitions in app.html)
+    const rawDemoEmps = [
+      { id:"emp-3", name:"Данияр Искаков",  office:"АЗС Тобыл",     score: 9.8, bonus: "+150 000 ₸", color: "#FFD700" },
+      { id:"emp-2", name:"Анна Коваленко",  office:"АЗС №7",        score: 9.5, bonus: "+100 000 ₸", color: "#C0C0C0" },
+      { id:"emp-6", name:"Марат Мусин",     office:"АЗС №3",        score: 9.5, bonus: "+50 000 ₸",  color: "#CD7F32" },
+      { id:"emp-8", name:"Серик Ахметов",   office:"АЗС №7",        score: 8.9, bonus: null,         color: "#3B82F6" },
+      { id:"emp-11",name:"Нурлан Касымов",  office:"АЗС №6",        score: 8.2, bonus: null,         color: "#3B82F6" },
+      { id:"emp-13",name:"Ерлан Байманов",  office:"АЗС №10",       score: 8.4, bonus: null,         color: "#3B82F6" },
+      { id:"emp-7", name:"Ольга Серова",    office:"АЗС №4",        score: 7.6, bonus: null,         color: "#8B5CF6" },
+      { id:"emp-1", name:"Асель Нургалиева",office:"АЗС №1",        score: 7.5, bonus: null,         color: "#10B981" },
+      { id:"emp-12",name:"Динара Алиева",   office:"АЗС №9",        score: 7.1, bonus: null,         color: "#10B981" },
+      { id:"emp-14",name:"Мадина Оспанова", office:"АЗС №11",       score: 6.8, bonus: null,         color: "#F59E0B" },
+      { id:"emp-5", name:"Татьяна Волкова", office:"АЗС №2",        score: 6.0, bonus: null,         color: "#F59E0B" },
+      { id:"emp-4", name:"Павел Быков",     office:"АЗС Федоровка", score: 5.4, bonus: null,         color: "#EF4444" },
+      { id:"emp-9", name:"Евгения Исаева",  office:"АЗС №5",        score: 5.1, bonus: null,         color: "rgba(255,255,255,0.4)" },
+      { id:"emp-10",name:"Алина Смирнова",  office:"АЗС №8",        score: 4.8, bonus: null,         color: "rgba(255,255,255,0.4)" }
+    ];
+
+    // Filter employees by station first (if not "all")
+    let filteredEmps = [...rawDemoEmps];
+    if (selStation !== "all") {
+      filteredEmps = rawDemoEmps.filter(e => {
+        const cleanOffice = e.office.toLowerCase().replace("азс", "").trim();
+        return cleanOffice === selStation.toLowerCase() || e.office.includes(`№${selStation}`);
+      });
+    }
+
+    // Apply period offset shift to employee scores in demo mode
+    const scoreShift = selPeriod === "7d" ? 0.3 : (selPeriod === "yesterday" ? -0.2 : 0);
+    filteredEmps = filteredEmps.map(e => {
+      let shifted = parseFloat((e.score + scoreShift).toFixed(1));
+      if (shifted > 10.0) shifted = 10.0;
+      if (shifted < 1.0) shifted = 1.0;
+      return { ...e, score: shifted };
+    });
+
+    // Sort to get Top list (descending) and Risk list (ascending)
+    const topSorted = [...filteredEmps].sort((a, b) => b.score - a.score).slice(0, 10);
+    const riskSorted = [...filteredEmps].filter(e => e.score < 7.5).sort((a, b) => a.score - b.score).slice(0, 10);
+
+    // 1. Render Top List
+    const topListEl = container.querySelector("#top-employees-list");
+    if (topListEl) {
+      if (topSorted.length === 0) {
+        topListEl.innerHTML = `<div class="muted" style="padding: 16px; text-align:center;">Нет данных по этой АЗС</div>`;
+      } else {
+        topListEl.innerHTML = topSorted.map((e, i) => {
+          const scColor = e.score >= 9 ? "#10B981" : (e.score >= 7 ? "#F59E0B" : "#EF4444");
+          const initials = e.name.split(" ").map(p => p[0]).join("").slice(0, 2);
+          const rankIcon = i === 0 ? "🥇" : (i === 1 ? "🥈" : (i === 2 ? "🥉" : `<span style="color:var(--muted);font-weight:600;">${i + 1}</span>`));
+          return `<div class="top-emp-row" onclick="openEmpProfileFromTop('${e.id}')" style="display:flex;align-items:center;gap:12px;padding:9px 8px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;border-radius:10px;transition:background 0.15s;" onmouseover="this.style.background='rgba(59,130,246,0.08)'" onmouseout="this.style.background='transparent'">
+            <span style="font-size:13px;font-weight:700;width:20px;text-align:center;flex-shrink:0;">${rankIcon}</span>
+            <div style="width:30px;height:30px;border-radius:50%;flex-shrink:0;background:${scColor}22;border:1.5px solid ${scColor}55;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">${initials}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:700;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.name}</div>
+              <div style="font-size:11px;color:var(--muted);">${e.office}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;">
+              ${e.bonus ? `<div style="font-size:10.5px;color:#10B981;font-weight:800;background:rgba(16,185,129,0.1);padding:1px 6px;border-radius:4px;margin-bottom:2px;">${e.bonus}</div>` : ''}
+              <div style="font-size:13.5px;font-weight:900;color:${scColor};">${e.score}</div>
+            </div>
+          </div>`;
+        }).join("");
+      }
+    }
+
+    // 2. Render Risk Zone List (Bottom employees)
+    const riskListEl = container.querySelector("#risk-employees-list");
+    if (riskListEl) {
+      if (riskSorted.length === 0) {
+        riskListEl.innerHTML = `<div style="text-align:center;padding:24px;color:#10B981;background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.15);border-radius:12px;font-size:13px;margin-top:10px;">
+          ✓ В выбранном срезе все сотрудники имеют отличные показатели
+        </div>`;
+      } else {
+        riskListEl.innerHTML = riskSorted.map((e, i) => {
+          const initials = e.name.split(" ").map(p => p[0]).join("").slice(0, 2);
+          const scColor = e.score >= 5 ? "#F59E0B" : "#EF4444";
+          return `<div class="top-emp-row" onclick="openEmpProfileFromTop('${e.id}')" style="display:flex;align-items:center;gap:12px;padding:9px 8px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;border-radius:10px;transition:background 0.15s;" onmouseover="this.style.background='rgba(239,68,68,0.08)'" onmouseout="this.style.background='transparent'">
+            <div style="width:30px;height:30px;border-radius:50%;flex-shrink:0;background:${scColor}15;border:1.5px solid ${scColor}44;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">${initials}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:700;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.name}</div>
+              <div style="font-size:11px;color:var(--muted);">${e.office} · <span style="color:${scColor}; font-weight:700;">Зона риска (низкий балл)</span></div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:13.5px;font-weight:900;color:${scColor};">${e.score}</div>
+            </div>
+          </div>`;
+        }).join("");
+      }
+    }
+
+    // 3. Render Geography of Incidents
+    const geoListEl = container.querySelector("#geo-incidents-list");
+    if (geoListEl) {
+      // Define pre-configured incidents for demo AЗС
+      const allIncidents = [
+        { key: "1", title: "АЗС №1 (Костанай, проспект Абая, 1Т)", subtitle: "Регион обслуживания", tag: "ЧАСТЫЕ НАРУШЕНИЯ В АКЦИЯХ", style: "background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); color:#EF4444;" },
+        { key: "fedorovka", title: "АЗС Федоровка (п. Федоровка, ул. Мухтара Ауэзова, 26)", subtitle: "Регион обслуживания", tag: "НИЗКАЯ КОНВЕРСИЯ В КОФЕ", style: "background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.25); color:#F59E0B;" },
+        { key: "8", title: "АЗС №8 (Актобе, АЗС Сеть-Регион)", subtitle: "Регион обслуживания", tag: "ИГНОРИРОВАНИЕ ПРИВЕТСТВИЯ", style: "background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); color:#EF4444;" },
+        { key: "5", title: "АЗС №5 (Павлодар, АЗС Сеть-Регион)", subtitle: "Регион обслуживания", tag: "ПРОПУСК ВЫДАЧИ ЧЕКА", style: "background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.25); color:#F59E0B;" }
+      ];
+
+      // Filter incidents based on selected station
+      let geoIncidents = allIncidents;
+      if (selStation !== "all") {
+        geoIncidents = allIncidents.filter(inc => inc.key === selStation);
+      }
+
+      if (geoIncidents.length === 0) {
+        geoListEl.innerHTML = `<div style="text-align:center;padding:32px;color:#10B981;font-size:13px;display:flex;flex-direction:column;justify-content:center;height:100%;">
+          <div>✅ Критических инцидентов на выбранной АЗС не зафиксировано</div>
+        </div>`;
+      } else {
+        // Mapping from incident tags to trigger indices (0-based)
+        const tagTriggerMap = {
+          "ЧАСТЫЕ НАРУШЕНИЯ В АКЦИЯХ": 2, // Выпечка и кросс-сейл (ТРИГГЕР №3)
+          "НИЗКАЯ КОНВЕРСИЯ В КОФЕ": 1,   // Продажа кофе (ТРИГГЕР №2)
+          "ИГНОРИРОВАНИЕ ПРИВЕТСТВИЯ": 0, // Приветствие кассира (ТРИГГЕР №1)
+          "ПРОПУСК ВЫДАЧИ ЧЕКА": 4        // Выдача чека (ТРИГГЕР №5)
+        };
+
+        geoListEl.innerHTML = geoIncidents.map(inc => {
+          const trigIdx = tagTriggerMap[inc.tag] ?? 0;
+          return `
+            <div class="top-emp-row" onclick="openIncidentsByStation('${inc.key}', ${trigIdx})" style="display:flex; justify-content:space-between; align-items:center; gap:16px; border-bottom:1px solid rgba(255,255,255,0.04); padding:10px 8px; cursor:pointer; border-radius:10px; transition:background 0.15s;" onmouseover="this.style.background='rgba(239,68,68,0.05)'" onmouseout="this.style.background='transparent'">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <span style="width:8px; height:8px; border-radius:50%; background:${inc.style.includes("#EF") ? "#EF4444" : "#F59E0B"}; box-shadow:0 0 8px currentColor; flex-shrink:0;"></span>
+                <div>
+                  <div style="font-size:13px; font-weight:700; color:#fff;">${inc.title}</div>
+                  <div style="font-size:11px; color:var(--muted); margin-top:2px;">${inc.subtitle}</div>
+                </div>
+              </div>
+              <span style="font-size:10px; font-weight:800; padding:6px 12px; border-radius:6px; letter-spacing:0.3px; flex-shrink:0; ${inc.style}">${inc.tag}</span>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    try {
+      if (getToken() !== "demo_access") {
+        const params = new URLSearchParams();
+        
+        // 1. Translate local station ID to office_last query
+        if (selStation !== "all") {
+          const stationMap = {
+            "1": "АЗС №1", "7": "АЗС №7", "tobyl": "АЗС Тобыл", "fedorovka": "АЗС Федоровка",
+            "2": "АЗС №2", "3": "АЗС №3", "4": "АЗС №4", "5": "АЗС №5", "6": "АЗС №6",
+            "8": "АЗС №8", "9": "АЗС №9", "10": "АЗС №10", "11": "АЗС №11"
+          };
+          const stName = stationMap[selStation];
+          if (stName) params.set("office_last", stName);
+        }
+
+        // 2. Translate global period to ISO datetime ranges
+        const nowTime = new Date();
+        if (selPeriod === "24h") {
+          const past24 = new Date(nowTime.getTime() - 24 * 60 * 60 * 1000);
+          params.set("from", past24.toISOString().split(".")[0]);
+        } else if (selPeriod === "yesterday") {
+          const yesterdayStart = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 0, 0, 0);
+          const yesterdayEnd = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate() - 1, 23, 59, 59);
+          params.set("from", yesterdayStart.toISOString().split(".")[0]);
+          params.set("to", yesterdayEnd.toISOString().split(".")[0]);
+        } else if (selPeriod === "7d") {
+          const past7d = new Date(nowTime.getTime() - 7 * 24 * 60 * 60 * 1000);
+          params.set("from", past7d.toISOString().split(".")[0]);
+        }
+
+        const s = await api("GET", "/api/analytics/summary?" + params.toString());
+        updateKpis(s);
+      }
+    } catch(e) {
+      // Keep calculated demo values
+    }
+  }
+
+
+  
+  window.openEmpProfileFromTop = function(empId) {
+    try {
+      sessionStorage.setItem("returnToEmp", empId);
+    } catch(e) {}
+    location.hash = "#/employees";
+  };
+
+  
+  window.openDialogsByTrigger = function(trigIdx) {
+    location.hash = "#/dialogs?trigger_idx=" + encodeURIComponent(trigIdx);
+    render();
+  };
+
+  window.openIncidentsByStation = function(stationId, trigIdx) {
+    // 1. Set global station in localStorage
+    localStorage.setItem("okkm_global_station", stationId);
+    
+    // 2. Update Topbar selector value if it exists in DOM
+    const sel = document.getElementById("global-station-select");
+    if (sel) sel.value = stationId;
+
+    // 3. Navigate to Dialogs page with trigger index filtered
+    location.hash = `#/dialogs?trigger_idx=${trigIdx}`;
+    render();
+  };
+
+  // ---------- router ----------
+  async function render() {
+    const root = document.getElementById("app");
+    root.innerHTML = "";
+    if (!getToken()) {
+      root.appendChild(viewLogin());
+      return;
+    }
+    const hash = location.hash || "#/overview";
+    const hashWithoutQuery = hash.split("?")[0];
+    const parts = hashWithoutQuery.replace("#/", "").split("/").filter(Boolean);
+    const tab = parts[0];
+    const dialogId = parts[1];
+    const shell = await viewDashboard(tab, render);
+    root.appendChild(shell);
+    const content = shell.querySelector("#content");
+    if (!content) return;
+    try {
+      if (tab === "overview") await pageOverview(content);
+      else if (tab === "dialogs") {
+        if (dialogId) await pageDialogDetail(content, dialogId);
+        else await pageDialogs(content);
+      }
+      else if (tab === "employees") await pageEmployees(content);
+      else if (tab === "settings") await pageSettings(content);
+      else if (tab === "sync") await pageSync(content);
+      else { location.hash = "#/overview"; }
+    } catch (e) {
+      content.innerHTML = `<div class="card" style="border-color:var(--bad);">${e.message}</div>`;
+    }
+  }
+
+  window.addEventListener("hashchange", render);
+  render();
+  </script>

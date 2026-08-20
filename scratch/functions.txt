@@ -1,0 +1,26 @@
+453:  function getToken() { return localStorage.getItem(TOKEN_KEY); }
+454:  function setTokens(at, rt) { localStorage.setItem(TOKEN_KEY, at); localStorage.setItem(REFRESH_KEY, rt); }
+455:  function clearTokens() { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(REFRESH_KEY); }
+505:  function toast(msg, kind="info") {
+515:  function viewLogin() {
+553:  function tabLink(label, href, active) {
+557:  function statusBadge(s) {
+676:  function parseFiltersFromHash() {
+682:  function updateHashFilters(params) {
+1281:    function parseTranscript(text) {
+1307:    function highlightStopWords(text) {
+1514:    function formatTime(secs) {
+1655:  function escapeHtml(s) {
+1765:    function getAvatarColor(name) {
+1770:    function colorPct(v) { return v>=80?"#10B981":v>=50?"#F59E0B":"#EF4444"; }
+1771:    function pctBadge(v) {
+1776:    function getColVal(e, col) {
+1882:    function renderTable() {
+1970:    function showDetail(emp) {
+2116:    function showTriggerDetail(idx, emp, empDialogs) {
+2365:    function renderChecklist(items) {
+2479:    function renderScripts(scripts) {
+2651:    function saveKpiConfig() {
+2658:    function getKpiDef(id) { return ALL_KPIS.find(k => k.id === id); }
+2791:    function renderKpiRow() {
+2946:    function updateKpis(s) {

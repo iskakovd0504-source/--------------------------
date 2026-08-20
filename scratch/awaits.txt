@@ -1,0 +1,43 @@
+463:    const res = await fetch(path, opts);
+474:          const r = await fetch("/api/auth/refresh", {
+480:            const t = await r.json();
+483:            const retry = await fetch(path, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+498:      try { detail = (await res.json()).detail || detail; } catch {}
+537:        const t = await api("POST", "/api/auth/login", { email, password });
+565:        me = await api("GET", "/api/auth/me");
+664:          const r = await api("POST", "/api/sync/run");
+768:        emps = await api("GET", "/api/employees");
+859:          const s = await api("GET", "/api/analytics/summary?" + params.toString());
+957:          items = await api("GET", "/api/dialogs?" + apiParams.toString());
+959:          items = await mockApi.getDialogs();
+962:        items = await mockApi.getDialogs();
+1072:          const settings = await api("GET", "/api/settings/active");
+1255:    await reload();
+1256:    await loadKpis();
+1261:    await showDialog(container, id);
+1268:        d = await api("GET", `/api/dialogs/${id}`);
+1270:        const dlist = await mockApi.getDialogs();
+1274:      const dlist = await mockApi.getDialogs();
+1523:        const r = await api("GET", `/api/dialogs/${d.id}/audio`, undefined, true);
+1528:        const blob = await r.blob();
+1647:        await api("POST", `/api/dialogs/${d.id}/reanalyze`);
+1816:        localEmpList = getToken()!=="demo_access" ? await api("GET", endpoint) : demoEmployees;
+1989:      const allD = await mockApi.getDialogs();
+2206:          await api("PUT",`/api/employees/rfid/${encodeURIComponent(rfid)}`,{display_name:name,office_last:office,badge_label:badge||undefined});
+2219:    await load();
+2540:          const p = await api("GET", "/api/settings/active");
+2576:          await api("PUT", "/api/settings/active", {
+2589:    await load();
+2606:      const s = await api("GET", "/api/sync/status");
+2616:        const r = await api("POST", "/api/sync/run");
+2621:    await refresh();
+2625:    if (!state.settings) state.settings = await mockApi.getSettings();
+2626:    let summaryData = await mockApi.getSummary();
+3226:        const s = await api("GET", "/api/analytics/summary?" + params.toString());
+3275:    const shell = await viewDashboard(tab, render);
+3280:      if (tab === "overview") await pageOverview(content);
+3282:        if (dialogId) await pageDialogDetail(content, dialogId);
+3283:        else await pageDialogs(content);
+3285:      else if (tab === "employees") await pageEmployees(content);
+3286:      else if (tab === "settings") await pageSettings(content);
+3287:      else if (tab === "sync") await pageSync(content);
