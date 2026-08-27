@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>AiProtocol · Питч-дек</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --text:#0B1220;
+    --muted:#51607A;
+    --line:#E4E9F2;
+    --bg:#FFFFFF;
+    --panel:#F3F6FB;
+    --panel-line:#E1E8F2;
+    --accent:#1E6FE0;
+    --accent-dark:#12459E;
+    --fact-fg:#12805C; --fact-bg:#E7F4EF;
+    --plan-fg:#8A6A12; --plan-bg:#FBF3DF;
+    --risk-fg:#B4451F; --risk-bg:#FBEDE8;
+    --dark-bg:#0B1220;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Inter', system-ui, sans-serif;
+    color:var(--text);
+    background:#131B29;
+    font-size:15px;
+    line-height:1.5;
+  }
+  h1,h2,h3,.font-display{ font-family:'Space Grotesk', sans-serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ---------- deck shell ---------- */
+  .deck{ height:100vh; overflow-y:scroll; scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+  .slide{
+    scroll-snap-align:start;
+    width:100vw; height:100vh;
+    background:var(--bg);
+    position:relative;
+    display:flex; flex-direction:column;
+    padding:5.2vh 6.5vw 4.4vh 6.5vw;
+    overflow:hidden;
+    border-bottom:1px solid #0B1220;
+  }
+  .slide.dark{ background:var(--dark-bg); color:#EAF0FB; }
+  .slide.dark .muted{ color:#9FB0CC; }
+
+  .eyebrow{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .num-badge{
+    width:38px; height:38px; border-radius:10px;
+    background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:14px;
+    flex-shrink:0;
+  }
+  .eyebrow .cat{ font-size:12.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+  .slide h2{ font-size:34px; font-weight:700; letter-spacing:-.01em; line-height:1.12; }
+  .slide .subtitle{ color:var(--muted); font-size:15.5px; margin-top:6px; max-width:70ch; }
+  .slide.dark .subtitle{ color:#B9C6DE; }
+
+  .content{ margin-top:26px; flex:1; min-height:0; display:flex; flex-direction:column; gap:18px; }
+  .content > *{ flex-shrink:0; }
+
+  .foot{
+    position:absolute; left:6.5vw; right:6.5vw; bottom:2.6vh;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px; color:#9AA7BE; letter-spacing:.02em;
+  }
+  .foot .brand{ font-weight:600; color:#6B7A94; }
+  .slide.dark .foot{ color:#5D6C88; }
+  .slide.dark .foot .brand{ color:#7C8CAA; }
+
+  /* ---------- nav ---------- */
+  .nav-dots{
+    position:fixed; right:18px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:7px; z-index:50;
+  }
+  .nav-dots a{
+    width:8px; height:8px; border-radius:50%;
+    background:#3A4A66; display:block; transition:all .2s;
+  }
+  .nav-dots a.active{ background:var(--accent); height:22px; border-radius:5px; }
+  .nav-arrows{ position:fixed; right:18px; bottom:18px; display:flex; gap:8px; z-index:50; }
+  .nav-arrows button{
+    width:34px; height:34px; border-radius:8px; border:1px solid #3A4A66;
+    background:#1B2537; color:#EAF0FB; cursor:pointer; font-size:15px;
+  }
+  .nav-arrows button:hover{ background:#26324A; }
+  @media print{ .nav-dots, .nav-arrows{ display:none !important; } }
+
+  /* ---------- components ---------- */
+  .kpis{ display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:14px; }
+  .kpi{ background:var(--panel); border:1px solid var(--panel-line); border-radius:14px; padding:18px 20px; }
+  .kpi .num{ font-family:'JetBrains Mono', monospace; font-size:26px; font-weight:700; color:var(--accent); letter-spacing:-.01em; }
+  .kpi .label{ font-size:12.5px; color:var(--muted); margin-top:5px; line-height:1.35; }
+  .slide.dark .kpi{ background:#18233A; border-color:#28395A; }
+  .slide.dark .kpi .label{ color:#9FB0CC; }
+
+  .tag{ display:inline-block; padding:3px 10px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+  .tag-fact{ background:var(--fact-bg); color:var(--fact-fg); }
+  .tag-plan{ background:var(--plan-bg); color:var(--plan-fg); }
+  .tag-risk{ background:var(--risk-bg); color:var(--risk-fg); }
+
+  .callout{ border-left:4px solid var(--accent); background:#F0F5FE; border-radius:0 12px 12px 0; padding:14px 18px; font-size:13.5px; color:var(--text); }
+  .callout b{ display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:5px; color:var(--accent-dark); }
+  .callout.fact{ border-color:var(--fact-fg); background:var(--fact-bg); }
+  .callout.fact b{ color:var(--fact-fg); }
+  .callout.plan{ border-color:var(--plan-fg); background:var(--plan-bg); }
+  .callout.plan b{ color:var(--plan-fg); }
+  .callout.risk{ border-color:var(--risk-fg); background:var(--risk-bg); }
+  .callout.risk b{ color:var(--risk-fg); }
+
+  .split{ display:grid; grid-template-columns:1.05fr 1fr; gap:34px; }
+  .split3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .card{ background:var(--panel); border:1px solid var(--panel-line); border-radius:14px; padding:18px 20px; }
+  .card h4{ font-family:'Space Grotesk'; font-size:14.5px; margin-bottom:8px; }
+  ul.check{ list-style:none; }
+  ul.check li{ position:relative; padding-left:22px; margin-bottom:9px; font-size:14px; }
+  ul.check li::before{ content:'✓'; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+  table.cmp{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.cmp th, table.cmp td{ padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; }
+  table.cmp th{ font-family:'Space Grotesk'; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  table.cmp td.num{ font-family:'JetBrains Mono', monospace; }
+  table.cmp tr.highlight td{ background:var(--fact-bg); font-weight:600; }
+  #s16 table.cmp td{ padding:5px 12px; }
+  #s16 .content{ gap:10px; }
+  #s16 .kpi{ padding:13px 16px; }
+  #s16 .callout{ padding:10px 16px; }
+  #s8 .content{ gap:13px; }
+  #s8 .card{ padding:14px 18px; }
+  #s8 table.cmp td, #s8 table.cmp th{ padding:6px 12px; }
+  #s8 ul.check li{ margin-bottom:6px; }
+
+  .timeline{ display:flex; gap:0; margin-top:8px; }
+  .tl-pt{ flex:1; position:relative; padding-top:22px; padding-right:14px; }
+  .tl-pt::before{ content:''; position:absolute; top:6px; left:0; right:14px; height:2px; background:var(--line); }
+  .tl-pt::after{ content:''; position:absolute; top:0; left:0; width:13px; height:13px; border-radius:50%; background:var(--accent); border:2px solid #fff; box-shadow:0 0 0 1.5px var(--accent); }
+  .tl-pt .tl-h{ font-family:'JetBrains Mono'; font-weight:700; font-size:12.5px; color:var(--accent-dark); }
+  .tl-pt .tl-b{ font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.4; }
+
+  .bignum{ font-family:'Space Grotesk'; font-weight:700; font-size:48px; letter-spacing:-.02em; }
+  .arrow-flow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .arrow-flow .step{ background:var(--panel); border:1px solid var(--panel-line); border-radius:12px; padding:12px 16px; font-size:13px; flex:1; min-width:150px; }
+  .arrow-flow .step .n{ font-family:'JetBrains Mono'; color:var(--accent); font-weight:700; font-size:11.5px; }
+  .arrow-flow .arrow{ color:var(--muted); font-size:18px; }
+
+  .source-note{ font-size:10.5px; color:var(--muted); margin-top:auto; padding-top:10px; }
+
+  /* ---------- infographic bits ---------- */
+  .hero-compare{ display:flex; align-items:center; justify-content:center; gap:26px; background:var(--panel); border:1px solid var(--panel-line); border-radius:16px; padding:22px 20px; }
+  .hero-compare .hnum{ font-family:'Space Grotesk'; font-weight:700; font-size:44px; letter-spacing:-.02em; }
+  .hero-compare .hnum.before{ color:var(--risk-fg); }
+  .hero-compare .hnum.after{ color:var(--fact-fg); }
+  .hero-compare .hlabel{ font-size:11.5px; color:var(--muted); margin-top:2px; }
+  .hero-compare .harrow{ font-size:22px; color:var(--muted); }
+
+  .bar-row{ display:flex; flex-direction:column; gap:11px; }
+  .bar-item{ display:grid; grid-template-columns:150px 1fr 108px; align-items:center; gap:14px; }
+  .bar-item .bi-label{ font-size:13px; color:var(--text); }
+  .bar-track{ position:relative; background:var(--panel-line); border-radius:6px; height:16px; overflow:hidden; }
+  .bar-fill{ position:absolute; top:0; left:0; height:100%; background:var(--accent); border-radius:6px 0 0 6px; }
+  .bar-fill.dim{ background:#9CBBF0; }
+  .bar-item .bi-pct{ font-family:'JetBrains Mono'; font-size:12px; color:var(--muted); text-align:right; }
+
+  .funnel{ display:flex; flex-direction:column; align-items:center; gap:9px; margin-top:8px; }
+  .funnel-tier{ border-radius:10px; padding:13px 22px; text-align:center; font-size:13.5px; width:100%; }
+  .funnel-tier b{ font-family:'Space Grotesk'; font-size:16px; margin-right:8px; }
+  .funnel-tier .sub{ display:block; font-size:12px; margin-top:2px; opacity:.85; }
+
+  .fund-bar{ display:flex; height:32px; border-radius:8px; overflow:hidden; }
+  .fund-legend{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:10px; }
+  .fund-legend div{ font-size:11px; color:#9FB0CC; }
+  .fund-legend b{ display:block; font-size:15px; color:#EAF0FB; font-family:'JetBrains Mono'; }
+
+  /* ---------- print ---------- */
+  @media print{
+    @page{ size:297mm 167mm; margin:0; }
+    html,body{ background:#fff; }
+    .deck{ height:auto; overflow:visible; }
+    .slide{ width:297mm; height:167mm; page-break-after:always; scroll-snap-align:none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 — ТИТУЛЬНЫЙ -->
+  <section class="slide dark" id="s1">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; max-width:920px;">
+      <div style="font-family:'JetBrains Mono'; font-size:12.5px; letter-spacing:.15em; text-transform:uppercase; color:#6FA0F2; margin-bottom:22px;">AiProtocol · ОККМ</div>
+      <h1 style="font-size:56px; line-height:1.08; font-weight:700; letter-spacing:-.01em;">AI-контроль качества<br>вместо тайного покупателя,<br>который видит &lt;1% диалогов</h1>
+      <p class="subtitle" style="font-size:17px; margin-top:20px; max-width:62ch;">Носимый аудиобейдж + мультимодальный LLM-анализ одним вызовом: 100% смены каждого сотрудника, дашборд руководителю сети ежедневно.</p>
+      <div class="kpis" style="margin-top:40px; max-width:820px;">
+        <div class="kpi"><div class="num">100%</div><div class="label">диалогов анализируется, не выборка</div></div>
+        <div class="kpi"><div class="num">294</div><div class="label">точек в модели года 1 (SOM)</div></div>
+        <div class="kpi"><div class="num">$415 018</div><div class="label">выручка год 1 · MRR дек. $65 921</div></div>
+        <div class="kpi"><div class="num">мес. 4</div><div class="label">операционная безубыточность</div></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>Конфиденциально · не для распространения</span></div>
+  </section>
+
+  <!-- 2 — ПРОБЛЕМА -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><div class="num-badge">02</div><div class="cat">Проблема</div></div>
+    <h2>Руководитель сети не видит 99% того, что происходит на точке</h2>
+    <p class="subtitle">Тайный покупатель — единственный инструмент контроля в рознице Казахстана — физически не масштабируется на тысячи смен в месяц.</p>
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi"><div class="num">&lt;1%</div><div class="label">диалогов в среднем проверяет тайный покупатель по выборке точек</div></div>
+        <div class="kpi"><div class="num">67,5%</div><div class="label">диалогов пилота без попытки допродажи — 27 из 40 проверенных</div></div>
+        <div class="kpi"><div class="num">раз в квартал</div><div class="label">типичная периодичность внешней проверки качества</div></div>
+        <div class="kpi"><div class="num">0</div><div class="label">объективных данных о том, что говорит сотрудник, между проверками</div></div>
+      </div>
+      <div class="callout fact">
+        <b>Реальные данные пилота</b>
+        Проверено 40 диалогов на пилотной точке — в 27 из них (67,5%) сотрудник не предложил дополнительный товар или услугу. Это диагностический факт пилота, а не заявленный эффект продукта: измеренного влияния на выручку клиента у нас пока нет.
+      </div>
+      <div class="callout" style="font-style:italic;">
+        <b>Голос клиента — сеть АЗС KST Trade, пилотная точка</b>
+        «Не видим, соблюдают ли сотрудники скрипт приветствия и прощания — и стабильно теряем допродажи выпечки и кофе на кассе.» — со слов директора и маркетолога сети.
+      </div>
+      <div class="card" style="margin-top:4px;"><h4>Почему это дорого стоит бизнесу</h4>
+        <ul class="check">
+          <li>Руководитель сети принимает решения по 1–2 визитам тайного покупателя в квартал на точку</li>
+          <li>Нарушения скрипта, грубость, невыполнение чек-листа — вскрываются постфактум, по жалобе клиента</li>
+          <li>Обучение и мотивация сотрудников строятся не на данных, а на редких выборочных проверках</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>02 / 16</span></div>
+  </section>
+
+  <!-- 3 — ICP -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><div class="num-badge">03</div><div class="cat">Целевая аудитория</div></div>
+    <h2>Сети с точками, где сотрудник говорит с клиентом лично</h2>
+    <p class="subtitle">Розничные сети Казахстана с живым контактом сотрудник–клиент: аптеки, АЗС, дальше — косметика, детские товары, электроника, одежда.</p>
+    <div class="content">
+      <div class="split">
+        <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600; margin-bottom:10px;">Персона</div>
+          <h4 style="font-size:19px;">Руководитель / собственник сети</h4>
+          <p style="font-size:14px; color:var(--muted); margin-top:6px; line-height:1.55;">Управляет от 10 до 60+ точками в Казахстане, региональный или локальный игрок. Контролирует качество через тайного покупателя раз в квартал и не видит, что происходит на точке в остальное время.</p>
+          <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="tag tag-plan">Цель: удержать клиента и поднять допродажи</span>
+          </div>
+          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="tag tag-risk">Боль: нет данных между визитами тайного покупателя</span>
+          </div>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:14px;">Сегменты SOM года 1</h4>
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:14px;">
+            <div class="bignum" style="color:var(--accent);">60%</div>
+            <div style="font-size:13.5px; color:var(--muted);">Аптеки · режим СМЕНА, 8 ч/день, 1 бейдж на точку</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div class="bignum" style="color:var(--accent);">40%</div>
+            <div style="font-size:13.5px; color:var(--muted);">АЗС · режим НОН-СТОП, 24/7, 2 бейджа посменно</div>
+          </div>
+          <div class="callout" style="margin-top:16px;"><b>Почему концентрация работает</b>2 507 из 9 659 аптек Казахстана контролируются 15 сетями. Путь к тысячам точек — это десятки переговоров с ЛПР сетей, а не тысячи отдельных сделок.</div>
+        </div>
+      </div>
+      <div class="card"><h4>География запуска</h4>
+        <p style="font-size:13.5px; color:var(--muted);">Старт — Костанайская область (текущие пилоты и переговоры), далее Астана и остальные регионы Казахстана.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>03 / 16</span></div>
+  </section>
+
+  <!-- 4 — РЕШЕНИЕ И ТЕХНОЛОГИЯ (merged) -->
+  <section class="slide" id="s4">
+    <div class="eyebrow"><div class="num-badge">04</div><div class="cat">Решение и технология</div></div>
+    <h2>Один бейдж → один вызов LLM → дашборд каждый день</h2>
+    <p class="subtitle">Мультимодальный LLM разбирает диалог одним вызовом — без отдельного шага распознавания речи и без выборки.</p>
+    <div class="content">
+      <div class="arrow-flow">
+        <div class="step"><div class="n">01 · БЕЙДЖ</div>Пишет всю смену — 8, 12 или 24 часа, без вырезания пауз. Китайский ESP32, $102 landed (Китай $70 + логистика/пошлины ≈46%), срок службы ~2 года (допущение).</div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="n">02 · LLM</div>Один мультимодальный вызов: транскрипт (рус/каз) + чек-лист + сводка + оценка по 12+ метрикам. Нет отдельного STT-сервиса — меньше точек отказа, ниже себестоимость.</div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="n">03 · КАБИНЕТ</div>Дашборд по каждой точке и сотруднику — ежедневно, а не раз в квартал.</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="num">100%</div><div class="label">времени смены анализируется — не выборка, у конкурентов ИИ-анализ только со старших тарифов</div></div>
+        <div class="kpi"><div class="num">до −50%</div><div class="label">потенциал снижения себестоимости обработки — найден, тестируется в проде с мес. 3</div></div>
+        <div class="kpi"><div class="num">рус + каз</div><div class="label">локализация распознавания и анализа «из коробки»</div></div>
+        <div class="kpi"><div class="num">60 дней</div><div class="label">хранение аудио; транскрипты и аналитика — бессрочно</div></div>
+      </div>
+      <div class="callout risk"><b>Честно про точность</b>Публичные бенчмарки WER измерены на английском и чистом аудио. На реальном продакшн-аудио с шумом АЗС и акцентами точность обычно ниже на 5–10 п.п. Собственный замер WER на рус/каз пока не проведён — не заявляем цифру точности без него.</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>04 / 16</span></div>
+  </section>
+
+  <!-- 5 — КЛИЕНТСКИЙ ПУТЬ -->
+  <section class="slide" id="s5">
+    <div class="eyebrow"><div class="num-badge">05</div><div class="cat">Клиентский путь</div></div>
+    <h2>От первого касания до дашборда — без риска для клиента</h2>
+    <p class="subtitle">Пилот бесплатный и без обязательств: клиент видит данные своих точек прежде, чем платит.</p>
+    <div class="content" style="justify-content:center;">
+      <div class="timeline">
+        <div class="tl-pt"><div class="tl-h">День 1</div><div class="tl-b">Установка бейджей на точках клиента, юр. пакет (согласие сотрудника, уведомление в кассовой зоне)</div></div>
+        <div class="tl-pt"><div class="tl-h">Дни 1–3</div><div class="tl-b">3-дневный бесплатный пилот, без обязательств продолжения</div></div>
+        <div class="tl-pt"><div class="tl-h">После пилота</div><div class="tl-b">Разбор результатов с руководителем сети, подписание контракта на 12 месяцев</div></div>
+        <div class="tl-pt"><div class="tl-h">Оплата</div><div class="tl-b">Предоплата за квартал вперёд, тариф зафиксирован в тенге на весь срок</div></div>
+        <div class="tl-pt"><div class="tl-h">Далее — ежедневно</div><div class="tl-b">Автоматический анализ 100% смен, дашборд и отчёты в личном кабинете</div></div>
+      </div>
+      <div class="callout plan" style="margin-top:30px;"><b>Итог для клиента</b>Через 3 дня — точные данные по своим точкам без вложений и без риска; после подписания — объективный контроль каждый день вместо визита раз в квартал.</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>05 / 16</span></div>
+  </section>
+
+  <!-- 6 — УТП -->
+  <section class="slide" id="s6">
+    <div class="eyebrow"><div class="num-badge">06</div><div class="cat">УТП</div></div>
+    <h2>Дешевле конкурента, локализовано, без выборки</h2>
+    <p class="subtitle">Единственное локализованное на рус/каз решение с полным (100%) покрытием смены дешевле сравнимого тарифа конкурента.</p>
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi"><div class="num">до −27%</div><div class="label">дешевле топового тарифа EXPERT конкурента — и это наш базовый уровень функциональности</div></div>
+        <div class="kpi"><div class="num">100%</div><div class="label">смены анализируется — не выборка и не «по ключевым словам»</div></div>
+        <div class="kpi"><div class="num">рус / каз</div><div class="label">полная локализация распознавания и анализа "из коробки"</div></div>
+        <div class="kpi"><div class="num">12 мес</div><div class="label">фиксация тарифа в тенге — против минимума в 3 мес у конкурента</div></div>
+      </div>
+      <div class="callout"><b>Важно</b>По голым тенге младший тариф VocaTech PRO местами дешевле нашего (до +23% на пакетах ДЕНЬ/НОН-СТОП) — но у них ИИ-анализ появляется только с PRO, а кастомные метрики и полное покрытие смены — только с EXPERT. У AiProtocol этот уровень входит в базовый тариф с первого дня, и даже так на сопоставимых конфигурациях мы дешевле EXPERT.</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>06 / 16</span></div>
+  </section>
+
+  <!-- 7 — ДО/ПОСЛЕ -->
+  <section class="slide" id="s7">
+    <div class="eyebrow"><div class="num-badge">07</div><div class="cat">Бизнес-эффект</div></div>
+    <h2>До и после: от выборки раз в квартал к 100% ежедневно</h2>
+    <p class="subtitle">Проверенные целевые метрики модели — измеренного влияния на выручку клиента пока нет, это горизонт следующих пилотов.</p>
+    <div class="content">
+      <div class="hero-compare">
+        <div style="text-align:center;"><div class="hnum before">&lt;1%</div><div class="hlabel">охват диалогов до</div></div>
+        <div class="harrow">→</div>
+        <div style="text-align:center;"><div class="hnum after">100%</div><div class="hlabel">охват диалогов после</div></div>
+      </div>
+      <table class="cmp">
+        <tr><th>Параметр</th><th>❌ До (тайный покупатель)</th><th>✅ После (AiProtocol)</th></tr>
+        <tr><td>Периодичность</td><td class="num">1 раз / квартал</td><td class="num">ежедневно</td></tr>
+        <tr><td>Данные о допродажах</td><td class="num">не фиксируются</td><td class="num">по каждому диалогу</td></tr>
+        <tr><td>Реакция на нарушение</td><td class="num">постфактум, по жалобе</td><td class="num">на следующий день</td></tr>
+        <tr class="highlight"><td>Стоимость 1 часа контроля</td><td class="num">—</td><td class="num">$0,54 / час анализа</td></tr>
+      </table>
+      <div class="kpis">
+        <div class="kpi"><div class="num">66%</div><div class="label">целевая валовая маржа после оптимизации себестоимости обработки (сейчас 39%)</div></div>
+        <div class="kpi"><div class="num">мес. 4</div><div class="label">операционная безубыточность модели</div></div>
+      </div>
+      <div class="callout risk"><b>Честно</b>Влияние на выручку клиента пока не измерено и не заявляется — подробности пилотов на слайдах «Проблема» и «Трекшн».</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>07 / 16</span></div>
+  </section>
+
+  <!-- 8 — БИЗНЕС-МОДЕЛЬ -->
+  <section class="slide" id="s8">
+    <div class="eyebrow"><div class="num-badge">08</div><div class="cat">Бизнес-модель</div></div>
+    <h2>Тариф по объёму анализа, а не по устройству</h2>
+    <p class="subtitle">Аренда бейджа + сервис аналитики. Оборудование не продаётся — вся выручка идёт как приоритетный ИКТ-доход.</p>
+    <div class="content">
+      <div class="split3">
+        <div class="card"><h4>СМЕНА</h4><div class="bignum" style="font-size:28px;">65 000 ₸</div><div style="font-size:12px; color:var(--muted); margin-top:6px;">8 ч/день · до 250 ч · 1 бейдж</div></div>
+        <div class="card" style="border-color:var(--accent); border-width:2px;"><h4>ДЕНЬ <span class="tag tag-fact" style="margin-left:6px;">основной</span></h4><div class="bignum" style="font-size:28px;">85 000 ₸</div><div style="font-size:12px; color:var(--muted); margin-top:6px;">12 ч/день · до 400 ч · 1 бейдж</div></div>
+        <div class="card"><h4>НОН-СТОП</h4><div class="bignum" style="font-size:28px;">170 000 ₸</div><div style="font-size:12px; color:var(--muted); margin-top:6px;">24/7 · до 750 ч · 2 бейджа</div></div>
+      </div>
+      <div class="card">
+        <h4>Опция: бейдж в собственность клиента</h4>
+        <p style="font-size:12px; color:var(--muted); margin-bottom:8px;">Сервисный тариф −10% на весь срок договора + разовая стоимость оборудования</p>
+        <table class="cmp" style="font-size:12.5px;">
+          <tr><th>Пакет</th><th>Сервис (−10%)</th><th>Бейдж разово — китайский</th><th>Бейдж разово — Октава</th></tr>
+          <tr><td>СМЕНА</td><td class="num">58 500 ₸/мес</td><td class="num">100 000 ₸</td><td class="num">уточняется</td></tr>
+          <tr><td>ДЕНЬ</td><td class="num">76 500 ₸/мес</td><td class="num">100 000 ₸</td><td class="num">уточняется</td></tr>
+          <tr><td>НОН-СТОП</td><td class="num">153 000 ₸/мес</td><td class="num">200 000 ₸ (2 шт.)</td><td class="num">уточняется</td></tr>
+        </table>
+      </div>
+      <div class="split" style="flex:none;">
+        <div class="card"><h4>Условия контракта</h4>
+          <ul class="check">
+            <li>12 месяцев, тариф зафиксирован в тенге; пересмотр только при отклонении курса &gt;15%</li>
+            <li>Оплата поквартально вперёд, первый платёж — после 3-дневного пилота</li>
+            <li>Сверх пакета часов — 250 ₸/час; АНАЛИТИКА на своём оборудовании клиента — от 45 000 ₸</li>
+          </ul>
+        </div>
+        <div class="card"><h4>Путь монетизации</h4>
+          <p style="font-size:12.5px; color:var(--muted); line-height:1.5;">Пилот бесплатный → ДЕНЬ как основной тариф для 12-часовых точек → апсейл в НОН-СТОП при переходе на круглосуточный режим → покупка бейджа — для клиентов, готовых зафиксировать актив у себя на балансе.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>08 / 16</span></div>
+  </section>
+
+  <!-- 9 — UNIT ECONOMICS -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><div class="num-badge">09</div><div class="cat">Unit Economics</div></div>
+    <h2>Тарификация за час делает маржу одинаковой на любом типе точки</h2>
+    <p class="subtitle">Себестоимость измеряется в часах аудио — поэтому и тариф считается в часах, а не за устройство.</p>
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi"><div class="num">$106</div><div class="label">CAC — через тёплую базу основателей, на холодном рынке вырастет кратно</div></div>
+        <div class="kpi"><div class="num">≈$1 270</div><div class="label">LTV на точку за 12-месячный контракт (при базовой себестоимости)</div></div>
+        <div class="kpi"><div class="num">~12×</div><div class="label">LTV/CAC при норме 3× — показатель завышен тёплыми продажами, пишем честно</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-item"><div class="bi-label">Аптека · СМЕНА</div><div class="bar-track"><div class="bar-fill dim" style="width:54%"></div><div class="bar-fill" style="left:54%; width:23%;"></div></div><div class="bi-pct">54% → 77%</div></div>
+        <div class="bar-item"><div class="bi-label">Магазин · ДЕНЬ</div><div class="bar-track"><div class="bar-fill dim" style="width:39%"></div><div class="bar-fill" style="left:39%; width:31%;"></div></div><div class="bi-pct">39% → 70%</div></div>
+        <div class="bar-item"><div class="bi-label">АЗС · НОН-СТОП</div><div class="bar-track"><div class="bar-fill dim" style="width:39%"></div><div class="bar-fill" style="left:39%; width:31%;"></div></div><div class="bi-pct">39% → 70%</div></div>
+      </div>
+      <div class="callout"><b>Почему это важно</b>НОН-СТОП тарифицируется ровно 2× от ДЕНЬ (170 000 = 2×85 000 ₸), поэтому их маржа совпадает. СМЕНА даёт заметно более высокую маржу — эффективная ставка за час у 8-часового пакета выше, чем у 12-часового и круглосуточного.</div>
+      <div class="callout plan"><b>Почему это защитимо на дистанции</b>12-месячный контракт с фиксацией цены — переход к конкуренту стоит клиенту нового цикла согласований. Локализация рус/каз и наработанные отношения с ЛПР сетей растут быстрее, чем их может скопировать конкурент. Это ров исполнения и локальных отношений, а не технологический — называем честно, LLM доступен всем.</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>09 / 16</span></div>
+  </section>
+
+  <!-- 10 — РЫНОК -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><div class="num-badge">10</div><div class="cat">Рынок</div></div>
+    <h2>TAM / SAM / SOM: рынок Казахстана</h2>
+    <p class="subtitle">Собственное исследование показало, что рынок в исходных расчётах был занижен примерно втрое — приводим пересчитанные цифры и источники.</p>
+    <div class="content">
+      <div class="funnel">
+        <div class="funnel-tier" style="width:100%; background:#DCE8FB; color:var(--accent-dark);"><b>TAM</b>200 000+ точек<span class="sub">Казахстан, живой контакт сотрудник–клиент · ≈$359 млн/год</span></div>
+        <div class="funnel-tier" style="width:64%; background:#8FB6F2; color:#0B1220;"><b>SAM</b>≈20 500 точек<span class="sub">аптеки, АЗС, космет., электроника · ≈$28 млн/год</span></div>
+        <div class="funnel-tier" style="width:34%; background:var(--accent); color:#fff;"><b>SOM год 1</b>294 точки<span class="sub">$415 018 · ~1,4% от SAM</span></div>
+      </div>
+      <table class="cmp">
+        <tr><th>Показатель</th><th>Значение</th><th>Источник</th></tr>
+        <tr><td>Розничных точек в Казахстане</td><td class="num">200 000+</td><td>INFOLine, начало 2025</td></tr>
+        <tr><td>Аптек всего / под ТОП-15 сетей</td><td class="num">9 659 / 2 507</td><td>Vi-ORTIS, конец 2025</td></tr>
+        <tr><td>АЗС в Казахстане</td><td class="num">≈3 900</td><td>Бюро нацстатистики, 2020</td></tr>
+      </table>
+      <p class="source-note">Экспансия за пределы Казахстана в модель года 1 не заложена и в текущем раунде не заявляется.</p>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>10 / 16</span></div>
+  </section>
+
+  <!-- 11 — КОНКУРЕНТЫ -->
+  <section class="slide" id="s11">
+    <div class="eyebrow"><div class="num-badge">11</div><div class="cat">Конкуренты</div></div>
+    <h2>Дешевле там, где у конкурента то же самое — с цифрами</h2>
+    <p class="subtitle">VocaTech.kz — прямой конкурент, встречен на той же пилотной АЗС. Категория уже валидирована крупными игроками и деньгами инвесторов.</p>
+    <div class="content">
+      <table class="cmp">
+        <tr><th>Сценарий</th><th>VocaTech PRO</th><th>VocaTech EXPERT</th><th>AiProtocol</th><th>Разница</th></tr>
+        <tr><td>Аптека, 8 ч, 1 бейдж (СМЕНА)</td><td class="num">69 000 ₸</td><td class="num">89 000 ₸</td><td class="num">65 000 ₸</td><td class="num">−5,8% / −27,0%</td></tr>
+        <tr><td>Магазин, 12 ч, 1 бейдж (ДЕНЬ)</td><td class="num">69 000 ₸</td><td class="num">89 000 ₸</td><td class="num">85 000 ₸</td><td class="num">+23,2% / −4,5%</td></tr>
+        <tr class="highlight"><td>АЗС 24/7, 2 бейджа (НОН-СТОП)</td><td class="num">138 000 ₸</td><td class="num">178 000 ₸</td><td class="num">170 000 ₸</td><td class="num">+23,2% / −4,5%</td></tr>
+      </table>
+      <div class="split" style="flex:none;">
+        <div class="card"><h4>Честно о позиции по цене</h4>
+          <p style="font-size:13px; color:var(--muted); line-height:1.5;">По голым тенге младший тариф VocaTech PRO местами дешевле нас — но его ИИ-анализ работает только «по ключевым словам», без полноценного разбора диалога. Сравнивать нужно с их топовым EXPERT — здесь мы дешевле на всех конфигурациях (−4,5%…−27%) и при этом даём 100% покрытия смены, а не выборку.</p>
+        </div>
+        <div class="card"><h4>Категория уже валидирована — и деньгами</h4>
+          <p style="font-size:12.5px; color:var(--muted); line-height:1.55;">На той же пилотной АЗС параллельно присутствовал VocaTech.kz — конкуренция за клиента уже идёт деньгами, а не гипотезой. Билайн Бизнес продаёт аудиобейджи в России и уже работает в Казахстане как оператор — запуск здесь вопрос решения, не разработки. Смежное подтверждение: 4sell.ai (AI-контроль качества в HoReCa) привлёк $400 тыс. от MOST Accelerator Fund, MA7 Ventures и Axiom Capital при оценке $4 млн — категория финансируется венчурами, а сегмент аптек и АЗС пока свободен.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>11 / 16</span></div>
+  </section>
+
+  <!-- 12 — ТРЕКШН -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><div class="num-badge">12</div><div class="cat">Трекшн и валидация</div></div>
+    <h2>Продукт технически работает — коммерческого трекшна пока нет</h2>
+    <p class="subtitle">Прямо и без смягчений: это единственная причина, по которой остальным цифрам можно верить.</p>
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi"><div class="tag tag-fact">факт</div><div class="num" style="margin-top:8px;">2</div><div class="label">пилота проведены: АЗС (2 недели, 24/7) и аптека (5×8)</div></div>
+        <div class="kpi"><div class="tag tag-fact">факт</div><div class="num" style="margin-top:8px;">40 / 27</div><div class="label">диалогов проверено на пилоте / без допродажи (67,5%)</div></div>
+        <div class="kpi"><div class="tag tag-risk">открыто</div><div class="num" style="margin-top:8px;">0</div><div class="label">подписанных контрактов, юрлицо пока не зарегистрировано</div></div>
+        <div class="kpi"><div class="tag tag-plan">план</div><div class="num" style="margin-top:8px;">до 90</div><div class="label">точек в переговорах (сети АЗС и аптек) — это воронка, не охват пилота</div></div>
+      </div>
+      <div class="callout fact"><b>Что действительно подтверждено</b>Техническая работоспособность пайплайна бейдж → LLM → дашборд подтверждена на реальном аудио двух форматов точек (24/7 и 5×8) — подробности диагностики на слайде «Проблема».</div>
+      <div class="callout risk"><b>Что не заявляем</b>«60 АЗС» и «30 аптек» — размер сетей, с которыми ведутся переговоры, а не количество точек, прошедших пилот. Измеренного эффекта на выручку клиента на горизонте 2 недель нет и не заявляется.</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>12 / 16</span></div>
+  </section>
+
+  <!-- 13 — ROADMAP -->
+  <section class="slide" id="s13">
+    <div class="eyebrow"><div class="num-badge">13</div><div class="cat">Roadmap развёртывания</div></div>
+    <h2>Рост ограничен мощностью монтажа, а не спросом</h2>
+    <p class="subtitle">План развёртывания построен от количества людей, способных физически установить оборудование — не от целевой выручки.</p>
+    <div class="content" style="justify-content:center;">
+      <div class="timeline">
+        <div class="tl-pt"><div class="tl-h">Мес. 1–2</div><div class="tl-b">2 основателя на машине · 10–15 точек/мес · Костанай и область</div></div>
+        <div class="tl-pt"><div class="tl-h">Мес. 3–4</div><div class="tl-b">+2 техника · 25–30 точек/мес · выход на Астану</div></div>
+        <div class="tl-pt"><div class="tl-h">Мес. 5–7</div><div class="tl-b">+2 техника в Астане · 35 точек/мес · два города параллельно</div></div>
+        <div class="tl-pt"><div class="tl-h">Мес. 8–12</div><div class="tl-b">Полная команда + 2 продажника · 25–30 точек/мес</div></div>
+      </div>
+      <div class="kpis" style="margin-top:10px;">
+        <div class="kpi"><div class="num">294</div><div class="label">активных точек к концу месяца 12</div></div>
+        <div class="kpi"><div class="num">412</div><div class="label">бейджей в парке к концу года</div></div>
+        <div class="kpi"><div class="num">763 734</div><div class="label">часов проанализировано за год</div></div>
+        <div class="kpi"><div class="num">$65 921</div><div class="label">MRR в декабре</div></div>
+      </div>
+      <div class="card" style="margin-top:2px;"><h4>Продукт: что дальше</h4>
+        <p style="font-size:13px; color:var(--muted); line-height:1.5;">Параллельно с физическим разворачиванием — self-service личный кабинет (клиент сам подключает точки и настраивает чек-листы без участия команды) и расширение языков распознавания сверх рус/каз.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>13 / 16</span></div>
+  </section>
+
+  <!-- 14 — GTM -->
+  <section class="slide" id="s14">
+    <div class="eyebrow"><div class="num-badge">14</div><div class="cat">GTM — Go-to-Market</div></div>
+    <h2>Аптеки и АЗС — быстрый вход в рынок 20 500 точек</h2>
+    <p class="subtitle">Та же логика концентрации, что и в ICP: десятки переговоров с ЛПР, а не тысячи сделок. Год 1 — аптеки и АЗС; SAM шире и включает косметику, электронику, одежду и детские товары.</p>
+    <div class="content">
+      <div class="split3">
+        <div class="card"><h4>Фаза 1 · мес. 1–2</h4><p style="font-size:13px; color:var(--muted); margin-top:6px;">Тёплая база, личные переговоры с ЛПР, референс с пилотов. 10 → 25 точек, Костанайская область.</p></div>
+        <div class="card"><h4>Фаза 2 · мес. 3–7</h4><p style="font-size:13px; color:var(--muted); margin-top:6px;">Выход в Астану параллельно с Костанаем, наращивание якорной сети АЗС поэтапно 10 → 30 → 60. 49 → 177 точек.</p></div>
+        <div class="card"><h4>Фаза 3 · мес. 8–12</h4><p style="font-size:13px; color:var(--muted); margin-top:6px;">Полное покрытие аптек и АЗС по регионам Казахстана. 203 → 294 точки.</p></div>
+      </div>
+      <div class="split" style="flex:none;">
+        <div class="card"><h4>Каналы</h4>
+          <ul class="check">
+            <li>Прямые переговоры с ЛПР сетей через тёплую базу основателей</li>
+            <li>Референсы и логотипы клиентов после пилотов (с их согласия)</li>
+            <li>Агентское партнёрство по дистрибуции оборудования («Октава»)</li>
+            <li>После якорного сегмента — та же модель продаж в смежных вертикалях SAM (косметика, электроника, одежда, детские товары)</li>
+          </ul>
+        </div>
+        <div class="card"><h4>Якорная сеть — поэтапно</h4>
+          <p style="font-size:13px; color:var(--muted); line-height:1.6;">60 круглосуточных АЗС в регионе. Разворачиваем не сразу: этап 1 — 10 точек (измеренный эффект за 30 дней), этап 2 — 30 точек (подтверждение на расширенной выборке), этап 3 — полное покрытие 60 точек.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>14 / 16</span></div>
+  </section>
+
+  <!-- 15 — КОМАНДА -->
+  <section class="slide" id="s15">
+    <div class="eyebrow"><div class="num-badge">15</div><div class="cat">Команда</div></div>
+    <h2>Продажник, который уже вырастил похожий продукт</h2>
+    <p class="subtitle">Инвесторы вкладывают в людей — вот почему именно эта команда доведёт план до исполнения.</p>
+    <div class="content">
+      <div class="split">
+        <div class="card">
+          <h4 style="font-size:17px;">Дмитрий Искаков — CEO &amp; Founder</h4>
+          <p style="font-size:13.5px; color:var(--muted); margin-top:8px; line-height:1.6;">Стратегия, продажи, переговоры с ЛПР. В материнской компании Aitomaton — 1 год фултайм и 2 года партайм, привлёк первый имиджевый контракт и затем ~80% всех контрактов компании. Продукт ОККМ передан ему решением собрания учредителей Aitomaton за вклад в продажи.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:17px;">CTO</h4>
+          <p style="font-size:13.5px; color:var(--muted); margin-top:8px; line-height:1.6;">AI/ML и full-stack инженер. Платформу изначально разработал CTO материнской компании Aitomaton; передача прав и переходный период поддержки — часть закрытия юридической структуры сделки.</p>
+        </div>
+      </div>
+      <div class="callout"><b>Материнская компания</b>Aitomaton — команда 20 человек, есть сторонние инвесторы, оценка компании $5 млн. Aitomaton передаёт ОККМ исключительные права на платформу в обмен на долю в AiProtocol.</div>
+      <div class="callout plan"><b>Контакты</b>Дмитрий Искаков · +7 777 555 67 89 · t.me/ISKAKOVDMITRIY · instagram.com/iskakov_dmitriy · aiprotocol.kz</div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>15 / 16</span></div>
+  </section>
+
+  <!-- 16 — THE ASK -->
+  <section class="slide dark" id="s16">
+    <div class="eyebrow"><div class="num-badge" style="background:#2E7DF0;">16</div><div class="cat" style="color:#93B4EE;">The Ask</div></div>
+    <h2 style="color:#fff;">Bridge $40 000 — 4 месяца до операционной безубыточности</h2>
+    <p class="subtitle">Средства нужны на первые месяцы разворачивания, пока выручка не догонит расходы. Раунд на масштабирование сейчас не запрашивается.</p>
+    <div class="content" style="gap:14px;">
+      <div class="kpis">
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">$40 000</div><div class="label" style="color:#9FB0CC;">bridge от стратегического партнёра, месяц 1</div></div>
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">≈$6–8K</div><div class="label" style="color:#9FB0CC;">минимум кассы, без оптимизации себестоимости, ≈месяц 6</div></div>
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">≈$21–25K</div><div class="label" style="color:#9FB0CC;">минимум кассы, с оптимизацией себестоимости с мес. 3</div></div>
+      </div>
+      <div class="callout plan"><b>Почему именно $40 000</b>Сумма рассчитана по помесячной финмодели с запасом: даже в консервативном сценарии касса не опускается ниже $6–8 тыс. и этого хватает на весь год без обращения за дополнительным раундом — при условии что темп разворачивания (10→15→25→30 точек/мес) и отток 2%/мес идут по плану. Полная помесячная финмодель и бизнес-план — по запросу.</div>
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:#7C8CAA; font-weight:600;">Предлагаемое использование $40 000</div>
+      <div class="fund-bar">
+        <div style="width:45%; background:#2E7DF0;"></div>
+        <div style="width:30%; background:#4E93F5;"></div>
+        <div style="width:12.5%; background:#7FB0FA;"></div>
+        <div style="width:7.5%; background:#A9C9FC;"></div>
+        <div style="width:5%; background:#D3E3FD;"></div>
+      </div>
+      <div class="fund-legend">
+        <div><b>45%</b>Операционный буфер</div>
+        <div><b>30%</b>Закупка бейджей</div>
+        <div><b>12,5%</b>Продажи, выезды к ЛПР</div>
+        <div><b>7,5%</b>Резерв</div>
+        <div><b>5,0%</b>Юр. база: ТОО + Astana Hub</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">294 точки</div><div class="label" style="color:#9FB0CC;">цель на 12 месяцев</div></div>
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">$65 921</div><div class="label" style="color:#9FB0CC;">MRR к декабрю</div></div>
+        <div class="kpi" style="background:#18233A; border-color:#28395A;"><div class="num">мес. 4</div><div class="label" style="color:#9FB0CC;">операционная безубыточность</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; border-top:1px solid #28395A; padding-top:10px;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAACW0lEQVR4nO2bQYrjMBBFX7UEWcowB+ijyDfrq9lHyQEGrGWDzJ+FZJPMYugMpCPo0iIL+y0+FCr9+nJMfHGtb18lwVFHHX2DYn3N7MY6gc2A2QTHqziIVkcJkqSjJZaIlmJGvkbIkqTtuQIcfQjtu4cgm1PF7L3COkHbefPTBTj6H+hu0rabdL2IrPrtAhx9AA2yuVwEqQIlfrsAR/+5WkH6mVV+Va1TgHUOlXUKQBJQnifA0QdQuoUAyFvQ3z99BWl5uVZH0f1qzxYA0t0br9brUaQtSEuqkDeaZSdvQVoALcmrNQ7aqgWp9rpJFS2EPmVlHS+8WmOg3bLbzG4A2JwqrO/dwbfxawytPxttntBInyZKqAYgSqyWrxcZBNkzBTj6oMuoRzvkdIKpnlbjaIzeCV+P3gzAAtD6/mlQLgJCbc+znifA0YdT3Z68F+tNL6tC1qd5Bj8USp+ykqQlSS10Pw29llS7jfdOOARaYjuj7GPbjdXM2uTV1xlojKD1h6PxSHANrQaiTBzGEIy0R+VrrANodfScjtWT9zMdlDYOO+iecAz0dm/BTsvg87JHDk/4XAGOPr63zpvH7ijoOSFtBvOccAz0LoPfODrhWbJzbPZqDYDe3W+p2/jm6s9LLnfwo6A3x5NRph4RQqiigCi74Z5wEPRIdQkVUo2WBVrn3USL5EPtafzLtTp696FMmdA6/Y7K2qNBqAa+twZFU8U+rhGb6df9N6faYFp/JHr3zRMAqUbWlu7uJpLwTjgSurecvd2TrHa5SXVvcvkxtP5s1PwfQY46+hT0D6vbofNO8Ib+AAAAAElFTkSuQmCC" style="width:70px; height:70px; border-radius:8px; background:#fff; padding:4px;" />
+        <div>
+          <div style="font-size:14px; color:#fff; font-weight:600; margin-bottom:3px;">Спасибо! Демо-кабинет — по QR-коду или aiprotocol.kz/demo.html</div>
+          <div style="font-size:13px; color:#93A6C7;">Дмитрий Искаков · CEO &amp; Founder · +7 777 555 67 89 · t.me/ISKAKOVDMITRIY · aiprotocol.kz</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot" style="color:#5D6C88;"><span class="brand" style="color:#7C8CAA;">AiProtocol.kz</span><span>16 / 16</span></div>
+  </section>
+
+</div>
+
+<div class="nav-dots" id="navDots"></div>
+<div class="nav-arrows">
+  <button id="prevBtn" aria-label="Предыдущий слайд">↑</button>
+  <button id="nextBtn" aria-label="Следующий слайд">↓</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const deck = document.getElementById('deck');
+  const dotsWrap = document.getElementById('navDots');
+  slides.forEach((s, i) => {
+    const a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.title = (i+1) + ' / ' + slides.length;
+    dotsWrap.appendChild(a);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function currentIndex(){
+    let idx = 0, best = Infinity;
+    slides.forEach((s,i)=>{
+      const r = Math.abs(s.getBoundingClientRect().top);
+      if (r < best){ best = r; idx = i; }
+    });
+    return idx;
+  }
+  function updateDots(){
+    const idx = currentIndex();
+    dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+  }
+  deck.addEventListener('scroll', ()=> requestAnimationFrame(updateDots));
+  updateDots();
+
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    const idx = Math.min(currentIndex()+1, slides.length-1);
+    slides[idx].scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    const idx = Math.max(currentIndex()-1, 0);
+    slides[idx].scrollIntoView({behavior:'smooth'});
+  });
+  window.addEventListener('keydown', (e)=>{
+    if (['ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); document.getElementById('nextBtn').click(); }
+    if (['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); document.getElementById('prevBtn').click(); }
+  });
+</script>
+</body>
+</html>

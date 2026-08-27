@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>AiProtocol · Питч-дек (Light Premium)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-color: #F8FAFC;      
+    --slide-bg: #FFFFFF;      
+    --text-main: #0F172A;     
+    --text-muted: #64748B;    
+    --accent: #2563EB;        
+    --accent-glow: rgba(37, 99, 235, 0.15);
+    --card-bg: #FFFFFF;
+    --card-border: #E2E8F0;   
+    --fact-color: #059669;    
+    --fact-bg: #ECFDF5;
+    --plan-color: #D97706;    
+    --plan-bg: #FFFBEB;
+    --risk-color: #DC2626;    
+    --risk-bg: #FEF2F2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow: hidden; 
+  }
+
+  h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+  h1 { 
+    font-size: 3.5rem; 
+    font-weight: 700; 
+    line-height: 1.1; 
+    letter-spacing: -0.04em; 
+    margin-bottom: 1.5rem; 
+    background: linear-gradient(135deg, #0F172A, #334155); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+  }
+  h2 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem; color: #0F172A; }
+  .subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin-bottom: 2.5rem; line-height: 1.6; font-weight: 400; }
+  
+  .deck { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .slide {
+    scroll-snap-align: start;
+    width: 100vw; height: 100vh;
+    padding: 6vh 8vw;
+    position: relative;
+    display: flex; flex-direction: column;
+    background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.04), transparent 60%), var(--slide-bg);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; }
+  .num-badge {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2);
+    color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .eyebrow .cat { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; }
+  
+  .logo-placeholder { display: flex; align-items: center; gap: 12px; }
+  .logo-placeholder img { height: 32px; }
+
+  .content { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .split3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .kpi, .card, .flow-step {
+    background: var(--card-bg); 
+    border: 1px solid var(--card-border); 
+    border-radius: 20px; 
+    padding: 1.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .kpi:hover, .card:hover, .flow-step:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+    border-color: #CBD5E1; 
+  }
+  
+  .kpi .num { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1; letter-spacing: -0.02em; }
+  .kpi .num.accent { color: var(--accent); }
+  .kpi .label { font-size: 1rem; color: var(--text-muted); line-height: 1.5; font-weight: 500; }
+
+  .card h4 { font-size: 1.35rem; margin-bottom: 1rem; color: var(--text-main); }
+  
+  ul.check { list-style: none; }
+  ul.check li { position: relative; padding-left: 28px; margin-bottom: 12px; font-size: 1.05rem; color: var(--text-muted); }
+  ul.check li::before { content: '✦'; position: absolute; left: 0; color: var(--accent); font-size: 1.1rem; top: -1px; }
+
+  .callout {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 1.25rem 1.5rem; border-radius: 16px; border-left: 4px solid var(--accent);
+    background: rgba(37, 99, 235, 0.05); font-size: 1rem; color: var(--text-main);
+  }
+  .callout b { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); }
+  .callout.fact { border-left-color: var(--fact-color); background: var(--fact-bg); }
+  .callout.fact b { color: var(--fact-color); }
+  .callout.risk { border-left-color: var(--risk-color); background: var(--risk-bg); }
+  .callout.risk b { color: var(--risk-color); }
+
+  table.cmp { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  table.cmp th, table.cmp td { padding: 1.25rem 1rem; border-bottom: 1px solid var(--card-border); text-align: left; color: var(--text-main); }
+  table.cmp th { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; color: var(--text-muted); border-bottom: 2px solid var(--card-border); }
+  table.cmp td.num { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  table.cmp tr.highlight { background: #F1F5F9; }
+  table.cmp tr.highlight td { color: #0F172A; font-weight: 700; border-bottom: none; }
+  table.cmp tr.highlight td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+  table.cmp tr.highlight td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+
+  /* Flow Diagram */
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 1rem; }
+  .flow-step .step-num { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 0.05em; }
+  .flow-arrow { color: #CBD5E1; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
+  .step-img { width: 100%; height: 140px; border-radius: 12px; margin-bottom: 1.25rem; background: var(--bg-color); border: 1px solid var(--card-border); }
+
+  /* Roadmap Infographic */
+  .roadmap-visual { display: flex; justify-content: space-between; align-items: flex-start; position: relative; padding-top: 40px; margin-bottom: 2.5rem; }
+  .roadmap-line { position: absolute; top: 64px; left: 10%; width: 80%; height: 4px; background: linear-gradient(90deg, var(--accent) 0%, var(--card-border) 100%); z-index: 0; border-radius: 2px; }
+  .rm-node { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; padding: 0 15px; }
+  .rm-circle { width: 52px; height: 52px; background: #fff; border: 3px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--text-main); box-shadow: 0 0 0 6px var(--bg-color), 0 4px 10px rgba(37,99,235,0.2); margin-bottom: 1.25rem; }
+  .rm-node.active .rm-circle { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .rm-node h4 { font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.5rem; }
+  .rm-node p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* Hero Section */
+  .hero-dash { transform: perspective(1000px) rotateY(-10deg) rotateX(2deg) scale(1.05); box-shadow: -20px 20px 40px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--card-border); z-index: 1; transition: transform 0.5s ease; }
+  .hero-dash:hover { transform: perspective(1000px) rotateY(-5deg) scale(1.08); }
+
+  .foot { position: absolute; bottom: 2.5rem; left: 8vw; right: 8vw; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .foot .brand { color: var(--text-main); font-weight: 700; }
+
+  .nav-dots { position: fixed; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
+  .nav-dots a { width: 8px; height: 8px; border-radius: 50%; background: #CBD5E1; transition: 0.3s ease; }
+  .nav-dots a.active { background: var(--accent); height: 28px; border-radius: 4px; box-shadow: 0 0 0 4px var(--accent-glow); }
+
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .tag.blue { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
+  .tag.green { background: #ECFDF5; color: #059669; }
+
+  /* Настройки для идеального экспорта в PDF */
+  @media print {
+    @page { size: 1920px 1080px; margin: 0; }
+    body, html, .deck {
+      height: auto !important;
+      overflow: visible !important;
+      scroll-snap-type: none !important;
+      background-color: var(--bg-color) !important;
+    }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .slide {
+      page-break-after: always !important;
+      page-break-inside: avoid !important;
+      height: 1080px !important;
+      width: 1920px !important;
+      position: relative !important;
+      display: flex !important;
+    }
+    .nav-dots { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 - ТИТУЛЬНЫЙ СЛАЙД -->
+  <section class="slide" id="s1">
+    <div class="header-row">
+      <div class="logo-placeholder">
+        <img src="assets/logo.svg" alt="AiProtocol">
+      </div>
+      <!-- Место под логотип партнера -->
+      <div style="display:flex; gap: 15px; opacity: 0.5;">
+        <span style="border: 1px dashed var(--text-muted); padding: 5px 15px; border-radius: 6px; font-size: 12px; color: var(--text-main); font-weight: 500;">[Логотип Партнера]</span>
+      </div>
+    </div>
+    
+    <div class="content split" style="align-items: center;">
+      <div style="padding-right: 2rem;">
+        <h1>AiProtocol — ИИ-анализ 100% смен розницы</h1>
+        <p class="subtitle" style="font-size: 1.35rem; color: var(--text-muted); margin-bottom: 2rem;">
+          Заменяем выборочные проверки тайных покупателей на точный AI-анализ через умные аудиобейджи, системно поднимая конверсию в допродажи.
+        </p>
+        
+        <div class="kpis" style="margin-top: 2rem; grid-template-columns: repeat(2, 1fr);">
+          <div class="kpi" style="padding: 1.25rem;">
+            <div class="num accent" style="font-size: 2.25rem;">100%</div>
+            <div class="label" style="font-size: 0.85rem;">Охват диалогов (вместо &lt;1%)</div>
+          </div>
+          <div class="kpi" style="padding: 1.25rem;">
+            <div class="num" style="font-size: 2.25rem;">4 мес</div>
+            <div class="label" style="font-size: 0.85rem;">До операционной окупаемости</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Инфографика (БЕЗ маленького бейджа, только большой дашборд) -->
+      <div style="position: relative; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 400px; width: 100%; padding-left: 2rem;">
+        <img src="assets/dashboard_light.png" alt="Дашборд" class="hero-dash" style="width: 100%; max-width: 600px;">
+      </div>
+    </div>
+    <div class="foot">
+      <span class="brand">AiProtocol.kz</span>
+      <span>Конфиденциально · Не для распространения</span>
+    </div>
+  </section>
+
+  <!-- 02 - ПРОБЛЕМА -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><div class="num-badge">02</div><div class="cat">Проблема</div></div>
+    <h2>Сети слепы на 99% времени</h2>
+    <p class="subtitle">Тайный покупатель физически не масштабируется, оставляя руководителей без контроля тысяч смен.</p>
+    
+    <div class="content">
+      <div class="split">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="card">
+            <h4 style="font-size: 3.5rem; color: var(--risk-color); margin-bottom: 0; line-height: 1;">&lt;1%</h4>
+            <p style="color: var(--text-muted); font-size: 1.15rem; margin-top: 1rem;">Диалогов проверяется классическим тайным покупателем раз в квартал.</p>
+          </div>
+          <div class="card">
+            <h4 style="font-size: 3.5rem; color: var(--plan-color); margin-bottom: 0; line-height: 1;">67.5%</h4>
+            <p style="color: var(--text-muted); font-size: 1.15rem; margin-top: 1rem;">Диалогов на пилоте прошли <strong>без попытки допродажи</strong> (27 из 40).</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: center;">
+          <div class="callout" style="font-style: italic; font-size: 1.15rem; padding: 2rem;">
+            <b>Голос клиента (Сеть АЗС KST Trade)</b>
+            «Мы не видим, соблюдают ли сотрудники скрипт, и стабильно теряем допродажи выпечки и кофе на кассе».
+          </div>
+          <ul class="check" style="margin-left: 1rem; font-size: 1.1rem;">
+            <li>Решения принимаются по 1-2 визитам проверяющего в квартал</li>
+            <li>Нарушения скрипта вскрываются постфактум по жалобам</li>
+            <li>Обучение строится на догадках, а не на данных</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>02 / 16</span></div>
+  </section>
+
+  <!-- 03 - ICP -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><div class="num-badge">03</div><div class="cat">ICP</div></div>
+    <h2>Руководители розничных сетей Казахстана</h2>
+    <p class="subtitle">Сети, где критически важен живой контакт: аптеки, АЗС, электроника, одежда.</p>
+    
+    <div class="content">
+      <div class="split">
+        <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+          <div><span class="tag blue">Персона</span></div>
+          <h4 style="font-size: 1.75rem;">Владелец / Опердиректор</h4>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.1rem;">Управляет сетью от 10 до 60+ точек. Контролирует качество вслепую раз в квартал.</p>
+          <div class="callout fact" style="margin-bottom: 1rem;"><b>Цель</b>Удержать клиента и системно поднять чек допродажами.</div>
+          <div class="callout risk"><b>Боль</b>Полное отсутствие объективных данных между редкими проверками.</div>
+        </div>
+        
+        <div class="card" style="display: flex; flex-direction: column;">
+          <h4 style="font-size: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">Сегменты (SOM Год 1)</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+              <div class="num" style="font-size: 3rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent);">60%</div>
+              <div>
+                <h4 style="margin-bottom: 0.2rem; font-size: 1.25rem;">Аптеки</h4>
+                <p style="color: var(--text-muted); font-size: 1rem;">Режим "СМЕНА", 8 ч/день, 1 бейдж на точку</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+              <div class="num" style="font-size: 3rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--plan-color);">40%</div>
+              <div>
+                <h4 style="margin-bottom: 0.2rem; font-size: 1.25rem;">Сети АЗС</h4>
+                <p style="color: var(--text-muted); font-size: 1rem;">Режим "НОН-СТОП", 24/7, 2 бейджа посменно</p>
+              </div>
+            </div>
+          </div>
+          <!-- Инфографика: Фотография станции - ТЕПЕРЬ ПОЛНОСТЬЮ ВИДНО -->
+          <div style="margin-top: auto; padding-top: 1.5rem; display: flex; justify-content: center;">
+            <img src="assets/bs4-station.png" style="width: auto; max-width: 100%; height: auto; max-height: 200px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));" alt="Базовая станция">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>03 / 16</span></div>
+  </section>
+
+  <!-- 04 - SOLUTION -->
+  <section class="slide" id="s4">
+    <div class="eyebrow"><div class="num-badge">04</div><div class="cat">Решение</div></div>
+    <h2>Бейдж → LLM → Дашборд</h2>
+    <p class="subtitle">Мультимодальная нейросеть анализирует 100% смены без вырезания пауз и промежуточного STT.</p>
+    
+    <div class="content">
+      <!-- ИСПРАВЛЕННЫЙ GRID LAYOUT -->
+      <div class="flow">
+        <!-- Шаг 1: Бейдж -->
+        <div class="flow-step">
+          <img src="assets/smart-badge-v4.jpg" class="step-img" style="object-fit: contain; padding: 10px;" alt="Бейдж">
+          <span class="step-num">Шаг 01</span>
+          <h4 style="font-size: 1.2rem;">Аудиобейдж</h4>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Пишет всю смену непрерывно. Надежный чип ESP32.</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <!-- Шаг 2: LLM -->
+        <div class="flow-step">
+          <img src="assets/dashboard_schematic.png" class="step-img" style="object-fit: cover;" alt="LLM Analysis">
+          <span class="step-num">Шаг 02</span>
+          <h4 style="font-size: 1.2rem;">LLM-Анализ</h4>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Выдача транскрипта, чеклиста, сводки и оценки.</p>
+        </div>
+        
+        <div class="flow-arrow">→</div>
+        
+        <!-- Шаг 3: Дашборд -->
+        <div class="flow-step">
+          <img src="assets/dashboard_real.png" class="step-img" style="object-fit: cover; object-position: left top;" alt="Дашборд">
+          <span class="step-num">Шаг 03</span>
+          <h4 style="font-size: 1.2rem;">Дашборд</h4>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">Объективная оценка каждой точки ежедневно.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>04 / 16</span></div>
+  </section>
+
+  <!-- 05 - CLIENT JOURNEY -->
+  <section class="slide" id="s5">
+    <div class="eyebrow"><div class="num-badge">05</div><div class="cat">Клиентский Путь</div></div>
+    <h2>Продажа через бесплатный пилот без рисков</h2>
+    <p class="subtitle">Клиент видит данные своих точек и упущенные допродажи до того, как заплатит первый тенге.</p>
+    
+    <div class="content" style="justify-content: center;">
+      <div class="roadmap-visual">
+        <div class="roadmap-line" style="background: linear-gradient(90deg, #10B981 0%, var(--card-border) 100%);"></div>
+        <div class="rm-node active" style="flex: 1;">
+          <div class="rm-circle" style="background: #10B981; border-color: #10B981; box-shadow: 0 0 0 6px var(--bg-color), 0 4px 10px rgba(16,185,129,0.3);">1</div>
+          <h4>День 1</h4>
+          <p style="font-size: 0.95rem;">Монтаж на точках. Юр. пакет готов.</p>
+        </div>
+        <div class="rm-node" style="flex: 1;">
+          <div class="rm-circle">2</div>
+          <h4>Дни 1–3</h4>
+          <p style="font-size: 0.95rem;">Бесплатный пилотный срез данных.</p>
+        </div>
+        <div class="rm-node" style="flex: 1;">
+          <div class="rm-circle">3</div>
+          <h4>После пилота</h4>
+          <p style="font-size: 0.95rem;">Разбор данных. Подписание контракта на 12 мес.</p>
+        </div>
+        <div class="rm-node" style="flex: 1;">
+          <div class="rm-circle">4</div>
+          <h4>Ежедневно</h4>
+          <p style="font-size: 0.95rem;">Авто-анализ смен и свежий дашборд.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>05 / 16</span></div>
+  </section>
+
+  <!-- 06 - USP -->
+  <section class="slide" id="s6">
+    <div class="eyebrow"><div class="num-badge">06</div><div class="cat">УТП</div></div>
+    <h2>Дешевле, точнее и 100% локализовано</h2>
+    <p class="subtitle">Мы превосходим VocaTech.kz за счет мультимодального LLM и полного анализа смены в базовом тарифе.</p>
+    
+    <div class="content">
+      <div class="kpis" style="grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
+          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent);">100%</div>
+          <div>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.5rem;">Полный анализ</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">А не просто поиск «по ключевым словам», как у конкурентов.</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
+          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--fact-color);">-27%</div>
+          <div>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.5rem;">Ниже цена</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Дешевле топового тарифа конкурента (EXPERT).</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
+          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--text-main);">KZ</div>
+          <div>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.5rem;">Локализация</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Нативная поддержка казахского и русского языков "из коробки".</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
+          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: #8B5CF6;">12</div>
+          <div>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.5rem;">Месяцев контракт</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Фиксация тарифа в тенге на год против 3-месячной у аналогов.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>06 / 16</span></div>
+  </section>
+
+  <!-- 07 - BEFORE/AFTER -->
+  <section class="slide" id="s7">
+    <div class="eyebrow"><div class="num-badge">07</div><div class="cat">Бизнес-эффект</div></div>
+    <h2>Трансформация контроля качества</h2>
+    <p class="subtitle">Переход от редких выборочных проверок к непрерывному аналитическому циклу.</p>
+    
+    <div class="content">
+      <div class="split" style="align-items: center;">
+        <div class="card" style="padding: 0; overflow: hidden; width: 100%;">
+          <table class="cmp">
+            <tr><th>Параметр</th><th>Тайный Покупатель</th><th>AiProtocol</th></tr>
+            <tr><td>Охват диалогов</td><td class="num" style="color: var(--risk-color); font-weight: 700;">&lt; 1%</td><td class="num" style="color: var(--fact-color); font-weight: 700;">100%</td></tr>
+            <tr><td>Периодичность</td><td>1 раз в квартал</td><td style="font-weight: 600;">Ежедневно</td></tr>
+            <tr><td>Данные о допродажах</td><td>Не фиксируются</td><td style="font-weight: 600;">По каждому диалогу</td></tr>
+            <tr class="highlight"><td>Стоимость контроля</td><td>Высокая (за час)</td><td>$0.54 / час анализа</td></tr>
+          </table>
+        </div>
+        <div>
+          <img src="assets/dashboard_employees.png" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin-bottom: 1.5rem;" alt="Дашборд">
+          <div class="callout fact">
+            <b>Целевая маржа: 66%</b>
+            (После оптимизации себестоимости, сейчас 39%).
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>07 / 16</span></div>
+  </section>
+
+  <!-- 08 - BUSINESS MODEL -->
+  <section class="slide" id="s8">
+    <div class="eyebrow"><div class="num-badge">08</div><div class="cat">Бизнес-Модель</div></div>
+    <h2>Модель SaaS + Hardware (Аренда)</h2>
+    <p class="subtitle">Вся выручка признается как приоритетный ИКТ-доход. Оборудование включено в подписку.</p>
+    
+    <div class="content">
+      <div class="split3">
+        <div class="card" style="text-align: center;">
+          <div><span class="tag" style="background: #F1F5F9; color: var(--text-main);">Аптеки</span></div>
+          <h4 style="margin: 1rem 0; font-size: 1.5rem;">СМЕНА</h4>
+          <div class="num" style="font-size: 3rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--text-main);">65 000 ₸</div>
+          <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">8 ч/день · до 250 ч · 1 бейдж</p>
+        </div>
+        <div class="card" style="text-align: center; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); position: relative; transform: scale(1.02);">
+          <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">Популярный</div>
+          <div><span class="tag blue">Магазины</span></div>
+          <h4 style="margin: 1rem 0; font-size: 1.5rem;">ДЕНЬ</h4>
+          <div class="num" style="font-size: 3rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent);">85 000 ₸</div>
+          <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">12 ч/день · до 400 ч · 1 бейдж</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div><span class="tag" style="background: #FFFBEB; color: #D97706;">АЗС</span></div>
+          <h4 style="margin: 1rem 0; font-size: 1.5rem;">НОН-СТОП</h4>
+          <div class="num" style="font-size: 3rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--text-main);">170 000 ₸</div>
+          <p style="font-size: 1rem; color: var(--text-muted); margin-top: 0.5rem;">24/7 · до 750 ч · 2 бейджа</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>08 / 16</span></div>
+  </section>
+
+  <!-- 09 - UNIT ECONOMICS -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><div class="num-badge">09</div><div class="cat">Unit Economics</div></div>
+    <h2>Экономика масштабируемого бизнеса</h2>
+    <p class="subtitle">Тарификация идет за часы обработки, а не за устройство, сохраняя высокую маржинальность.</p>
+    
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi"><div class="num">$106</div><div class="label">CAC (Текущий, тёплая база)</div></div>
+        <div class="kpi"><div class="num">$1 270</div><div class="label">LTV на 1 точку (12 мес контракт)</div></div>
+        <div class="kpi"><div class="num" style="color: var(--fact-color);">12×</div><div class="label">LTV / CAC Ratio (Сверх-здоровый)</div></div>
+      </div>
+      
+      <div class="card">
+        <h4 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">Валовая Маржа по тарифам (Текущая → Целевая)</h4>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 600;">СМЕНА (Аптека)</div>
+            <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
+              <div style="width: 54%; background: #93C5FD;"></div><div style="width: 23%; background: var(--accent);"></div>
+            </div>
+            <div class="mono" style="font-size: 1.05rem; color: var(--text-muted); text-align: right;">54% → <b style="color: var(--text-main);">77%</b></div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 600;">ДЕНЬ (Магазин)</div>
+            <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
+              <div style="width: 39%; background: #93C5FD;"></div><div style="width: 31%; background: var(--accent);"></div>
+            </div>
+            <div class="mono" style="font-size: 1.05rem; color: var(--text-muted); text-align: right;">39% → <b style="color: var(--text-main);">70%</b></div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 600;">НОН-СТОП (АЗС)</div>
+            <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
+              <div style="width: 39%; background: #93C5FD;"></div><div style="width: 31%; background: var(--accent);"></div>
+            </div>
+            <div class="mono" style="font-size: 1.05rem; color: var(--text-muted); text-align: right;">39% → <b style="color: var(--text-main);">70%</b></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>09 / 16</span></div>
+  </section>
+
+  <!-- 10 - MARKET -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><div class="num-badge">10</div><div class="cat">Рынок</div></div>
+    <h2>TAM / SAM / SOM (Только Казахстан)</h2>
+    <p class="subtitle">Впечатляющий размер рынка даже без учета зарубежной экспансии.</p>
+    
+    <div class="content">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%; align-items: center;">
+        
+        <div class="card" style="width: 100%; border-color: rgba(37, 99, 235, 0.2); background: rgba(37, 99, 235, 0.05); text-align: center;">
+          <div style="font-family: 'Space Grotesk'; font-size: 2rem; font-weight: 700; color: #1E3A8A;">TAM: 200,000+ точек ($359M)</div>
+          <p style="font-size: 1.1rem; color: var(--text-main); margin-top: 0.5rem;">Вся розница KZ с живым контактом (INFOLine, 2025)</p>
+        </div>
+        
+        <div class="card" style="width: 75%; border-color: rgba(37, 99, 235, 0.4); background: rgba(37, 99, 235, 0.1); text-align: center;">
+          <div style="font-family: 'Space Grotesk'; font-size: 2rem; font-weight: 700; color: #1D4ED8;">SAM: ~20,500 точек ($28M)</div>
+          <p style="font-size: 1.1rem; color: var(--text-main); margin-top: 0.5rem;">Аптеки, АЗС, косметика, электроника</p>
+        </div>
+        
+        <div class="card" style="width: 50%; background: var(--accent); color: #fff; text-align: center;">
+          <div style="font-family: 'Space Grotesk'; font-size: 2rem; font-weight: 700; color: #fff;">SOM (Год 1): 294 точки</div>
+          <p style="font-size: 1.1rem; color: #E2E8F0; margin-top: 0.5rem;">$415K Выручка (1.4% от SAM)</p>
+        </div>
+
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>10 / 16</span></div>
+  </section>
+
+  <!-- 11 - COMPETITORS -->
+  <section class="slide" id="s11">
+    <div class="eyebrow"><div class="num-badge">11</div><div class="cat">Конкуренты</div></div>
+    <h2>VocaTech.kz: Категория валидирована</h2>
+    <p class="subtitle">Сравниваем функционал и цены честно. Мы даем уровень EXPERT по цене базовых тарифов.</p>
+    
+    <div class="content">
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="cmp">
+          <tr><th>Тариф / Конфигурация</th><th>VocaTech PRO</th><th>VocaTech EXPERT</th><th style="color: var(--accent);">AiProtocol</th><th style="color: var(--fact-color);">Выгода клиента</th></tr>
+          <tr><td>СМЕНА (8 ч)</td><td class="num">69 000 ₸</td><td class="num">89 000 ₸</td><td class="num" style="color: var(--accent); font-weight: 700;">65 000 ₸</td><td class="num" style="color: var(--fact-color); font-weight: 700;">-27.0%</td></tr>
+          <tr><td>ДЕНЬ (12 ч)</td><td class="num">69 000 ₸</td><td class="num">89 000 ₸</td><td class="num" style="color: var(--accent); font-weight: 700;">85 000 ₸</td><td class="num" style="color: var(--fact-color); font-weight: 700;">-4.5%</td></tr>
+          <tr class="highlight"><td>НОН-СТОП (24/7)</td><td class="num">138 000 ₸</td><td class="num">178 000 ₸</td><td class="num" style="color: var(--accent); font-weight: 700;">170 000 ₸</td><td class="num" style="color: var(--fact-color); font-weight: 700;">-4.5%</td></tr>
+        </table>
+      </div>
+      
+      <div class="callout fact" style="margin-top: 1rem;">
+        <b style="font-size: 1rem;">Важное преимущество</b>
+        VocaTech PRO предлагает лишь анализ "по ключевым словам". Полноценный анализ нейросетью есть только в тарифе EXPERT. Мы даем 100% LLM-анализ с первого тарифа, оставаясь дешевле. Рынок уже разогрет крупными игроками и венчурными деньгами.
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>11 / 16</span></div>
+  </section>
+
+  <!-- 12 - TRACTION -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><div class="num-badge">12</div><div class="cat">Трекшн</div></div>
+    <h2>Технология работает, коммерция — на старте</h2>
+    <p class="subtitle">Честные цифры нашей воронки на сегодня. Мы прозрачны перед инвесторами.</p>
+    
+    <div class="content">
+      <div class="kpis">
+        <div class="kpi">
+          <span class="tag green">Факт</span>
+          <div class="num">2</div>
+          <div class="label">Пилота проведены: АЗС (24/7) и аптека (5х8)</div>
+        </div>
+        <div class="kpi">
+          <span class="tag green">Факт</span>
+          <div class="num">40 / 27</div>
+          <div class="label">Диалогов проверено / Из них без допродаж (67.5%)</div>
+        </div>
+        <div class="kpi">
+          <span class="tag blue">План</span>
+          <div class="num">До 90</div>
+          <div class="label">Точек сейчас в воронке переговоров (не охват)</div>
+        </div>
+        <div class="kpi">
+          <span class="tag" style="background: rgba(220, 38, 38, 0.1); color: var(--risk-color);">Риск</span>
+          <div class="num" style="color: var(--risk-color);">0</div>
+          <div class="label">Подписанных контрактов (Юр. лицо в процессе)</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>12 / 16</span></div>
+  </section>
+
+  <!-- 13 - ROADMAP -->
+  <section class="slide" id="s13">
+    <div class="eyebrow"><div class="num-badge">13</div><div class="cat">Roadmap</div></div>
+    <h2>Рост, ограниченный только монтажом</h2>
+    <p class="subtitle">Мы растем от физических возможностей установки оборудования, спрос подтвержден.</p>
+    
+    <div class="content">
+      
+      <!-- Инфографика роадмапа -->
+      <div class="roadmap-visual">
+        <div class="roadmap-line"></div>
+        <div class="rm-node active">
+          <div class="rm-circle">Q1</div>
+          <h4>Мес. 1-2: Запуск</h4>
+          <p>Фаундеры (10-15 точек/мес). Костанай.</p>
+        </div>
+        <div class="rm-node">
+          <div class="rm-circle">Q2</div>
+          <h4>Мес. 3-4: Астана</h4>
+          <p>+2 техника (25-30 точек/мес). Выход в столицу.</p>
+        </div>
+        <div class="rm-node">
+          <div class="rm-circle">Q3</div>
+          <h4>Мес. 5-7: Покрытие</h4>
+          <p>Два города параллельно (35 точек/мес).</p>
+        </div>
+        <div class="rm-node">
+          <div class="rm-circle">Q4</div>
+          <h4>Мес. 8-12: Масштаб</h4>
+          <p>Полная команда + 2 sales. Экспансия.</p>
+        </div>
+      </div>
+      
+      <div class="kpis" style="margin-top: 1.5rem;">
+        <div class="kpi"><div class="num">294</div><div class="label">Активных точек (Год 1)</div></div>
+        <div class="kpi"><div class="num">412</div><div class="label">Бейджей в парке</div></div>
+        <div class="kpi"><div class="num">763K</div><div class="label">Часов проанализировано</div></div>
+        <div class="kpi"><div class="num accent">$65K</div><div class="label">MRR к Декабрю</div></div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>13 / 16</span></div>
+  </section>
+
+  <!-- 14 - GTM -->
+  <section class="slide" id="s14">
+    <div class="eyebrow"><div class="num-badge">14</div><div class="cat">Go-To-Market</div></div>
+    <h2>Якорные клиенты и партнерства</h2>
+    <p class="subtitle">Стратегия проникновения через узкие вертикали: Аптеки и АЗС.</p>
+    
+    <div class="content">
+      <div class="split3">
+        <div class="card">
+          <h4>Фаза 1: Тёплый старт</h4>
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Личные переговоры с ЛПР, референсы пилотов. 10 → 25 точек.</p>
+        </div>
+        <div class="card">
+          <h4>Фаза 2: Якорная сеть</h4>
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Наращивание сети АЗС поэтапно: 10 → 30 → 60 точек. 49 → 177 точек суммарно.</p>
+        </div>
+        <div class="card">
+          <h4>Фаза 3: Экспансия</h4>
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Выход за рамки Астаны и Костаная. Партнерство с дистрибьюторами (Октава).</p>
+        </div>
+      </div>
+      
+      <div class="callout" style="margin-top: 1rem;">
+        <b>Механика продаж</b>
+        Сделки закрываются на уровне владельцев сетей. Подключение одной сети = сотни бейджей, а не B2C-воронка. Это экономит ресурсы и CAC.
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>14 / 16</span></div>
+  </section>
+
+  <!-- 15 - TEAM -->
+  <section class="slide" id="s15">
+    <div class="eyebrow"><div class="num-badge">15</div><div class="cat">Команда</div></div>
+    <h2>Люди, способные исполнить план</h2>
+    <p class="subtitle">Инвесторы верят в команду, а эта команда уже растила B2B-продукты.</p>
+    
+    <div class="content">
+      <div class="split">
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: flex-start;">
+          <div style="width: 80px; height: 80px; background: #DBEAFE; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: var(--accent);">DI</div>
+          <div>
+            <h4>Дмитрий Искаков <br><span style="font-size: 1rem; color: var(--accent); font-weight: 400; font-family: 'Inter';">CEO &amp; Founder</span></h4>
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Стратегия, продажи. Вырастил продажи в материнской Aitomaton, привлекая ~80% всех контрактов. Продукт передан ему за вклад в компанию.</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; gap: 1.5rem; align-items: flex-start;">
+          <div style="width: 80px; height: 80px; background: #DBEAFE; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: var(--accent);">CTO</div>
+          <div>
+            <h4>Имя Фамилия <br><span style="font-size: 1rem; color: var(--accent); font-weight: 400; font-family: 'Inter';">AI/ML &amp; Full-stack</span></h4>
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Изначальный разработчик платформы. Передача кода и поддержка — часть юридической структуры спин-оффа.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>15 / 16</span></div>
+  </section>
+
+  <!-- 16 - THE ASK -->
+  <section class="slide" id="s16">
+    <div class="eyebrow"><div class="num-badge" style="background: var(--accent); color: #fff; border-color: var(--accent);">16</div><div class="cat" style="color: var(--accent);">The Ask</div></div>
+    <h2>Bridge $40,000</h2>
+    <p class="subtitle">Инвестиции на 4 месяца до выхода на операционную окупаемость.</p>
+    
+    <div class="content">
+      <div class="split" style="gap: 2rem; align-items: center;">
+        <div class="card">
+          <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 2rem;">
+            <div style="width:45%; background:#1E3A8A;"></div>
+            <div style="width:30%; background:#2563EB;"></div>
+            <div style="width:12.5%; background:#60A5FA;"></div>
+            <div style="width:7.5%; background:#93C5FD;"></div>
+            <div style="width:5%; background:#DBEAFE;"></div>
+          </div>
+          
+          <ul class="check" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; font-size: 1.1rem;">
+            <li><b style="color: #1E3A8A; font-size: 1.25rem; margin-right: 10px;">45%</b> Операционный буфер</li>
+            <li><b style="color: #2563EB; font-size: 1.25rem; margin-right: 10px;">30%</b> Закупка оборудования</li>
+            <li><b style="color: #60A5FA; font-size: 1.25rem; margin-right: 10px;">12.5%</b> Выезды к ЛПР / Продажи</li>
+            <li><b style="color: #93C5FD; font-size: 1.25rem; margin-right: 10px;">7.5%</b> Резервный фонд</li>
+            <li><b style="color: #64748B; font-size: 1.25rem; margin-right: 10px;">5%</b> Юридическая база</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="border-color: var(--accent); border-width: 2px;">
+          <h4 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Бизнес-Метрики (Год 1)</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 1.1rem;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.75rem;">
+              <span style="color: var(--text-muted);">Активные Точки</span><span class="mono" style="font-weight: 700; color: var(--text-main);">294</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.75rem;">
+              <span style="color: var(--text-muted);">MRR к декабрю</span><span class="mono" style="font-weight: 700; color: var(--text-main);">$65,921</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Безубыточность</span><span class="mono" style="font-weight: 700; color: var(--fact-color);">Месяц 4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--card-border); display: flex; align-items: center; gap: 2rem;">
+        <div style="width: 100px; height: 100px; background: var(--bg-color); border: 2px dashed var(--text-muted); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--text-main); text-align: center; font-weight: 700;">QR CODE<br>DEMO</div>
+        <div>
+          <h4 style="margin-bottom: 0.2rem; font-size: 1.25rem;">Дмитрий Искаков · CEO</h4>
+          <p style="color: var(--text-muted); font-size: 1.1rem; font-family: 'JetBrains Mono';">+7 777 555 67 89 · t.me/ISKAKOVDMITRIY<br><a href="https://aiprotocol.kz/demo.html" style="color: var(--accent); text-decoration: none;">aiprotocol.kz/demo.html</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-dots" id="navDots"></div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const deck = document.getElementById('deck');
+  const dotsWrap = document.getElementById('navDots');
+  
+  slides.forEach((s, i) => {
+    const a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.title = 'Слайд ' + (i+1);
+    dotsWrap.appendChild(a);
+  });
+  
+  const dots = Array.from(dotsWrap.children);
+  
+  function updateDots() {
+    let idx = 0, best = Infinity;
+    slides.forEach((s,i) => {
+      const r = Math.abs(s.getBoundingClientRect().top);
+      if (r < best) { best = r; idx = i; }
+    });
+    dots.forEach((d,i) => d.classList.toggle('active', i===idx));
+  }
+  
+  deck.addEventListener('scroll', () => requestAnimationFrame(updateDots));
+  updateDots();
+</script>
+</body>
+</html>
