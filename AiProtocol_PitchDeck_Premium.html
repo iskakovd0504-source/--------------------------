@@ -140,7 +140,7 @@
   .hero-dash { transform: perspective(1000px) rotateY(-10deg) rotateX(2deg) scale(1.05); box-shadow: -20px 20px 40px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--card-border); z-index: 1; transition: transform 0.5s ease; }
   .hero-dash:hover { transform: perspective(1000px) rotateY(-5deg) scale(1.08); }
 
-  .foot { position: absolute; bottom: 2.5rem; left: 8vw; right: 8vw; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .foot { width: 100%; margin-top: auto; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
   .foot .brand { color: var(--text-main); font-weight: 700; }
 
   .nav-dots { position: fixed; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
@@ -260,7 +260,7 @@
   <section class="slide" id="s3">
     <div class="eyebrow"><div class="num-badge">03</div><div class="cat">ICP</div></div>
     <h2>ICP: Розничные сети Казахстана</h2>
-    <p class="subtitle">Сети от 10 точек, где критически важен живой контакт: аптеки, АЗС, электроника.</p>
+    <p class="subtitle">Сети от 10 точек, где критически важен живой контакт: супермаркеты, сфера услуг, электроника.</p>
     
     <div class="content">
       <div class="split">
@@ -277,21 +277,21 @@
             <div style="display: flex; align-items: center; gap: 1.5rem;">
               <div class="num" style="font-size: 2.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent);">60%</div>
               <div>
-                <h4 style="margin-bottom: 0.2rem; font-size: 1.15rem;">Аптеки</h4>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Режим "СМЕНА", 8 ч/день, 1 бейдж на точку</p>
+                <h4 style="margin-bottom: 0.2rem; font-size: 1.15rem;">Сетевой Ритейл</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Супермаркеты, аптеки, косметика. 1 бейдж на кассу.</p>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 1.5rem;">
               <div class="num" style="font-size: 2.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--plan-color);">40%</div>
               <div>
-                <h4 style="margin-bottom: 0.2rem; font-size: 1.15rem;">Сети АЗС</h4>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Режим "НОН-СТОП", 24/7, 2 бейджа посменно</p>
+                <h4 style="margin-bottom: 0.2rem; font-size: 1.15rem;">Сфера Услуг (Нон-Стоп)</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">АЗС, медцентры, HoReCa. Режим 24/7, 2-3 бейджа посменно.</p>
               </div>
             </div>
           </div>
           <div style="margin-top: auto; padding-top: 1rem;">
             <div class="callout" style="background: rgba(37, 99, 235, 0.05); border-left-color: var(--accent); padding: 0.75rem 1rem; font-size: 0.95rem; line-height: 1.4;">
-              Год 1 сфокусирован на концентрированных сегментах (2 507 аптек под топ-15 сетями). Но платформа <b>уже работает по 7 вертикалям</b> (вкл. супермаркеты и медцентры). Расширение не требует новой разработки.
+              Платформа <b>уже работает по 7 вертикалям</b> B2B-ритейла. Концентрируемся на сетях, чтобы одно B2B-согласование давало подключение сотен точек.
             </div>
           </div>
         </div>
@@ -378,37 +378,37 @@
   <!-- 06 - USP -->
   <section class="slide" id="s6">
     <div class="eyebrow"><div class="num-badge">06</div><div class="cat">УТП</div></div>
-    <h2>Дешевле, точнее и 100% локализовано</h2>
-    <p class="subtitle">Мы превосходим VocaTech.kz за счет мультимодального LLM и полного анализа смены в базовом тарифе.</p>
+    <h2>Технологическое превосходство</h2>
+    <p class="subtitle">Жесткие продуктовые аргументы: почему сети выбирают AiProtocol вместо аналогов.</p>
     
     <div class="content">
       <div class="kpis" style="grid-template-columns: repeat(2, 1fr); gap: 2rem;">
         <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
           <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent);">100%</div>
           <div>
-            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Полный ИИ-анализ</h4>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">С минимального тарифа (у VocaTech/4sell.ai это платится отдельно).</p>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Смысловой LLM-анализ</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Распознаем контекст, сарказм и скрытые возражения (кастомные промпты). Конкуренты используют примитивный поиск по ключевым словам.</p>
           </div>
         </div>
         <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
           <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--fact-color);">0 API</div>
           <div>
-            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Без интеграции с кассой</h4>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Бейдж автономен. В отличие от 4sell.ai, нам не нужен доступ к POS клиента.</p>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Абсолютная автономность</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Бейдж работает сам. Нам <b>не нужен</b> доступ к кассам (POS) или местному Wi-Fi (в отличие от 4sell). Данные идут через базу.</p>
           </div>
         </div>
         <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
-          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: #8B5CF6;">⚙️</div>
+          <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: #8B5CF6;">HW</div>
           <div>
-            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Гибкая настройка</h4>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Дашборды и чек-листы глубоко кастомизируются под специфику любой сети.</p>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Собственное железо</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Собственные базовые станции с Edge-вычислениями (сжатие аудио на лету). Не зависим от личных смартфонов сотрудников.</p>
           </div>
         </div>
         <div class="card" style="display: flex; gap: 1.5rem; align-items: center;">
           <div class="num" style="font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 700; color: var(--text-main);">KZ</div>
           <div>
-            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Нативная Локализация</h4>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Идеальное распознавание казахского/русского и смешанной речи.</p>
+            <h4 style="margin-bottom: 0.2rem; font-size: 1.4rem;">Локализация Whisper</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem;">Обученный модуль распознает специфичную смесь казахского и русского языков (Шала-казахский), типичную для рынка РК.</p>
           </div>
         </div>
       </div>
@@ -495,7 +495,7 @@
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           
           <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
-            <div style="font-size: 1.05rem; font-weight: 600;">СМЕНА (Аптека)</div>
+            <div style="font-size: 1.05rem; font-weight: 600;">СМЕНА (8 часов)</div>
             <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
               <div style="width: 54%; background: #93C5FD;"></div><div style="width: 23%; background: var(--accent);"></div>
             </div>
@@ -503,7 +503,7 @@
           </div>
           
           <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
-            <div style="font-size: 1.05rem; font-weight: 600;">ДЕНЬ (Магазин)</div>
+            <div style="font-size: 1.05rem; font-weight: 600;">ДЕНЬ (12 часов)</div>
             <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
               <div style="width: 39%; background: #93C5FD;"></div><div style="width: 31%; background: var(--accent);"></div>
             </div>
@@ -511,7 +511,7 @@
           </div>
           
           <div style="display: grid; grid-template-columns: 180px 1fr 100px; align-items: center; gap: 1rem;">
-            <div style="font-size: 1.05rem; font-weight: 600;">НОН-СТОП (АЗС)</div>
+            <div style="font-size: 1.05rem; font-weight: 600;">НОН-СТОП (24/7)</div>
             <div style="background: var(--card-border); height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
               <div style="width: 39%; background: #93C5FD;"></div><div style="width: 31%; background: var(--accent);"></div>
             </div>
@@ -580,7 +580,7 @@
         </div>
         <div class="callout fact" style="border-left-color: #8B5CF6; background: rgba(139, 92, 246, 0.05); padding: 1rem; font-size: 0.95rem;">
           <b style="color: #8B5CF6; font-size: 1.05rem; margin-bottom: 0.25rem; display: block;">4sell.ai (HoReCa)</b>
-          Привлёк <b>$400 тыс.</b> от MOST и MA7 при оценке $4М (дек 2025). Венчуры активны, а огромный сегмент Аптек/АЗС пока свободен.
+          Привлёк <b>$400 тыс.</b> от MOST и MA7 при оценке $4М (дек 2025). Венчуры активны, а 7 других вертикалей B2B-ритейла свободны.
         </div>
         <div class="callout fact" style="border-left-color: #F59E0B; background: rgba(245, 158, 11, 0.05); padding: 1rem; font-size: 0.95rem;">
           <b style="color: #F59E0B; font-size: 1.05rem; margin-bottom: 0.25rem; display: block;">SteadyControl (Премиум)</b>
@@ -633,26 +633,26 @@
     <div class="content">
       
       <!-- Инфографика роадмапа -->
-      <div class="roadmap-visual">
-        <div class="roadmap-line"></div>
+      <div class="roadmap-visual" style="margin-bottom: 1.5rem; padding-top: 20px;">
+        <div class="roadmap-line" style="top: 44px;"></div>
         <div class="rm-node active">
-          <div class="rm-circle">Q1</div>
-          <h4>Мес. 1-2: Запуск</h4>
+          <div class="rm-circle" style="width: 44px; height: 44px; margin-bottom: 0.75rem; font-size: 1.1rem;">Q1</div>
+          <h4 style="margin-bottom: 0.25rem;">Мес. 1-2: Запуск</h4>
           <p>Фаундеры (10-15 точек/мес). Костанай.</p>
         </div>
         <div class="rm-node">
-          <div class="rm-circle">Q2</div>
-          <h4>Мес. 3-4: Астана</h4>
+          <div class="rm-circle" style="width: 44px; height: 44px; margin-bottom: 0.75rem; font-size: 1.1rem;">Q2</div>
+          <h4 style="margin-bottom: 0.25rem;">Мес. 3-4: Астана</h4>
           <p>+2 техника (25-30 точек/мес). Выход в столицу.</p>
         </div>
         <div class="rm-node">
-          <div class="rm-circle">Q3</div>
-          <h4>Мес. 5-7: Покрытие</h4>
+          <div class="rm-circle" style="width: 44px; height: 44px; margin-bottom: 0.75rem; font-size: 1.1rem;">Q3</div>
+          <h4 style="margin-bottom: 0.25rem;">Мес. 5-7: Покрытие</h4>
           <p>Два города параллельно (35 точек/мес).</p>
         </div>
         <div class="rm-node">
-          <div class="rm-circle">Q4</div>
-          <h4>Мес. 8-12: Масштаб</h4>
+          <div class="rm-circle" style="width: 44px; height: 44px; margin-bottom: 0.75rem; font-size: 1.1rem;">Q4</div>
+          <h4 style="margin-bottom: 0.25rem;">Мес. 8-12: Масштаб</h4>
           <p>Полная команда + 2 sales. Экспансия.</p>
         </div>
       </div>
@@ -686,7 +686,7 @@
         </div>
         <div class="card">
           <h4>Фаза 2: Якорная сеть</h4>
-          <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Наращивание сети АЗС поэтапно: 10 → 30 → 60 точек. 49 → 177 точек суммарно.</p>
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin-top: 0.5rem;">Наращивание клиентской сети поэтапно: 10 → 30 → 60 точек. 49 → 177 точек суммарно.</p>
         </div>
         <div class="card">
           <h4>Фаза 3: Экспансия</h4>
@@ -770,7 +770,7 @@
           </div>
           <div style="background: rgba(37, 99, 235, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 0.95rem; line-height: 1.4;">
             <b style="color: var(--accent); display: block; margin-bottom: 0.25rem;">Почему $40 000?</b>
-            Сумма рассчитана по финмодели: касса не падает ниже $6–8 тыс. Этого запаса хватает на весь год без доп. раундов при выходе на 30 новых точек/мес.
+            Сумма покрывает "burn rate" первых 4 месяцев до выхода на самоокупаемость (MRR > Cost). Далее накопленной выручки с запасом хватает для агрессивного роста без доп. раундов.
           </div>
         </div>
       </div>
