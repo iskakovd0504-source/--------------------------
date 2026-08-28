@@ -151,6 +151,37 @@
   .tag.blue { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
   .tag.green { background: #ECFDF5; color: #059669; }
 
+  /* Адаптивность для мобильных устройств */
+  @media (max-width: 1024px) {
+    body, .deck { overflow: auto; scroll-snap-type: none; }
+    .slide {
+      height: auto;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    .subtitle { font-size: 1.1rem; }
+    .split, .split3 { grid-template-columns: 1fr !important; gap: 1.5rem; }
+    .kpis { grid-template-columns: 1fr !important; }
+    .flow { grid-template-columns: 1fr !important; }
+    .flow-arrow { transform: rotate(90deg); margin: 0.5rem auto; height: 30px; }
+    
+    .roadmap-visual { flex-direction: column; align-items: stretch; padding-top: 0; gap: 1.5rem; position: relative; }
+    .roadmap-line { width: 4px; height: calc(100% - 44px); top: 22px; left: 20px; background: linear-gradient(180deg, var(--accent) 0%, var(--card-border) 100%); }
+    .rm-node { display: grid; grid-template-columns: auto 1fr; text-align: left; gap: 0 1rem; align-items: center; padding: 0; }
+    .rm-circle { grid-column: 1; grid-row: 1 / span 2; min-width: 44px; margin-bottom: 0 !important; }
+    .rm-node h4 { grid-column: 2; margin-bottom: 0 !important; padding-top: 0.25rem; }
+    .rm-node p { grid-column: 2; margin-bottom: 0.25rem; }
+    
+    .hero-dash { transform: none !important; margin-top: 2rem; }
+    .nav-dots { display: none; }
+    .foot { font-size: 0.75rem; margin-top: 3rem; }
+    table.cmp { display: block; overflow-x: auto; white-space: nowrap; }
+    .card[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+  }
+
   /* Настройки для идеального экспорта в PDF */
   @media print {
     @page { size: 1920px 1080px; margin: 0; }
