@@ -51,7 +51,9 @@
   .deck { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   .slide {
     scroll-snap-align: start;
-    width: 100vw; height: 100vh;
+    width: 100vw; 
+    height: auto;
+    min-height: 100vh;
     padding: 6vh 8vw;
     position: relative;
     display: flex; flex-direction: column;
@@ -150,6 +152,16 @@
   .tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem; }
   .tag.blue { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
   .tag.green { background: #ECFDF5; color: #059669; }
+  /* Адаптивность для небольших ноутбуков (если высота экрана меньше 900px) */
+  @media (max-height: 900px) and (min-width: 1025px) {
+    html { font-size: 14px; }
+    .slide { padding: 4vh 8vw; }
+    h1 { font-size: 3rem; margin-bottom: 1rem; }
+    h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .subtitle { margin-bottom: 1.5rem; }
+    .kpi, .card { padding: 1rem 1.25rem; }
+    .callout { padding: 1rem; }
+  }
 
   /* Адаптивность для мобильных устройств */
   @media (max-width: 1024px) {
