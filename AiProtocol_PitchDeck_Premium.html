@@ -226,19 +226,16 @@
   <section class="slide" id="s1">
     <div class="header-row">
       <div class="logo-placeholder">
-        <img src="assets/logo.svg" alt="AiProtocol">
+        <img src="assets/logo.svg" alt="AiProtocol" style="height: 52px; transform: translateX(-4px);">
       </div>
-      <!-- Место под логотип партнера -->
-      <div style="display:flex; gap: 15px; opacity: 0.5;">
-        <span style="border: 1px dashed var(--text-muted); padding: 5px 15px; border-radius: 6px; font-size: 12px; color: var(--text-main); font-weight: 500;">[Логотип Партнера]</span>
-      </div>
+      <!-- Место под логотип партнера скрыто по дизайн-ревью -->
     </div>
     
     <div class="content split" style="align-items: center;">
       <div style="padding-right: 2rem;">
-        <h1>AiProtocol — Увеличивайте выручку на 15% за счет ИИ-контроля допродаж</h1>
-        <p class="subtitle" style="font-size: 1.35rem; color: var(--text-muted); margin-bottom: 2rem;">
-          Возвращаем потерянные деньги бизнеса. 100% анализ диалогов продавцов через умные аудиобейджи для системного роста среднего чека.
+        <h1 style="line-height: 1.15;">AiProtocol — Увеличивайте выручку на 15%<br>за счет ИИ-контроля допродаж</h1>
+        <p class="subtitle" style="font-size: 1.35rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5; padding-right: 1rem;">
+          Возвращаем потерянные деньги бизнеса. 100% анализ диалогов продавцов<br>через умные аудиобейджи для системного роста среднего чека.
         </p>
         
         <div class="kpis" style="margin-top: 2rem; grid-template-columns: repeat(2, 1fr);">
@@ -247,15 +244,24 @@
             <div class="label" style="font-size: 0.85rem;">Охват диалогов (вместо &lt;1%)</div>
           </div>
           <div class="kpi" style="padding: 1.25rem;">
-            <div class="num" style="font-size: 2.25rem;">4 мес</div>
-            <div class="label" style="font-size: 0.85rem;">До операционной окупаемости</div>
+            <div class="num" style="font-size: 2.25rem; color: var(--plan-color);">с 1-го мес</div>
+            <div class="label" style="font-size: 0.85rem;">Окупаемость за счет допродаж</div>
           </div>
         </div>
       </div>
       
-      <!-- Инфографика (БЕЗ маленького бейджа, только большой дашборд) -->
+      <!-- Инфографика (Дашборд в окне браузера) -->
       <div style="position: relative; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 400px; width: 100%; padding-left: 2rem;">
-        <img src="assets/dashboard_light.png" alt="Дашборд" class="hero-dash" style="width: 100%; max-width: 600px;">
+        <div class="hero-dash" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: -20px 30px 60px rgba(37,99,235,0.15), 0 0 0 1px rgba(0,0,0,0.05); width: 100%; max-width: 600px;">
+          <!-- Fake Browser Header -->
+          <div style="background: #F1F5F9; border-bottom: 1px solid #E2E8F0; padding: 10px 15px; display: flex; gap: 6px; align-items: center;">
+            <div style="width: 10px; height: 10px; background: #FF5F56; border-radius: 50%;"></div>
+            <div style="width: 10px; height: 10px; background: #FFBD2E; border-radius: 50%;"></div>
+            <div style="width: 10px; height: 10px; background: #27C93F; border-radius: 50%;"></div>
+          </div>
+          <!-- Dashboard Image -->
+          <img src="assets/dashboard_light.png" alt="Дашборд" style="width: 100%; display: block;">
+        </div>
       </div>
     </div>
     <div class="foot">
@@ -393,32 +399,50 @@
     <h2>Пилот без рисков: Быстрый цикл сделки</h2>
     <p class="subtitle">Бесплатный аудит за 3 дня → Объективные данные о потерях → Годовой контракт.</p>
     
-    <div class="content" style="justify-content: center;">
-      <div class="roadmap-visual">
-        <div class="roadmap-line" style="background: linear-gradient(90deg, #10B981 0%, var(--card-border) 100%);"></div>
-        <div class="rm-node active" style="flex: 1;">
-          <div class="rm-circle" style="background: #10B981; border-color: #10B981; box-shadow: 0 0 0 6px var(--bg-color), 0 4px 10px rgba(16,185,129,0.3);">1</div>
-          <h4 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Запуск за 1 день</h4>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Выдаем бейджи сотрудникам. Без сложной ИТ-интеграции и обучения.</p>
+    <div class="content" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+      
+      <!-- Big Callout at the top -->
+      <div style="text-align: center; margin-bottom: 3.5rem; padding: 0 2rem;">
+        <h3 style="font-size: 1.6rem; color: var(--text-main); font-weight: 500; line-height: 1.4;">
+          Мы не просим клиента верить нам на слово. <br>Мы бесплатно показываем его <strong style="color: var(--accent);">реальные потери</strong> на его же точках.
+        </h3>
+      </div>
+
+      <!-- Stepper / Cards -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; position: relative;">
+        <!-- Connecting Line -->
+        <div style="position: absolute; top: 48px; left: 10%; right: 10%; height: 4px; background: linear-gradient(90deg, #10B981 0%, var(--accent) 50%, var(--card-border) 100%); z-index: 0; border-radius: 2px;"></div>
+        
+        <!-- Step 1 -->
+        <div class="card" style="background: #fff; border-radius: 16px; padding: 1.5rem; position: relative; z-index: 1; border-top: 4px solid #10B981; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+          <div style="width: 44px; height: 44px; background: #DCFCE7; color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; margin: 0 auto 1.25rem auto; box-shadow: 0 0 0 6px #fff, 0 4px 10px rgba(16,185,129,0.2);">1</div>
+          <h4 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 0.75rem;">Запуск (1 день)</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; line-height: 1.4;">Выдаем бейджи сотрудникам на 1-2 тестовые точки. Нулевая ИТ-интеграция.</p>
         </div>
-        <div class="rm-node" style="flex: 1;">
-          <div class="rm-circle">2</div>
-          <h4 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Аудит (3 дня)</h4>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Записываем 100% диалогов, собираем реальную статистику ошибок.</p>
+
+        <!-- Step 2 -->
+        <div class="card" style="background: #fff; border-radius: 16px; padding: 1.5rem; position: relative; z-index: 1; border-top: 4px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+          <div style="width: 44px; height: 44px; background: #EFF6FF; color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; margin: 0 auto 1.25rem auto; box-shadow: 0 0 0 6px #fff, 0 4px 10px rgba(37,99,235,0.2);">2</div>
+          <h4 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 0.75rem;">Аудит (3 дня)</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; line-height: 1.4;">Нейросеть слушает 100% диалогов и собирает реальную воронку упущенных продаж.</p>
         </div>
-        <div class="rm-node" style="flex: 1;">
-          <div class="rm-circle">3</div>
-          <h4 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">ROI и Контракт</h4>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Показываем точки роста выручки. Заключаем договор на 12 месяцев.</p>
+
+        <!-- Step 3 -->
+        <div class="card" style="background: #fff; border-radius: 16px; padding: 1.5rem; position: relative; z-index: 1; border-top: 4px solid var(--plan-color); box-shadow: 0 10px 30px rgba(16,185,129,0.1); transform: scale(1.05);">
+          <div style="width: 44px; height: 44px; background: #DCFCE7; color: var(--plan-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; margin: 0 auto 1.25rem auto; box-shadow: 0 0 0 6px #fff, 0 4px 10px rgba(16,185,129,0.3);">3</div>
+          <h4 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 0.75rem;">ROI и Контракт</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; line-height: 1.4;">Презентуем «просевшие» деньги и подписываем годовой контракт на всю сеть.</p>
         </div>
-        <div class="rm-node" style="flex: 1;">
-          <div class="rm-circle">4</div>
-          <h4 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Ежедневный рост</h4>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Клиент видит дашборд и исправляет работу продавцов на основе данных.</p>
+
+        <!-- Step 4 -->
+        <div class="card" style="background: #fff; border-radius: 16px; padding: 1.5rem; position: relative; z-index: 1; border-top: 4px solid #64748B; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+          <div style="width: 44px; height: 44px; background: #F1F5F9; color: #64748B; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; margin: 0 auto 1.25rem auto; box-shadow: 0 0 0 6px #fff, 0 4px 10px rgba(0,0,0,0.1);">4</div>
+          <h4 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 0.75rem;">Системный рост</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; line-height: 1.4;">Менеджмент работает с дашбордом. Дисциплина и средний чек растут.</p>
         </div>
       </div>
     </div>
-    <div class="foot"><span class="brand">AiProtocol.kz</span><span>05 / 16</span></div>
+    <div class="foot"><span class="brand">AiProtocol.kz</span><span>05 / 15</span></div>
   </section>
 
 
