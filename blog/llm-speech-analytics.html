@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как мультимодальные LLM-модели меняют речевую аналитику в ритейле — Блог AiProtocol</title>
+    <meta name="description"
+        content="Почему поиск по словарю устарел, и как современные нейросети (Gemini LLM) позволяют оценивать эмоции, контекст диалога и выставлять баллы сотрудникам.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Как мультимодальные LLM-модели (ИИ) меняют речевую аналитику в ритейле">
+    <meta property="og:description"
+        content="Сравнение классической речевой аналитики на базе словарей и нового подхода с использованием LLM. Оценивайте контекст, а не отдельные слова.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/blog_llm_analytics.jpg">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%); }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#cta-final" class="btn btn--sm btn--primary">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">ИИ и Технологии</div>
+                <h1 class="article-title">Как мультимодальные LLM-модели (ИИ) меняют речевую аналитику в ритейле</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">12 сентября 2026 • 7 мин чтения</p>
+            </div>
+
+            <div class="article-hero">
+                <img src="images/blog_llm_analytics.jpg" alt="AI Speech Analytics" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+
+            <div class="article-content">
+                <p>Долгое время системы речевой аналитики в ритейле строились по одному принципу: аудио переводилось в текст (Speech-to-Text), а затем программа искала в тексте заданные ключевые слова. Если слово есть — плюс балл, нет — минус балл. Но этот метод безнадежно устарел.</p>
+
+                <p>В 2026 году на смену «поиску по словарю» пришли мультимодальные большие языковые модели (LLM), такие как Gemini, которые полностью переворачивают наше понимание контроля качества.</p>
+
+                <h2>Проблема словарей: почему старые системы ошибались?</h2>
+                <div class="highlight-box">
+                    Кассир говорит: "Хот-дога к сожалению нет, возьмете выпечку?"<br>
+                    Старая система: Видит слово "Хот-дог", ставит галочку "Кросс-сейл выполнен".<br>
+                    Но по факту клиент остался недоволен, а продажа не состоялась так, как задумано.
+                </div>
+                
+                <p>Системы, основанные на ключевых словах, не понимают <strong>контекста</strong>. Они не могут отличить агрессию от шутки, сарказм от искренности, или правильное предложение кофе от нелепого («Вы же кофе не будете, да?»). Чтобы покрыть все варианты произношения, бизнесу приходилось создавать гигантские словари синонимов, поддержка которых стоила огромных денег.</p>
+
+                <h2>Встречайте: Мультимодальный LLM-подход от AiProtocol</h2>
+                <p>В основе системы <strong>AiProtocol</strong> лежит связка умных аудиобейджей (например, AB-400), которые пишут аудио в облако, и мощного ИИ на базе архитектуры LLM (Large Language Model).</p>
+                <p>Как это работает в реальности:</p>
+                <ul>
+                    <li>Бейдж записывает диалог `.wav` и отправляет на FastAPI бэкенд.</li>
+                    <li>Нейросеть получает транскрипт и анализирует его <strong>целиком</strong> за один запрос.</li>
+                    <li>LLM понимает смысл. Если кассир на АЗС предложил кофе через отрицание («Кофе не хотите?»), ИИ поймет, что это нарушение скрипта (употребление частицы "НЕ"), и снизит оценку, даже если слово "кофе" прозвучало.</li>
+                </ul>
+
+                <div class="stat-box">
+                    <span class="stat-box__num">98%</span>
+                    Точность оценки выполнения чек-листа современными LLM-моделями, что превосходит живого супервайзера.
+                </div>
+
+                <h2>Сводка и оценка от 0 до 10 — автоматически</h2>
+                <p>Самая большая проблема руководителей — огромный объем данных. Никто не хочет читать простыни транскриптов. Благодаря LLM, AiProtocol делает следующее:</p>
+                <p>Нейросеть выставляет итоговый балл (от 0 до 10) на основе 6 триггеров чек-листа и генерирует короткую человечную сводку, например:</p>
+                <p><em>«Кассир поздоровался, но забыл предложить выпечку. Чек выдан молча. Верификация заказа проведена частично. Оценка: 6/10.»</em></p>
+
+                <h2>Новые горизонты: анализ эмоций и тональности</h2>
+                <p>Мультимодальные модели (такие как новые поколения Gemini и GPT) способны анализировать не только текст, но и само аудио. Это значит, что система может улавливать интонацию, повышение голоса, раздражение кассира или недовольство клиента. Это открывает путь к настоящей эмпатичной аналитике, где штрафы выдаются не только за неправильные слова, но и за откровенно хамский тон.</p>
+
+                <h2>Итог</h2>
+                <p>Внедрение LLM в речевую аналитику — это как замена кнопочного телефона на смартфон. Бизнес получает инструмент, который не просто ищет слова, а <strong>мыслит как лучший супервайзер</strong>, работающий 24/7 без перерывов на обед и выходных.</p>
+
+                <div class="cta-box">
+                    <h3>Готовы перевести контроль качества на нейросети?</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Узнайте, как AiProtocol использует LLM для роста продаж в вашем бизнесе.</p>
+                    <a href="../index.html#cta-final" class="btn btn--primary">Получить консультацию</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;">
+                        <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    </a>
+                    <p class="footer__desc">Умные аудиобейджи и речевая аналитика для контроля качества обслуживания.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                &copy; 2026 AiProtocol. Все права защищены.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
