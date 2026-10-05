@@ -3917,3 +3917,12 @@ html[data-theme="light"] textarea {
     color: #0F172A !important;
 }
 
+
+/* Language Switcher */
+.lang-switch:hover {
+    background: var(--c-accent-blue);
+    color: #fff !important;
+    border-color: var(--c-accent-blue) !important;
+}
+
+.lang-switch:hover { background-color: var(--c-accent-blue) !important; color: white !important; border-color: var(--c-accent-blue) !important; }
