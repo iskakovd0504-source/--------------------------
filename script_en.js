@@ -563,7 +563,7 @@
         { text: "  - Promo/Upsell offer: Yes (Coffee) [CORRECT]", delay: 500, color: "#22c55e" },
         { text: "  - Employee tone: Polite, engaged [9.2/10]", delay: 700, color: "#06B6D4" },
         { text: "  - Conflict rate: 0% [SAFE]", delay: 400, color: "#22c55e" },
-        { text: "\n> AI-VERDICT: Dialogue successful. Average check increased by 1200 KZT. Data sent to dashboard.", delay: 1500, color: "#22c55e" },
+        { text: "\n> AI-VERDICT: Dialogue successful. Average check increased by $2. Data sent to dashboard.", delay: 1500, color: "#22c55e" },
         { text: "\n[SIMULATION FINISHED. Thank you for watching!]", delay: 1000, color: "#06B6D4" }
     ];
 
@@ -693,9 +693,9 @@
 
     if (calcRowsBody && calcAddRowBtn) {
         const RATES = {
-            "8":  { label: "Up to 8 hours",   rent: 65000, buy: 58500, badgeMult: 1 },
-            "12": { label: "Up to 12 hours",  rent: 85000, buy: 76500, badgeMult: 1 },
-            "24": { label: "24 hours (Round-the-clock)", rent: 85000, buy: 76500, badgeMult: 2 }
+            "8":  { label: "Up to 8 hours",   rent: 130, buy: 117, badgeMult: 1 },
+            "12": { label: "Up to 12 hours",  rent: 170, buy: 153, badgeMult: 1 },
+            "24": { label: "24 hours (Round-the-clock)", rent: 170, buy: 153, badgeMult: 2 }
         };
         const BADGE_PRICE = 100000;
 
@@ -703,7 +703,7 @@
         let netIdSeq = 1;
 
         function fmtKzt(n) {
-            return Math.round(n).toLocaleString("ru-RU").replace(/,/g, " ") + " KZT";
+            return "$" + Math.round(n).toLocaleString("en-US");
         }
 
         function addNetRow() {
@@ -755,8 +755,8 @@
                     <td class="badges-cell">${rowBadges(r)}</td>
                     <td>
                         <div class="mode-toggle">
-                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">Аренда</button>
-                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">Покупка</button>
+                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">Rent</button>
+                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">Buy</button>
                         </div>
                     </td>
                     <td class="rowsum">${fmtKzt(rowMonthly(r))}</td>
@@ -1003,7 +1003,7 @@
                         <span class="message-speaker">Cashier (Pavel B.)</span>
                         <span class="message-timestamp">00:08</span>
                     </div>
-                    <div class="message-text">4600 KZT to pay.</div>
+                    <div class="message-text">$10 to pay.</div>
                     <span class="message-badge message-badge--danger">Order Repeat Missed</span>
                 </div>
                 <div class="transcript-message" data-time="12">
@@ -1322,7 +1322,7 @@
                         
                         aiRecText.innerHTML = isEn
                             ? '<strong>Critical standard non-compliance:</strong> The cashier used a dry "Hi there" greeting, did not offer coffee/pastries, missed the promo campaign, and asked a forbidden receipt question. <br><strong>Lost Profit:</strong> $6.50 (3,000 KZT). <br><em>Recommendation: Assign a mini-training on active sales standards.</em>'
-                            : '<strong>Critical standard violation:</strong> The cashier used a dry greeting \"Hi\", ignored the coffee/pastry offer, did not mention the promotion, and asked a prohibited receipt question. <br><strong>Lost revenue:</strong> 3 000 KZT. <br><em>Recommendation: Assign a retraining course on gas station service standards.</em>';
+                            : '<strong>Critical standard violation:</strong> The cashier used a dry greeting \"Hi\", ignored the coffee/pastry offer, did not mention the promotion, and asked a prohibited receipt question. <br><strong>Lost revenue:</strong> $6. <br><em>Recommendation: Assign a retraining course on gas station service standards.</em>';
                     }
                 } else {
                     // Хороший звонок
@@ -1349,7 +1349,7 @@
                         
                         aiRecText.innerHTML = isEn
                             ? '<strong>Reference standard implementation:</strong> Cashier welcomed the client warmly, successfully upsold cappuccino, and initiated windshield fluid promo. Correct check output. <br><strong>Added Profit:</strong> +$8.50 (+3,800 KZT). <br><em>Recommendation: Reward cashier for active sales.</em>'
-                            : '<strong>Benchmark standard compliance:</strong> The cashier warmly greeted the client, successfully cross-sold a cappuccino, and sold washer fluid on promotion. Receipt and parting standards fulfilled at 100%. <br><strong>Additional profit:</strong> +3 800 KZT. <br><em>Recommendation: Reward the cashier for active sales.</em>';
+                            : '<strong>Benchmark standard compliance:</strong> The cashier warmly greeted the client, successfully cross-sold a cappuccino, and sold washer fluid on promotion. Receipt and parting standards fulfilled at 100%. <br><strong>Additional profit:</strong> +$8. <br><em>Recommendation: Reward the cashier for active sales.</em>';
                     }
                 }
 
