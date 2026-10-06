@@ -121,4 +121,22 @@
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
+<url>
+    <loc>https://aiprotocol.kz/blog/digital-bridge-astana-ai.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aiprotocol.kz/blog/openai-o1-speech-analytics.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aiprotocol.kz/blog/voice-bots-vs-humans.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
