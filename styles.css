@@ -1429,7 +1429,6 @@ select {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-6);
-    margin-bottom: var(--space-16);
 }
 
 .result-card {
