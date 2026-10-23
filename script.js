@@ -669,14 +669,24 @@
             const name = document.getElementById('td-name').value;
             const phone = document.getElementById('td-phone').value;
             const company = document.getElementById('td-company').value;
-            if (typeof window.aipTrackLead === 'function') window.aipTrackLead('test-drive-form');
             const utm = (typeof window.aipGetUtm === 'function') ? window.aipGetUtm() : {};
             const utmLine = utm.utm_source ? `\n\n[src: ${utm.utm_source}/${utm.utm_medium || '-'}/${utm.utm_campaign || '-'}]` : '';
 
             submitBtn.innerHTML = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
             submitBtn.disabled = true;
 
-            setTimeout(() => {
+            const tdParams = Object.assign({
+                from_name: name,
+                phone: phone,
+                company: company,
+                industry: 'test_drive',
+                form: 'test_drive'
+            }, utm);
+            let tdDone = false;
+            const finishTestDrive = (sent) => {
+                if (tdDone) return;
+                tdDone = true;
+                if (sent && typeof window.aipTrackLead === 'function') window.aipTrackLead('test-drive-form');
                 submitBtn.innerHTML = pageLang() === 'kk' ? 'Өтінім жіберілді ✓' : pageLang() === 'en' ? 'Request sent ✓' : 'Заявка успешно отправлена! ✓';
                 submitBtn.style.background = "#22c55e";
                 submitBtn.style.borderColor = "#22c55e";
@@ -699,7 +709,17 @@
                     submitBtn.style.borderColor = "";
                     submitBtn.disabled = false;
                 }, 3000);
-            }, 1000);
+            };
+            // Send the lead via EmailJS (same service/template as cta-form); open WhatsApp either way
+            if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, tdParams)
+                    .then(() => finishTestDrive(true))
+                    .catch((error) => { console.error('EmailJS test-drive error:', error); finishTestDrive(false); });
+                setTimeout(() => finishTestDrive(false), 8000); // safety net if EmailJS hangs
+            } else {
+                console.warn('EmailJS unavailable, test-drive lead goes to WhatsApp only', tdParams);
+                finishTestDrive(false);
+            }
         });
     }
 
