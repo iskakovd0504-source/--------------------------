@@ -676,10 +676,10 @@
                 // Перенаправление на WhatsApp с параметрами тест-драйва
                 const lang = pageLang();
                 const text = lang === 'en'
-                    ? `Hello! Request for 2 free badges (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
+                    ? `Hello! Request for 1 free badge (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
                     : lang === 'kk'
-                    ? `Сәлеметсіз бе! 2 бейджге өтінім (3 күндік тегін пилот):\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}`
-                    : `Здравствуйте! Запрос 2-х бейджей (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
+                    ? `Сәлеметсіз бе! 1 бейджге өтінім (3 күндік тегін пилот):\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}`
+                    : `Здравствуйте! Запрос 1 бейджа (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
 
