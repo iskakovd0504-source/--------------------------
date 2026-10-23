@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Речевая аналитика для аптек — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/speech-analytics-for-pharmacies">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/speech-analytics-for-pharmacies">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/speech-analytics-for-pharmacies">
+    <meta name="description"
+        content="Речевая аналитика для аптек: как проверять фармконсультацию и допродажу без названий сетей и чужих процентов. Пилот на 3 дня.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Речевая аналитика для аптек: консультация и допродажа">
+    <meta property="og:description"
+        content="Что слышно в диалоге первостольника, чего в чек-лист класть нельзя и как запустить пилот без историй про чужие аптеки.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/dashboard_light.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 12px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol.kz by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Речевая аналитика для аптек",
+  "description": "Как проверять фармконсультацию и предложение сопутствующего товара, не публикуя чужие аптечные кейсы.",
+  "image": "https://aiprotocol.kz/assets/dashboard_light.png",
+  "author": { "@type": "Organization", "name": "AiProtocol.kz by ОККМ" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol.kz",
+    "logo": { "@type": "ImageObject", "url": "https://aiprotocol.kz/favicon.png" }
+  },
+  "datePublished": "2026-10-23T08:00:00+05:00",
+  "dateModified": "2026-10-23T08:00:00+05:00",
+  "mainEntityOfPage": "https://aiprotocol.kz/blog/speech-analytics-for-pharmacies"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aiprotocol.kz/" },
+    { "@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aiprotocol.kz/blog" },
+    { "@type": "ListItem", "position": 3, "name": "Речевая аналитика для аптек", "item": "https://aiprotocol.kz/blog/speech-analytics-for-pharmacies" }
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Речевая аналитика в аптеке ставит диагноз?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Она проверяет, прозвучали ли шаги консультации: приветствие, уточнение запроса, наличие, как принимать, уместное сопутствующее, завершение. Назначение и замена препарата остаются за специалистом и правилами аптеки."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли публиковать названия аптек и их проценты?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В этой статье названий аптечных клиентов нет. Цифры продукта на сайте — рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Свою базу аптека снимает на пилоте."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что нельзя класть в чек-лист первостольника?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нельзя поощрять давление, замену назначенного без правил аптеки, обсуждение другого покупателя и оценку личного разговора сотрудника. Бейдж без экрана не показывает очередь чужие данные."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как попробовать на одной аптеке?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Бесплатный пилот — 3 дня и 2 бейджа, для любого бизнеса, без порога по числу точек. Отраслевая страница аптек на сайте описывает тот же запуск."
+      }
+    }
+  ]
+}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Аптеки</div>
+                <h1 class="article-title">Речевая аналитика для аптек</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+
+            <div class="article-hero">
+                <img src="/assets/dashboard_light.png" alt="Дашборд контроля диалогов для аптечной смены" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+
+            <div class="article-content">
+                <p><strong>Речевая аналитика для аптек</strong> проверяет, состоялась ли консультация, а не ставит диагноз и не называет «лучшую сеть». В аптеке разговор и есть услуга: первостольник выясняет запрос, говорит о наличии, объясняет, как принимать, и только потом предлагает уместное сопутствующее. Если этих фраз не было, касса покажет продажу, но не покажет, почему покупатель ушёл к другой полке.</p>
+                <p>В статье нет названий аптек и нет чужих процентов. Ориентиры, которые можно цитировать, лежат на aiprotocol.kz: рост среднего чека <strong>+15–20%</strong> и снижение затрат на контроль качества <strong>до 60%</strong>. Это цифры продукта, не отчёт конкретной аптечной точки. Отраслевая страница — <a href="../otrasli/apteki/index.html">речевая аналитика для аптек</a>.</p>
+
+                <h2>Чем аптечный диалог отличается от кассы АЗС</h2>
+                <p>На <a href="../otrasli/azs/index.html">АЗС</a> скрипт короткий: топливо, напиток, чек. В аптеке ошибка в спешке дороже невежливого тона. Покупатель может прийти с назначением, с симптомом «что-нибудь от горла» или за конкретным торговым именем. Один и тот же чек-лист «предложи ещё» здесь ломает и сервис, и доверие.</p>
+                <p>Поэтому аналитика для аптеки начинается с разделения диалогов, а не с общего балла «вежливость». Имеет смысл помечать хотя бы три входа: есть назначение, есть симптом без назначения, есть запрос конкретного названия. Фразы внутри входа разные. Общее только начало и конец: поздоровались и закрыли разговор так, чтобы человек понял следующее действие.</p>
+                <p>Носимый <a href="employee-audio-badge-kz.html">аудиобейдж</a> здесь уместнее потолочного микрофона: первостольник уходит к полке. У «Октавы АБ-400» имя — бумажный вкладыш, дисплея и экрана нет. Очередь не видит на груди ни оценку, ни чужой запрос. О записи говорит индикатор, на входе — уведомление.</p>
+
+                <h2>Какие шаги консультации вообще слышно</h2>
+                <p>Чек-лист стоит писать глаголами, которые можно услышать, а не оценками «был внимателен».</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Шаг</th>
+                            <th>Что считается сделанным</th>
+                            <th>Чего в критерии нет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Приветствие</td>
+                            <td>Обратились первыми, не ждали, пока человек повторит запрос</td>
+                            <td>Оценки «улыбнулся»: микрофон этого не доказывает</td>
+                        </tr>
+                        <tr>
+                            <td>Уточнение</td>
+                            <td>Вопрос про форму, возраст, уже принимаемое — по правилам вашей аптеки</td>
+                            <td>Допрос и сбор лишней истории</td>
+                        </tr>
+                        <tr>
+                            <td>Наличие и выбор</td>
+                            <td>Назвали, что есть, и не отправили «узнайте сами»</td>
+                            <td>Давление заменить назначенное</td>
+                        </tr>
+                        <tr>
+                            <td>Как принимать</td>
+                            <td>Коротко проговорили режим, если это входит в стандарт точки</td>
+                            <td>Импровизированное назначение</td>
+                        </tr>
+                        <tr>
+                            <td>Сопутствующее</td>
+                            <td>Одно уместное предложение: уход, витамин, изделие рядом с запросом</td>
+                            <td>Список из пяти позиций в каждый чек</td>
+                        </tr>
+                        <tr>
+                            <td>Завершение</td>
+                            <td>Чек, что делать дальше, прощание</td>
+                            <td>Обсуждение предыдущего покупателя</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Собственные марки и высокий маржинальный товар имеет смысл добавить в словарь отдельно, если аптека сама хочет видеть, предлагают ли их. Это настройка чек-листа, а не обязательный скрипт «продать дороже любой ценой». На странице отрасли так и сказано: ваши позиции можно внести в словарь, чтобы предложение было видно.</p>
+
+                <h2>Допродажа без выдуманной конверсии</h2>
+                <p>Фраза «в аптеках допродажа даёт столько-то процентов» без своей базы ничего не значит. Честный порядок другой. На пилоте вы считаете, в какой доле диалогов сопутствующее вообще прозвучало. Это знаменатель. Числитель — касса: взяли или нет — вы и так видите в учёте, если связываете смену и предложение. Пока связи нет, не публикуйте конверсию.</p>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20%</span>
+                    Такой рост среднего чека указан на сайте как ориентир продукта, когда предложение начинает звучать. Для аптеки это гипотеза на пилот, не история чужой сети.
+                </div>
+                <p>Снижение затрат на контроль <strong>до 60%</strong> в аптеке означает то же, что и в другом офлайне: меньше часов, когда заведующий вечером слушает случайные файлы. Вместо этого в очередь попадают диалоги без уточнения, с отказом «этого нет» и с конфликтным тоном. Заведующий разбирает исключения, а не всю субботу.</p>
+                <p>Сравнение с разовым визитом проверяющего — в статье <a href="mystery-shopper-alternative.html">«Альтернатива тайному покупателю»</a>. Для аптеки визит полезен, чтобы посмотреть зал и выкладку. Слова консультации он покрывает только в минуты своего прихода.</p>
+
+                <h2>Чего в разбор класть нельзя</h2>
+                <ul>
+                    <li>Имена покупателей и подробности, которые не нужны для оценки скрипта. В обучающем разборе достаточно обезличенной реплики.</li>
+                    <li>Разговор про другого человека в очереди. Это не сервис, и поощрять такие фрагменты рейтингом нельзя.</li>
+                    <li>Личные разговоры сотрудника. Бейдж на смене — про стойку, не про подсобку.</li>
+                    <li>Автоматическую «замену препарата», если аптека сама не утвердила жёсткое правило, когда синоним предлагать можно. Система не должна получать балл за давление.</li>
+                </ul>
+                <div class="highlight-box">
+                    Речевая аналитика не заменяет провизора и не является медицинской рекомендацией. Она отвечает, прозвучал ли ваш стандарт. Стандарт пишет аптека вместе с тем, кто отвечает за качество консультации.
+                </div>
+                <p>Юридическую открытость записи — положение, согласие, табличка, индикатор — см. в материале <a href="legal-audio-recording-kz.html">о записи разговоров сотрудников в РК</a>. Повторять её здесь как «в аптеке можно всё» было бы неточно. Для клиник рядом есть отдельная страница <a href="../otrasli/medicina/index.html">контроля в медицине</a>: регистратура и аптека похожи только стойкой, не предметом разговора.</p>
+
+                <h2>Как выглядит первая неделя без «кейса сети»</h2>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа. Он для любого бизнеса, порог «от 20 точек» его не ограничивает и относится только к индивидуальным enterprise-условиям. Для одной аптеки этого достаточно, чтобы услышать живую речь, а не презентацию.</p>
+                <ol>
+                    <li>Выберите одну смену и одну роль: первостольник, не весь коллектив сразу.</li>
+                    <li>Запишите шесть шагов из таблицы словами вашей точки, включая казахско-русскую смесь, если так говорят на самом деле.</li>
+                    <li>Покажите сотрудникам бейдж: бумаги с именем, никакого экрана с оценкой на груди.</li>
+                    <li>На третий день посмотрите не средний балл, а три доли: было приветствие, было уточнение, было одно сопутствующее.</li>
+                    <li>Решение о сети принимайте по этим долям и по <a href="../index.html#pricing">калькулятору</a>. Покупка бейджа в собственность на сайте — 100&nbsp;000&nbsp;₸ за штуку. Месяц без расчёта не обещаем.</li>
+                </ol>
+                <p>Если после пилота доли низкие, это не «аптека плохая». Это база. Рост среднего чека на 15–20% обсуждают только после того, как предложение вообще начало звучать чаще, чем в эти три дня. До этого любая цифра — чужая.</p>
+
+                <h2>Как не спутать аптеку с ритейлом</h2>
+                <p>В <a href="../otrasli/ritejl/index.html">ритейле</a> допродажа часто и есть цель визита в зал. В аптеке цель визита — закрыть запрос безопасно, а сопутствующее идёт вторым тактом. Общий обзор офлайн-системы — в гайде <a href="speech-analytics-offline-kazakhstan-2026.html">«Речевая аналитика для офлайн-бизнеса в Казахстане»</a>. Имеет смысл скопировать оттуда цепочку «бейдж — выгрузка — чек-лист — дашборд» и заменить только словарь.</p>
+                <p>На <a href="../otrasli/uslugi-i-avto/index.html">СТО</a> клиент подтверждает работы вслух. В аптеке клиент подтверждает, что понял, что купил и как принимать. Оба случая — устный договор, но чек-листы не взаимозаменяемы. Один промпт «на весь офлайн» даст вежливые и бесполезные оценки.</p>
+
+                <h2>Что заведующий смотрит утром, а не «в конце месяца»</h2>
+                <p>Аптеке не нужен пятидесятистраничный отчёт. Утренние десять минут полезнее, если в них три вопроса по вчерашней смене. В какой доле диалогов человека поприветствовали до того, как он повторил запрос. В какой доле запрос уточнили, а не сразу назвали цену. В какой доле прозвучало одно сопутствующее, и не было ли это одно и то же предложение всем подряд, включая тех, кто пришёл с готовым назначением.</p>
+                <p>Конфликтный тон выносят отдельно: не в средний балл, а в короткий список. Заведующий слушает фрагмент, а не всю смену. Именно так снижение затрат на контроль до 60% перестаёт быть лозунгом и становится расписанием: меньше сплошного прослушивания, больше точечного разбора. Если список пустой третий день подряд, это не повод расслабиться. Это повод проверить, не слишком ли узкий словарь и не проглатывает ли чек-лист живую речь.</p>
+                <p>Рядом имеет смысл держать кассу, но не подменять ею речь. Высокий чек при молчаливой стойке бывает из-за дорогого назначения, а не из-за консультации. Низкий чек при аккуратном уточнении бывает в день, когда люди приходили за дешёвым симптоматическим средством. Поэтому +15–20% к среднему чеку на сайте — ориентир после того, как доля предложений выросла, а не обещание, что любая аптека увидит эту цифру за выходные. Пилот как раз для того, чтобы увидеть свою долю, а не чужую историю.</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Речевая аналитика в аптеке ставит диагноз?</h3>
+                <p>Нет. Она проверяет, прозвучали ли шаги консультации: приветствие, уточнение запроса, наличие, как принимать, уместное сопутствующее, завершение. Назначение и замена препарата остаются за специалистом и правилами аптеки.</p>
+                <h3>Можно ли публиковать названия аптек и их проценты?</h3>
+                <p>В этой статье названий аптечных клиентов нет. Цифры продукта на сайте — рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Свою базу аптека снимает на пилоте.</p>
+                <h3>Что нельзя класть в чек-лист первостольника?</h3>
+                <p>Нельзя поощрять давление, замену назначенного без правил аптеки, обсуждение другого покупателя и оценку личного разговора сотрудника. Бейдж без экрана не показывает очереди чужие данные.</p>
+                <h3>Как попробовать на одной аптеке?</h3>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа, для любого бизнеса, без порога по числу точек. Страница <a href="../otrasli/apteki/index.html">отрасли «Аптеки»</a> описывает тот же запуск.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Поставим два бейджа в аптеке и разберём, звучит ли консультация. Пилот бесплатный для любого бизнеса, без названия вашей сети в публичных материалах.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;">
+                        <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    </a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                &copy; 2026 AiProtocol.kz. Все права защищены.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

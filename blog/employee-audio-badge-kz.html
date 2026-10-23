@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аудиобейдж для сотрудников: как работает и законно ли в РК — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/employee-audio-badge-kz">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/employee-audio-badge-kz">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/employee-audio-badge-kz">
+    <meta name="description"
+        content="Аудиобейдж для сотрудников в Казахстане: бумажный вкладыш без экрана, как идёт запись смены и какие шаги делают её открытой. Пилот 3 дня.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Аудиобейдж для сотрудников: как работает и законно ли это в РК">
+    <meta property="og:description"
+        content="Чем умный бейдж отличается от скрытого диктофона, как устроены АБ-400 и V4 и как запустить открытую запись на точке.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/ab400-badge.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 24px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol.kz by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Аудиобейдж для сотрудников: как работает и законно ли это в РК",
+  "description": "Как устроен аудиобейдж для сотрудников, почему у АБ-400 нет экрана и какие шаги делают запись открытой.",
+  "image": "https://aiprotocol.kz/assets/ab400-badge.png",
+  "author": { "@type": "Organization", "name": "AiProtocol.kz by ОККМ" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol.kz",
+    "logo": { "@type": "ImageObject", "url": "https://aiprotocol.kz/favicon.png" }
+  },
+  "datePublished": "2026-10-23T08:00:00+05:00",
+  "dateModified": "2026-10-23T08:00:00+05:00",
+  "mainEntityOfPage": "https://aiprotocol.kz/blog/employee-audio-badge-kz"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aiprotocol.kz/" },
+    { "@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aiprotocol.kz/blog" },
+    { "@type": "ListItem", "position": 3, "name": "Аудиобейдж для сотрудников", "item": "https://aiprotocol.kz/blog/employee-audio-badge-kz" }
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Аудиобейдж — это бейдж с диктофоном?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "По сути да: это носимый микрофон на смене. Отличие от карманного диктофона в том, что запись служебная и открытая, после смены файл выгружается, а разбор идёт по чек-листу сервиса, а не вручную «на всякий случай»."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Есть ли на аудиобейдже экран с именем?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. У «Октавы АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. О записи сообщает индикатор."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Законно ли носить аудиобейдж на работе в Казахстане?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Скрытая запись служебным инструментом не подходит. На сайте описаны три опоры открытого запуска: внутреннее положение, согласие сотрудника и уведомление посетителей плюс видимый индикатор. Это не юридическая консультация. Подробности — в статье о законности записи."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит аудиобейдж?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Покупка бейджа в собственность на сайте указана как 100 000 тенге за штуку. Месячный платёж зависит от сети и считается калькулятором. Бесплатный пилот — 3 дня и 2 бейджа для любого бизнеса."
+      }
+    }
+  ]
+}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Аудиобейдж</div>
+                <h1 class="article-title">Аудиобейдж для сотрудников: как работает и законно ли это в РК</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 7 мин чтения</p>
+            </div>
+
+            <div class="article-hero">
+                <img src="/assets/ab400-badge.png" alt="Аудиобейдж Октава АБ-400: имя на бумажном вкладыше, без экрана" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+
+            <div class="article-content">
+                <p><strong>Аудиобейдж для сотрудников</strong> — это носимый микрофон, который пишет рабочий разговор с клиентом и после смены отдаёт файл в систему. У комплекса «Октава АБ-400» имя на груди — бумажный вкладыш. Дисплея и экрана нет: устройство не показывает текст, оценки и подсказки. О том, что идёт запись, говорит индикатор.</p>
+                <p>Умный бейдж часто путают с бейджем-диктофоном «в карман, чтобы никто не знал». Для контроля сервиса в Казахстане такая схема не подходит. Ниже — как устроена смена, чем отличаются комплекты на сайте и какие шаги делают запись открытой. Это описание продукта, а не заключение юриста. Нормативную рамку мы отдельно разобрали в статье <a href="legal-audio-recording-kz.html">«Законно ли записывать разговоры сотрудников в Казахстане»</a>.</p>
+
+                <h2>Что сотрудник носит на самом деле</h2>
+                <p>Бейдж с диктофоном в бытовом смысле — коробочка с микрофоном. Рабочий аудиобейдж добавляет три свойства, без которых контроль качества разваливается.</p>
+                <ul>
+                    <li><strong>Он на виду.</strong> Клиент видит бейдж на форме, а не петличку под лацканом. Индикатор записи — часть этой открытости.</li>
+                    <li><strong>Имя читается с бумаги.</strong> На АБ-400 вкладыш печатает или подписывает сама точка. Менять имя не нужно «перепрошивкой экрана», потому что экрана нет.</li>
+                    <li><strong>Файл уходит со смены, а не остаётся в кармане.</strong> После смены бейдж ставится на зарядку, записи выгружаются по Wi-Fi на зашифрованный сервер. Личная коллекция аудио у сотрудника не копится.</li>
+                </ul>
+                <p>Смарт-бейдж V4 на сайте — второй вариант: автономная запись, выгрузка по Wi-Fi или Bluetooth, индикатор статуса и зарядка USB-C, аренда или покупка. Индикатор статуса — это сигнал о работе, не экран с именем и не лента подсказок. Если в разговоре с поставщиком вам предлагают «бейдж с дисплеем скрипта», это уже другое устройство, не то, что описано у AiProtocol.</p>
+
+                <h2>Как проходит смена</h2>
+                <p>Полезно разложить день на шаги, которые управляющий может проверить без инженера.</p>
+                <ol>
+                    <li>В начале смены сотрудник берёт заряженный бейдж и вставляет бумажный бейдж с именем, если это АБ-400.</li>
+                    <li>На рабочем месте индикатор показывает, что запись служебного разговора идёт. Подсобка и личный звонок — не клиентский диалог: их не нужно тащить в оценку сервиса.</li>
+                    <li>В конце смены устройство возвращается на зарядку. У АБ-400 выгрузка идёт через станцию БС-4, заявленное время работы — до 18 часов, в памяти — шифрование AES-128.</li>
+                    <li>Дальше говорит уже не бейдж, а <a href="speech-analytics-offline-kazakhstan-2026.html">система речевой аналитики</a>: текст, чек-лист, реестр диалогов, рейтинг смены.</li>
+                </ol>
+                <p>Бейдж сам не хвалит и не штрафует. Он не произносит фразу за кассира. Оценка появляется позже, в дашборде, по правилам, которые сеть задала заранее: приветствие, уточнение, предложение, конфликт, завершение.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Октава АБ-400</th>
+                            <th>Смарт-бейдж V4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Имя сотрудника</td>
+                            <td>Бумажный вкладыш, без дисплея и экрана</td>
+                            <td>Отдельного экрана с именем на сайте нет; есть индикатор статуса</td>
+                        </tr>
+                        <tr>
+                            <td>Запись и отдача файла</td>
+                            <td>До 18 часов, станция БС-4, AES-128</td>
+                            <td>Автономная запись, Wi-Fi или Bluetooth</td>
+                        </tr>
+                        <tr>
+                            <td>Питание</td>
+                            <td>Зарядка в составе комплекса</td>
+                            <td>USB-C</td>
+                        </tr>
+                        <tr>
+                            <td>Как берут</td>
+                            <td>Покупает клиент у представителя в РК</td>
+                            <td>Аренда или покупка</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Где бейдж уместен, а где нет</h2>
+                <p>Носимый микрофон имеет смысл там, где сотрудник отходит от стойки. На <a href="../otrasli/azs/index.html">АЗС</a> это колонка и магазин. В <a href="../otrasli/ritejl/index.html">ритейле</a> — зал, а не только касса. В <a href="../otrasli/apteki/index.html">аптеке</a> первостольник консультирует у полки. На <a href="../otrasli/uslugi-i-avto/index.html">СТО</a> мастер-приёмщик ходит вокруг машины. В <a href="../otrasli/medicina/index.html">клинике</a> администратор встречает у стойки; врачебный кабинет подключают только если сеть отдельно решила, кто имеет доступ к записи.</p>
+                <p>Потолочный микрофон «на весь зал» пишет кассу соседа, ребёнка у витрины и разговор в очереди. Бейдж пишет того, на ком он надет. Для контроля продавцов это точнее. Для охраны периметра это плохой инструмент, и подменять одну задачу другой не стоит.</p>
+
+                <h2>Законно ли это в РК</h2>
+                <p>Коротко: скрытый бейдж-диктофон под задачу «проверить людей незаметно» мы не описываем как рабочую схему. Открытая запись сервиса на сайте опирается на три шага.</p>
+                <ol>
+                    <li>Во внутреннем документе написано, что на рабочих местах идёт аудиофиксация качества обслуживания.</li>
+                    <li>Сотрудник подписывает согласие на обработку данных, где бейдж назван прямо.</li>
+                    <li>Посетитель видит уведомление на точке, а на бейдже — индикатор записи.</li>
+                </ol>
+                <div class="highlight-box">
+                    Текст выше повторяет опубликованную на сайте схему запуска и не заменяет разбор ваших документов юристом. Перед договором сверьте положение, согласие и табличку с тем, как смена работает на самом деле.
+                </div>
+                <p>Отдельный практический запрет проще юридического: не оценивать личные разговоры и комнату отдыха. Если бейдж остался включённым в подсобке, этот фрагмент не является «качеством обслуживания». В правилах смены это лучше написать обычным языком, до первого дня пилота.</p>
+
+                <h2>Сколько это стоит, без выдуманного прайса</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">100 000 ₸</span>
+                    Столько на сайте указана покупка одного бейджа в собственность. К тарифу на срок договора тогда даётся скидка 10%.
+                </div>
+                <p>Месячную «цену аудиобейджа для всех» назвать нельзя: сумма в калькуляторе зависит от числа точек, режима 24/7 или дневной смены и числа людей в смене. При круглосуточной точке бейджей закладывают больше, чтобы хватило ротации на зарядке. Считать свою сеть нужно на <a href="../index.html#pricing">странице тарифов</a>, а не по чужому примеру.</p>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа, для любого бизнеса. Условие «от 20 точек» на сайте относится только к индивидуальным enterprise-условиям и пилот не ограничивает. Договор, если после пилота идут дальше, на сайте описан как 12 месяцев с фиксацией тарифа в тенге и поквартальной оплатой вперёд, первый платёж после пилота.</p>
+                <p>Эффект, который сайт связывает с контролем, тоже лучше цитировать как ориентир продукта: рост среднего чека <strong>+15–20%</strong> и снижение затрат на ОКК <strong>до 60%</strong>. Это не отчёт владельца конкретного бейджа и не обещание окупаемости «за месяц» для любой точки.</p>
+
+                <h2>Как выдать бейдж так, чтобы смена его не прятала</h2>
+                <p>Саботаж почти всегда про страх, а не про вес корпуса. Имеет смысл в первый день показать сотруднику его собственный короткий диалог и одну фразу, которую стоит поправить. Не таблицу «вы худший». Бейдж без экрана здесь помогает: на груди нет бегущей оценки, которую видит очередь.</p>
+                <p>Вторая договорённость — кто слушает файлы. Если доступ есть у управляющего смены и у службы качества, а не у всего чата компании, разговор о приватности короче. Третья — зачем это коммерческому директору: не чтобы поймать, а чтобы увидеть, предлагают ли допродажу. Связка с деньгами разобрана в гайде по <a href="speech-analytics-offline-kazakhstan-2026.html">офлайн-аналитике</a> и в сравнении с <a href="mystery-shopper-alternative.html">тайным покупателем</a>.</p>
+
+                <h2>Что спросить до закупки партии</h2>
+                <p>Короткий список снимает путаницу между «умным бейджем» из презентации и устройством, которое переживёт смену. Ответы имеет смысл записать в одном письме, а не собирать по слайдам.</p>
+                <ul>
+                    <li>Где написано имя: бумага или экран? Для АБ-400 верный ответ — бумажный вкладыш, без дисплея.</li>
+                    <li>Куда девается файл в конце дня и кто, кроме управляющего, может его открыть.</li>
+                    <li>Хватает ли заряда на вашу смену. Для АБ-400 на сайте указано до 18 часов; круглосуточной точке нужна ротация, это же заложено в калькуляторе.</li>
+                    <li>Виден ли индикатор записи покупателю у стойки, а не только сотруднику, если перевернуть устройство.</li>
+                    <li>Можно ли за три дня услышать свою точку, прежде чем подписывать год. На сайте этот шаг назван прямо: бесплатный пилот, два бейджа, любой бизнес.</li>
+                </ul>
+                <p>Если поставщик отвечает только словом «ИИ» и не показывает реестр одного диалога, бейдж вам пока не нужен. Сначала нужен слышимый файл и понятный чек-лист. Связка с отраслями — в гайде по <a href="speech-analytics-offline-kazakhstan-2026.html">офлайн-аналитике</a>: АЗС, аптека, ритейл, клиника и СТО отличаются словарём, не принципом «микрофон на человеке».</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Аудиобейдж — это бейдж с диктофоном?</h3>
+                <p>По сути да: это носимый микрофон на смене. Отличие от карманного диктофона в том, что запись служебная и открытая, после смены файл выгружается, а разбор идёт по чек-листу сервиса, а не вручную «на всякий случай».</p>
+                <h3>Есть ли на аудиобейдже экран с именем?</h3>
+                <p>Нет. У «Октавы АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. О записи сообщает индикатор.</p>
+                <h3>Законно ли носить аудиобейдж на работе в Казахстане?</h3>
+                <p>Скрытая запись служебным инструментом не подходит. На сайте описаны три опоры открытого запуска: внутреннее положение, согласие сотрудника и уведомление посетителей плюс видимый индикатор. Это не юридическая консультация. Подробности — в <a href="legal-audio-recording-kz.html">статье о законности записи</a>.</p>
+                <h3>Сколько стоит аудиобейдж?</h3>
+                <p>Покупка бейджа в собственность на сайте указана как 100&nbsp;000 тенге за штуку. Месячный платёж зависит от сети и считается калькулятором. Бесплатный пилот — 3 дня и 2 бейджа для любого бизнеса.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Дадим два бейджа и посмотрим, как они сидят на вашей смене: слышно ли клиента и понятен ли чек-лист. Пилот для любого бизнеса.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;">
+                        <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    </a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                &copy; 2026 AiProtocol.kz. Все права защищены.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
