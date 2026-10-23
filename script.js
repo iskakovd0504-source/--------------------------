@@ -2,6 +2,13 @@
  * ОККМ Landing Page — Interactive Script
  */
 (function () {
+    function pageLang() {
+        const path = window.location.pathname.replace(/\/+$/, '') || '/';
+        if (path === '/kk' || path.startsWith('/kk/')) return 'kk';
+        if (path === '/en' || path.startsWith('/en/')) return 'en';
+        return 'ru';
+    }
+
     /* ===== THREE.JS 3D GLASS WINE/WAVE SHADER ===== */
     let waveMaterial = null;
     const glassWaveCanvas = document.getElementById('3d-glass-wave');
@@ -356,19 +363,22 @@
             };
 
             // Visual feedback — loading
+            const sendingLabel = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
             submitBtn.innerHTML = `
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="spin">
                     <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="40" stroke-dashoffset="10" stroke-linecap="round"/>
                 </svg>
-                Отправка...
+                ${sendingLabel}
             `;
             submitBtn.disabled = true;
 
             // Функция перехода на WhatsApp при успешной отправке
             const sendToWhatsApp = () => {
-                const isEn = window.location.pathname.includes('/en/');
-                const text = isEn 
+                const lang = pageLang();
+                const text = lang === 'en'
                     ? `Hello! Demo Request from OKKM website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
+                    : lang === 'kk'
+                    ? `Сәлеметсіз бе! OKKM сайтынан демо өтінімі:\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}\nСала: ${industry}`
                     : `Здравствуйте! Заявка на демо с сайта OKKM:\n\nИмя: ${name}\nТелефон: ${phone}\nCompany: ${company}\nОтрасль: ${industry}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
@@ -393,11 +403,12 @@
                 })
                 .catch((error) => {
                     console.error('EmailJS error:', error);
+                    const errorLabel = pageLang() === 'kk' ? 'Жіберу қатесі' : pageLang() === 'en' ? 'Sending failed' : 'Ошибка отправки';
                     submitBtn.innerHTML = `
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M6 6L14 14M14 6L6 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                        Ошибка отправки
+                        ${errorLabel}
                     `;
                     submitBtn.style.background = 'linear-gradient(135deg, #EF4444, #DC2626)';
 
@@ -415,7 +426,7 @@
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M4 10L8 14L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Заявка отправлена!
+            ${pageLang() === 'kk' ? 'Өтінім жіберілді!' : pageLang() === 'en' ? 'Request sent!' : 'Заявка отправлена!'}
         `;
         submitBtn.style.background = 'linear-gradient(135deg, #10B981, #06B6D4)';
 
@@ -499,8 +510,7 @@
         const isD = e.key.toLowerCase() === 'd';
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && isD) {
             e.preventDefault();
-            const prefix = window.location.pathname.includes('/en/') ? '../' : '';
-            window.location.href = prefix + 'demo.html';
+            window.location.href = '/demo.html';
         }
     });
 
@@ -546,7 +556,7 @@
         }
     });
 
-    const simLines = [
+    const simLinesRu = [
         { text: "> Initializing AiProtocol Audio Processor...", delay: 500, color: "#06B6D4" },
         { text: "> Loading acoustic models (RU-KZ)... Done.", delay: 800, color: "#22c55e" },
         { text: "> Connection status: Audioshield Active.", delay: 600, color: "#22c55e" },
@@ -566,6 +576,27 @@
         { text: "\n> ИИ-ВЕРДИКТ: Диалог успешный. Средний чек увеличен на 1200 ₸. Данные отправлены в дашборд.", delay: 1500, color: "#22c55e" },
         { text: "\n[СИМУЛЯЦИЯ ЗАВЕРШЕНА. Спасибо за просмотр!]", delay: 1000, color: "#06B6D4" }
     ];
+    const simLinesKk = [
+        { text: "> Initializing AiProtocol Audio Processor...", delay: 500, color: "#06B6D4" },
+        { text: "> Loading acoustic models (RU-KZ)... Done.", delay: 800, color: "#22c55e" },
+        { text: "> Connection status: Audioshield Active.", delay: 600, color: "#22c55e" },
+        { text: "> Stream started. Analyzing room noise: 42dB (Excellent).", delay: 1000, color: "#e2e8f0" },
+        { text: "\n[00:02] Қызметкер: Сәлеметсіз бе! Бакты толтырайық па?", delay: 1500, color: "#3B82F6" },
+        { text: "[00:05] Клиент: Иә, 95-ші болсын.", delay: 1200, color: "#f8fafc" },
+        { text: "[00:08] Қызметкер: Жақсы. Бүгін 30 литрден асқан құюға фирмалық кофеге 50% жеңілдік бар. Алып көресіз бе?", delay: 2000, color: "#3B82F6" },
+        { text: "[00:14] Клиент: Иә, капучиноны өзіммен алайын.", delay: 1500, color: "#f8fafc" },
+        { text: "[00:17] Қызметкер: Қабылданды. Картамен төлейсіз бе?", delay: 1000, color: "#3B82F6" },
+        { text: "[00:20] Клиент: Иә, жанасусыз.", delay: 800, color: "#f8fafc" },
+        { text: "\n> Analyzing conversation metrics...", delay: 1200, color: "#eab308" },
+        { text: "  - Амандасу: бар [ДҰРЫС]", delay: 600, color: "#22c55e" },
+        { text: "  - Қажеттілік: анықталды [ДҰРЫС]", delay: 500, color: "#22c55e" },
+        { text: "  - Акция / қосымша ұсыныс: иә (кофе) [ДҰРЫС]", delay: 500, color: "#22c55e" },
+        { text: "  - Қызметкер үні: сыпайы [9.2/10]", delay: 700, color: "#06B6D4" },
+        { text: "  - Жанжал: 0% [ҚАУІПСІЗ]", delay: 400, color: "#22c55e" },
+        { text: "\n> ҚОРЫТЫНДЫ: Диалог стандартқа сай. Қосымша кофе ұсынылды. Дерек тақтаға түсті.", delay: 1500, color: "#22c55e" },
+        { text: "\n[СИМУЛЯЦИЯ АЯҚТАЛДЫ.]", delay: 1000, color: "#06B6D4" }
+    ];
+    const simLines = pageLang() === 'kk' ? simLinesKk : simLinesRu;
 
     if (startSimulationBtn) {
         startSimulationBtn.addEventListener('click', () => {
@@ -634,20 +665,20 @@
             const phone = document.getElementById('td-phone').value;
             const company = document.getElementById('td-company').value;
 
-            submitBtn.innerHTML = `
-                Отправка...
-            `;
+            submitBtn.innerHTML = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
             submitBtn.disabled = true;
 
             setTimeout(() => {
-                submitBtn.innerHTML = "Заявка успешно отправлена! ✓";
+                submitBtn.innerHTML = pageLang() === 'kk' ? 'Өтінім жіберілді ✓' : pageLang() === 'en' ? 'Request sent ✓' : 'Заявка успешно отправлена! ✓';
                 submitBtn.style.background = "#22c55e";
                 submitBtn.style.borderColor = "#22c55e";
                 
                 // Перенаправление на WhatsApp с параметрами тест-драйва
-                const isEn = window.location.pathname.includes('/en/');
-                const text = isEn 
+                const lang = pageLang();
+                const text = lang === 'en'
                     ? `Hello! Request for 2 free badges (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
+                    : lang === 'kk'
+                    ? `Сәлеметсіз бе! 2 бейджге өтінім (3 күндік тегін пилот):\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}`
                     : `Здравствуйте! Запрос 2-х бейджей (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
@@ -692,11 +723,16 @@
     const calcAddRowBtn = document.getElementById('calc-add-row');
 
     if (calcRowsBody && calcAddRowBtn) {
+        const kkCalc = pageLang() === 'kk';
         const RATES = {
-            "8":  { label: "До 8 часов",   rent: 65000, buy: 58500, badgeMult: 1 },
-            "12": { label: "До 12 часов",  rent: 85000, buy: 76500, badgeMult: 1 },
-            "24": { label: "24 часа (Круглосуточно)", rent: 85000, buy: 76500, badgeMult: 2 }
+            "8":  { label: kkCalc ? "8 сағатқа дейін" : "До 8 часов",   rent: 65000, buy: 58500, badgeMult: 1 },
+            "12": { label: kkCalc ? "12 сағатқа дейін" : "До 12 часов",  rent: 85000, buy: 76500, badgeMult: 1 },
+            "24": { label: kkCalc ? "24 сағат (тәулік бойы)" : "24 часа (Круглосуточно)", rent: 85000, buy: 76500, badgeMult: 2 }
         };
+        const pointWord = kkCalc ? "Нүкте " : "Точка ";
+        const rentWord = kkCalc ? "Жалдау" : "Аренда";
+        const buyWord = kkCalc ? "Сатып алу" : "Покупка";
+        const deleteTitle = kkCalc ? "Нүктені өшіру" : "Удалить точку";
         const BADGE_PRICE = 100000;
 
         let netRows = [];
@@ -707,7 +743,7 @@
         }
 
         function addNetRow() {
-            netRows.push({ id: netIdSeq++, name: "Точка " + (netRows.length + 1), mode: "12", staff: 1, buy: false });
+            netRows.push({ id: netIdSeq++, name: pointWord + (netRows.length + 1), mode: "12", staff: 1, buy: false });
             renderNetCalc();
         }
 
@@ -755,12 +791,12 @@
                     <td class="badges-cell">${rowBadges(r)}</td>
                     <td>
                         <div class="mode-toggle">
-                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">Аренда</button>
-                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">Покупка</button>
+                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">${rentWord}</button>
+                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">${buyWord}</button>
                         </div>
                     </td>
                     <td class="rowsum">${fmtKzt(rowMonthly(r))}</td>
-                    <td><button type="button" class="del-btn" data-del="${r.id}" title="Удалить точку">×</button></td>
+                    <td><button type="button" class="del-btn" data-del="${r.id}" title="${deleteTitle}">×</button></td>
                 `;
                 calcRowsBody.appendChild(tr);
             });
@@ -817,9 +853,9 @@
         calcAddRowBtn.addEventListener("click", addNetRow);
 
         // Стартовые 3 точки для демо
-        netRows.push({ id: netIdSeq++, name: "Точка 1", mode: "8", staff: 1, buy: false });
-        netRows.push({ id: netIdSeq++, name: "Точка 2", mode: "12", staff: 1, buy: false });
-        netRows.push({ id: netIdSeq++, name: "Точка 3", mode: "24", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: pointWord + "1", mode: "8", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: pointWord + "2", mode: "12", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: pointWord + "3", mode: "24", staff: 1, buy: false });
         renderNetCalc();
     }
 
@@ -1051,6 +1087,76 @@
                     <div class="message-text">Bye.</div>
                     <span class="message-badge message-badge--danger">Farewell Violation</span>
                 </div>
+            `,
+            kk: `
+                <div class="transcript-message highlight-red" data-time="1" data-scroll-to="0">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Сәлем.</div>
+                    <span class="message-badge message-badge--danger">Амандасу бұзылды</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Қайырлы күн. 4-бағанға АИ-92, 20 литр.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">Төлемге 4 600 теңге.</div>
+                    <span class="message-badge message-badge--danger">Тапсырыс қайталанбады</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Картаны алыңыз.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">Тағы бірдеңе керек пе?</div>
+                    <span class="message-badge message-badge--danger">Әлсіз қосымша ұсыныс</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">Жоқ.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Чек керек пе?</div>
+                    <span class="message-badge message-badge--danger">Чек туралы орынсыз сұрақ</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Иә.</div>
+                </div>
+                <div class="transcript-message highlight-red" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">Сау болыңыз.</div>
+                    <span class="message-badge message-badge--danger">Қоштасу стандарты бұзылды</span>
+                </div>
             `
         },
         good: {
@@ -1193,6 +1299,76 @@
                     <div class="message-text">Please tap your card. Here is your receipt. Have a safe trip and see you next time at Nomad!</div>
                     <span class="message-badge message-badge--success">Receipt Issued • Standard Farewell</span>
                 </div>
+            `,
+            kk: `
+                <div class="transcript-message highlight-green" data-time="1">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:01</span>
+                    </div>
+                    <div class="message-text">Сәлеметсіз бе! Nomad-қа қош келдіңіз.</div>
+                    <span class="message-badge message-badge--success">Амандасу орындалды</span>
+                </div>
+                <div class="transcript-message" data-time="4">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:04</span>
+                    </div>
+                    <div class="message-text">Қайырлы күн. 4-бағанға АИ-92, 20 литр.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="8">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:08</span>
+                    </div>
+                    <div class="message-text">АИ-92, 20 литр, төртінші баған. Төлемге 4 600 теңге.</div>
+                    <span class="message-badge message-badge--success">Тапсырыс қайталанды</span>
+                </div>
+                <div class="transcript-message" data-time="12">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:12</span>
+                    </div>
+                    <div class="message-text">Иә, дұрыс. Картамен төлеймін.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="15">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:15</span>
+                    </div>
+                    <div class="message-text">Бүгін жаңа круассан мен кофе бар. Жолға капучино аласыз ба?</div>
+                    <span class="message-badge message-badge--success">Кофе ұсынылды</span>
+                </div>
+                <div class="transcript-message" data-time="18">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:18</span>
+                    </div>
+                    <div class="message-text">Иә, капучино болсын. Рақмет.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="21">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:21</span>
+                    </div>
+                    <div class="message-text">Жақсы. 20 литрден асқан құюға әйнек жуғышқа 50% жеңілдік бар. Қосамыз ба?</div>
+                    <span class="message-badge message-badge--success">Науқан айтылды</span>
+                </div>
+                <div class="transcript-message" data-time="24">
+                    <div class="message-meta">
+                        <span class="message-speaker">Клиент</span>
+                        <span class="message-timestamp">00:24</span>
+                    </div>
+                    <div class="message-text">Иә, әйнек жуғышты да алайын.</div>
+                </div>
+                <div class="transcript-message highlight-green" data-time="27">
+                    <div class="message-meta">
+                        <span class="message-speaker">Кассир</span>
+                        <span class="message-timestamp">00:27</span>
+                    </div>
+                    <div class="message-text">Картаны жанастырыңыз. Чегіңіз мынау. Жолыңыз болсын, Nomad-та тағы күтеміз.</div>
+                    <span class="message-badge message-badge--success">Чек берілді • Қоштасу орындалды</span>
+                </div>
             `
         }
     };
@@ -1210,9 +1386,10 @@
         demoPlayerBox.classList.remove('playing');
         
         // Подгружаем нужный транскрипт
-        const isEn = window.location.pathname.includes('/en/');
-        const lang = isEn ? 'en' : 'ru';
-        demoTranscript.innerHTML = transcripts[currentDemoType][lang];
+        const lang = pageLang();
+        if (transcripts[currentDemoType][lang]) {
+            demoTranscript.innerHTML = transcripts[currentDemoType][lang];
+        }
 
         updateMessages();
         messages.forEach(msg => {
@@ -1224,8 +1401,10 @@
         
         resetChecklist();
         
-        aiRecText.textContent = isEn 
+        aiRecText.textContent = lang === 'en'
             ? 'Start the conversation recording to automatically generate recommendations...'
+            : lang === 'kk'
+            ? 'Ұсыныс шығару үшін жазбаны іске қосыңыз...'
             : 'Запустите запись разговора для автоматической генерации рекомендаций...';
     }
 
@@ -1269,7 +1448,7 @@
             playIcon.className = 'ph ph-pause';
             demoPlayerBox.classList.add('playing');
             
-            const isEn = window.location.pathname.includes('/en/');
+            const lang = pageLang();
 
             playInterval = setInterval(() => {
                 currentTime++;
@@ -1320,8 +1499,10 @@
                         demoScore.textContent = '29%';
                         demoScore.className = 'score-circle score-red';
                         
-                        aiRecText.innerHTML = isEn
+                        aiRecText.innerHTML = lang === 'en'
                             ? '<strong>Critical standard non-compliance:</strong> The cashier used a dry "Hi there" greeting, did not offer coffee/pastries, missed the promo campaign, and asked a forbidden receipt question. <br><strong>Lost Profit:</strong> $6.50 (3,000 KZT). <br><em>Recommendation: Assign a mini-training on active sales standards.</em>'
+                            : lang === 'kk'
+                            ? '<strong>Стандарт бұзылды:</strong> кассир құрғақ амандасып, кофе не тоқаш ұсынбай, чек туралы сұрақ қойды. <em>Ұсыныс: АЗС стандартын қайта көрсету.</em>'
                             : '<strong>Критическое нарушение стандартов:</strong> Кассир использовал сухое приветствие «Здрасьте», проигнорировал предложение кофе/выпечки, не озвучил промо-акцию и задал запрещенный вопрос про чек. <br><strong>Упущенная выгода:</strong> 3 000 ₸. <br><em>Рекомендация: Назначить повторный курс по стандартам обслуживания на АЗС.</em>';
                     }
                 } else {
@@ -1347,8 +1528,10 @@
                         updateChecklistItem(chkFarewell, 'success');
                         demoScore.textContent = '96%';
                         
-                        aiRecText.innerHTML = isEn
+                        aiRecText.innerHTML = lang === 'en'
                             ? '<strong>Reference standard implementation:</strong> Cashier welcomed the client warmly, successfully upsold cappuccino, and initiated windshield fluid promo. Correct check output. <br><strong>Added Profit:</strong> +$8.50 (+3,800 KZT). <br><em>Recommendation: Reward cashier for active sales.</em>'
+                            : lang === 'kk'
+                            ? '<strong>Стандарт орындалды:</strong> кассир жылы амандасып, капучино ұсынып, чекті беріп, жол тіледі. <em>Ұсыныс: белсенді сатуды ауысымнан кейін атап өту.</em>'
                             : '<strong>Эталонное соблюдение стандартов:</strong> Кассир тепло поприветствовал клиента, провел успешный кросс-сейл капучино и продал омыватель по акции. Стандарты чека и прощания выполнены на 100%. <br><strong>Дополнительная прибыль:</strong> +3 800 ₸. <br><em>Рекомендация: Поощрить кассира за активные продажи.</em>';
                     }
                 }
@@ -1449,12 +1632,10 @@
         // Переключаем скриншот дашборда под тему
         const dashboardImg = document.getElementById('dashboard-img');
         if (dashboardImg) {
-            const isEn = window.location.pathname.includes('/en/');
-            const prefix = isEn ? '../' : '';
             if (theme === 'light') {
-                dashboardImg.src = prefix + 'assets/dashboard_light.png';
+                dashboardImg.src = '/assets/dashboard_light.png';
             } else {
-                dashboardImg.src = prefix + 'assets/dashboard_real.png';
+                dashboardImg.src = '/assets/dashboard_real.png';
             }
         }
 
