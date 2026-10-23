@@ -1,0 +1,16 @@
+# Internal docs, archives, and decks stay in git but are not deployed.
+CLAUDE OKK.zip
+CLAUDE OKK.md
+TZ_SEO_GEO_aiprotocol.kz.md
+Коммерческое_предложение_AiProtocol_АЗС.md
+AiProtocol_PitchDeck.html
+AiProtocol_PitchDeck_Premium.html
+old_app.html
+git_instruction.md
+demo_okkm.html
+styles_backup.css
+scratch/
+okk/
+.agents/
+.vite/
+.DS_Store
