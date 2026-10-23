@@ -6,7 +6,7 @@ AiProtocol is a hardware and software platform for automated quality control of 
 ## Key Metrics & Value Proposition
 - **Coverage**: Analyzes 100% of employee-customer dialogues automatically.
 - **Revenue Growth**: Increases the average check by 15-20% through automated control of cross-sells and up-sells.
-- **Cost Reduction**: Reduces quality assurance (QA) and monitoring costs by up to 70%.
+- **Cost Reduction**: Reduces quality assurance (QA) and monitoring costs by up to 60%.
 - **Hardware**: We utilize specialized DSP noise-canceling audio badges (e.g., Smart Badge V4, Oktava AB-400) that isolate employee voices even in noisy environments like gas stations or retail stores.
 
 ## Industries & Solutions
