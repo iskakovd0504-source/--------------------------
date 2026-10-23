@@ -146,7 +146,7 @@
       "name": "Где хранятся записи, насколько это безопасно?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Записи хранятся в серверной инфраструктуре в дата-центре уровня Tier III (г. Алматы, Республика Казахстан). Передача данных между компонентами платформы осуществляется по защищенным протоколам (TLS/HTTPS). Доступ к исходным аудиозаписям строго ограничен кругом администраторов, ответственных за эксплуатацию хранилища и базы данных. Шифрование данных при хранении реализуется на уровне инфраструктуры и настраивается в соответствии с требованиями заказчика в рамках договора. Возможно полностью автономное размещение (on-premise)."
+        "text": "Данные передаются по защищённым протоколам (HTTPS). Доступ к записям есть только у пользователей, которых назначил клиент. Подробнее о хранении и обработке данных расскажем по запросу."
       }
     },
     {
@@ -379,7 +379,7 @@
                             <div class="step__number">02</div>
                             <div class="step__content">
                                 <h3 class="step__title">Данные передаются</h3>
-                                <p class="step__text">После смены бейдж ставится на зарядку. Все записи автоматически выгружаются на зашифрованный сервер по Wi-Fi.</p>
+                                <p class="step__text">После смены бейдж ставится на зарядку. Все записи автоматически выгружаются на сервер по Wi-Fi.</p>
                             </div>
                         </div>
                         <div class="step" data-step="3" data-animate="fade-right" data-delay="150">
@@ -510,10 +510,6 @@
                             <span style="font-size: var(--f-size-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-accent-cyan); font-weight: 600;">Enterprise опция</span>
                             <h3 style="font-size: var(--f-size-2xl); margin: var(--space-2) 0 var(--space-4);">Комплекс «Октава АБ-400»</h3>
                             <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6);">
-                                <li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
-                                    <span style="color: var(--c-accent-cyan);">●</span>
-                                    Аппаратное шифрование AES-128 прямо в памяти бейджа.
-                                </li>
                                 <li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
                                     <span style="color: var(--c-accent-cyan);">●</span>
                                     Имя сотрудника — бумажный вкладыш, без дисплея и экрана.
@@ -1093,6 +1089,7 @@
                                 <label for="td-company" class="form__label" style="display: block; margin-bottom: var(--space-2); font-size: var(--f-size-xs); font-weight: 500; color: var(--c-text-secondary);">Компания</label>
                                 <input type="text" id="td-company" class="form__input" placeholder="Ромашка" required style="width: 100%; padding: var(--space-3); background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); color: white;">
                             </div>
+                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Я даю согласие ИП Искаков Д.Р. на сбор и обработку моих персональных данных (имя, телефон, e-mail, название компании, сведения о переходе на сайт и UTM-метки) для обработки заявки и связи со мной. Срок действия согласия — до достижения цели, но не более 12 месяцев. Данные не распространяются в общедоступных источниках и могут передаваться сервисам обработки заявок и веб-аналитики, в т.ч. за рубежом (EmailJS, Telegram, Google Analytics). Согласие можно отозвать, написав нам. Ознакомлен(а) с <a href="/privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Политикой конфиденциальности</a>.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg" id="td-submit" style="width: 100%; padding: 16px 24px;">
                                 Получить тест-драйв на 3 дня
                             </button>
@@ -1248,7 +1245,7 @@
                             </svg>
                         </button>
                         <div class="faq__answer">
-                            <p>Записи хранятся в серверной инфраструктуре в дата-центре уровня Tier III (г. Алматы, Республика Казахстан). Передача данных между компонентами платформы осуществляется по защищенным протоколам (TLS/HTTPS). Доступ к исходным аудиозаписям строго ограничен кругом администраторов, ответственных за эксплуатацию хранилища и базы данных. Шифрование данных при хранении реализуется на уровне инфраструктуры и настраивается в соответствии с требованиями заказчика в рамках договора. Возможно полностью автономное размещение (on-premise).</p>
+                            <p>Данные передаются по защищённым протоколам (HTTPS). Доступ к записям есть только у пользователей, которых назначил клиент. Подробнее о хранении и обработке данных расскажем по запросу.</p>
                         </div>
                     </div>
                     <div class="faq__item" id="faq-5">
@@ -1317,6 +1314,7 @@
                                 <option value="fitness">Фитнес и красота</option>
                                 <option value="other">Другое</option>
                             </select>
+                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Я даю согласие ИП Искаков Д.Р. на сбор и обработку моих персональных данных (имя, телефон, e-mail, название компании, сведения о переходе на сайт и UTM-метки) для обработки заявки и связи со мной. Срок действия согласия — до достижения цели, но не более 12 месяцев. Данные не распространяются в общедоступных источниках и могут передаваться сервисам обработки заявок и веб-аналитики, в т.ч. за рубежом (EmailJS, Telegram, Google Analytics). Согласие можно отозвать, написав нам. Ознакомлен(а) с <a href="/privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Политикой конфиденциальности</a>.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg cta-form__submit" id="form-submit">
                                 Заявка на демо
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

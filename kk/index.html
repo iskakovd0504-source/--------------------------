@@ -146,7 +146,7 @@
       "name": "Жазба қайда сақталады, қаншалықты қауіпсіз?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Жазба Алматыдағы Tier III дерек орталығында сақталады. Платформа ішінде дерек TLS/HTTPS арқылы жүреді. Бастапқы аудиоға қойма мен базаны жүргізетін әкімшілер ғана кіреді. Сақтау кезіндегі шифрлау инфрақұрылым деңгейінде және шарт бойынша бапталады. Толық автономды орналастыру (on-premise) мүмкін."
+        "text": "Деректер қорғалған хаттамалар (HTTPS) арқылы беріледі. Жазбаларға тек клиент тағайындаған пайдаланушылар ғана қол жеткізе алады. Деректерді сақтау және өңдеу туралы толығырақ сұраныс бойынша айтып береміз."
       }
     },
     {
@@ -376,7 +376,7 @@
                             <div class="step__number">02</div>
                             <div class="step__content">
                                 <h3 class="step__title">Дерек беріледі</h3>
-                                <p class="step__text">Ауысымнан кейін бейдж зарядқа қойылады. Жазба Wi-Fi арқылы шифрланған серверге өзі түседі.</p>
+                                <p class="step__text">Ауысымнан кейін бейдж зарядқа қойылады. Жазба Wi-Fi арқылы серверге өзі түседі.</p>
                             </div>
                         </div>
                         <div class="step" data-step="3" data-animate="fade-right" data-delay="150">
@@ -507,10 +507,6 @@
                             <span style="font-size: var(--f-size-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-accent-cyan); font-weight: 600;">Enterprise нұсқасы</span>
                             <h3 style="font-size: var(--f-size-2xl); margin: var(--space-2) 0 var(--space-4);">Комплекс «Октава АБ-400»</h3>
                             <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6);">
-                                <li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
-                                    <span style="color: var(--c-accent-cyan);">●</span>
-                                    AES-128 шифрлау бейдж жадында.
-                                </li>
                                 <li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
                                     <span style="color: var(--c-accent-cyan);">●</span>
                                     Қызметкердің аты — қағаз қондырма, дисплей мен экран жоқ.
@@ -1070,6 +1066,7 @@
                                 <label for="td-company" class="form__label" style="display: block; margin-bottom: var(--space-2); font-size: var(--f-size-xs); font-weight: 500; color: var(--c-text-secondary);">Компания</label>
                                 <input type="text" id="td-company" class="form__input" placeholder="Компания" required style="width: 100%; padding: var(--space-3); background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); color: white;">
                             </div>
+                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Мен ЖК Искаков Д.Р.-ға өтінімді өңдеу және менімен байланысу үшін дербес деректерімді (аты, телефон, e-mail, компания атауы, сайтқа өту туралы мәліметтер және UTM-белгілер) жинауға және өңдеуге келісім беремін. Келісім мақсатқа жеткенге дейін, бірақ 12 айдан аспайтын мерзімге жарамды. Деректер жалпыға қолжетімді көздерде таратылмайды және өтінімдерді өңдеу мен веб-талдау сервистеріне, соның ішінде шетелге (EmailJS, Telegram, Google Analytics) берілуі мүмкін. Келісімді бізге жазу арқылы кері қайтарып алуға болады. <a href="../privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Құпиялылық саясатымен</a> таныстым.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg" id="td-submit" style="width: 100%; padding: 16px 24px;">
                                 3 күндік пилотты алу
                             </button>
@@ -1223,7 +1220,7 @@
                             </svg>
                         </button>
                         <div class="faq__answer">
-                            <p>Жазба Алматыдағы Tier III дерек орталығында сақталады. Платформа ішінде дерек TLS/HTTPS арқылы жүреді. Бастапқы аудиоға қойма мен базаны жүргізетін әкімшілер ғана кіреді. Сақтау кезіндегі шифрлау инфрақұрылым деңгейінде және шарт бойынша бапталады. Толық автономды орналастыру (on-premise) мүмкін.</p>
+                            <p>Деректер қорғалған хаттамалар (HTTPS) арқылы беріледі. Жазбаларға тек клиент тағайындаған пайдаланушылар ғана қол жеткізе алады. Деректерді сақтау және өңдеу туралы толығырақ сұраныс бойынша айтып береміз.</p>
                         </div>
                     </div>
                     <div class="faq__item" id="faq-5">
@@ -1289,6 +1286,7 @@
                                 <option value="fitness">Фитнес және сұлулық</option>
                                 <option value="other">Басқа</option>
                             </select>
+                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Мен ЖК Искаков Д.Р.-ға өтінімді өңдеу және менімен байланысу үшін дербес деректерімді (аты, телефон, e-mail, компания атауы, сайтқа өту туралы мәліметтер және UTM-белгілер) жинауға және өңдеуге келісім беремін. Келісім мақсатқа жеткенге дейін, бірақ 12 айдан аспайтын мерзімге жарамды. Деректер жалпыға қолжетімді көздерде таратылмайды және өтінімдерді өңдеу мен веб-талдау сервистеріне, соның ішінде шетелге (EmailJS, Telegram, Google Analytics) берілуі мүмкін. Келісімді бізге жазу арқылы кері қайтарып алуға болады. <a href="../privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Құпиялылық саясатымен</a> таныстым.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg cta-form__submit" id="form-submit">
                                 Демоға өтінім
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
