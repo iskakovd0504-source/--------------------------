@@ -336,6 +336,23 @@
     const EMAILJS_SERVICE_ID = 'service_wbkc2co';
     const EMAILJS_TEMPLATE_ID = 'template_99jgenj';
 
+    // Fire-and-forget lead copy to /api/lead (Telegram). Never blocks UI/WhatsApp.
+    function postLead(params, formEl) {
+        try {
+            const hp = formEl && formEl.querySelector('input[name="website"]');
+            const payload = JSON.stringify(Object.assign({}, params, {
+                name: params.from_name || params.name || '',
+                website: hp ? hp.value : ''
+            }));
+            fetch('/api/lead', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: payload,
+                keepalive: true
+            }).catch(() => {});
+        } catch (e) { /* ignore */ }
+    }
+
     // Initialize EmailJS
     if (typeof emailjs !== 'undefined') {
         emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -365,6 +382,8 @@
             if (typeof window.aipGetUtm === 'function') {
                 Object.assign(templateParams, window.aipGetUtm());
             }
+            templateParams.form = 'cta_form';
+            postLead(templateParams, form);
 
             // Visual feedback — loading
             const sendingLabel = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
@@ -682,6 +701,7 @@
                 industry: 'test_drive',
                 form: 'test_drive'
             }, utm);
+            postLead(tdParams, tdForm);
             let tdDone = false;
             const finishTestDrive = (sent) => {
                 if (tdDone) return;
