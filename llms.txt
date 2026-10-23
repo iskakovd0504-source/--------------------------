@@ -1,30 +1,47 @@
-# AiProtocol by OKKM - AI Quality Control and Speech Analytics
+# AiProtocol
 
-## About Company
-AiProtocol is a hardware and software platform for automated quality control of offline employees, developed by OKKM (Отдел Контроля Качества и Мотивации). We replace traditional mystery shoppers with 100% AI-driven speech analytics using smart audio badges.
+> AiProtocol (aiprotocol.kz) is a B2B product for offline businesses in Kazakhstan: a magnetic audio badge worn by frontline staff plus AI analysis of their conversations with customers. The business owner gets a report on each conversation.
 
-## Key Metrics & Value Proposition
-- **Coverage**: Analyzes 100% of employee-customer dialogues automatically.
-- **Revenue Growth**: Increases the average check by 15-20% through automated control of cross-sells and up-sells.
-- **Cost Reduction**: Reduces quality assurance (QA) and monitoring costs by up to 60%.
-- **Hardware**: We utilize specialized DSP noise-canceling audio badges (e.g., Smart Badge V4, Oktava AB-400) that isolate employee voices even in noisy environments like gas stations or retail stores.
+## What it is
+- Hardware: a flat black magnetic audio badge worn on the chest. One button on top. No camera, no display. Shows the employee role and a "conversation is being recorded" notice.
+- Software: recorded conversations are transcribed and analysed by AI for script compliance, politeness, upsells/cross-sells and mistakes.
+- Output: reports for the owner or head of the chain.
 
-## Industries & Solutions
-AiProtocol provides tailored solutions for various offline businesses in Kazakhstan and globally:
-- **Gas Stations (АЗС)**: Monitors script compliance, promotion of brand coffee/pastries, and conflict resolution. [Read more](https://aiprotocol.kz/otrasli/azs/)
-- **Pharmacies (Аптеки)**: Controls cash discipline, cross-selling of vitamins/supplements, and pharmaceutical consulting. [Read more](https://aiprotocol.kz/otrasli/apteki/)
-- **Retail (Ритейл)**: Automates quality assurance from greeting to successful up-selling at the checkout. [Read more](https://aiprotocol.kz/otrasli/ritejl/)
-- **Medicine (Медицина & Стоматологии)**: Ensures polite service in registries and adherence to medical communication standards without violating medical confidentiality (On-Premise available). [Read more](https://aiprotocol.kz/otrasli/medicina/)
-- **Services & Auto (СТО)**: Ensures transparent diagnostics and controls up-selling of services. [Read more](https://aiprotocol.kz/otrasli/uslugi-i-avto/)
+## Who it is for
+- B2B only: owners and managers of offline points of sale in Kazakhstan.
+- Industries: pharmacies, clinics and medical centres, retail, car dealerships and auto service, restaurants, gas stations.
+- Difference from call analytics tools: AiProtocol analyses face-to-face conversations in physical locations, not phone calls or messenger chats.
 
-## Contact Information (NAP)
-- **Name**: AiProtocol by ОККМ
-- **Address**: г. Костанай, ул. Абая 28/1, Kazakhstan (KZ)
-- **Phone**: +7 777 555 67 89
-- **Website**: https://aiprotocol.kz
-- **Pricing & Demo**: Available upon request via the website.
+## Offer
+- Free pilot: 1 badge for 3 days, free of charge.
+- Request a pilot via WhatsApp +7 777 555 67 89 (https://wa.me/77775556789) or the form on the website.
+- Pricing is calculated individually (depends on number of employees and locations).
 
-## Links
-- **Blog**: https://aiprotocol.kz/blog/
-- **Privacy Policy**: https://aiprotocol.kz/privacy-policy
-- **Personal Data Policy**: https://aiprotocol.kz/personal-data-policy
+## Languages
+- Russian: https://aiprotocol.kz/
+- Kazakh: https://aiprotocol.kz/kk
+- English: https://aiprotocol.kz/en
+
+## Industry pages (Russian)
+- Pharmacies: https://aiprotocol.kz/otrasli/apteki
+- Medicine / clinics: https://aiprotocol.kz/otrasli/medicina
+- Retail: https://aiprotocol.kz/otrasli/ritejl
+- Services and auto: https://aiprotocol.kz/otrasli/uslugi-i-avto
+- Gas stations: https://aiprotocol.kz/otrasli/azs
+
+## Blog
+- https://aiprotocol.kz/blog
+- Legal aspects of recording conversations in Kazakhstan: https://aiprotocol.kz/blog/legal-audio-recording-kz
+- Speech analytics vs mystery shopper: https://aiprotocol.kz/blog/speech-analytics-vs-mystery-shopper
+- Speech analytics in Kazakhstan, guide: https://aiprotocol.kz/blog/speech-analytics-kazakhstan-guide
+
+## Contacts
+- Name: AiProtocol (by ОККМ)
+- Address: ул. Абая 28/1, Костанай, Kazakhstan
+- Phone / WhatsApp: +7 777 555 67 89
+- Instagram: https://www.instagram.com/aiprotocol.kz/
+- YouTube: https://www.youtube.com/@AIProtocolKZ
+
+## Policies
+- Privacy policy: https://aiprotocol.kz/privacy-policy
+- Personal data policy: https://aiprotocol.kz/personal-data-policy
