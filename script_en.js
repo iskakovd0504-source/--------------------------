@@ -647,8 +647,8 @@
                 // Перенаправление на WhatsApp с параметрами тест-драйва
                 const isEn = window.location.pathname.includes('/en/');
                 const text = isEn 
-                    ? `Hello! Request for 2 free badges (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
-                    : `Здравствуйте! Запрос 2-х бейджей (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
+                    ? `Hello! Request for 1 free badge (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
+                    : `Здравствуйте! Запрос 1 бейджа (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
 
