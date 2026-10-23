@@ -135,7 +135,7 @@
       "name": "Where are the recordings stored, how safe is it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Recordings are stored in Tier III data center infrastructure (Almaty, KZ). Data transmission is via secure protocols (TLS/HTTPS). Access to raw audio is strictly limited to administrators. Data encryption at rest is implemented at the infrastructure level and configured per customer requirements. Fully on-premise deployment is available."
+        "text": "Data is transmitted over secure protocols (HTTPS). Only users appointed by the client have access to recordings. We will share more details on data storage and processing on request."
       }
     },
     {
@@ -352,7 +352,7 @@
 <div class="step__number">02</div>
 <div class="step__content">
 <h3 class="step__title">Data is transmitted</h3>
-<p class="step__text">After the shift, the badge is placed on the charger. All recordings are automatically uploaded to an encrypted server via Wi-Fi.</p>
+<p class="step__text">After the shift, the badge is placed on the charger. All recordings are automatically uploaded to the server via Wi-Fi.</p>
 </div>
 </div>
 <div class="step" data-animate="fade-right" data-delay="150" data-step="3">
@@ -477,10 +477,6 @@
 <span style="font-size: var(--f-size-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-accent-cyan); font-weight: 600;">Enterprise option</span>
 <h3 style="font-size: var(--f-size-2xl); margin: var(--space-2) 0 var(--space-4);">Complex 'Octava AB-400'</h3>
 <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6);">
-<li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
-<span style="color: var(--c-accent-cyan);">●</span>
-                                    Hardware AES-128 encryption directly in badge memory.
-                                </li>
 <li style="display: flex; gap: var(--space-3); color: var(--c-text-secondary);">
 <span style="color: var(--c-accent-cyan);">●</span>
                                     Employee name on a paper insert, with no display or screen.
@@ -1010,6 +1006,7 @@
 <label class="form__label" for="td-company" style="display: block; margin-bottom: var(--space-2); font-size: var(--f-size-xs); font-weight: 500; color: var(--c-text-secondary);">Company</label>
 <input class="form__input" id="td-company" placeholder="Acme Corp" required="" style="width: 100%; padding: var(--space-3); background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); color: white;" type="text"/>
 </div>
+<label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>I consent to IE Iskakov D.R. collecting and processing my personal data (name, phone, e-mail, company name, website visit information and UTM tags) to handle my request and contact me. The consent is valid until the purpose is achieved, but no longer than 12 months. The data is not made publicly available and may be shared with request-handling and web analytics services, including abroad (EmailJS, Telegram, Google Analytics). I can withdraw my consent by writing to you. I have read the <a href="privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Privacy Policy</a>.</span></label>
 <button class="btn btn--primary btn--lg" id="td-submit" style="width: 100%; padding: 16px 24px;" type="submit">
                                 Get a 3-day test drive
                             </button>
@@ -1151,7 +1148,7 @@
 </svg>
 </button>
 <div class="faq__answer">
-<p>Recordings are stored in Tier III data center infrastructure (Almaty, KZ). Data transmission is via secure protocols (TLS/HTTPS). Access to raw audio is strictly limited to administrators. Data encryption at rest is implemented at the infrastructure level and configured per customer requirements. Fully on-premise deployment is available.</p>
+<p>Data is transmitted over secure protocols (HTTPS). Only users appointed by the client have access to recordings. We will share more details on data storage and processing on request.</p>
 </div>
 </div>
 <div class="faq__item" id="faq-5">
@@ -1212,6 +1209,7 @@
 <option value="fitness">Fitness and Beauty</option>
 <option value="other">Other</option>
 </select>
+<label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>I consent to IE Iskakov D.R. collecting and processing my personal data (name, phone, e-mail, company name, website visit information and UTM tags) to handle my request and contact me. The consent is valid until the purpose is achieved, but no longer than 12 months. The data is not made publicly available and may be shared with request-handling and web analytics services, including abroad (EmailJS, Telegram, Google Analytics). I can withdraw my consent by writing to you. I have read the <a href="privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Privacy Policy</a>.</span></label>
 <button class="btn btn--primary btn--lg cta-form__submit" id="form-submit" type="submit">
                                 Request Demo
                                 <svg fill="none" height="20" viewbox="0 0 20 20" width="20">

@@ -355,6 +355,11 @@
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+            if (!this.querySelector('.pd-consent') || !this.querySelector('.pd-consent').checked) {
+                const cb = this.querySelector('.pd-consent');
+                if (cb && cb.reportValidity) cb.reportValidity();
+                return;
+            }
 
             const submitBtn = document.getElementById('form-submit');
             const originalHTML = submitBtn.innerHTML;
@@ -651,6 +656,11 @@
     if (tdForm) {
         tdForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!this.querySelector('.pd-consent') || !this.querySelector('.pd-consent').checked) {
+                const cb = this.querySelector('.pd-consent');
+                if (cb && cb.reportValidity) cb.reportValidity();
+                return;
+            }
             const submitBtn = document.getElementById('td-submit');
             const originalHTML = submitBtn.innerHTML;
             
