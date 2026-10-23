@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Речевая аналитика для клиник: регистратура — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/speech-analytics-for-clinics">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/speech-analytics-for-clinics">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/speech-analytics-for-clinics">
+    <meta name="description"
+        content="Речевая аналитика для регистратуры клиники: время, следующий шаг и ожидание. Без названий клиник и без записи кабинета врача. Пилот на 3 дня.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Речевая аналитика для клиник: регистратура и запись на приём">
+    <meta property="og:description"
+        content="Как проверять речь администратора на стойке. Кабинет врача в пилот не входит. Цифры только с сайта.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/dashboard_light.png">
+    <meta property="og:type" content="article">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 12px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AiProtocol.kz by ОККМ",
+  "url": "https://aiprotocol.kz",
+  "logo": "https://aiprotocol.kz/favicon.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7-777-555-67-89",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Костанай",
+    "streetAddress": "ул. Абая 28/1",
+    "addressCountry": "KZ"
+  },
+  "sameAs": [
+    "https://wa.me/77775556789",
+    "https://t.me/ISKAKOVDMITRIY",
+    "https://www.instagram.com/aiprotocol_kz"
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Речевая аналитика для клиник: регистратура",
+  "description": "Как проверять речь регистратуры: время, следующий шаг и ожидание, без записи кабинета врача и без названий клиник.",
+  "image": "https://aiprotocol.kz/assets/dashboard_light.png",
+  "author": { "@type": "Organization", "name": "AiProtocol.kz by ОККМ" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AiProtocol.kz",
+    "logo": { "@type": "ImageObject", "url": "https://aiprotocol.kz/favicon.png" }
+  },
+  "datePublished": "2026-10-23T08:00:00+05:00",
+  "dateModified": "2026-10-23T08:00:00+05:00",
+  "mainEntityOfPage": "https://aiprotocol.kz/blog/speech-analytics-for-clinics"
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aiprotocol.kz/" },
+    { "@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aiprotocol.kz/blog" },
+    { "@type": "ListItem", "position": 3, "name": "Речевая аналитика для клиник", "item": "https://aiprotocol.kz/blog/speech-analytics-for-clinics" }
+  ]
+}
+    </script>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Записывает ли речевая аналитика приём у врача?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В этом материале нет. Речь о регистратуре. Кабинет врача подключают только если клиника отдельно решила, кто имеет доступ к записи. Пилот на три дня эту роль не включает."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Закрывает ли бейдж вопрос врачебной тайны?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Статья не юридическая консультация. На странице отрасли сказано, что записи можно разместить на серверах заказчика. Это про хранение, его сверяют в договоре. На стойке всё равно нужны положение, согласие сотрудника, табличка и видимый индикатор."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Какие цифры можно обещать клинике?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ориентиры продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт клиники. Для стойки считают свою долю диалогов, где время и следующий шаг прозвучали вслух."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Есть ли на бейдже экран с данными пациента?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. У комплекса «Октава АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. Очередь не видит на груди ни оценку, ни чужую запись. О ходе записи говорит индикатор."
+      }
+    }
+  ]
+}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo">
+                    <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                </a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta">
+                    <a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Клиники</div>
+                <h1 class="article-title">Речевая аналитика для клиник: регистратура</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+
+            <div class="article-hero">
+                <img src="/assets/dashboard_light.png" alt="Дашборд контроля диалогов для регистратуры клиники" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+
+            <div class="article-content">
+                <p><strong>Речевая аналитика для клиник</strong> в этой статье — про регистратуру и стойку администратора, а не про кабинет врача. Пациент слышит, к кому он записан, на какое время, что взять с собой и что делать, если придётся ждать. Если этих фраз не было, спор «мне так не сказали» потом нечем проверить. Камера в холле лица видит, слов не хранит.</p>
+                <p>Названий клиник и чужих процентов здесь нет. Ориентиры продукта на сайте — рост среднего чека <strong>+15–20%</strong> и снижение затрат на контроль качества <strong>до 60%</strong>. Для регистратуры средний чек — слабая база: дорогой приём не доказывает, что время и следующий шаг прозвучали. Свою долю таких фраз стойка снимает на пилоте. Отраслевая страница — <a href="../otrasli/medicina/index.html">сервис в медицине</a>.</p>
+
+                <h2>Что именно слышно на стойке</h2>
+                <p>Регистратор говорит коротко и при людях. Чек-лист на первую неделю лучше держать из пяти слышимых шагов, без канцелярита, которого в холле нет.</p>
+                <table>
+                    <thead>
+                        <tr><th>Шаг</th><th>Что должно прозвучать</th><th>Чего шаг не делает</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Контакт</td><td>Приветствие и к кому обращаются</td><td>Не оценка «улыбки по камере»</td></tr>
+                        <tr><td>Запрос</td><td>К кому запись, на какое время, первичная это встреча или повтор</td><td>Не диагноз и не разбор жалобы</td></tr>
+                        <tr><td>Условия</td><td>Что взять с собой и что входит в визит, если это говорят на стойке</td><td>Не замена информированного согласия у врача</td></tr>
+                        <tr><td>Ожидание</td><td>Если есть задержка — что будет дальше, а не молчание</td><td>Не обещание, что очередь исчезнет</td></tr>
+                        <tr><td>Закрытие</td><td>Следующий шаг вслух: кабинет, время, куда пройти</td><td>Не оценка самого приёма</td></tr>
+                    </tbody>
+                </table>
+                <p>Один и тот же список не переносят с <a href="speech-analytics-for-pharmacies.html">аптеки</a>. Там уточняют запрос у полки. Здесь уточняют запись. Общая только цепочка «бейдж, выгрузка, чек-лист, разбор исключений», она разобрана в <a href="speech-analytics-kazakhstan-guide.html">гайде для бизнеса</a>.</p>
+
+                <h2>Кабинет врача в этот чек-лист не входит</h2>
+                <p>Пилот на регистратуре не означает, что бейдж надевают на врача. Приём — другой разговор, с другим доступом к записи. Пока клиника отдельно не решила, кто может открыть файл из кабинета, в оценку сервиса стойки этот файл не кладут. Запись администратора не заменяет медицинскую карту и не является заключением о споре с врачом.</p>
+                <div class="highlight-box">Это описание запуска на стойке, а не юридическая консультация и не вывод, что врачебная тайна «закрыта устройством». Документы клиники сверяет её юрист.</div>
+                <p>На <a href="../otrasli/medicina/index.html">странице отрасли</a> сказано, что для клиник возможно размещение записей на серверах заказчика. На главной сайта автономное размещение тоже названо возможным. Это про контур хранения. Проверяют его в договоре, а не цитатой из блога. Там же страница говорит, что модель может опираться на медицинский словарь. Слышно ли ваши формулировки на стойке — вопрос пилота, не обещание «распознаёт любые термины».</p>
+
+                <h2>Как устроен бейдж на администраторе</h2>
+                <p>У «Октавы АБ-400» имя — бумажный вкладыш, дисплея и экрана нет. Очередь не видит на груди ни оценку, ни чужую запись. О том, что идёт запись, говорит индикатор. На входе нужна табличка для посетителей. Подробные три шага открытого запуска — внутренний документ, согласие сотрудника, уведомление плюс индикатор — в статье <a href="legal-audio-recording-kz.html">о законности записи</a>. Личный разговор и комната отдыха в оценку сервиса не входят.</p>
+                <p>Потолочный микрофон в холле мешает два окна регистратуры, телевизор и очередь. Бейдж пишет того, на ком надет. Если на стойке два администратора, на пилоте выбирают одну роль на все три дня, а не «кого успели». Смарт-бейдж V4 на сайте описан отдельно: индикатор статуса, не экран с именем.</p>
+
+                <h2>Какие цифры можно называть клинике</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20% и до −60%</span>
+                    Рост среднего чека и снижение затрат на контроль качества. Ориентиры продукта, не отчёт клиники.
+                </div>
+                <p>Для стойки полезнее другая база, и её считают на своих диалогах: доля записей, где время и следующий шаг прозвучали вслух, и доля, где задержку объяснили, а не промолчали. Пока этой доли нет, цифра +15–20% ничего не доказывает. Снижение затрат на ОКК до 60% появляется, если заведующий слушает короткие исключения, а не весь день подряд.</p>
+                <p>Покупка бейджа на сайте — 100&nbsp;000&nbsp;₸ за штуку, со скидкой 10% к тарифу на срок договора. Месяц без <a href="../index.html#pricing">калькулятора</a> не называем. Бесплатный пилот — 3 дня и 2 бейджа, любой бизнес. Порог «от 20 точек» относится только к индивидуальным enterprise-условиям.</p>
+
+                <h2>Как провести три дня на регистратуре</h2>
+                <ol>
+                    <li>Одна роль: администратор стойки. Врача в эти три дня не подключают.</li>
+                    <li>Пять фраз, которые и так должны звучать. Не придумывайте оборот, которого в холле нет.</li>
+                    <li>Покажите сотруднику, что на бейдже нет экрана, а разбор идёт по рабочему диалогу.</li>
+                    <li>Повесьте уведомление. Индикатор должен быть виден подходящему.</li>
+                    <li>На третий день сравните не «среднюю оценку», а долю диалогов, где следующий шаг назван вслух.</li>
+                </ol>
+                <p>Тайный пациент этически тоньше, чем тайный визит в магазин. Сравнение методов — в статье <a href="speech-analytics-vs-mystery-shopper.html">про контроль диалогов</a>: визит смотрит зал и то, чего нет в звуке, запись смотрит слова смены. Инсценировка в регистратуре эту статью не рекомендует как замену обычному потоку.</p>
+
+                <h2>Что смотреть после пилота</h2>
+                <p>Если запись разборчива, ритм короткий. Раз в день — несколько диалогов, где не назвали время или промолчали про ожидание. Раз в неделю — одна правка для планёрки, не пять сразу. Смешивать стойку и кабинет в один балл значит ругать администратора за то, что сказал врач, или наоборот.</p>
+                <p>Имеет смысл заранее решить, чего система не делает. Она не ставит диагноз, не ведёт запись на приём вместо медицинской системы и не заменяет тренинг. Она приносит текст стойки. Тренинг по-прежнему проводит человек, на своих примерах.</p>
+
+                <h2>Два окна и одна очередь</h2>
+                <p>В медцентре на стойке часто сидят двое. Один записывает к терапевту, второй выдаёт результаты или принимает оплату. Если оба говорят в один микрофон, чек-лист не отличит, кто не назвал кабинет. На пилоте бейдж остаётся на одной роли все три дня. Второе окно подключают отдельным заходом, когда первая роль уже слышна.</p>
+                <p>Очередь добавляет шум: телевизор, вызов по фамилии, разговор в стороне. Потолочный микрофон смешивает это в одну дорожку. Бейдж на администраторе ближе к его голосу. Это не обещание идеальной расшифровки в любой акустике. Если в первый день текст рвётся, смотрят крепление и шум холла, а не «поломку модели».</p>
+                <p>Небольшая клиника с одним окном и медцентр с несколькими специальностями используют один принцип: слышимые шаги стойки, не кабинет. Отличается состав фраз — к кому запись и куда пройти. Смешивать стоматологию, лабораторию и терапию в один балл стоит только если на стойке и правда один скрипт. Иначе администратор получает оценку за чужое окно.</p>
+
+                <h2>Чего не класть в чек-лист регистратуры</h2>
+                <ul>
+                    <li>Диагноз, жалобу и то, что должен сказать врач. Стойка это не произносит и не должна.</li>
+                    <li>Имя пациента и подробности визита в обучающем разборе. Для планёрки хватает обезличенной реплики: время не назвали.</li>
+                    <li>Оценку улыбки и скорость очереди. Звук улыбку не доказывает, а длину ожидания не измеряет.</li>
+                    <li>Обещание, что ожидание сократится. Шаг про ожидание проверяет, объяснили ли задержку, а не то, что она исчезла.</li>
+                    <li>Личный разговор сотрудника и комнату отдыха. В оценку сервиса они не входят.</li>
+                </ul>
+                <p>После смены файл уходит на разбор. Это не лента в ту же секунду и не оценка на груди: дисплея на бейдже нет. Заведующий смотрит короткие исключения — не назвали время, промолчали про ожидание, не сказали, куда идти. Если таких фрагментов много, на планёрке правят одну фразу, а не весь регламент сразу. Рядом можно держать расписание врачей, но не подменять им речь: плотная запись не доказывает, что время прозвучало вслух.</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Записывает ли речевая аналитика приём у врача?</h3>
+                <p>В этом материале нет. Речь о регистратуре. Кабинет врача подключают только если клиника отдельно решила, кто имеет доступ к записи. Пилот на три дня эту роль не включает.</p>
+                <h3>Закрывает ли бейдж вопрос врачебной тайны?</h3>
+                <p>Нет. Статья не юридическая консультация. На странице отрасли сказано, что записи можно разместить на серверах заказчика. Это про хранение, его сверяют в договоре. На стойке всё равно нужны положение, согласие сотрудника, табличка и видимый индикатор.</p>
+                <h3>Какие цифры можно обещать клинике?</h3>
+                <p>Ориентиры продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт клиники. Для стойки считают свою долю диалогов, где время и следующий шаг прозвучали вслух.</p>
+                <h3>Есть ли на бейдже экран с данными пациента?</h3>
+                <p>Нет. У «Октавы АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. Очередь не видит на груди ни оценку, ни чужую запись. О ходе записи говорит индикатор.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Два бейджа на регистратуре и разбор, слышно ли время и следующий шаг. Пилот бесплатный для любого бизнеса, без названия клиники в публичных материалах.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;">
+                        <div class="logo__text">Ai<span class="logo__accent">Protocol</span></div>
+                    </a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                &copy; 2026 AiProtocol.kz. Все права защищены.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
