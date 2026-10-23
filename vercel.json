@@ -3,6 +3,36 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/blog/speech-analytics-offline-kazakhstan-2026",
+      "destination": "/blog/speech-analytics-kazakhstan-guide",
+      "permanent": true
+    },
+    {
+      "source": "/blog/speech-analytics-offline-kazakhstan-2026.html",
+      "destination": "/blog/speech-analytics-kazakhstan-guide",
+      "permanent": true
+    },
+    {
+      "source": "/blog/mystery-shopper-alternative",
+      "destination": "/blog/speech-analytics-vs-mystery-shopper",
+      "permanent": true
+    },
+    {
+      "source": "/blog/mystery-shopper-alternative.html",
+      "destination": "/blog/speech-analytics-vs-mystery-shopper",
+      "permanent": true
+    },
+    {
+      "source": "/blog/employee-audio-badge-kz",
+      "destination": "/blog/legal-audio-recording-kz",
+      "permanent": true
+    },
+    {
+      "source": "/blog/employee-audio-badge-kz.html",
+      "destination": "/blog/legal-audio-recording-kz",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
