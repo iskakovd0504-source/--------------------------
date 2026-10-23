@@ -1,4 +1,17 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.aiprotocol.kz"
+        }
+      ],
+      "destination": "https://aiprotocol.kz/:path*",
+      "permanent": true
+    }
+  ]
 }

@@ -2,141 +2,146 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://aiprotocol.kz/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/otrasli/azs/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/en</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/otrasli/apteki/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/otrasli/azs</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/otrasli/ritejl/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/otrasli/apteki</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/otrasli/medicina/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/otrasli/ritejl</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/otrasli/uslugi-i-avto/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/otrasli/medicina</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/en/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/otrasli/uslugi-i-avto</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/privacy-policy</loc>
-        <lastmod>2026-08-21</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://aiprotocol.kz/personal-data-policy</loc>
-        <lastmod>2026-08-21</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://aiprotocol.kz/blog/</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/blog</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aiprotocol.kz/blog/increase-average-check</loc>
-        <lastmod>2026-08-21</lastmod>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aiprotocol.kz/blog/missed-calls-revenue-loss</loc>
-        <lastmod>2026-08-21</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <url>
-        <loc>https://aiprotocol.kz/blog/speech-analytics-vs-mystery-shopper.html</loc>
-        <lastmod>2026-08-21</lastmod>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/legal-audio-recording-kz.html</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/blog/speech-analytics-vs-mystery-shopper</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/roi-quality-control.html</loc>
-        <lastmod>2026-08-21</lastmod>
+        <loc>https://aiprotocol.kz/blog/legal-audio-recording-kz</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/stop-words-retail.html</loc>
-        <lastmod>2026-09-12</lastmod>
+        <loc>https://aiprotocol.kz/blog/roi-quality-control</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/llm-speech-analytics.html</loc>
-        <lastmod>2026-09-12</lastmod>
+        <loc>https://aiprotocol.kz/blog/stop-words-retail</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/kpi-quality-control.html</loc>
-        <lastmod>2026-09-30</lastmod>
+        <loc>https://aiprotocol.kz/blog/llm-speech-analytics</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/speech-analytics-kazakhstan-guide.html</loc>
-        <lastmod>2026-09-30</lastmod>
+        <loc>https://aiprotocol.kz/blog/kpi-quality-control</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/blog/speech-analytics-kazakhstan-guide</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aiprotocol.kz/blog/ai-replacing-jobs.html</loc>
-        <lastmod>2026-09-30</lastmod>
+        <loc>https://aiprotocol.kz/blog/ai-replacing-jobs</loc>
+        <lastmod>2026-10-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
-<url>
-    <loc>https://aiprotocol.kz/blog/digital-bridge-astana-ai.html</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aiprotocol.kz/blog/openai-o1-speech-analytics.html</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aiprotocol.kz/blog/voice-bots-vs-humans.html</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+    <url>
+        <loc>https://aiprotocol.kz/blog/digital-bridge-astana-ai</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/blog/openai-o1-speech-analytics</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/blog/voice-bots-vs-humans</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/demo</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/privacy-policy</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://aiprotocol.kz/personal-data-policy</loc>
+        <lastmod>2026-10-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
 </urlset>
