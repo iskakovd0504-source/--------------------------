@@ -361,6 +361,10 @@
                 company: company,
                 industry: industry,
             };
+            // Attribution (UTM / click IDs / referrer) for lead source reporting
+            if (typeof window.aipGetUtm === 'function') {
+                Object.assign(templateParams, window.aipGetUtm());
+            }
 
             // Visual feedback — loading
             const sendingLabel = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
@@ -398,6 +402,7 @@
             // Real EmailJS send
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                 .then(() => {
+                    if (typeof window.aipTrackLead === 'function') window.aipTrackLead('cta-form', { industry: industry });
                     showSuccess(submitBtn, originalHTML);
                     sendToWhatsApp();
                 })
@@ -664,6 +669,9 @@
             const name = document.getElementById('td-name').value;
             const phone = document.getElementById('td-phone').value;
             const company = document.getElementById('td-company').value;
+            if (typeof window.aipTrackLead === 'function') window.aipTrackLead('test-drive-form');
+            const utm = (typeof window.aipGetUtm === 'function') ? window.aipGetUtm() : {};
+            const utmLine = utm.utm_source ? `\n\n[src: ${utm.utm_source}/${utm.utm_medium || '-'}/${utm.utm_campaign || '-'}]` : '';
 
             submitBtn.innerHTML = pageLang() === 'kk' ? 'Жіберілуде...' : pageLang() === 'en' ? 'Sending...' : 'Отправка...';
             submitBtn.disabled = true;
@@ -676,10 +684,10 @@
                 // Перенаправление на WhatsApp с параметрами тест-драйва
                 const lang = pageLang();
                 const text = lang === 'en'
-                    ? `Hello! Request for 1 free badge (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}`
+                    ? `Hello! Request for 1 free badge (Test Drive):\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}${utmLine}`
                     : lang === 'kk'
-                    ? `Сәлеметсіз бе! 1 бейджге өтінім (3 күндік тегін пилот):\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}`
-                    : `Здравствуйте! Запрос 1 бейджа (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}`;
+                    ? `Сәлеметсіз бе! 1 бейджге өтінім (3 күндік тегін пилот):\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}${utmLine}`
+                    : `Здравствуйте! Запрос 1 бейджа (тест-драйв):\n\nИмя: ${name}\nТелефон: ${phone}\nКомпания: ${company}${utmLine}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
 
