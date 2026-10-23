@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Речевая аналитика для АЗС — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/speech-analytics-for-gas-stations">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/speech-analytics-for-gas-stations">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/speech-analytics-for-gas-stations">
+    <meta name="description" content="Речевая аналитика для АЗС: как проверять приветствие, предложение сопутствующего и конфликты на смене. Пилот на 3 дня без чужих кейсов.">
+    <meta property="og:title" content="Речевая аналитика для АЗС: скрипт оператора и конфликты">
+    <meta property="og:description" content="Что слышно у колонки и в магазине, как не путать ориентиры продукта с отчётом сети и как запустить пилот на 3 дня.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/bs4-station.png">
+    <meta property="og:type" content="article">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 16px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"AiProtocol.kz by ОККМ","url":"https://aiprotocol.kz","logo":"https://aiprotocol.kz/favicon.png","contactPoint":{"@type":"ContactPoint","telephone":"+7-777-555-67-89","contactType":"customer service"},"address":{"@type":"PostalAddress","addressLocality":"Костанай","streetAddress":"ул. Абая 28/1","addressCountry":"KZ"},"sameAs":["https://wa.me/77775556789","https://t.me/ISKAKOVDMITRIY","https://www.instagram.com/aiprotocol_kz"]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Речевая аналитика для АЗС","description":"Как проверять скрипт оператора АЗС, предложение сопутствующего и конфликты без чужих кейсов.","image":"https://aiprotocol.kz/assets/bs4-station.png","author":{"@type":"Organization","name":"AiProtocol.kz by ОККМ"},"publisher":{"@type":"Organization","name":"AiProtocol.kz","logo":{"@type":"ImageObject","url":"https://aiprotocol.kz/favicon.png"}},"datePublished":"2026-10-23T08:00:00+05:00","dateModified":"2026-10-23T08:00:00+05:00","mainEntityOfPage":"https://aiprotocol.kz/blog/speech-analytics-for-gas-stations"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://aiprotocol.kz/"},{"@type":"ListItem","position":2,"name":"Блог","item":"https://aiprotocol.kz/blog"},{"@type":"ListItem","position":3,"name":"Речевая аналитика для АЗС","item":"https://aiprotocol.kz/blog/speech-analytics-for-gas-stations"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Что проверять в диалоге оператора АЗС в первую неделю?","acceptedAnswer":{"@type":"Answer","text":"Пять слышимых шагов: приветствие, уточнение топлива или запроса в магазине, одно предложение сопутствующего, спокойный ответ на спор и завершение с чеком. Остальной скрипт подключают после того, как эти доли видны."}},{"@type":"Question","name":"Мешает ли шум трассы записи?","acceptedAnswer":{"@type":"Answer","text":"На странице отрасли АЗС указано, что бейдж выделяет голос оператора и клиента на фоне гула. Это описание устройства, а не измерение конкретной станции. На пилоте слышимость проверяют на вашей точке."}},{"@type":"Question","name":"Какие цифры можно называть сети АЗС?","acceptedAnswer":{"@type":"Answer","text":"Ориентиры продукта на сайте: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт названной сети. Свою долю предложений станция снимает на пилоте."}},{"@type":"Question","name":"Есть ли на бейдже оператора экран?","acceptedAnswer":{"@type":"Answer","text":"Нет. У комплекса «Октава АБ-400» имя — бумажный вкладыш, дисплея и экрана нет. О записи говорит индикатор."}}]}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta"><a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a></div>
+            </div>
+        </div>
+    </header>
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">АЗС</div>
+                <h1 class="article-title">Речевая аналитика для АЗС: скрипт оператора, сопутствующие и конфликты</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+            <div class="article-hero">
+                <img src="/assets/bs4-station.png" alt="Станция выгрузки аудиобейджей для смены АЗС" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            <div class="article-content">
+                <p><strong>Речевая аналитика для АЗС</strong> отвечает на один вопрос смены: прозвучали ли приветствие, предложение сопутствующего и спокойное закрытие, или оператор только пробил колонку. Контакт короткий, шум рядом, а управляющего на площадке часто нет. Носимый бейдж пишет разговор того, на ком он надет. У «Октавы АБ-400» имя — бумажный вкладыш, дисплея и экрана нет, о записи говорит индикатор.</p>
+                <p>Это не сравнение с тайным заездом: оно уже есть в материале <a href="speech-analytics-vs-mystery-shopper.html">для АЗС</a> и в общем разборе <a href="mystery-shopper-alternative.html">альтернативы тайному покупателю</a>. Здесь — рабочий чек-лист оператора. Названий сетей и чужих процентов нет. Отраслевая страница — <a href="../otrasli/azs/index.html">аудиобейджи для АЗС</a>.</p>
+
+                <h2>Почему касса не заменяет разговор</h2>
+                <p>Литры и средний чек магазина показывают, что купили. Они не показывают, предложили ли напиток, выпечку или товар у кассы, и оборвался ли спор на повышенном тоне. На заправке оба места живые: колонка и магазин. Если бейдж остаётся только у кассы, уличный диалог пропадает. Если его носят все, в разбор попадает и личный разговор в подсобке. Правило смены проще: бейдж на том, кто говорит с клиентом, и этот фрагмент не оценивают как сервис.</p>
+                <p>Смена 24 часа добавляет ротацию. На сайте для круглосуточной точки бейджей закладывают больше, чтобы хватило зарядки. У АБ-400 заявлено до 18 часов работы и выгрузка через станцию БС-4, в памяти — шифрование AES-128. На странице отрасли сказано, что док-станция заряжает бейдж примерно за два часа и его удобно передавать на пересменке. Это описание комплекса, а не замер вашей станции: на пилоте смотрят, успевает ли устройство вернуться к следующей смене.</p>
+
+                <h2>Пять шагов, которые слышно за минуту</h2>
+                <p>Длинный скрипт на колонке не произносят. В первую неделю хватает пяти шагов. Их пишут словами, которые команда и так говорит, включая казахско-русскую смесь, если так говорят на площадке.</p>
+                <table>
+                    <thead>
+                        <tr><th>Шаг</th><th>Где это слышно</th><th>Что не является провалом</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Приветствие</td><td>Первая фраза у колонки или у кассы</td><td>Короткое «здравствуйте», если дальше есть дело</td></tr>
+                        <tr><td>Уточнение</td><td>Марка, объём, магазин или только топливо</td><td>Клиент, который сам назвал колонку и литры</td></tr>
+                        <tr><td>Одно сопутствующее</td><td>Напиток, выпечка или товар акции — одна позиция</td><td>Молчание, если человек уже отказал в этой смене</td></tr>
+                        <tr><td>Спор</td><td>Цена, сдача, очередь, «не тот пистолет»</td><td>Сам факт вопроса клиента</td></tr>
+                        <tr><td>Закрытие</td><td>Сумма, чек, следующее действие</td><td>Короткое прощание без рекламного монолога</td></tr>
+                    </tbody>
+                </table>
+                <p>Частица «не хотите кофе?» и прямое «кофе с собой?» — разные реплики. Система должна видеть, какая прозвучала, а не ставить балл за любое упоминание напитка. Список стоп-формулировок для кассы разобран отдельно в статье <a href="stop-words-retail.html">про стоп-слова</a>. На АЗС его не копируют целиком: здесь реплика короче, чем в зале магазина.</p>
+
+                <h2>Час пик и конфликт</h2>
+                <p>В час пик скрипт сжимается. Это не повод выключить контроль. Имеет смысл смотреть две доли отдельно: обычный час и пик. Если в пике пропадает только сопутствующее, а приветствие остаётся, тренируют одну фразу. Если пропадает приветствие и растёт резкий тон, дело уже не в кофе, а в составе смены и длине очереди.</p>
+                <p>Конфликт не равен «клиент недоволен ценой топлива». Цена часто не в руках оператора. В разбор попадает ответ: повторил ли сумму, объяснил ли следующий шаг, не перешёл ли на «я не при чём». Оценка за «сделал скидку» бессмысленна, если скидки нет в полномочиях. Чек-лист не должен награждать обещание, которое смена не может выполнить.</p>
+                <div class="highlight-box">Шум трассы на странице АЗС описан так: бейдж выделяет голос оператора и клиента. На пилоте это проверяют у вашей колонки, а не принимают как измерение всех станций страны.</div>
+
+                <h2>Какие цифры честно показывать коммерческому директору</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20% и до −60%</span>
+                    На сайте это рост среднего чека и снижение затрат на контроль качества. Для АЗС это ориентир продукта, не отчёт названной сети.
+                </div>
+                <p>Средний чек магазина при заправке растёт, только если предложение вообще звучит. Пока доля предложений не посчитана на своих диалогах, цифра +15–20% остаётся гипотезой. Снижение затрат на ОКК до 60% — про замену сплошной прослушки разбором исключений: пропуск предложения и резкий тон. Если управляющий всё равно слушает смену целиком, эти проценты не появляются сами.</p>
+                <p>Имена сетей, «кейсы заправок» и чужие проценты в эту статью не входят. Общий каркас офлайн-системы — в <a href="speech-analytics-offline-kazakhstan-2026.html">гайде для офлайн-бизнеса</a>. Аптечный чек-лист сюда не переносится: там консультация, здесь минута у колонки. Страница <a href="../otrasli/apteki/index.html">аптек</a> для другого словаря.</p>
+
+                <h2>Как пройти три дня пилота на одной станции</h2>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа, для любого бизнеса. Порог «от 20 точек» относится только к индивидуальным enterprise-условиям и пилот не ограничивает. На одной станции за три дня отвечают на четыре вопроса.</p>
+                <ol>
+                    <li>Слышен ли клиент у колонки и у кассы, а не только радио магазина.</li>
+                    <li>Совпадают ли пять шагов с речью смены.</li>
+                    <li>Видит ли управляющий долю предложений, не слушая всю ночь.</li>
+                    <li>Понятно ли людям, что на груди нет экрана с оценкой, а имя — на бумажном вкладыше.</li>
+                </ol>
+                <p>Покупка бейджа в собственность на сайте — 100&nbsp;000&nbsp;₸ за штуку, со скидкой 10% к тарифу на срок договора. Месяц без <a href="../index.html#pricing">калькулятора</a> не называем: он зависит от режима и числа людей в смене. Устройство и законность открытой записи — в статье <a href="employee-audio-badge-kz.html">про аудиобейдж</a>.</p>
+
+                <h2>Что смотреть на утренней планёрке</h2>
+                <p>Десяти минут хватает, если на листе три числа за вчера: доля приветствий, доля одного сопутствующего, число конфликтных фрагментов. Рядом — не «худший оператор», а одна фраза, которую тренируют сегодня. Рейтинг человека без этой фразы превращается в доску позора, и бейдж начинают прятать. Для розницы похожий ритм разобран в материале <a href="retail-sales-script-control.html">о контроле скриптов</a>, для приёмки автомобиля — в статье <a href="speech-analytics-for-auto-service.html">про автосервис</a>.</p>
+                <p>Если станция рядом с кафе или магазином еды, не смешивайте их скрипт с колонкой. Короткий оффер напитка на АЗС — не сценарий официанта. Отдельный разбор зала общепита — в статье <a href="speech-analytics-for-restaurants.html">про рестораны и кафе</a>.</p>
+
+                <h2>Как записать стандарт так, чтобы смена его узнала</h2>
+                <p>Стандарт АЗС часто живёт в презентации для новых операторов и умирает на второй неделе. Чтобы аналитика не измеряла чужой текст, стандарт переписывают с живой смены, а не наоборот. Управляющий берёт три обычных диалога пилота и выписывает фразы, которые уже звучат и которые он хочет оставить. Из них собирают карточку на половину листа: приветствие одной строкой, вопрос про топливо или магазин, одна позиция сопутствующего, что говорить, если гость спорит о сумме, как отдать чек.</p>
+                <p>Карточку кладут у кассы, но балл ставят не за то, что она висит, а за то, что строки слышны. Если в пике команда физически не успевает пятый пункт, его не прячут в «обязательное». Его переносят на спокойный час либо сокращают до одной фразы. Иначе ночная смена всегда будет «хуже» дневной, и люди решат, что бейдж наказывает график, а не молчание.</p>
+                <p>Пересменка — отдельный ритуал, который стоит проговорить вслух один раз. Кто снимает бейдж, кто ставит его на станцию, кто вкладывает бумажное имя следующего оператора. Экрана, на котором имя переключается само, нет. Если вкладыш остался от прошлой смены, в реестре перепутаются люди, и утренние доли станут бесполезны. Двух минут на этот жест достаточно, и их лучше включить в чек-лист старшего смены, а не в чек-лист каждого диалога с клиентом.</p>
+                <p>Раз в неделю старший приносит на планёрку не таблицу на десять столбцов, а одну строку, которая просела: например, сопутствующее в ночную смену. Тренируют только её. Связка с деньгами остаётся осторожной: +15–20% к среднему чеку обсуждают, когда доля предложений выросла относительно этих трёх дней пилота. До этого разговор честный и короткий: мы ещё не знаем свою базу.</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Что проверять в диалоге оператора АЗС в первую неделю?</h3>
+                <p>Пять слышимых шагов: приветствие, уточнение топлива или запроса в магазине, одно предложение сопутствующего, спокойный ответ на спор и завершение с чеком. Остальной скрипт подключают после того, как эти доли видны.</p>
+                <h3>Мешает ли шум трассы записи?</h3>
+                <p>На странице отрасли АЗС указано, что бейдж выделяет голос оператора и клиента на фоне гула. Это описание устройства, а не измерение конкретной станции. На пилоте слышимость проверяют на вашей точке.</p>
+                <h3>Какие цифры можно называть сети АЗС?</h3>
+                <p>Ориентиры продукта на сайте: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт названной сети. Свою долю предложений станция снимает на пилоте.</p>
+                <h3>Есть ли на бейдже оператора экран?</h3>
+                <p>Нет. У комплекса «Октава АБ-400» имя — бумажный вкладыш, дисплея и экрана нет. О записи говорит индикатор.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Поставим два бейджа на станцию и разберём, звучит ли скрипт у колонки и в магазине. Пилот бесплатный для любого бизнеса.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">&copy; 2026 AiProtocol.kz. Все права защищены.</div>
+        </div>
+    </footer>
+</body>
+</html>

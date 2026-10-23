@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контроль скриптов продаж в рознице — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/retail-sales-script-control">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/retail-sales-script-control">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/retail-sales-script-control">
+    <meta name="description" content="Как контролировать скрипт продавца в магазине, если вас нет в зале: пять шагов, доли вместо оценок и пилот на 3 дня.">
+    <meta property="og:title" content="Контроль скриптов продаж в рознице">
+    <meta property="og:description" content="Что слышно в зале и на кассе, как не подменить скрипт списком штрафов и какие цифры сайта можно цитировать.">
+    <meta property="og:image" content="https://aiprotocol.kz/blog/images/upsell-hero.png">
+    <meta property="og:type" content="article">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(6, 9, 15, 0.8) 100%); }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"AiProtocol.kz by ОККМ","url":"https://aiprotocol.kz","logo":"https://aiprotocol.kz/favicon.png","contactPoint":{"@type":"ContactPoint","telephone":"+7-777-555-67-89","contactType":"customer service"},"address":{"@type":"PostalAddress","addressLocality":"Костанай","streetAddress":"ул. Абая 28/1","addressCountry":"KZ"},"sameAs":["https://wa.me/77775556789","https://t.me/ISKAKOVDMITRIY","https://www.instagram.com/aiprotocol_kz"]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Контроль скриптов продаж в рознице","description":"Как видеть, звучит ли скрипт продавца в зале и на кассе, без чужих кейсов и без экрана на бейдже.","image":"https://aiprotocol.kz/blog/images/upsell-hero.png","author":{"@type":"Organization","name":"AiProtocol.kz by ОККМ"},"publisher":{"@type":"Organization","name":"AiProtocol.kz","logo":{"@type":"ImageObject","url":"https://aiprotocol.kz/favicon.png"}},"datePublished":"2026-10-23T08:00:00+05:00","dateModified":"2026-10-23T08:00:00+05:00","mainEntityOfPage":"https://aiprotocol.kz/blog/retail-sales-script-control"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://aiprotocol.kz/"},{"@type":"ListItem","position":2,"name":"Блог","item":"https://aiprotocol.kz/blog"},{"@type":"ListItem","position":3,"name":"Контроль скриптов продаж в рознице","item":"https://aiprotocol.kz/blog/retail-sales-script-control"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Чем контроль скрипта отличается от списка запрещённых слов?","acceptedAnswer":{"@type":"Answer","text":"Стоп-слова ловят неудачную формулировку. Скрипт отвечает, прозвучали ли нужные шаги: приветствие, вопрос о задаче, одно предложение, работа с отказом и закрытие. Оба слоя полезны, но в первую неделю считают шаги."}},{"@type":"Question","name":"Как контролировать продавцов, если директора нет в магазине?","acceptedAnswer":{"@type":"Answer","text":"Бейдж на сотруднике пишет клиентский диалог, после смены файл уходит на сервер, а руководитель смотрит доли шагов и короткие исключения. Личный разговор в подсобке в оценку не входит."}},{"@type":"Question","name":"Какой рост чека можно обещать магазину?","acceptedAnswer":{"@type":"Answer","text":"На сайте указан ориентир продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт конкретного магазина. Базу — долю диалогов, где предложение прозвучало, — снимают на пилоте."}},{"@type":"Question","name":"Показывает ли бейдж скрипт на экране?","acceptedAnswer":{"@type":"Answer","text":"Нет. У «Октавы АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. Подсказку на груди устройство не выводит."}}]}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta"><a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a></div>
+            </div>
+        </div>
+    </header>
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Розница</div>
+                <h1 class="article-title">Контроль скриптов продаж в рознице</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+            <div class="article-hero">
+                <img src="/blog/images/upsell-hero.png" alt="Контроль скрипта продавца в рознице" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            <div class="article-content">
+                <p><strong>Контроль скрипта в рознице</strong> — это проверка, прозвучали ли шаги разговора с покупателем, а не наличие папки «стандарты» в кабинете директора. В зале продавец отходит от кассы, и камера на потолке не отвечает, задал ли он вопрос о задаче. Носимый бейдж пишет речь того, на ком надет. У «Октавы АБ-400» имя — бумажный вкладыш, экрана нет, индикатор показывает, что идёт запись.</p>
+                <p>Статья не повторяет список запрещённых формулировок: он лежит в материале <a href="stop-words-retail.html">про стоп-слова на кассе</a>. И не обещает чужой процент от одной фразы: про допродажу как приём есть отдельный текст <a href="increase-average-check.html">про простые фразы</a>, а здесь — как руководителю видеть, жив ли скрипт в смене. Отраслевая страница — <a href="../otrasli/ritejl/index.html">речевая аналитика для ритейла</a>.</p>
+
+                <h2>Скрипт, который можно услышать</h2>
+                <p>Рабочий скрипт магазина короче методички. Если шаг нельзя произнести вслух за несколько секунд, его нельзя и проверить. Для первой недели достаточно пяти шагов, общих для одежды, электроники и товара у дома. Словарь категорий разный, порядок похож.</p>
+                <table>
+                    <thead>
+                        <tr><th>Шаг</th><th>Пример того, что считается</th><th>Что не ставить в балл</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Контакт</td><td>Продавец заговорил первым, не ждал, пока человек позовёт</td><td>Оценка улыбки: микрофон её не видит</td></tr>
+                        <tr><td>Задача</td><td>Вопрос, зачем человек пришёл или что уже смотрел</td><td>Допрос из десяти пунктов</td></tr>
+                        <tr><td>Предложение</td><td>Одна конкретная позиция или комплект</td><td>Перечень всего стеллажа</td></tr>
+                        <tr><td>Отказ</td><td>Короткий следующий вариант или согласие остановиться</td><td>Давление после явного «нет»</td></tr>
+                        <tr><td>Касса</td><td>Сумма, пакет или доставка, прощание</td><td>Повтор всего скрипта у кассы, если он уже был в зале</td></tr>
+                    </tbody>
+                </table>
+                <p>Зал и касса — разные роли, если это разные люди. Смешивать их в одну оценку значит ругать кассира за молчание консультанта. Бейдж вешают на роль, которую проверяете на этой неделе. Как устроено устройство, разобрано в статье <a href="employee-audio-badge-kz.html">про аудиобейдж для сотрудников</a>.</p>
+
+                <h2>Если директора нет в магазине</h2>
+                <p>Контроль продавцов на расстоянии ломается двумя способами. Первый — редкий визит: в этот час все говорят по бумажке. Второй — чат с просьбой «скиньте, как прошёл день»: приходит пересказ. Лента диалогов не заменяет визит в зал. Выкладку и ценник она не доказывает. Она закрывает вопрос, который визит не закрывает: что говорили в остальные часы.</p>
+                <p>Утренний ритуал директора сети умещается в доли, а не в средний балл. Доля контактов, доля вопросов о задаче, доля одного предложения. Три числа по магазину и один фрагмент, который стоит разобрать голосом. Снижение затрат на контроль качества <strong>до 60%</strong> на сайте означает именно эту замену сплошного прослушивания разбором исключений. Если директор всё равно слушает смену целиком, экономии часов нет.</p>
+                <div class="highlight-box">Скрипт — не штрафной лист. Балл за пропущенное приветствие полезен, только если назавтра есть одна фраза, которую тренируют. Иначе бейдж воспринимают как скрытый диктофон, хотя индикатор и бумажное имя как раз делают запись открытой.</div>
+
+                <h2>Чего не копировать из соседних отраслей</h2>
+                <ul>
+                    <li><a href="../otrasli/azs/index.html">АЗС</a>. Минута у колонки. Сопутствующее — одна короткая позиция. Подробно — в статье <a href="speech-analytics-for-gas-stations.html">про речевую аналитику для АЗС</a>.</li>
+                    <li><a href="../otrasli/apteki/index.html">Аптека</a>. Сначала запрос и безопасность, потом одно сопутствующее. Давление «продай дороже» туда не переносят. См. <a href="speech-analytics-for-pharmacies.html">статью для аптек</a>.</li>
+                    <li><a href="../otrasli/uslugi-i-avto/index.html">СТО</a>. Устный договор о работах и сроке, не допродажа полки. См. <a href="speech-analytics-for-auto-service.html">приёмку автомобиля</a>.</li>
+                    <li>Кафе. Предложение блюда — не скрипт кассира супермаркета. Отдельный текст — <a href="speech-analytics-for-restaurants.html">про рестораны и кафе</a>.</li>
+                </ul>
+                <p>Общий каркас «бейдж, выгрузка, чек-лист, дашборд» один. Он описан в <a href="speech-analytics-offline-kazakhstan-2026.html">гайде по офлайн-бизнесу</a>. В рознице меняется только словарь: размер, цвет, совместимость, наличие на складе, доставка.</p>
+
+                <h2>Цифры, которые не надо придумывать</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20%</span>
+                    Такой рост среднего чека указан на сайте как ориентир продукта. Магазин сначала считает свою долю предложений на пилоте.
+                </div>
+                <p>Пока неизвестно, в скольких диалогах предложение вообще прозвучало, обещать рост чека нельзя. Пилот как раз снимает эту долю за три дня. Бесплатный пилот — 2 бейджа, любой бизнес, без порога по числу точек. Порог «от 20 точек» на сайте относится только к индивидуальным enterprise-условиям.</p>
+                <p>Покупка бейджа в собственность — 100&nbsp;000&nbsp;₸ за штуку, скидка 10% к тарифу на срок договора. Месячную сумму считают <a href="../index.html#pricing">калькулятором</a>. Названий магазинов и отзывов «наша сеть выросла» в этом тексте нет.</p>
+
+                <h2>Как не превратить скрипт в двадцать обязательных фраз</h2>
+                <p>Двадцать критериев в первый день дают всем низкий балл и никому не дают, что тренировать. Порядок обратный. Неделя первая — контакт и вопрос о задаче. Неделя вторая — одно предложение. Неделя третья — что делать после «нет». Касса подключается, когда зал уже говорит. Стоп-слова можно включить параллельно, но не вместо шагов: ловить «здрасьте» полезно, только если рядом есть фраза, которой его заменяют.</p>
+                <p>Отказ покупателя — часть скрипта, а не провал продавца. Критерий «дожал» награждает давление. Критерий «остановился после ясного нет или предложил один соседний вариант» совпадает с нормальной консультацией. Это стоит проговорить на планёрке до того, как люди увидят первый рейтинг.</p>
+                <p>Сравнение с разовым тайным визитом — в статье <a href="mystery-shopper-alternative.html">про контроль 100% диалогов</a>. Визит по-прежнему нужен для зала и выкладки. Слова смены он не покрывает.</p>
+
+                <h2>Разные залы — разная длина скрипта</h2>
+                <p>Продуктовый зал, магазин одежды и точка электроники не выдерживают одной карточки. В продуктах диалог часто кончается у кассы, и шаг «задача» — это «пакет?» или «что-то ещё к этому?», а не консультация на десять минут. В одежде вопрос о задаче длиннее: случай, размер, что уже мерили. В электронике легко свалиться в характеристики, которые покупатель не просил. Контроль скрипта начинается с того, что директор выбирает один формат магазина на пилот и не усредняет его с другим.</p>
+                <p>Внутри одного магазина тоже есть развилка. Консультант в зале и человек на кассе могут быть одним сотрудником в тихий час и двумя — в субботу. Если бейдж один на двоих, запись рвётся. На три дня пилота честнее одеть устройство на одну роль и честно написать в выводах: «мы слышали зал» или «мы слышали кассу». Смешанный вывод звучит солидно и ничего не доказывает.</p>
+                <p>Отказ стоит заранее разложить на два вида. «Мне ничего не нужно» после приветствия — это ещё не отказ от предложения, иногда человек не понял, что ему готовы помочь. «Нет, спасибо» после конкретной позиции — отказ, и третий заход уже давление. Чек-лист, который награждает третий заход, учит плохую привычку быстрее, чем любой тренинг. Это стоит сказать до того, как сотрудники увидят первый рейтинг, иначе они решат, что бумага с именем на бейдже — только для вида, а оценка всё равно тайная.</p>
+                <p>После пилота ритм на месяц простой. Первые семь дней смотрят только контакт. Следующие семь — вопрос о задаче. Потом одно предложение. Кассу и стоп-слова подключают, когда эти три доли перестали быть случайными. Средний чек +15–20% в этом календаре стоит в конце, как ориентир продукта, а не как план на первую неделю. Затраты на контроль до −60% появляются в ту же сторону: директор слушает исключения, а не архив субботы.</p>
+
+                <p>И ещё одна развилка, которую лучше решить до пилота: кто имеет право открыть реестр. Если доступ есть у директора и у одного старшего смены, разговор о записи короче. Если файл уходит в общий чат магазина, скрипт контроля превращается в публичный разбор, и бейдж начинают снимать «на минуту». Это организационное правило, его не заменяет ни бумага с именем, ни индикатор.</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Чем контроль скрипта отличается от списка запрещённых слов?</h3>
+                <p>Стоп-слова ловят неудачную формулировку. Скрипт отвечает, прозвучали ли нужные шаги: приветствие, вопрос о задаче, одно предложение, работа с отказом и закрытие. Оба слоя полезны, но в первую неделю считают шаги.</p>
+                <h3>Как контролировать продавцов, если директора нет в магазине?</h3>
+                <p>Бейдж на сотруднике пишет клиентский диалог, после смены файл уходит на сервер, а руководитель смотрит доли шагов и короткие исключения. Личный разговор в подсобке в оценку не входит.</p>
+                <h3>Какой рост чека можно обещать магазину?</h3>
+                <p>На сайте указан ориентир продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт конкретного магазина. Базу — долю диалогов, где предложение прозвучало, — снимают на пилоте.</p>
+                <h3>Показывает ли бейдж скрипт на экране?</h3>
+                <p>Нет. У «Октавы АБ-400» имя сотрудника — бумажный вкладыш, дисплея и экрана нет. Подсказку на груди устройство не выводит.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Два бейджа в зале или на кассе покажут, звучит ли ваш скрипт на самом деле. Пилот бесплатный для любого бизнеса.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">&copy; 2026 AiProtocol.kz. Все права защищены.</div>
+        </div>
+    </footer>
+</body>
+</html>
