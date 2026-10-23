@@ -372,8 +372,8 @@
             const sendToWhatsApp = () => {
                 const isEn = window.location.pathname.includes('/en/');
                 const text = isEn 
-                    ? `Hello! Demo Request from OKKM website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
-                    : `Hello! Demo request from OKKM website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`;
+                    ? `Hello! Demo Request from AiProtocol website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
+                    : `Hello! Demo request from AiProtocol website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
             };

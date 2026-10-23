@@ -380,10 +380,10 @@
             const sendToWhatsApp = () => {
                 const lang = pageLang();
                 const text = lang === 'en'
-                    ? `Hello! Demo Request from OKKM website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
+                    ? `Hello! Demo Request from AiProtocol website:\n\nName: ${name}\nPhone: ${phone}\nCompany: ${company}\nIndustry: ${industry}`
                     : lang === 'kk'
-                    ? `Сәлеметсіз бе! OKKM сайтынан демо өтінімі:\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}\nСала: ${industry}`
-                    : `Здравствуйте! Заявка на демо с сайта OKKM:\n\nИмя: ${name}\nТелефон: ${phone}\nCompany: ${company}\nОтрасль: ${industry}`;
+                    ? `Сәлеметсіз бе! AiProtocol сайтынан демо өтінімі:\n\nАты: ${name}\nТелефон: ${phone}\nКомпания: ${company}\nСала: ${industry}`
+                    : `Здравствуйте! Заявка на демо с сайта AiProtocol:\n\nИмя: ${name}\nТелефон: ${phone}\nCompany: ${company}\nОтрасль: ${industry}`;
                 const waUrl = `https://wa.me/77775556789?text=${encodeURIComponent(text)}`;
                 window.open(waUrl, '_blank');
             };
