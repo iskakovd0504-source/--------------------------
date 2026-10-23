@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Речевая аналитика для автосервиса и приёмки — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/speech-analytics-for-auto-service">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/speech-analytics-for-auto-service">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/speech-analytics-for-auto-service">
+    <meta name="description" content="Речевая аналитика для СТО и разговора в автосалоне: что клиент услышал про работы, срок и цену. Пилот на 3 дня, без чужих кейсов.">
+    <meta property="og:title" content="Речевая аналитика для автосервиса и приёмки">
+    <meta property="og:description" content="Как проверять устный договор мастера-приёмщика и чем скрипт салона отличается от ремзоны.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/ab400-badge.png">
+    <meta property="og:type" content="article">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 24px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"AiProtocol.kz by ОККМ","url":"https://aiprotocol.kz","logo":"https://aiprotocol.kz/favicon.png","contactPoint":{"@type":"ContactPoint","telephone":"+7-777-555-67-89","contactType":"customer service"},"address":{"@type":"PostalAddress","addressLocality":"Костанай","streetAddress":"ул. Абая 28/1","addressCountry":"KZ"},"sameAs":["https://wa.me/77775556789","https://t.me/ISKAKOVDMITRIY","https://www.instagram.com/aiprotocol_kz"]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Речевая аналитика для автосервиса и приёмки","description":"Как фиксировать, что клиент услышал на приёмке и в автосалоне, без выдуманных кейсов.","image":"https://aiprotocol.kz/assets/ab400-badge.png","author":{"@type":"Organization","name":"AiProtocol.kz by ОККМ"},"publisher":{"@type":"Organization","name":"AiProtocol.kz","logo":{"@type":"ImageObject","url":"https://aiprotocol.kz/favicon.png"}},"datePublished":"2026-10-23T08:00:00+05:00","dateModified":"2026-10-23T08:00:00+05:00","mainEntityOfPage":"https://aiprotocol.kz/blog/speech-analytics-for-auto-service"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://aiprotocol.kz/"},{"@type":"ListItem","position":2,"name":"Блог","item":"https://aiprotocol.kz/blog"},{"@type":"ListItem","position":3,"name":"Речевая аналитика для автосервиса","item":"https://aiprotocol.kz/blog/speech-analytics-for-auto-service"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Что должна фиксировать запись на приёмке?","acceptedAnswer":{"@type":"Answer","text":"Что клиент услышал: какая работа предлагается, какой срок, что входит в сумму и что будет, если на подъёмнике найдут ещё. Это устный договор, а не оценка улыбки."}},{"@type":"Question","name":"Один ли скрипт у сервиса и у автосалона?","acceptedAnswer":{"@type":"Answer","text":"Нет. На приёмке говорят о работах и сроке. В салоне — о задаче покупателя, комплектации и следующем шаге. Смешивать их в один балл не стоит."}},{"@type":"Question","name":"Какие цифры сайта здесь уместны?","acceptedAnswer":{"@type":"Answer","text":"Ориентиры продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт автосервиса или дилера. Свою долю проговорённых сроков сервис снимает на пилоте."}},{"@type":"Question","name":"Можно ли носить бейдж в ремзоне?","acceptedAnswer":{"@type":"Answer","text":"На странице отрасли бейдж описан как лёгкий, с креплением к спецодежде. Имя на АБ-400 — бумажный вкладыш, экрана нет. Выдержит ли конкретный пост, проверяют на пилоте, а не по чужому цеху."}}]}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta"><a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a></div>
+            </div>
+        </div>
+    </header>
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Авто</div>
+                <h1 class="article-title">Речевая аналитика для автосервиса и приёмки</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+            <div class="article-hero">
+                <img src="/assets/ab400-badge.png" alt="Аудиобейдж без экрана для мастера-приёмщика" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            <div class="article-content">
+                <p><strong>Речевая аналитика для автосервиса</strong> фиксирует, что клиент услышал на приёмке: какие работы, какой срок, что входит в сумму и что будет, если дефект окажется шире. Заказ-наряд это не заменяет. Спор «мне так не говорили» возникает именно из устного куска, которого в документе нет. Бейдж на мастере-приёмщике пишет этот кусок. У «Октавы АБ-400» имя — бумажный вкладыш, дисплея и экрана нет.</p>
+                <p>Автосалон — другой разговор: задача покупателя, комплектация, следующий шаг, а не ремонт. Ниже оба контура разделены. Названий сервисов и дилеров нет. Страница отрасли — <a href="../otrasli/uslugi-i-avto/index.html">контроль качества для СТО и сферы услуг</a>.</p>
+
+                <h2>Приёмка как устный договор</h2>
+                <p>Клиент редко читает заказ-наряд вслух. Он запоминает три фразы мастера. Если этих фраз не было, документ потом выглядит как сюрприз. Чек-лист приёмки поэтому короткий и проверяемый на слух.</p>
+                <table>
+                    <thead>
+                        <tr><th>Что клиент должен услышать</th><th>Зачем это в записи</th><th>Чего в критерии нет</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Какая работа предлагается сейчас</td><td>Отделить согласованное от «заодно посмотрели»</td><td>Полный каталог работ цеха</td></tr>
+                        <tr><td>Срок</td><td>Чтобы «сегодня вечером» не оказалось устным, а в документе — «два дня»</td><td>Обещание, которого пост не может сдержать</td></tr>
+                        <tr><td>Из чего сумма</td><td>Работа, запчасть, то, что могут найти на подъёмнике</td><td>Скрытая скидка ради балла</td></tr>
+                        <tr><td>Что будет при дополнительном дефекте</td><td>Звонок и согласие до продолжения</td><td>Молчаливое расширение заказа</td></tr>
+                        <tr><td>Как забрать машину</td><td>Куда звонить и что подписать</td><td>Рекламный монолог на выдаче</td></tr>
+                    </tbody>
+                </table>
+                <p>Дополнительная услуга — фильтр, полировка, мойка — имеет место только как отдельный, названный шаг. На странице отрасли как раз сказано, что приёмщики часто не проговаривают такие работы и не разбирают возражение по дорогой сумме. Аналитика показывает, прозвучало ли предложение, а не «дожала» ли она клиента. Отказ после ясной цены — нормальный исход, не провал мастера.</p>
+
+                <h2>Ремзона и пост приёмки — не одна роль</h2>
+                <p>Механик у машины и приёмщик у стойки говорят разное. Если бейдж только в цехе, пропадает договор с клиентом. Если бейдж только на стойке, пропадает объяснение, которое мастер даёт уже у автомобиля. На пилоте выбирают одну роль. На странице отрасли бейдж описан как лёгкий и с креплением к спецодежде. Выдержит ли конкретный пост масло и шум, за три дня слышно лучше, чем из чужого цеха. Имя по-прежнему на бумаге, не на экране.</p>
+                <p>Технические названия деталей имеет смысл внести в словарь, если сервис хочет видеть полноту консультации. Это настройка чек-листа, а не обещание, что модель узнает любой местный сленг с первого файла. На странице отрасли сказано, что разбор может учитывать названия деталей. Проверяют это на своих записях.</p>
+                <div class="highlight-box">Запись не заменяет заказ-наряд и не является юридическим заключением о споре. Она даёт текст того, что было сказано. Как оформить открытую запись для сотрудников, см. в статье <a href="legal-audio-recording-kz.html">о законности в РК</a>.</div>
+
+                <h2>Отдельный скрипт для автосалона</h2>
+                <p>В салоне нет подъёмника, есть выбор. Путать его с приёмкой вредно: менеджера начнут оценивать за «срок ремонта», а приёмщика — за «тест-драйв». Для салона слышимые шаги другие.</p>
+                <ul>
+                    <li>Выяснили задачу: город, семья, бюджет, что уже смотрели. Без анкеты на десять вопросов.</li>
+                    <li>Назвали одну подходящую комплектацию, а не весь ряд в зале.</li>
+                    <li>Проговорили следующий шаг: расчёт, наличие, когда перезвонить. Обещание «перезвоним сегодня», которое некому выполнять, в балл не ставят.</li>
+                    <li>После явного «я только смотрю» остановились или оставили один контакт, без давления.</li>
+                </ul>
+                <p>Это не скрипт кассира. Розничный зал разобран в статье <a href="retail-sales-script-control.html">про контроль скриптов</a>. Колонка АЗС — в материале <a href="speech-analytics-for-gas-stations.html">для заправок</a>. Общий принцип тот же и описан в <a href="speech-analytics-offline-kazakhstan-2026.html">офлайн-гайде</a>: бейдж, выгрузка после смены, короткий чек-лист, разбор исключений.</p>
+
+                <h2>Цифры без чужого сервиса</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20% и до −60%</span>
+                    Рост среднего чека и снижение затрат на контроль качества — ориентиры продукта на сайте, не история конкретного сервиса или дилера.
+                </div>
+                <p>В сервисе «средний чек» легко перепутать с дорогой запчастью, которую и так одобрил клиент. Честная база пилота — доля приёмок, где срок и состав суммы проговорены вслух, и доля, где дополнительная работа названа отдельно. Рост чека на 15–20% обсуждают после того, как эти доли выросли, а не вместо них. Снижение затрат на ОКК до 60% — про часы, которые руководитель больше не тратит на сплошную прослушку.</p>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа, любой бизнес. Порог по числу точек пилот не ограничивает. Покупка бейджа — 100&nbsp;000&nbsp;₸ за штуку по <a href="../index.html#pricing">калькулятору</a>. Устройство без экрана описано в статье <a href="employee-audio-badge-kz.html">про аудиобейдж</a>.</p>
+
+                <h2>Утро руководителя сервиса</h2>
+                <p>Три вопроса по вчерашним приёмкам. В скольких прозвучал срок. В скольких сумма разложена на работу и запчасть. Сколько фрагментов, где клиент переспрашивает цену и не получает ответа. Один такой фрагмент полезнее рейтинга «худший мастер». Если фрагментов нет третий день, проверяют словарь: возможно, живые названия работ не попали в чек-лист, и система молчит не потому, что смена идеальна.</p>
+                <p>Выдача машины — отдельный короткий диалог. Имеет смысл не смешивать его с утренней приёмкой в одну оценку, пока оба куска не слышны стабильно. Иначе балл приёмки тонет в фразе «ключи на стойке».</p>
+
+                <h2>Дорогой ремонт и возражение, которое не надо «дожимать»</h2>
+                <p>Самый частый конфликт сервиса — сумма, которая выросла после подъёмника. Хорошая запись здесь не про то, чтобы мастер «отработал возражение» красивой фразой из тренинга. Она про то, прозвучали ли три вещи: что именно нашли, сколько это добавляет, и что работа не продолжится, пока клиент не согласится. Если третьего нет, спор потом невозможно разобрать: в заказ-наряде стоит подпись, а в памяти клиента — «мне не звонили».</p>
+                <p>Балл за удержание клиента любой ценой портит сервис. Клиент имеет право отказаться от дополнительной работы. Мастер имеет право назвать цену и замолчать. Критерий, который это уважает, звучит так: цена названа отдельно от уже согласованной суммы, дан следующий шаг, нет обещания скидки, которой у поста нет. Всё остальное — стиль, его слушает человек на планёрке по одному фрагменту, а не нейросеть в среднем балле.</p>
+                <p>В автосалоне возражение другое: «я сравниваю» и «мне надо подумать». Полезный шаг — назвать, когда и кто перезвонит, и остановиться. Бесполезный шаг — повторить комплектацию третий раз. Поэтому салонный чек-лист не импортируют из ремзоны и не импортируют из розницы, где «ещё один товар» иногда уместен. Здесь лишний круг по залу чаще похож на давление.</p>
+                <p>Пилот на приёмке стоит закончить короткой заметкой для руководителя, а не презентацией. Сколько приёмок попало в запись. В скольких назван срок. В скольких дополнительная работа озвучена до продолжения. Если записей мало, потому что бейдж сняли в цехе, это тоже результат: сначала решают, на какой роли устройство живёт всю смену. Ориентиры +15–20% и до −60% в эту заметку можно положить только сноской: так сайт описывает продукт, свою базу сервис ещё считает.</p>
+
+                <p>Отдельно стоит договориться, кто слушает спорные приёмки. Обычно это руководитель сервиса, а не весь цех в общем чате. Иначе мастер перестаёт называть неудобную цену вслух и уносит разговор в сторону от бейджа. Бумажный вкладыш и индикатор делают запись заметной для клиента. Круг слушателей делает её приемлемой для сотрудника. Оба условия нужны сразу, ещё на трёх днях пилота, а не «когда пойдём в договор».</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Что должна фиксировать запись на приёмке?</h3>
+                <p>Что клиент услышал: какая работа предлагается, какой срок, что входит в сумму и что будет, если на подъёмнике найдут ещё. Это устный договор, а не оценка улыбки.</p>
+                <h3>Один ли скрипт у сервиса и у автосалона?</h3>
+                <p>Нет. На приёмке говорят о работах и сроке. В салоне — о задаче покупателя, комплектации и следующем шаге. Смешивать их в один балл не стоит.</p>
+                <h3>Какие цифры сайта здесь уместны?</h3>
+                <p>Ориентиры продукта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Это не отчёт автосервиса или дилера. Свою долю проговорённых сроков сервис снимает на пилоте.</p>
+                <h3>Можно ли носить бейдж в ремзоне?</h3>
+                <p>На странице отрасли бейдж описан как лёгкий, с креплением к спецодежде. Имя на АБ-400 — бумажный вкладыш, экрана нет. Выдержит ли конкретный пост, проверяют на пилоте, а не по чужому цеху.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Два бейджа на приёмке покажут, проговаривают ли срок и состав суммы. Пилот бесплатный для любого бизнеса.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">&copy; 2026 AiProtocol.kz. Все права защищены.</div>
+        </div>
+    </footer>
+</body>
+</html>

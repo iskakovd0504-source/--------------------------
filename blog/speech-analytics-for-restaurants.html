@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИИ-анализ разговоров в ресторанах и кафе — Блог AiProtocol.kz</title>
+    <link rel="canonical" href="https://aiprotocol.kz/blog/speech-analytics-for-restaurants">
+    <link rel="alternate" hreflang="ru" href="https://aiprotocol.kz/blog/speech-analytics-for-restaurants">
+    <link rel="alternate" hreflang="x-default" href="https://aiprotocol.kz/blog/speech-analytics-for-restaurants">
+    <meta name="description" content="ИИ-анализ разговоров официанта и бариста: приветствие, заказ, одно предложение и жалоба. Без чужих ресторанов и с пилотом на 3 дня.">
+    <meta property="og:title" content="ИИ-анализ разговоров в ресторанах и кафе">
+    <meta property="og:description" content="Что слышно в зале общепита, чего нельзя требовать от бейджа и как снять свою базу за три дня пилота.">
+    <meta property="og:image" content="https://aiprotocol.kz/assets/dashboard_real.png">
+    <meta property="og:type" content="article">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .article-page { padding-top: 100px; padding-bottom: 80px; }
+        .article-hero { position: relative; height: 400px; border-radius: var(--r-xl); overflow: hidden; margin-bottom: 40px; background: #0b1020; }
+        .article-hero__img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 12px; }
+        .article-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(6, 9, 15, 0.55) 100%); pointer-events: none; }
+        .article-header { max-width: 800px; margin: 0 auto 40px; text-align: center; }
+        .article-tag { display: inline-block; padding: 4px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        .article-title { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        .article-content { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.8; color: var(--c-text-secondary); }
+        .article-content h2 { font-size: 28px; font-weight: 700; color: var(--c-text-primary); margin: 40px 0 20px; }
+        .article-content h3 { font-size: 22px; font-weight: 600; color: var(--c-text-primary); margin: 30px 0 16px; }
+        .article-content p { margin-bottom: 24px; }
+        .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content a { color: #67e8f9; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 16px; }
+        .article-content th, .article-content td { border: 1px solid var(--c-border); padding: 12px 14px; text-align: left; vertical-align: top; }
+        .article-content th { color: var(--c-text-primary); }
+        .highlight-box { background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--c-text-muted); border-radius: var(--r-lg); padding: 24px; margin: 32px 0; font-style: italic; }
+        .stat-box { background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+        .stat-box__num { font-size: 32px; font-weight: 800; color: #3b82f6; display: block; margin-bottom: 8px; }
+        .cta-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--c-border); border-radius: var(--r-xl); padding: 40px; text-align: center; margin-top: 60px; }
+        .cta-box h3 { font-size: 24px; margin-bottom: 16px; color: white; }
+        @media (max-width: 768px) { .article-title { font-size: 28px; } .article-hero { height: 250px; } }
+    </style>
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"AiProtocol.kz by ОККМ","url":"https://aiprotocol.kz","logo":"https://aiprotocol.kz/favicon.png","contactPoint":{"@type":"ContactPoint","telephone":"+7-777-555-67-89","contactType":"customer service"},"address":{"@type":"PostalAddress","addressLocality":"Костанай","streetAddress":"ул. Абая 28/1","addressCountry":"KZ"},"sameAs":["https://wa.me/77775556789","https://t.me/ISKAKOVDMITRIY","https://www.instagram.com/aiprotocol_kz"]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"ИИ-анализ разговоров в ресторанах и кафе","description":"Как разбирать речь официанта и бариста без названий заведений и без экрана на бейдже.","image":"https://aiprotocol.kz/assets/dashboard_real.png","author":{"@type":"Organization","name":"AiProtocol.kz by ОККМ"},"publisher":{"@type":"Organization","name":"AiProtocol.kz","logo":{"@type":"ImageObject","url":"https://aiprotocol.kz/favicon.png"}},"datePublished":"2026-10-23T08:00:00+05:00","dateModified":"2026-10-23T08:00:00+05:00","mainEntityOfPage":"https://aiprotocol.kz/blog/speech-analytics-for-restaurants"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://aiprotocol.kz/"},{"@type":"ListItem","position":2,"name":"Блог","item":"https://aiprotocol.kz/blog"},{"@type":"ListItem","position":3,"name":"ИИ-анализ разговоров в ресторанах и кафе","item":"https://aiprotocol.kz/blog/speech-analytics-for-restaurants"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Чем анализ речи в кафе отличается от кассы магазина?","acceptedAnswer":{"@type":"Answer","text":"В кафе шаг — это заказ и одно уместное предложение блюда или напитка, плюс реакция на жалобу. Скрипт супермаркета туда не копируют: другой темп и другой шум зала."}},{"@type":"Question","name":"Слышен ли зал, если микрофон на потолке?","acceptedAnswer":{"@type":"Answer","text":"Потолок пишет всех сразу. Бейдж на официанте или бариста пишет разговор этого человека с гостем. У АБ-400 нет экрана, имя — бумажный вкладыш, о записи говорит индикатор."}},{"@type":"Question","name":"Какие цифры можно обещать ресторану?","acceptedAnswer":{"@type":"Answer","text":"Только ориентиры продукта с сайта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Названий кафе и их результатов в статье нет. Свою долю предложений снимают на пилоте."}},{"@type":"Question","name":"Есть ли отдельная страница отрасли для ресторанов?","acceptedAnswer":{"@type":"Answer","text":"Отдельной посадочной под рестораны на сайте нет. Запуск тот же, что у другого офлайна: бесплатный пилот на 3 дня и два бейджа для любого бизнеса. Ближайшие страницы — розница и общий гайд."}}]}
+    </script>
+</head>
+
+<body data-theme="dark">
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="../index.html" class="logo"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                <nav class="nav">
+                    <a href="../index.html" class="nav__link">Главная</a>
+                    <a href="index.html" class="nav__link active">Блог</a>
+                </nav>
+                <div class="header__cta"><a href="../index.html#test-drive" class="btn btn--sm btn--primary">Пилот на 3 дня</a></div>
+            </div>
+        </div>
+    </header>
+    <main class="article-page">
+        <div class="container">
+            <div class="article-header">
+                <div class="article-tag">Общепит</div>
+                <h1 class="article-title">ИИ-анализ разговоров в ресторанах и кафе</h1>
+                <p style="color: var(--c-text-muted); font-size: 16px;">23 октября 2026 • 8 мин чтения</p>
+            </div>
+            <div class="article-hero">
+                <img src="/assets/dashboard_real.png" alt="Разбор диалогов смены для ресторана и кафе" class="article-hero__img">
+                <div class="article-hero__overlay"></div>
+            </div>
+            <div class="article-content">
+                <p><strong>ИИ-анализ разговоров в ресторане или кафе</strong> проверяет, прозвучали ли приветствие, подтверждение заказа, одно предложение и нормальный ответ на жалобу. Он не ставит оценку блюду и не заменяет обход зала управляющим. Микрофон на человеке, который говорит с гостем, ближе к задаче, чем микрофон на потолке: потолок мешает музыку, соседний стол и кухню. У «Октавы АБ-400» имя — бумажный вкладыш, дисплея и экрана нет, о записи говорит индикатор.</p>
+                <p>Отдельной отраслевой страницы для ресторанов на сайте нет. Запуск совпадает с другим офлайном и описан в <a href="speech-analytics-offline-kazakhstan-2026.html">гайде для офлайн-бизнеса</a>. Ближайшая посадочная по живому скрипту в зале — <a href="../otrasli/ritejl/index.html">розница</a>, но чек-лист кассира сюда не копируют. Названий кафе и их «результатов» в тексте нет.</p>
+
+                <h2>Какие реплики вообще имеет смысл ловить</h2>
+                <p>Смена официанта и смена бариста разной длины. Общий каркас на первую неделю один, слова разные: в кафе это чашка и десерт, в зале — блюдо и напиток к нему.</p>
+                <table>
+                    <thead>
+                        <tr><th>Шаг</th><th>Кафе у стойки</th><th>Зал ресторана</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Контакт</td><td>Гостя заметили до того, как он повторил заказ</td><td>Подошли к столу, не ждали взмаха</td></tr>
+                        <tr><td>Заказ</td><td>Повторили позицию, если шумно</td><td>Повторили стол и состав, если заказ длинный</td></tr>
+                        <tr><td>Одно предложение</td><td>Выпечка или второй напиток — одна позиция</td><td>Напиток, гарнир или десерт — одна позиция</td></tr>
+                        <tr><td>Жалоба</td><td>Что сделают дальше: переделать, заменить, позвать старшего</td><td>То же, без спора «вам показалось» в первый ответ</td></tr>
+                        <tr><td>Закрытие</td><td>Сумма и чек</td><td>Счёт и как позвать, если что-то не так</td></tr>
+                    </tbody>
+                </table>
+                <p>Второе и третье предложение в каждый заказ превращает скрипт в навязчивость. Критерий «предложил меню целиком» почти все провалят в час пик и перестанут верить баллу. Одна названная позиция — проверяемый шаг. Формулировки вроде «не желаете ничего ещё?» имеют тот же риск, что и на кассе: частица «не» звучит как отказ заранее. Список таких формулировок для розницы — в статье <a href="stop-words-retail.html">про стоп-слова</a>. В зале кафе их адаптируют, а не вставляют как есть.</p>
+
+                <h2>Шум, музыка и чужой стол</h2>
+                <p>Зал громче магазина одежды. Потолочная запись смешивает два стола, и непонятно, чей это заказ. Бейдж на официанте режет задачу до одного человека. Он не слышит кухню, если человек ушёл от плиты к гостю, и не должен оценивать разговор персонала между собой. Подсобка и личная реплика в оценку сервиса не входят. Это же правило разобрано для других точек в статье <a href="employee-audio-badge-kz.html">про аудиобейдж</a>.</p>
+                <p>Индикатор записи и табличка для гостей нужны так же, как на кассе. Скрытый «бейдж-диктофон» для проверки официантов мы не описываем как рабочую схему. Юридическая рамка — в материале <a href="legal-audio-recording-kz.html">о записи разговоров сотрудников</a>, это не консультация юриста. Бумажный вкладыш с именем остаётся читаемым без экрана: гость не видит на груди ни оценку, ни чужой заказ.</p>
+                <div class="highlight-box">Анализ речи не пробует еду и не измеряет время подачи по таймеру кухни. Если жалоба про холодное блюдо, в разборе видно, что ответил человек в зале, а не температура тарелки.</div>
+
+                <h2>Жалоба важнее допродажи</h2>
+                <p>В общепите одна плохо закрытая жалоба стоит дороже пропущенного десерта. Поэтому в очереди на утро управляющего жалобы идут первыми, а не тонут в среднем балле вежливости. Короткий список: что гость сказал и какой следующий шаг назвал сотрудник. Если следующего шага не было, это тренировка на сегодня, а не повод публиковать «рейтинг худших».</p>
+                <p>Допродажа имеет смысл только после того, как заказ подтверждён. Предложить напиток до того, как услышали, что человек уже выбрал, — шум. На <a href="speech-analytics-for-gas-stations.html">АЗС</a> сопутствующее тоже одно и короткое, но там нет жалобы на блюдо. На <a href="../otrasli/apteki/index.html">аптеке</a> сначала безопасность запроса. Путать эти словари в одном промпте значит ставить официанту балл за «уточнил назначение».</p>
+
+                <h2>Какие цифры не брать из чужого зала</h2>
+                <div class="stat-box">
+                    <span class="stat-box__num">+15–20% и до −60%</span>
+                    Так на сайте обозначены рост среднего чека и снижение затрат на контроль качества. Для кафе это ориентир продукта, не отчёт названного заведения.
+                </div>
+                <p>Средний чек ресторана скачет из-за банкета и дня недели. Пока нет своей доли диалогов, где одно предложение прозвучало, цифра +15–20% ничего не доказывает. Пилот снимает эту долю. Снижение затрат на контроль до 60% появляется, если управляющий перестаёт слушать всю смену и разбирает жалобы и пропуски скрипта. Если он и раньше не слушал записи, экономить нечего: тогда ценность в том, что лента вообще появилась.</p>
+                <p>Бесплатный пилот — 3 дня и 2 бейджа, для любого бизнеса, без порога по числу точек. Покупка бейджа в собственность на сайте — 100&nbsp;000&nbsp;₸ за штуку. Месяц считают <a href="../index.html#pricing">калькулятором</a>. Сравнение с тайным гостем — в статье <a href="mystery-shopper-alternative.html">про контроль диалогов</a>: тайный визит по-прежнему смотрит зал, чистоту и подачу, которых нет в звуке.</p>
+
+                <h2>Три дня на одной точке</h2>
+                <ol>
+                    <li>Выберите одну роль: бариста или официант, не весь зал сразу.</li>
+                    <li>Запишите пять шагов словами смены, на том языке, на котором говорят с гостем.</li>
+                    <li>Покажите бейдж: бумага с именем, нет экрана с оценкой, индикатор записи виден.</li>
+                    <li>На третий день посмотрите долю подтверждённых заказов, долю одного предложения и число жалоб без следующего шага.</li>
+                    <li>Не публикуйте эти доли как «кейс сети». Это база вашей точки.</li>
+                </ol>
+                <p>Розничный скрипт, если кафе стоит внутри магазина, держите отдельно от стойки кофе. Иначе кассира оценивают за десерт, а бариста — за пакет. Как развести роли, написано в материале <a href="retail-sales-script-control.html">про контроль скриптов в рознице</a>. Для приёмки автомобиля логика другая: там устный договор о работах, см. <a href="speech-analytics-for-auto-service.html">статью про автосервис</a>.</p>
+
+                <h2>Час пик, хостес и стойка — три разные речи</h2>
+                <p>В тихий час официант успевает и контакт, и повтор заказа, и одно предложение. В пятницу вечером тот же чек-лист делает всех «плохими», если не разделить часы. Имеет смысл с первого дня помечать смену: до наплыва и наплыв. В наплыве обязательными оставляют контакт, повтор заказа и ответ на жалобу. Предложение блюда смотрят отдельно и не смешивают с жалобой в один балл. Иначе человек, который гасил конфликт, проиграет человеку, который успел сказать «десерт».</p>
+                <p>Хостес у двери говорит не то, что официант у стола. Её шаг — посадить и назвать ожидание, если мест нет. Его не оценивают за десерт. Бариста у стойки не отвечает за счёт в зале. Если на пилоте только два бейджа, их отдают одной роли на все три дня, а не по часу каждому. Иначе получится шесть обрывков и ни одной доли.</p>
+                <p>Музыка и открытая кухня — повод не вешать устройство под потолок «чтобы слышать всё». Слышать всё значит не слышать никого. Бейдж на человеке, бумажное имя, индикатор на виду, табличка у входа. После смены файл уходит на зарядке, как и на других точках: личной коллекции записей у официанта не остаётся. Что именно тренировать завтра, управляющий выбирает из одного списка: пропущенный повтор заказа или жалоба без следующего шага. Одно за раз. Средний чек +15–20% и экономия на контроле до 60% остаются ориентирами сайта, пока свои три дня не показали, как часто предложение и жалоба вообще случаются в этом зале.</p>
+
+                <h2>Частые вопросы</h2>
+                <h3>Чем анализ речи в кафе отличается от кассы магазина?</h3>
+                <p>В кафе шаг — это заказ и одно уместное предложение блюда или напитка, плюс реакция на жалобу. Скрипт супермаркета туда не копируют: другой темп и другой шум зала.</p>
+                <h3>Слышен ли зал, если микрофон на потолке?</h3>
+                <p>Потолок пишет всех сразу. Бейдж на официанте или бариста пишет разговор этого человека с гостем. У АБ-400 нет экрана, имя — бумажный вкладыш, о записи говорит индикатор.</p>
+                <h3>Какие цифры можно обещать ресторану?</h3>
+                <p>Только ориентиры продукта с сайта: рост среднего чека на 15–20% и снижение затрат на контроль качества до 60%. Названий кафе и их результатов в статье нет. Свою долю предложений снимают на пилоте.</p>
+                <h3>Есть ли отдельная страница отрасли для ресторанов?</h3>
+                <p>Отдельной посадочной под рестораны на сайте нет. Запуск тот же, что у другого офлайна: бесплатный пилот на 3 дня и два бейджа для любого бизнеса. Ближайшие страницы — <a href="../otrasli/ritejl/index.html">розница</a> и <a href="speech-analytics-offline-kazakhstan-2026.html">общий гайд</a>.</p>
+
+                <div class="cta-box">
+                    <h3>Бесплатный пилот на 3 дня</h3>
+                    <p style="margin-bottom: 24px; color: var(--c-text-secondary);">Поставим два бейджа на смену и разберём, звучат ли заказ и одно предложение. Пилот бесплатный для любого бизнеса.</p>
+                    <a href="../index.html#test-drive" class="btn btn--primary">Получить тест-драйв на 3 дня</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <a href="../index.html" class="logo" style="margin-bottom: 16px; display: inline-block;"><div class="logo__text">Ai<span class="logo__accent">Protocol</span></div></a>
+                    <p class="footer__desc">Умные аудиобейджи и передовая речевая аналитика для контроля качества обслуживания в Казахстане от AiProtocol.kz.</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Навигация</h4>
+                    <a href="../index.html" class="footer__link">Главная</a>
+                    <a href="../index.html#how-it-works" class="footer__link">Как работает</a>
+                    <a href="index.html" class="footer__link">Блог</a>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__title">Контакты</h4>
+                    <a href="mailto:info@aiprotocol.kz" class="footer__link">info@aiprotocol.kz</a>
+                    <a href="tel:+77775556789" class="footer__link">+7 (777) 555-67-89</a>
+                    <a href="../privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                </div>
+            </div>
+            <div class="footer__bottom">&copy; 2026 AiProtocol.kz. Все права защищены.</div>
+        </div>
+    </footer>
+</body>
+</html>
