@@ -11,8 +11,8 @@ AiProtocol is a hardware and software platform for automated quality control of 
 
 ## Industries & Solutions
 AiProtocol provides tailored solutions for various offline businesses in Kazakhstan and globally:
-- **Gas Stations (АЗС)**: Monitors script compliance, promotion of brand coffee/pastries, and conflict resolution (Case Study: Qazaq Petrol saw a 34% increase in coffee/pastry sales). [Read more](https://aiprotocol.kz/otrasli/azs/)
-- **Pharmacies (Аптеки)**: Controls cash discipline, cross-selling of vitamins/supplements, and pharmaceutical consulting (Case Study: Sunkar Pharm increased average check by 18%). [Read more](https://aiprotocol.kz/otrasli/apteki/)
+- **Gas Stations (АЗС)**: Monitors script compliance, promotion of brand coffee/pastries, and conflict resolution. [Read more](https://aiprotocol.kz/otrasli/azs/)
+- **Pharmacies (Аптеки)**: Controls cash discipline, cross-selling of vitamins/supplements, and pharmaceutical consulting. [Read more](https://aiprotocol.kz/otrasli/apteki/)
 - **Retail (Ритейл)**: Automates quality assurance from greeting to successful up-selling at the checkout. [Read more](https://aiprotocol.kz/otrasli/ritejl/)
 - **Medicine (Медицина & Стоматологии)**: Ensures polite service in registries and adherence to medical communication standards without violating medical confidentiality (On-Premise available). [Read more](https://aiprotocol.kz/otrasli/medicina/)
 - **Services & Auto (СТО)**: Ensures transparent diagnostics and controls up-selling of services. [Read more](https://aiprotocol.kz/otrasli/uslugi-i-avto/)
