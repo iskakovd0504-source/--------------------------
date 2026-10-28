@@ -109,6 +109,12 @@ h1, h2, h3, h4, h5, h6 {
 /* 4. КНОПКИ В СТИЛЕ GLASSMORPHISM */
 .btn {
     border-radius: 40px !important; /* Более обтекаемые премиальные формы */
+    flex-shrink: 0;
+}
+
+.header__cta {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
 }
 
 .btn--primary {
