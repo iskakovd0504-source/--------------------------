@@ -1152,6 +1152,48 @@
                             <span class="net-calc__legend">* Бейджей на точку = сотрудников в смене (при 24/7 умножается на 2 для ротации зарядки)</span>
                         </div>
 
+                        <!-- Выбор тарифного периода (3 главных варианта) -->
+                        <div class="net-periods">
+                            <div class="net-periods__header">
+                                <h4 class="net-periods__title">⚡ Выберите тарифный период оплаты:</h4>
+                                <span class="net-periods__sub">★ 85% сетей выбирают Квартал</span>
+                            </div>
+                            <div class="net-periods__grid">
+                                <!-- Вариант 1: 1 месяц (Аренда / Пилот) -->
+                                <div class="net-period-card" data-period="month">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3);">📦 Пилот / Тест</span>
+                                        <div class="net-period-card__radio"></div>
+                                    </div>
+                                    <div class="net-period-card__name">1 месяц (Аренда)</div>
+                                    <div class="net-period-card__benefit" style="color: #d97706;">Залог 60 000 ₸ за бейдж (возвратный)</div>
+                                    <div class="net-period-card__desc">Тестовый формат на 30 дней. Оборудование во временную аренду с гарантией возврата залога.</div>
+                                </div>
+
+                                <!-- Вариант 2: Квартал (3 месяца) - Хит продаж -->
+                                <div class="net-period-card active" data-period="quarter">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: #2563eb; color: #ffffff;">🔥 Хит продаж · 85% сетей</span>
+                                        <div class="net-period-card__radio">✓</div>
+                                    </div>
+                                    <div class="net-period-card__name">Квартал (3 месяца)</div>
+                                    <div class="net-period-card__benefit" style="color: #16a34a;">🎁 Бейджи в СОБСТВЕННОСТЬ навсегда</div>
+                                    <div class="net-period-card__desc">Оборудование переходит на баланс компании без доплат и залогов. Включена курьерская доставка СДЭК до двери.</div>
+                                </div>
+
+                                <!-- Вариант 3: Год (12 месяцев) - Максимальная выгода -->
+                                <div class="net-period-card" data-period="year">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: rgba(22, 163, 74, 0.15); color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.3);">💎 Скидка -15% на лицензии</span>
+                                        <div class="net-period-card__radio"></div>
+                                    </div>
+                                    <div class="net-period-card__name">Год (12 месяцев)</div>
+                                    <div class="net-period-card__benefit" style="color: #16a34a;">🎁 Бейджи в собственность + Поддержка</div>
+                                    <div class="net-period-card__desc">Максимальная экономия 15%. Персональный менеджер и бесплатная поддержка при изменениях настроек на всем сроке.</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Итоги -->
                         <div class="net-calc__summary">
                             <h5 class="net-calc__summary-title">Итог по сети</h5>
@@ -1162,22 +1204,23 @@
                                 </div>
                                 <div class="net-kpi">
                                     <div class="net-kpi__num" id="totalBadges">0</div>
-                                    <div class="net-kpi__lbl">Бейджей в собственность</div>
+                                    <div class="net-kpi__lbl" id="totalBadgesLbl">Бейджей в собственность</div>
                                 </div>
                                 <div class="net-kpi net-kpi--hl">
                                     <div class="net-kpi__num" id="totalMonthly">0 ₸</div>
                                     <div class="net-kpi__lbl">Сумма в месяц</div>
                                 </div>
-                                <div class="net-kpi net-kpi--hl">
+                                <div class="net-kpi net-kpi--hl" id="finalPaymentKpi">
                                     <div class="net-kpi__num" id="totalQuarter">0 ₸</div>
-                                    <div class="net-kpi__lbl">Квартальная предоплата</div>
+                                    <div class="net-kpi__lbl" id="totalQuarterLbl">Квартальная предоплата</div>
+                                    <div class="net-kpi__subnote" id="totalQuarterSub" style="font-size: 0.68rem; color: #16a34a; font-weight: 700; margin-top: 4px;">Бейджи переходят в собственность</div>
                                 </div>
                                 <div class="net-kpi" id="purchaseKpi" style="display: none;">
                                     <div class="net-kpi__num" id="totalPurchase">0 ₸</div>
                                     <div class="net-kpi__lbl">Оборудование</div>
                                 </div>
                             </div>
-                            <div class="net-calc__note">
+                            <div class="net-calc__note" id="netCalcNote">
                                 <strong>Условия:</strong> Бесплатный тест-драйв (пилот 3 дня) перед подписанием договора. Договор с фиксацией тарифа в тенге. Оплата — поквартально вперёд (первый платёж после успешного пилота). <strong>Все смарт-бейджи передаются в полную собственность вашей компании навсегда</strong> (стоимость оборудования и курьерская доставка СДЭК до двери уже включены в тариф при поквартальной или годовой оплате, без залогов и скрытых комиссий).
                             </div>
                         </div>

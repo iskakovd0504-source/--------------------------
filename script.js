@@ -789,11 +789,11 @@
             "24": { label: kkCalc ? "24 сағат (тәулік бойы)" : (enCalc ? "24 hours (24/7)" : "24 часа (Круглосуточно)"), monthly: 170000, badgeMult: 2 }
         };
         const pointWord = kkCalc ? "Нүкте " : (enCalc ? "Location " : "Точка ");
-        const ownershipWord = kkCalc ? "Меншікке" : (enCalc ? "In ownership" : "В собственность");
         const deleteTitle = kkCalc ? "Нүктені өшіру" : (enCalc ? "Delete location" : "Удалить точку");
 
         let netRows = [];
         let netIdSeq = 1;
+        let activePeriod = "quarter"; // "month" | "quarter" | "year"
 
         function fmtKzt(n) {
             if (enCalc) {
@@ -830,6 +830,20 @@
             return staff * rate.monthly;
         }
 
+        function getRowOwnershipHtml() {
+            if (activePeriod === 'month') {
+                const lbl = kkCalc ? "Жалдау (кепіл)" : (enCalc ? "Rental (deposit)" : "Аренда (залог)");
+                return `<span class="badge-ownership-tag" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.28); white-space: nowrap;">
+                    📦 ${lbl}
+                </span>`;
+            } else {
+                const lbl = kkCalc ? "Меншікке" : (enCalc ? "In ownership" : "В собственность");
+                return `<span class="badge-ownership-tag" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; background: rgba(34, 197, 94, 0.12); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.28); white-space: nowrap;">
+                    🎁 ${lbl}
+                </span>`;
+            }
+        }
+
         function renderNetCalc() {
             calcRowsBody.innerHTML = "";
             netRows.forEach((r, i) => {
@@ -845,11 +859,7 @@
                     <td><select class="net-select" data-field="mode" data-id="${r.id}">${modeOptions}</select></td>
                     <td><input type="number" class="net-input net-input--num" min="1" step="1" value="${r.staff}" data-field="staff" data-id="${r.id}"></td>
                     <td class="badges-cell" style="font-weight: 800; font-size: 1.05rem; text-align: center;">${rowBadges(r)}</td>
-                    <td style="text-align: center;">
-                        <span class="badge-ownership-tag" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; background: rgba(34, 197, 94, 0.12); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.28); white-space: nowrap;">
-                            🎁 ${ownershipWord}
-                        </span>
-                    </td>
+                    <td style="text-align: center;">${getRowOwnershipHtml()}</td>
                     <td class="rowsum">${fmtKzt(rowMonthly(r))}</td>
                     <td><button type="button" class="del-btn" data-del="${r.id}" title="${deleteTitle}">×</button></td>
                 `;
@@ -875,22 +885,84 @@
             const totalPoints = netRows.length;
             const totalBadges = netRows.reduce((s, r) => s + rowBadges(r), 0);
             const totalMonthly = netRows.reduce((s, r) => s + rowMonthly(r), 0);
-            const totalQuarter = totalMonthly * 3;
+
+            let finalTotal = totalMonthly * 3;
+            let finalLabel = kkCalc ? "Тоқсандық алдын ала төлем" : (enCalc ? "Quarterly prepayment" : "Квартальная предоплата");
+            let finalSub = kkCalc ? "Бейджтер меншікке беріледі" : (enCalc ? "Badges become your property" : "Бейджи переходят в собственность");
+            let badgesLabel = kkCalc ? "Бейдж меншікке" : (enCalc ? "Badges in full ownership" : "Бейджей в собственность");
+
+            if (activePeriod === 'month') {
+                const depositPerBadge = 60000;
+                finalTotal = totalMonthly + (totalBadges * depositPerBadge);
+                finalLabel = kkCalc ? "1 ай + қайтарылатын кепіл" : (enCalc ? "1 month + security deposit" : "1 месяц + возвратный залог");
+                finalSub = kkCalc ? "Жалдау: абоненттік төлем + кепіл 60 000 ₸/бейдж" : (enCalc ? "Rental: subscription + 60,000 KZT deposit/badge" : "Аренда: подписка + залог 60 000 ₸ за бейдж");
+                badgesLabel = kkCalc ? "Бейдж жалға (уақытша)" : (enCalc ? "Badges in rental" : "Бейджей в аренду");
+            } else if (activePeriod === 'year') {
+                finalTotal = Math.round(totalMonthly * 12 * 0.85);
+                const savings = Math.round(totalMonthly * 12 * 0.15);
+                finalLabel = kkCalc ? "Жылдық төлем (-15%) 💎" : (enCalc ? "Annual payment (-15%) 💎" : "Годовая оплата (-15%) 💎");
+                finalSub = kkCalc ? `Үнемдеу: ${fmtKzt(savings)} + Меншікке` : (enCalc ? `Savings: ${fmtKzt(savings)} + In ownership` : `Экономия: ${fmtKzt(savings)} + В собственность`);
+            }
 
             const elPoints = document.getElementById("totalPoints");
             const elBadges = document.getElementById("totalBadges");
+            const elBadgesLbl = document.getElementById("totalBadgesLbl");
             const elMonthly = document.getElementById("totalMonthly");
             const elQuarter = document.getElementById("totalQuarter");
-            const elPurchaseKpi = document.getElementById("purchaseKpi");
+            const elQuarterLbl = document.getElementById("totalQuarterLbl");
+            const elQuarterSub = document.getElementById("totalQuarterSub");
+            const elNote = document.getElementById("netCalcNote");
 
             if (elPoints) elPoints.textContent = totalPoints;
             if (elBadges) elBadges.textContent = totalBadges;
+            if (elBadgesLbl) elBadgesLbl.textContent = badgesLabel;
             if (elMonthly) elMonthly.textContent = fmtKzt(totalMonthly);
-            if (elQuarter) elQuarter.textContent = fmtKzt(totalQuarter);
-            if (elPurchaseKpi) elPurchaseKpi.style.display = "none";
+            if (elQuarter) elQuarter.textContent = fmtKzt(finalTotal);
+            if (elQuarterLbl) elQuarterLbl.textContent = finalLabel;
+            if (elQuarterSub) {
+                elQuarterSub.textContent = finalSub;
+                elQuarterSub.style.color = (activePeriod === 'month') ? '#d97706' : '#16a34a';
+            }
+
+            // Dynamic Conditions Note
+            if (elNote) {
+                if (activePeriod === 'month') {
+                    elNote.innerHTML = kkCalc
+                        ? `<strong>Таңдалған кезең: 1 ай (Жалдау / Тест).</strong> Жабдық уақытша жалға беріледі. Қайтарылатын кепілдік жарнасы әр смарт-бейдж үшін 60 000 ₸ құрайды (жал аяқталғанда толық қайтарылады). Тоқсандық немесе жылдық тарифке өткенде кепіл төлемге есептеледі, ал бейдждер сіздің толық меншігіңізге қалады.`
+                        : (enCalc
+                            ? `<strong>Selected period: 1 Month (Rental / Test).</strong> Hardware is provided for temporary rental. A refundable security deposit of 60,000 KZT per smart badge applies (fully refunded upon return). When upgrading to a quarterly or annual plan, the deposit is applied toward the payment and badges become your permanent property.`
+                            : `<strong>Выбран период: 1 месяц (Аренда / Тест).</strong> Оборудование предоставляется во временную аренду. Возвратный гарантийный залог составляет 60 000 ₸ за каждый смарт-бейдж (возвращается в полном объеме по окончании аренды). При переходе на квартальный или годовой тариф залог засчитывается в оплату, а бейджи переходят в вашу полную собственность.`);
+                } else if (activePeriod === 'year') {
+                    elNote.innerHTML = kkCalc
+                        ? `<strong>Таңдалған кезең: Жыл (12 ай) — Ең тиімді тариф.</strong> Абоненттік төлемге 15% жеңілдік. Барлық смарт-бейдждер компанияңыздың толық меншігіне беріледі. Жеке менеджер бекітіледі және келісімшарттың барлық мерзімінде скрипттер мен баптауларды өзгертуге тегін жедел қолдау көрсетіледі.`
+                        : (enCalc
+                            ? `<strong>Selected period: 1 Year (12 Months) — Maximum Savings.</strong> 15% discount on software licenses. All smart badges become your permanent property. Dedicated account manager with free priority support for any updates to scripts and settings throughout the contract.`
+                            : `<strong>Выбран период: Год (12 месяцев) — Максимальная экономия.</strong> Скидка 15% на абонентскую плату. Все смарт-бейджи передаются в собственность вашей компании навсегда. Закрепляется персональный менеджер и бесплатная оперативная поддержка при любых изменениях настроек и скриптов на всем сроке договора.`);
+                } else {
+                    elNote.innerHTML = kkCalc
+                        ? `<strong>Таңдалған кезең: Тоқсан (3 ай) — Хит сатылым.</strong> Барлық смарт-бейдждер компанияңыздың толық меншігіне мәңгілікке беріледі (жабдық құны мен есікке дейін СДЭК курьерлік жеткізілімі тарифке кіреді, кепілсіз). Төлем алдында 3 күндік тегін пилот.`
+                        : (enCalc
+                            ? `<strong>Selected period: Quarter (3 Months) — Best Seller.</strong> All smart badges become the permanent property of your company with zero deposit and no extra fees (hardware cost and CDEK door delivery included). Free 3-day test drive before the first payment.`
+                            : `<strong>Выбран период: Квартал (3 месяца) — Хит продаж.</strong> Все смарт-бейджи переходят в полную собственность вашей компании навсегда без доплат и залогов (стоимость оборудования и курьерская доставка СДЭК до двери уже включены в тариф при поквартальной оплате). Бесплатный тест-драйв 3 дня перед первым платежом.`);
+                }
+            }
         }
 
         calcAddRowBtn.addEventListener("click", addNetRow);
+
+        // Переключение тарифных периодов
+        document.querySelectorAll(".net-period-card").forEach(card => {
+            card.addEventListener("click", () => {
+                activePeriod = card.dataset.period;
+                document.querySelectorAll(".net-period-card").forEach(c => {
+                    const isAct = (c.dataset.period === activePeriod);
+                    c.classList.toggle("active", isAct);
+                    const radio = c.querySelector(".net-period-card__radio");
+                    if (radio) radio.textContent = isAct ? "✓" : "";
+                });
+                renderNetCalc();
+            });
+        });
 
         // Стартовые 3 точки для демо
         netRows.push({ id: netIdSeq++, name: pointWord + "1", mode: "8", staff: 1 });

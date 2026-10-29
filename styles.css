@@ -3555,6 +3555,121 @@ html[data-theme="light"] .theme-toggle-moon {
     color: var(--c-text-primary);
 }
 
+/* ===== NET CALC PERIOD CARDS ===== */
+.net-periods {
+    margin: var(--space-6) 0;
+}
+
+.net-periods__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.net-periods__title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--c-text-primary);
+    margin: 0;
+}
+
+.net-periods__sub {
+    font-size: 0.8rem;
+    color: var(--c-accent-blue);
+    font-weight: 700;
+}
+
+.net-periods__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-3);
+}
+
+.net-period-card {
+    border: 1px solid var(--c-border);
+    background: var(--c-surface);
+    border-radius: var(--r-xl);
+    padding: var(--space-4) var(--space-5);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.net-period-card:hover {
+    border-color: var(--c-accent-blue);
+    transform: translateY(-2px);
+}
+
+.net-period-card.active {
+    border: 2px solid var(--c-accent-blue);
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+}
+
+.net-period-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.net-period-card__tag {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+}
+
+.net-period-card__radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--c-border);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 900;
+    transition: all 0.2s ease;
+}
+
+.net-period-card.active .net-period-card__radio {
+    border-color: var(--c-accent-blue);
+    background: var(--c-accent-blue);
+}
+
+.net-period-card__name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--c-text-primary);
+    margin-bottom: 4px;
+}
+
+.net-period-card__benefit {
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.net-period-card__desc {
+    font-size: 0.76rem;
+    color: var(--c-text-secondary);
+    line-height: 1.45;
+    margin-top: auto;
+}
+
 /* Light theme explicit overrides */
 html[data-theme="light"] .pricing__card--calc-full {
     background: #ffffff;
@@ -3600,6 +3715,22 @@ html[data-theme="light"] .rowsum {
 html[data-theme="light"] .net-calc__summary {
     background: #f8fafc;
     border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .net-period-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .net-period-card.active {
+    background: rgba(37, 99, 235, 0.05);
+    border-color: #2563eb;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+}
+
+html[data-theme="light"] .net-period-card.active .net-period-card__radio {
+    border-color: #2563eb;
+    background: #2563eb;
 }
 
 html[data-theme="light"] .net-kpi {

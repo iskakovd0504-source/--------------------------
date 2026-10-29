@@ -1063,7 +1063,50 @@
 <button class="btn btn--ghost btn--sm" id="calc-add-row" type="button">+ Add location</button>
 <span class="net-calc__legend">* Badges per location = employees per shift (multiplied by 2 for 24/7 for charging rotation)</span>
 </div>
- Summary 
+
+<!-- Select Billing Period (3 main options) -->
+<div class="net-periods">
+<div class="net-periods__header">
+<h4 class="net-periods__title">⚡ Select billing payment period:</h4>
+<span class="net-periods__sub">★ 85% of store chains choose Quarter</span>
+</div>
+<div class="net-periods__grid">
+<!-- Option 1: 1 Month (Rental / Pilot) -->
+<div class="net-period-card" data-period="month">
+<div class="net-period-card__top">
+<span class="net-period-card__tag" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3);">📦 Pilot / Test</span>
+<div class="net-period-card__radio"></div>
+</div>
+<div class="net-period-card__name">1 Month (Rental)</div>
+<div class="net-period-card__benefit" style="color: #d97706;">60,000 KZT deposit/badge (refundable)</div>
+<div class="net-period-card__desc">30-day testing format. Hardware on temporary lease with guaranteed security deposit refund.</div>
+</div>
+
+<!-- Option 2: Quarter (3 Months) - Best Seller -->
+<div class="net-period-card active" data-period="quarter">
+<div class="net-period-card__top">
+<span class="net-period-card__tag" style="background: #2563eb; color: #ffffff;">🔥 Best Seller · 85% chains</span>
+<div class="net-period-card__radio">✓</div>
+</div>
+<div class="net-period-card__name">Quarter (3 Months)</div>
+<div class="net-period-card__benefit" style="color: #16a34a;">🎁 Badges in FULL OWNERSHIP forever</div>
+<div class="net-period-card__desc">Hardware is transferred to your company balance with 0 extra fees. CDEK door-to-door delivery included.</div>
+</div>
+
+<!-- Option 3: 1 Year (12 Months) - Maximum Savings -->
+<div class="net-period-card" data-period="year">
+<div class="net-period-card__top">
+<span class="net-period-card__tag" style="background: rgba(22, 163, 74, 0.15); color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.3);">💎 -15% Discount on Licenses</span>
+<div class="net-period-card__radio"></div>
+</div>
+<div class="net-period-card__name">1 Year (12 Months)</div>
+<div class="net-period-card__benefit" style="color: #16a34a;">🎁 Badges in Ownership + Support</div>
+<div class="net-period-card__desc">Maximum 15% savings. Dedicated account manager with free prompt & script adjustment support.</div>
+</div>
+</div>
+</div>
+
+<!-- Summary -->
 <div class="net-calc__summary">
 <h5 class="net-calc__summary-title">Network total</h5>
 <div class="net-calc__kpis">
@@ -1073,22 +1116,23 @@
 </div>
 <div class="net-kpi">
 <div class="net-kpi__num" id="totalBadges">0</div>
-<div class="net-kpi__lbl">Badges in full ownership</div>
+<div class="net-kpi__lbl" id="totalBadgesLbl">Badges in full ownership</div>
 </div>
 <div class="net-kpi net-kpi--hl">
 <div class="net-kpi__num" id="totalMonthly">$0</div>
 <div class="net-kpi__lbl">Amount per month</div>
 </div>
-<div class="net-kpi net-kpi--hl">
+<div class="net-kpi net-kpi--hl" id="finalPaymentKpi">
 <div class="net-kpi__num" id="totalQuarter">$0</div>
-<div class="net-kpi__lbl">Quarterly prepayment</div>
+<div class="net-kpi__lbl" id="totalQuarterLbl">Quarterly prepayment</div>
+<div class="net-kpi__subnote" id="totalQuarterSub" style="font-size: 0.68rem; color: #16a34a; font-weight: 700; margin-top: 4px;">Badges become your property</div>
 </div>
 <div class="net-kpi" id="purchaseKpi" style="display: none;">
 <div class="net-kpi__num" id="totalPurchase">$0</div>
 <div class="net-kpi__lbl">Hardware</div>
 </div>
 </div>
-<div class="net-calc__note">
+<div class="net-calc__note" id="netCalcNote">
 <strong>Conditions:</strong> Free 3-day test drive (pilot) before signing a contract. Fixed subscription rate. Payment is quarterly in advance (first payment after successful pilot). <strong>All smart badges are transferred into the full ownership of your company forever</strong> (hardware cost and CDEK door-to-door courier delivery are included in quarterly and annual subscriptions, with no deposit and no hidden fees).
                             </div>
 </div>

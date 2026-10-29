@@ -1129,6 +1129,48 @@
                             <span class="net-calc__legend">* Нүктедегі бейдж = ауысымдағы адам (24/7 болса, заряд ауысымы үшін 2-ге көбейеді)</span>
                         </div>
 
+                        <!-- Тарифтік кезеңді таңдау (3 негізгі нұсқа) -->
+                        <div class="net-periods">
+                            <div class="net-periods__header">
+                                <h4 class="net-periods__title">⚡ Төлемнің тарифтік кезеңін таңдаңыз:</h4>
+                                <span class="net-periods__sub">★ 85% желілер Тоқсанды таңдайды</span>
+                            </div>
+                            <div class="net-periods__grid">
+                                <!-- 1-нұсқа: 1 ай (Жалдау / Пилот) -->
+                                <div class="net-period-card" data-period="month">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3);">📦 Пилот / Тест</span>
+                                        <div class="net-period-card__radio"></div>
+                                    </div>
+                                    <div class="net-period-card__name">1 ай (Жалдау)</div>
+                                    <div class="net-period-card__benefit" style="color: #d97706;">Әр бейджге 60 000 ₸ кепіл (қайтарылатын)</div>
+                                    <div class="net-period-card__desc">30 күндік сынақ форматы. Жабдық кепілдікпен уақытша жалға беріледі.</div>
+                                </div>
+
+                                <!-- 2-нұсқа: Тоқсан (3 ай) - Хит сатылым -->
+                                <div class="net-period-card active" data-period="quarter">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: #2563eb; color: #ffffff;">🔥 Хит сатылым · 85% желілер</span>
+                                        <div class="net-period-card__radio">✓</div>
+                                    </div>
+                                    <div class="net-period-card__name">Тоқсан (3 ай)</div>
+                                    <div class="net-period-card__benefit" style="color: #16a34a;">🎁 Бейдждер МӘҢГІЛІККЕ МЕНШІККЕ</div>
+                                    <div class="net-period-card__desc">Жабдық қосымша төлемсіз компанияңыздың балансына өтеді. СДЭК курьерлік жеткізілімі кіреді.</div>
+                                </div>
+
+                                <!-- 3-нұсқа: Жыл (12 ай) - Ең тиімді -->
+                                <div class="net-period-card" data-period="year">
+                                    <div class="net-period-card__top">
+                                        <span class="net-period-card__tag" style="background: rgba(22, 163, 74, 0.15); color: #16a34a; border: 1px solid rgba(22, 163, 74, 0.3);">💎 Лицензияға -15% жеңілдік</span>
+                                        <div class="net-period-card__radio"></div>
+                                    </div>
+                                    <div class="net-period-card__name">Жыл (12 ай)</div>
+                                    <div class="net-period-card__benefit" style="color: #16a34a;">🎁 Бейдждер меншікке + Қолдау</div>
+                                    <div class="net-period-card__desc">15% максималды үнемдеу. Жеке менеджер және келісімшарт мерзімінде тегін жедел қолдау.</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Итоги -->
                         <div class="net-calc__summary">
                             <h5 class="net-calc__summary-title">Желі бойынша жиын</h5>
@@ -1139,22 +1181,23 @@
                                 </div>
                                 <div class="net-kpi">
                                     <div class="net-kpi__num" id="totalBadges">0</div>
-                                    <div class="net-kpi__lbl">Бейдж меншікке</div>
+                                    <div class="net-kpi__lbl" id="totalBadgesLbl">Бейдж меншікке</div>
                                 </div>
                                 <div class="net-kpi net-kpi--hl">
                                     <div class="net-kpi__num" id="totalMonthly">0 ₸</div>
                                     <div class="net-kpi__lbl">Айына сома</div>
                                 </div>
-                                <div class="net-kpi net-kpi--hl">
+                                <div class="net-kpi net-kpi--hl" id="finalPaymentKpi">
                                     <div class="net-kpi__num" id="totalQuarter">0 ₸</div>
-                                    <div class="net-kpi__lbl">Тоқсандық алдын ала төлем</div>
+                                    <div class="net-kpi__lbl" id="totalQuarterLbl">Тоқсандық алдын ала төлем</div>
+                                    <div class="net-kpi__subnote" id="totalQuarterSub" style="font-size: 0.68rem; color: #16a34a; font-weight: 700; margin-top: 4px;">Бейджтер меншікке беріледі</div>
                                 </div>
                                 <div class="net-kpi" id="purchaseKpi" style="display: none;">
                                     <div class="net-kpi__num" id="totalPurchase">0 ₸</div>
                                     <div class="net-kpi__lbl">Жабдық</div>
                                 </div>
                             </div>
-                            <div class="net-calc__note">
+                            <div class="net-calc__note" id="netCalcNote">
                                 <strong>Шарт:</strong> Келісімшартқа отырмас бұрын 3 күндік тегін тест-драйв (пилот). Тариф теңгемен бекітіледі. Төлем — тоқсан сайын алдын ала (алғашқы төлем сәтті пилоттан кейін). <strong>Барлық смарт-бейдждер компанияңыздың толық меншігіне мәңгілікке беріледі</strong> (жабдық құны және есікке дейін СДЭК курьерлік жеткізілімі тоқсандық немесе жылдық тарифке кіреді, кепілдіксіз және жасырын төлемдерсіз).
                             </div>
                         </div>
