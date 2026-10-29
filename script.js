@@ -782,26 +782,28 @@
 
     if (calcRowsBody && calcAddRowBtn) {
         const kkCalc = pageLang() === 'kk';
+        const enCalc = pageLang() === 'en';
         const RATES = {
-            "8":  { label: kkCalc ? "8 сағатқа дейін" : "До 8 часов",   rent: 65000, buy: 58500, badgeMult: 1 },
-            "12": { label: kkCalc ? "12 сағатқа дейін" : "До 12 часов",  rent: 85000, buy: 76500, badgeMult: 1 },
-            "24": { label: kkCalc ? "24 сағат (тәулік бойы)" : "24 часа (Круглосуточно)", rent: 85000, buy: 76500, badgeMult: 2 }
+            "8":  { label: kkCalc ? "8 сағатқа дейін" : (enCalc ? "Up to 8 hours" : "До 8 часов"), monthly: 65000, badgeMult: 1 },
+            "12": { label: kkCalc ? "12 сағатқа дейін" : (enCalc ? "Up to 12 hours" : "До 12 часов"), monthly: 85000, badgeMult: 1 },
+            "24": { label: kkCalc ? "24 сағат (тәулік бойы)" : (enCalc ? "24 hours (24/7)" : "24 часа (Круглосуточно)"), monthly: 170000, badgeMult: 2 }
         };
-        const pointWord = kkCalc ? "Нүкте " : "Точка ";
-        const rentWord = kkCalc ? "Жалдау" : "Аренда";
-        const buyWord = kkCalc ? "Сатып алу" : "Покупка";
-        const deleteTitle = kkCalc ? "Нүктені өшіру" : "Удалить точку";
-        const BADGE_PRICE = 100000;
+        const pointWord = kkCalc ? "Нүкте " : (enCalc ? "Location " : "Точка ");
+        const ownershipWord = kkCalc ? "Меншікке" : (enCalc ? "In ownership" : "В собственность");
+        const deleteTitle = kkCalc ? "Нүктені өшіру" : (enCalc ? "Delete location" : "Удалить точку");
 
         let netRows = [];
         let netIdSeq = 1;
 
         function fmtKzt(n) {
+            if (enCalc) {
+                return "$" + Math.round(n / 500).toLocaleString("en-US");
+            }
             return Math.round(n).toLocaleString("ru-RU").replace(/,/g, " ") + " ₸";
         }
 
         function addNetRow() {
-            netRows.push({ id: netIdSeq++, name: pointWord + (netRows.length + 1), mode: "12", staff: 1, buy: false });
+            netRows.push({ id: netIdSeq++, name: pointWord + (netRows.length + 1), mode: "12", staff: 1 });
             renderNetCalc();
         }
 
@@ -819,17 +821,13 @@
 
         function rowBadges(r) {
             const staff = Math.max(1, parseInt(r.staff) || 1);
-            return staff * RATES[r.mode].badgeMult;
+            return staff * (RATES[r.mode] ? RATES[r.mode].badgeMult : 1);
         }
 
         function rowMonthly(r) {
-            const rate = RATES[r.mode];
-            const perBadge = r.buy ? rate.buy : rate.rent;
-            return rowBadges(r) * perBadge;
-        }
-
-        function rowPurchaseCost(r) {
-            return r.buy ? rowBadges(r) * BADGE_PRICE : 0;
+            const staff = Math.max(1, parseInt(r.staff) || 1);
+            const rate = RATES[r.mode] || RATES["12"];
+            return staff * rate.monthly;
         }
 
         function renderNetCalc() {
@@ -846,12 +844,11 @@
                     <td><input type="text" class="net-input" value="${r.name}" data-field="name" data-id="${r.id}"></td>
                     <td><select class="net-select" data-field="mode" data-id="${r.id}">${modeOptions}</select></td>
                     <td><input type="number" class="net-input net-input--num" min="1" step="1" value="${r.staff}" data-field="staff" data-id="${r.id}"></td>
-                    <td class="badges-cell">${rowBadges(r)}</td>
-                    <td>
-                        <div class="mode-toggle">
-                            <button type="button" data-field="buy" data-val="false" data-id="${r.id}" class="mode-toggle__btn ${!r.buy ? 'active' : ''}">${rentWord}</button>
-                            <button type="button" data-field="buy" data-val="true" data-id="${r.id}" class="mode-toggle__btn ${r.buy ? 'active' : ''}">${buyWord}</button>
-                        </div>
+                    <td class="badges-cell" style="font-weight: 800; font-size: 1.05rem; text-align: center;">${rowBadges(r)}</td>
+                    <td style="text-align: center;">
+                        <span class="badge-ownership-tag" style="display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 5px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; background: rgba(34, 197, 94, 0.12); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.28); white-space: nowrap;">
+                            🎁 ${ownershipWord}
+                        </span>
                     </td>
                     <td class="rowsum">${fmtKzt(rowMonthly(r))}</td>
                     <td><button type="button" class="del-btn" data-del="${r.id}" title="${deleteTitle}">×</button></td>
@@ -871,11 +868,6 @@
                     updateNetRow(parseInt(e.target.dataset.id), "mode", e.target.value);
                 });
             });
-            calcRowsBody.querySelectorAll("button[data-field='buy']").forEach(btn => {
-                btn.addEventListener("click", e => {
-                    updateNetRow(parseInt(e.target.dataset.id), "buy", e.target.dataset.val === "true");
-                });
-            });
             calcRowsBody.querySelectorAll("button[data-del]").forEach(btn => {
                 btn.addEventListener("click", e => removeNetRow(parseInt(e.target.dataset.del)));
             });
@@ -884,36 +876,26 @@
             const totalBadges = netRows.reduce((s, r) => s + rowBadges(r), 0);
             const totalMonthly = netRows.reduce((s, r) => s + rowMonthly(r), 0);
             const totalQuarter = totalMonthly * 3;
-            const totalPurchase = netRows.reduce((s, r) => s + rowPurchaseCost(r), 0);
 
             const elPoints = document.getElementById("totalPoints");
             const elBadges = document.getElementById("totalBadges");
             const elMonthly = document.getElementById("totalMonthly");
             const elQuarter = document.getElementById("totalQuarter");
             const elPurchaseKpi = document.getElementById("purchaseKpi");
-            const elPurchase = document.getElementById("totalPurchase");
 
             if (elPoints) elPoints.textContent = totalPoints;
             if (elBadges) elBadges.textContent = totalBadges;
             if (elMonthly) elMonthly.textContent = fmtKzt(totalMonthly);
             if (elQuarter) elQuarter.textContent = fmtKzt(totalQuarter);
-
-            if (elPurchaseKpi) {
-                if (totalPurchase > 0) {
-                    elPurchaseKpi.style.display = "";
-                    if (elPurchase) elPurchase.textContent = fmtKzt(totalPurchase);
-                } else {
-                    elPurchaseKpi.style.display = "none";
-                }
-            }
+            if (elPurchaseKpi) elPurchaseKpi.style.display = "none";
         }
 
         calcAddRowBtn.addEventListener("click", addNetRow);
 
         // Стартовые 3 точки для демо
-        netRows.push({ id: netIdSeq++, name: pointWord + "1", mode: "8", staff: 1, buy: false });
-        netRows.push({ id: netIdSeq++, name: pointWord + "2", mode: "12", staff: 1, buy: false });
-        netRows.push({ id: netIdSeq++, name: pointWord + "3", mode: "24", staff: 1, buy: false });
+        netRows.push({ id: netIdSeq++, name: pointWord + "1", mode: "8", staff: 1 });
+        netRows.push({ id: netIdSeq++, name: pointWord + "2", mode: "12", staff: 1 });
+        netRows.push({ id: netIdSeq++, name: pointWord + "3", mode: "24", staff: 1 });
         renderNetCalc();
     }
 
