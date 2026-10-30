@@ -1089,7 +1089,7 @@
                                 <label for="td-company" class="form__label" style="display: block; margin-bottom: var(--space-2); font-size: var(--f-size-xs); font-weight: 500; color: var(--c-text-secondary);">Компания</label>
                                 <input type="text" id="td-company" class="form__input" placeholder="Ромашка" required style="width: 100%; padding: var(--space-3); background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); color: white;">
                             </div>
-                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Я даю согласие ИП Искаков Д.Р. на сбор и обработку моих персональных данных (имя, телефон, e-mail, название компании, сведения о переходе на сайт и UTM-метки) для обработки заявки и связи со мной. Срок действия согласия — до достижения цели, но не более 12 месяцев. Данные не распространяются в общедоступных источниках и могут передаваться сервисам обработки заявок и веб-аналитики, в т.ч. за рубежом (EmailJS, Telegram, Google Analytics). Согласие можно отозвать, написав нам. Ознакомлен(а) с <a href="/privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Политикой конфиденциальности</a>.</span></label>
+                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required checked style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Я согласен(на) на обработку моих персональных данных для ответа на заявку согласно <a href="/privacy" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Политике конфиденциальности</a>.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg" id="td-submit" style="width: 100%; padding: 16px 24px;">
                                 Получить тест-драйв на 3 дня
                             </button>
@@ -1357,7 +1357,6 @@
                                 <option value="fitness">Фитнес и красота</option>
                                 <option value="other">Другое</option>
                             </select>
-                            <label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>Я даю согласие ИП Искаков Д.Р. на сбор и обработку моих персональных данных (имя, телефон, e-mail, название компании, сведения о переходе на сайт и UTM-метки) для обработки заявки и связи со мной. Срок действия согласия — до достижения цели, но не более 12 месяцев. Данные не распространяются в общедоступных источниках и могут передаваться сервисам обработки заявок и веб-аналитики, в т.ч. за рубежом (EmailJS, Telegram, Google Analytics). Согласие можно отозвать, написав нам. Ознакомлен(а) с <a href="/privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Политикой конфиденциальности</a>.</span></label>
                             <button type="submit" class="btn btn--primary btn--lg cta-form__submit" id="form-submit">
                                 Заявка на демо
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -1367,7 +1366,7 @@
                             </button>
                         </div>
                         <div class="cta-form__checkbox-wrapper">
-                            <input type="checkbox" id="form-consent" class="cta-form__checkbox" required checked>
+                            <input type="checkbox" id="form-consent" name="pd_consent" class="cta-form__checkbox pd-consent" required checked>
                             <label for="form-consent" class="cta-form__label">
                                 Я согласен(на) на обработку моих персональных данных для ответа на заявку согласно <a href="/privacy" target="_blank" class="link">Политике конфиденциальности</a>
                             </label>

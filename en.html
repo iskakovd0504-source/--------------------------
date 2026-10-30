@@ -1006,7 +1006,7 @@
 <label class="form__label" for="td-company" style="display: block; margin-bottom: var(--space-2); font-size: var(--f-size-xs); font-weight: 500; color: var(--c-text-secondary);">Company</label>
 <input class="form__input" id="td-company" placeholder="Acme Corp" required="" style="width: 100%; padding: var(--space-3); background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); color: white;" type="text"/>
 </div>
-<label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>I consent to IE Iskakov D.R. collecting and processing my personal data (name, phone, e-mail, company name, website visit information and UTM tags) to handle my request and contact me. The consent is valid until the purpose is achieved, but no longer than 12 months. The data is not made publicly available and may be shared with request-handling and web analytics services, including abroad (EmailJS, Telegram, Google Analytics). I can withdraw my consent by writing to you. I have read the <a href="privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Privacy Policy</a>.</span></label>
+<label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required checked style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>I agree to the processing of my personal data to respond to my request according to the <a href="/privacy" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Privacy Policy</a>.</span></label>
 <button class="btn btn--primary btn--lg" id="td-submit" style="width: 100%; padding: 16px 24px;" type="submit">
                                 Get a 3-day test drive
                             </button>
@@ -1253,7 +1253,6 @@
 <option value="fitness">Fitness and Beauty</option>
 <option value="other">Other</option>
 </select>
-<label class="form__consent" style="display: flex; gap: 8px; align-items: flex-start; margin: 0 0 16px; font-size: 12px; line-height: 1.45; color: var(--c-text-secondary); text-align: left; cursor: pointer;"><input type="checkbox" name="pd_consent" class="pd-consent" required style="margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--c-accent-blue);"><span>I consent to IE Iskakov D.R. collecting and processing my personal data (name, phone, e-mail, company name, website visit information and UTM tags) to handle my request and contact me. The consent is valid until the purpose is achieved, but no longer than 12 months. The data is not made publicly available and may be shared with request-handling and web analytics services, including abroad (EmailJS, Telegram, Google Analytics). I can withdraw my consent by writing to you. I have read the <a href="privacy-policy.html" target="_blank" rel="noopener" style="color: var(--c-accent-blue); text-decoration: underline;">Privacy Policy</a>.</span></label>
 <button class="btn btn--primary btn--lg cta-form__submit" id="form-submit" type="submit">
                                 Request Demo
                                 <svg fill="none" height="20" viewbox="0 0 20 20" width="20">
@@ -1262,9 +1261,9 @@
 </button>
 </div>
 <div class="cta-form__checkbox-wrapper">
-<input checked="" class="cta-form__checkbox" id="form-consent" required="" type="checkbox"/>
+<input checked="" class="cta-form__checkbox pd-consent" id="form-consent" name="pd_consent" required="" type="checkbox"/>
 <label class="cta-form__label" for="form-consent">
-                                I agree with <a class="link" href="personal-data-policy.html">personal data processing policy</a>
+                                I agree to the processing of my personal data to respond to my request according to the <a class="link" href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>
 </label>
 </div>
 </form>
