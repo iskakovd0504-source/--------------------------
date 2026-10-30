@@ -1,17 +1,17 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/deck",
-      "destination": "/AiProtocol_PitchDeck_Premium.html"
+      "destination": "/AiProtocol_PitchDeck_Premium",
+      "permanent": false
     },
     {
       "source": "/pitchdeck",
-      "destination": "/AiProtocol_PitchDeck_Premium.html"
-    }
-  ],
-  "redirects": [
+      "destination": "/AiProtocol_PitchDeck_Premium",
+      "permanent": false
+    },
     {
       "source": "/blog/speech-analytics-offline-kazakhstan-2026",
       "destination": "/blog/speech-analytics-kazakhstan-guide",
