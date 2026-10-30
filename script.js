@@ -1788,4 +1788,17 @@
         });
     }
 
+    // Cookie Banner (Закон РК № 94-V)
+    const cookieBanner = document.getElementById('cookie-banner');
+    const cookieAcceptBtn = document.getElementById('cookie-accept-btn');
+    if (cookieBanner && cookieAcceptBtn) {
+        if (!localStorage.getItem('okkm_cookie_accepted')) {
+            cookieBanner.style.display = 'flex';
+        }
+        cookieAcceptBtn.addEventListener('click', () => {
+            localStorage.setItem('okkm_cookie_accepted', 'true');
+            cookieBanner.style.display = 'none';
+        });
+    }
+
 })();

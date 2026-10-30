@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поручение на обработку персональных данных (DPA) — AiProtocol</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Договор поручения на обработку персональных данных (DPA) — приложение к публичной оферте сервиса AiProtocol.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg: #06090f;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --border: rgba(148, 163, 184, 0.15);
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.65;
+      font-size: 14.5px;
+    }
+    .header-bar {
+      position: sticky;
+      top: 0;
+      background: rgba(6, 9, 15, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+    .logo-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-text {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+    }
+    .logo-accent { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--accent); }
+    .btn-print {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-print:hover {
+      background: var(--accent);
+      color: #06090f;
+    }
+    .container {
+      max-width: 860px;
+      margin: 36px auto 60px;
+      padding: 40px 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-top: 0;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      color: #fff;
+    }
+    .date-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+    p {
+      margin: 0 0 14px;
+      text-align: justify;
+      color: #cbd5e1;
+    }
+    ol {
+      margin: 0 0 20px 22px;
+      padding: 0;
+      color: #cbd5e1;
+    }
+    li {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .badge-callout {
+      background: rgba(6, 182, 212, 0.08);
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      font-size: 13.5px;
+    }
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    @media print {
+      .header-bar, .footer-note, .btn-print { display: none !important; }
+      body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+      .container { background: #fff !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+      h1, p, li, strong, b { color: #000 !important; }
+      .badge-callout { border-left-color: #000 !important; background: #f5f5f5 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header-bar">
+    <a href="/" class="logo-box">
+      <span class="logo-text">ОКК<span class="logo-accent">М</span> | AiProtocol</span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">На главную</a>
+      <a href="/oferta" class="nav-link">Оферта</a>
+      <a href="/privacy" class="nav-link">Политика</a>
+      <button type="button" class="btn-print" onclick="window.print()">🖨️ Печать / PDF</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Поручение на обработку персональных данных (DPA)</h1>
+    <div class="date-meta">
+      Приложение к публичной оферте AiProtocol (<a href="/oferta" style="color:var(--accent);">aiprotocol.kz/oferta</a>) · Редакция от даты публикации
+    </div>
+
+    <p>
+      Принимая Оферту AiProtocol (aiprotocol.kz/oferta), Клиент (собственник и (или) оператор персональных данных) поручает <b>ИП Искаков Д.Р.</b> (далее — «Исполнитель») обрабатывать персональные данные как третье лицо (Закон Республики Казахстан от 21 мая 2013 года № 94-V «О персональных данных и их защите», ст. 1 пп. 17) на следующих условиях:
+    </p>
+
+    <ol>
+      <li><b>Состав данных:</b> записи голоса и речи Сотрудников и посетителей, их текстовые расшифровки, результаты анализа соблюдения стандартов, а также учетные данные пользователей Кабинета.</li>
+      <li><b>Цель обработки:</b> анализ качества обслуживания по стандартам Клиента и подготовка аналитических отчётов для Клиента. Использование данных в иных целях категорически не допускается.</li>
+      <li><b>Совершаемые действия:</b> сбор данных с Бейджей, запись, локальное хранение в РК, распознавание речи, семантический анализ, передача привлечённым техническим обработчикам, блокирование и удаление.</li>
+      <li><b>Хранение данных:</b> базы данных и хранилище аудиозаписей располагаются на серверах в Республике Казахстан (ст. 12 п. 2 Закона № 94-V). Передача данных между компонентами осуществляется по защищённому каналу с шифрованием HTTPS/TLS.</li>
+      <li><b>Привлечённые обработчики:</b> Клиент выражает согласие на то, что для распознавания речи и анализа данные могут обрабатываться привлечёнными техническими сервисами-обработчиками, в том числе за пределами Республики Казахстан, при соблюдении строгих мер защиты. Исполнитель вправе привлекать и заменять таких обработчиков без дополнительного отдельного согласования.</li>
+      <li><b>Обязанности Клиента:</b> до начала записи получить от каждого Сотрудника письменное согласие по установленной форме, включая согласие на трансграничную передачу данных (ст. 7, 8, ст. 16 п. 3 пп. 1 Закона № 94-V), разместить предупреждающие таблички в местах записи, издать приказ о применении Бейджей и приложить скан согласия при привязке Бейджа в Кабинете. Клиент несёт полную ответственность за наличие законных оснований обработки и возмещает Исполнителю любые убытки от претензий, вызванных их отсутствием.</li>
+      <li><b>Меры защиты Исполнителя:</b> вход в Кабинет по логину и паролю (пароли хранятся в виде криптографического хэша), разграничение доступа по ролям (администратор / менеджер), обязательный протокол HTTPS, хранение файлов каждого Клиента в отдельной изолированной папке, ведение журнала заявок на привязку Бейджей с приложенными сканами согласий (ст. 20, 22 Закона № 94-V).</li>
+      <li><b>Сроки хранения:</b> аудиозаписи — 30 (тридцать) календарных дней с даты фиксации; расшифровки и отчёты — в течение срока действия подписки Клиента; удаление по запросу Клиента — в течение 10 (десяти) рабочих дней; после прекращения подписки — все данные удаляются через 30 (тридцать) календарных дней.</li>
+      <li><b>Инциденты информационной безопасности:</b> Исполнитель уведомляет Клиента о выявленном нарушении безопасности Данных в течение 24 часов с момента обнаружения, чтобы Клиент как собственник и (или) оператор мог в течение 1 рабочего дня уведомить уполномоченный орган (ст. 25 п. 2 пп. 8 Закона № 94-V).</li>
+      <li><b>Ответственность и споры:</b> ответственность Исполнителя ограничена рамками раздела 9 Публичной оферты. Споры передаются в суд города Костаная в соответствии с законодательством Республики Казахстан.</li>
+    </ol>
+
+    <div class="badge-callout">
+      <b>Реквизиты Исполнителя:</b><br/>
+      ИП «Искаков Д.Р.», ИИН 840405350469<br/>
+      Адрес: Республика Казахстан, г. Астана, ул. А. Мамбетова, 16 / г. Костанай, ул. Абая, 28/1<br/>
+      Банк: АО «Kaspi Bank», БИК CASPKZKA, ИИК KZ14722S000029502043<br/>
+      WhatsApp / Телефон: +7 777 555 67 89, E-mail: zolotomoskvy@yandex.ru
+    </div>
+
+    <div class="footer-note">
+      <div>© 2026 AiProtocol.kz · Приложение к Публичной оферте</div>
+      <div>Редакция от 30 октября 2026 года</div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1369,8 +1369,7 @@
                         <div class="cta-form__checkbox-wrapper">
                             <input type="checkbox" id="form-consent" class="cta-form__checkbox" required checked>
                             <label for="form-consent" class="cta-form__label">
-                                Я соглашаюсь с <a href="personal-data-policy.html" class="link">политикой обработки
-                                    персональных данных</a>
+                                Я согласен(на) на обработку моих персональных данных для ответа на заявку согласно <a href="/privacy" target="_blank" class="link">Политике конфиденциальности</a>
                             </label>
                         </div>
 
@@ -1437,8 +1436,9 @@
                     <a href="#faq" class="footer__link">FAQ</a>
                     <a href="blog/index.html" class="footer__link">Блог</a>
                     <a href="#contacts" class="footer__link">Контакты</a>
-                    <a href="personal-data-policy.html" class="footer__link">Политика обработки ПД</a>
-                    <a href="privacy-policy.html" class="footer__link">Политика конфиденциальности</a>
+                    <a href="/oferta" class="footer__link">Публичная оферта</a>
+                    <a href="/privacy" class="footer__link">Политика конфиденциальности</a>
+                    <a href="/dpa" class="footer__link">Поручение на обработку ПД (DPA)</a>
                 </div>
             </div>
             <div class="footer__bottom">
@@ -1514,6 +1514,14 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Cookie Banner (Закон РК № 94-V, п. 23 ТЗ) -->
+    <div id="cookie-banner" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); width:calc(100% - 40px); max-width:860px; background:rgba(15,23,42,0.96); backdrop-filter:blur(16px); border:1px solid rgba(6,182,212,0.3); border-radius:14px; padding:16px 24px; z-index:9999; box-shadow:0 10px 30px rgba(0,0,0,0.5); align-items:center; justify-content:space-between; gap:16px; font-size:13.5px; color:#f8fafc; font-family:'Inter',sans-serif;">
+        <div style="line-height:1.5;">
+            Сайт использует cookies для работы и аналитики. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="/privacy" style="color:#06b6d4; text-decoration:underline;">Политикой конфиденциальности</a>.
+        </div>
+        <button id="cookie-accept-btn" style="background:#06b6d4; color:#06090f; border:none; padding:9px 20px; border-radius:8px; font-weight:700; font-size:13.5px; cursor:pointer; white-space:nowrap; transition:background 0.2s;">Понятно</button>
     </div>
 
     <script src="script.js"></script>
