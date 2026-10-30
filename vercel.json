@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/deck",
+      "destination": "/AiProtocol_PitchDeck_Premium.html"
+    },
+    {
+      "source": "/pitchdeck",
+      "destination": "/AiProtocol_PitchDeck_Premium.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/blog/speech-analytics-offline-kazakhstan-2026",
